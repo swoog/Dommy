@@ -1,0 +1,72 @@
+﻿using Dommy.Business.Action;
+using Dommy.Business.Syntax;
+using Dommy.Business.Tools;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dommy.Business.Scenarios
+{
+    public class TemperatureScenarioDescription : IScenarioDescription
+    {
+        /// <summary>
+        /// Instance of Eedomus helper.
+        /// </summary>
+        private EedomusHelper eedomusHelper;
+
+        private AsyncHelper wait;
+
+        public string EedomusTemperatureId { get; set; }
+
+        public TemperatureScenarioDescription(AsyncHelper wait, EedomusHelper eedomusHelper)
+        {
+            this.wait = wait;
+            this.eedomusHelper = eedomusHelper;
+        }
+
+        private class TemperatureSentence
+        {
+            public string Sentence { get; set; }
+        }
+
+        public void Create()
+        {
+            var sentence = new TemperatureSentence() { Sentence = String.Empty };
+
+            Scenario.Create("Temperature")
+                .SpeechTrigger(
+                    "quelle est la temperature interieur",
+                    "donne moi la temperature",
+                    "donne moi la temperature interieur",
+                    "la temperature interieur")
+                    .Action(() =>
+                    {
+                        var weather = Cache.Get("TemperatureAction", TimeSpan.FromMinutes(30), () =>
+                        {
+                            var temperature = this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
+
+                            return new Weather
+                            {
+                                Temperature = Convert.ToDouble(temperature, CultureInfo.InvariantCulture.NumberFormat),
+                            };
+                        });
+
+                        var temperatures = new[] 
+                        { 
+                            "{Temperature} degré.", 
+                            "Température de {Temperature} degré."
+                        };
+
+                        sentence.Sentence = StringHelper.Format(temperatures, new { Temperature = (int)weather.Temperature });
+
+
+                        return true;
+                    })
+                    .Say(sentence, "{Sentence}")
+                    .Start();
+        }
+    }
+}

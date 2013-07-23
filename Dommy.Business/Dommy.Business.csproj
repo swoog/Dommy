@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dommy.Business</RootNamespace>
+    <AssemblyName>Dommy.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Kinect, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.5\Assemblies\Microsoft.Kinect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Speech, Version=11.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Speech\11.0.0.0__31bf3856ad364e35\Microsoft.Speech.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NAudio.1.5\lib\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging">
+      <HintPath>..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Logging.Log4Net">
+      <HintPath>..\packages\Ninject.Extensions.Logging.Log4net.3.0.1.0\lib\net40\Ninject.Extensions.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Roslyn.Compilers, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Roslyn.Compilers.CSharp, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UsbUirtManagedWrapper">
+      <HintPath>..\UsbUirtManagedWrapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\IfActions.cs" />
+    <Compile Include="Actions\IIfActions.cs" />
+    <Compile Include="Actions\IPingActions.cs" />
+    <Compile Include="Actions\ISayActions.cs" />
+    <Compile Include="Actions\ITvActions.cs" />
+    <Compile Include="Actions\PingActions.cs" />
+    <Compile Include="Actions\SayActions.cs" />
+    <Compile Include="Actions\TvActions.cs" />
+    <Compile Include="Config\Configure.cs" />
+    <Compile Include="Config\IConfig.cs" />
+    <Compile Include="Scenarios\AboutScenarioDescription.cs" />
+    <Compile Include="Scenarios\AgainScenarioDescription.cs" />
+    <Compile Include="Action\BaseAction.cs" />
+    <Compile Include="Scenarios\OnOffLightScenarioDescription.cs" />
+    <Compile Include="Scenarios\TemperatureScenarioDescription.cs" />
+    <Compile Include="Scenarios\UsbUirtScenarioDescription.cs" />
+    <Compile Include="Scenarios\WhatScenarioDescription.cs" />
+    <Compile Include="Scenarios\FreeboxScenarioDescription.cs" />
+    <Compile Include="Scenarios\InternetScenarioDescription.cs" />
+    <Compile Include="Action\DommyAction.cs" />
+    <Compile Include="Action\EmailAction.cs" />
+    <Compile Include="Action\Gender.cs" />
+    <Compile Include="Action\ProgrammeTVAction.cs" />
+    <Compile Include="Action\RoomName.cs" />
+    <Compile Include="Scenarios\TimeScenarioDescription.cs" />
+    <Compile Include="Scenarios\TvScenarioDescription.cs" />
+    <Compile Include="Scenarios\UpdateScenarioDescription.cs" />
+    <Compile Include="Action\Weather.cs" />
+    <Compile Include="Scenarios\WeatherScenarioDescription.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="IAction.cs" />
+    <Compile Include="IActionLogger.cs" />
+    <Compile Include="IResult.cs" />
+    <Compile Include="RestListener.cs" />
+    <Compile Include="Scenarios\IScenario.cs" />
+    <Compile Include="ISentence.cs" />
+    <Compile Include="ISpeechToText.cs" />
+    <Compile Include="ITextToSpeech.cs" />
+    <Compile Include="Result\PrecisionResult.cs" />
+    <Compile Include="Scenarios\IScenarioDescription.cs" />
+    <Compile Include="Scripts\CSharpScriptEngine.cs" />
+    <Compile Include="Scripts\IScriptEngine.cs" />
+    <Compile Include="Scripts\ScriptEngine.cs" />
+    <Compile Include="Speech\SpeechToTextConfig.cs" />
+    <Compile Include="Syntax\IExtendSyntax.cs" />
+    <Compile Include="Syntax\IScenarioDescriptionConfig.cs" />
+    <Compile Include="Syntax\IScenarioSyntax.cs" />
+    <Compile Include="Syntax\ITriggerSyntax.cs" />
+    <Compile Include="Tools\ITvHelper.cs" />
+    <Compile Include="Triggers\UsbUirtTriggerSyntax.cs" />
+    <Compile Include="Triggers\UsbUirtTrigger.cs" />
+    <Compile Include="Triggers\IUsbUirtTriggerSyntax.cs" />
+    <Compile Include="Triggers\IRestTriggerSyntax.cs" />
+    <Compile Include="Triggers\ISpeechTriggerSyntax.cs" />
+    <Compile Include="Triggers\RestTrigger.cs" />
+    <Compile Include="Syntax\Scenario.cs" />
+    <Compile Include="Actions\ScenarioSyntax.cs" />
+    <Compile Include="Services\ActionService.cs" />
+    <Compile Include="Services\ServiceHost.cs" />
+    <Compile Include="SpeechListener.cs" />
+    <Compile Include="Speech\MicrosoftTextToSpeech.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Speech\KinectSpeechToText.cs" />
+    <Compile Include="Result\NoneResult.cs" />
+    <Compile Include="Result\SayResult.cs" />
+    <Compile Include="Sentence.cs" />
+    <Compile Include="SpeechLogger.cs" />
+    <Compile Include="Tools\Cache.cs" />
+    <Compile Include="Tools\Channel.cs" />
+    <Compile Include="Tools\EedomusHelper.cs" />
+    <Compile Include="Tools\SamsungTVHelper.cs" />
+    <Compile Include="Tools\StringHelper.cs" />
+    <Compile Include="Tools\AsyncHelper.cs" />
+    <Compile Include="Tools\XmlReaderPatch.cs" />
+    <Compile Include="Triggers\ITrigger.cs" />
+    <Compile Include="Triggers\RestTriggerSyntax.cs" />
+    <Compile Include="Triggers\SpeechTrigger.cs" />
+    <Compile Include="Triggers\SpeechTriggerSyntax.cs" />
+    <Compile Include="Tools\TvCommand.cs" />
+    <Compile Include="UsbUirtListener.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Dommy.Model\Dommy.Model.csproj">
+      <Project>{7605e203-fa9c-42f1-92b8-123fef17d045}</Project>
+      <Name>Dommy.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
