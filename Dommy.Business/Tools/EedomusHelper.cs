@@ -18,29 +18,16 @@ namespace Dommy.Business.Tools
     {
         public class Config : IConfig
         {
-            private string ip;
-            private string user;
-            private string secret;
-
-            public Config Api(string user, string secret)
-            {
-                this.user = user;
-                this.secret = secret;
-                return this;
-            }
-
-            public Config Ip(string ip)
-            {
-                this.ip = ip;
-                return this;
-            }
+            public string Ip { get; set; }
+            public string User { get; set; }
+            public string Secret { get; set; }
 
             public void Create(IKernel kernel)
             {
                 kernel.Bind<EedomusHelper>().ToSelf()
-                    .WithConstructorArgument("apiAddr", this.ip)
-                    .WithConstructorArgument("apiUser", this.user)
-                    .WithConstructorArgument("apiSecret", this.secret)
+                    .WithConstructorArgument("apiAddr", this.Ip)
+                    .WithConstructorArgument("apiUser", this.User)
+                    .WithConstructorArgument("apiSecret", this.Secret)
                     ;
             }
         }

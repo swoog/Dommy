@@ -53,6 +53,9 @@
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.0.0.11\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject.Extensions.Logging">
       <HintPath>..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
     </Reference>
@@ -83,10 +86,12 @@
     <Compile Include="Actions\IIfActions.cs" />
     <Compile Include="Actions\IPingActions.cs" />
     <Compile Include="Actions\ISayActions.cs" />
+    <Compile Include="Actions\IScrapActions.cs" />
     <Compile Include="Actions\ITvActions.cs" />
     <Compile Include="Actions\PingActions.cs" />
     <Compile Include="Actions\SayActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
+    <Compile Include="Config\Configurator.cs" />
     <Compile Include="Config\Configure.cs" />
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
@@ -127,7 +132,9 @@
     <Compile Include="Syntax\IScenarioDescriptionConfig.cs" />
     <Compile Include="Syntax\IScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerSyntax.cs" />
+    <Compile Include="Syntax\ScenarioContext.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
+    <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Triggers\UsbUirtTriggerSyntax.cs" />
     <Compile Include="Triggers\UsbUirtTrigger.cs" />
     <Compile Include="Triggers\IUsbUirtTriggerSyntax.cs" />

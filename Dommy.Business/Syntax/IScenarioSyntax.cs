@@ -10,9 +10,11 @@ using System.Text;
 
 namespace Dommy.Business.Syntax
 {
-    public interface IScenarioSyntax: IIfActions, IPingActions, ITvActions, ISayActions
+    public interface IScenarioSyntax: IIfActions, IPingActions, ITvActions, ISayActions, IUrlActions
     {
         IScenarioSyntax Action(Func<bool> action);
+
+        //IScenarioSyntax Action(Func<ScenarioContext, bool> action);
 
         IScenarioSyntax Action(ActionData actionData);
 

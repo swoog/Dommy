@@ -19,6 +19,7 @@ using Dommy.Business.Syntax;
 using Dommy.Business.Actions;
 using Dommy.Business.Scripts;
 using Dommy.Business.Config;
+using System.IO;
 
 namespace Dommy.Console
 {
@@ -28,30 +29,30 @@ namespace Dommy.Console
         {
             log4net.Config.XmlConfigurator.Configure();
 
+            var directory = Environment.CurrentDirectory;
+
             var kernel = new StandardKernel();
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
 
-            kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IScriptEngine>().BindSingleInterface());
-
-            kernel.Bind<ScriptEngine>().ToSelf()
-                .WithPropertyValue("ScriptDirectory", @"c:\DommyScripts\")
-                ;
-
             Configure.Engine("Dommy");
 
             Configure.TextToSpeech()
-                .Gender(Gender.Female)
-                .Culture("fr-FR");
+                .With(c => c.Gender, Gender.Female)
+                .With(c => c.Culture, "fr-FR");
 
             Configure.SpeechToText()
-                .Culture("fr-FR")
-                .Confidence(0.6)
+                .With(c => c.Culture, "fr-FR")
+                .With(c => c.Confidence, 0.6)
                 ;
 
-            Configure.RestListener()
-                .Port(5555)
-                ;
+            Configure.Config<RestListener.Config>()
+                .With(c => c.Port, 5555);
+
+            Configure.Config<ScriptEngine.Config>()
+                .With(c => c.ScriptDirectory, Path.Combine(directory, @"scripts"));
+
+            Configure.LoadConfig(Path.Combine(directory, "config.xml"));
 
             Configure.Build();
 
@@ -74,6 +75,8 @@ namespace Dommy.Console
                 .WithPropertyValue("Id", 8)
                 .WithPropertyValue("Name", "Programme TV")
                 ;
+
+
 
             // TODO : Add scenario to restart freebox and router.
 

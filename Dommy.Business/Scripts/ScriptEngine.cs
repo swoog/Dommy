@@ -1,4 +1,7 @@
-﻿using Ninject.Extensions.Logging;
+﻿using Dommy.Business.Config;
+using Ninject;
+using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +13,20 @@ namespace Dommy.Business.Scripts
 {
     public class ScriptEngine
     {
+        public class Config : IConfig
+        {
+            public string ScriptDirectory { get; set; }
+
+            public void Create(Ninject.IKernel kernel)
+            {
+                kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IScriptEngine>().BindSingleInterface());
+
+                kernel.Bind<ScriptEngine>().ToSelf()
+                    .WithPropertyValue("ScriptDirectory", this.ScriptDirectory)
+                    ;
+            }
+        }
+
         public string ScriptDirectory { get; set; }
 
         private IList<IScriptEngine> scriptEngines;
@@ -33,6 +50,14 @@ namespace Dommy.Business.Scripts
         {
             if (!Directory.Exists(directory))
             {
+                try
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                catch (Exception ex)
+                {
+                    this.logger.Error(ex, "Can't create directory {0}", directory);
+                }
                 return;
             }
 

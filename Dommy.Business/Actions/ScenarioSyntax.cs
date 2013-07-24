@@ -344,5 +344,10 @@ namespace Dommy.Business.Actions
 
             return this;
         }
+
+        public IScrapActions GetUrl(string url)
+        {
+            return this.Extend<IUrlActions>().GetUrl(url);
+        }
     }
 }

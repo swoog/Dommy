@@ -16,34 +16,16 @@ namespace Dommy.Business.Tools
     {
         public class Config : IConfig
         {
-            private string myIp;
-            private string myMac;
-            private string tvIp;
+            public string MyIp { get; set; }
+            public string MyMac { get; set; }
+            public string TvIp { get; set; }
             public void Create(Ninject.IKernel kernel)
             {
                 kernel.Bind<ITvHelper>().To<SamsungTVHelper>()
-                    .WithPropertyValue("MyIp", this.myIp)
-                    .WithPropertyValue("MyMac", this.myMac)
-                    .WithPropertyValue("TvIp", this.tvIp)
+                    .WithPropertyValue("MyIp", this.MyIp)
+                    .WithPropertyValue("MyMac", this.MyMac)
+                    .WithPropertyValue("TvIp", this.TvIp)
                     ;
-            }
-
-            public Config MyIp(string ip)
-            {
-                this.myIp = ip;
-                return this;
-            }
-
-            public Config MyMac(string mac)
-            {
-                this.myMac = mac;
-                return this;
-            }
-
-            public Config TvIp(string ip)
-            {
-                this.tvIp = ip;
-                return this;
             }
         }
 

@@ -10,36 +10,18 @@ namespace Dommy.Business.Speech
 {
     public class SpeechToTextConfig : IConfig
     {
-        private string culture;
-        private double confidence;
-        private string infoSentenceFile;
-        public SpeechToTextConfig Culture(string culture)
-        {
-            this.culture = culture;
-            return this;
-        }
-
-        public SpeechToTextConfig Confidence(double confidence)
-        {
-            this.confidence = confidence;
-            return this;
-        }
+        public string Culture {get;set;}
+        public double Confidence { get; set; }
+        public string InfoSentenceFile { get; set; }
 
         public void Create(IKernel kernel)
         {
             kernel.Bind<ISpeechToText>().To<KinectSpeechToText>().InSingletonScope()
-                .WithConstructorArgument("culture", this.culture);
+                .WithConstructorArgument("culture", this.Culture);
             kernel.Bind<SpeechListener>().ToSelf()
-                .WithConstructorArgument("confidence", this.confidence)
-                .WithPropertyValue("SentenceLogFile", this.infoSentenceFile)
+                .WithConstructorArgument("confidence", this.Confidence)
+                .WithPropertyValue("SentenceLogFile", this.InfoSentenceFile)
                 ;
-
-        }
-
-        public SpeechToTextConfig InfoSentenceFile(string infoSentenceFile)
-        {
-            this.infoSentenceFile = infoSentenceFile;
-            return this;
         }
     }
 }

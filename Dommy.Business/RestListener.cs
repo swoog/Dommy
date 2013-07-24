@@ -14,17 +14,12 @@ namespace Dommy.Business
     {
         public class Config : IConfig
         {
-            private int port;
-            public Config Port(int port)
-            {
-                this.port = port;
-                return this;
-            }
+            public int Port { get; set; }
 
             public void Create(IKernel kernel)
             {
                 kernel.Bind<RestListener>().ToSelf()
-                    .WithConstructorArgument("port", this.port)
+                    .WithConstructorArgument("port", this.Port)
                     ;
             }
         }
