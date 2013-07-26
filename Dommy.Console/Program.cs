@@ -20,6 +20,7 @@ using Dommy.Business.Actions;
 using Dommy.Business.Scripts;
 using Dommy.Business.Config;
 using System.IO;
+using Dommy.Business.WebHost;
 
 namespace Dommy.Console
 {
@@ -52,6 +53,9 @@ namespace Dommy.Console
             Configure.Config<ScriptEngine.Config>()
                 .With(c => c.ScriptDirectory, Path.Combine(directory, @"scripts"));
 
+            Configure.Config<WebServerHost.Config>()
+                .With(c => c.Port, 5000);
+
             Configure.LoadConfig(Path.Combine(directory, "config.xml"));
 
             Configure.Build();
@@ -76,8 +80,6 @@ namespace Dommy.Console
                 .WithPropertyValue("Name", "Programme TV")
                 ;
 
-
-
             // TODO : Add scenario to restart freebox and router.
 
             //kernel.Bind<ActionService>().ToSelf();
@@ -90,8 +92,11 @@ namespace Dommy.Console
 
             engine.Init();
 
-            System.Console.ReadLine();
+            var web = kernel.Get<WebServerHost>();
+            web.Start();
 
+            System.Console.ReadLine();
+            web.Stop();
             //actionService.Close();
             engine.Stop();
         }
