@@ -97,7 +97,9 @@ namespace Dommy.Console
             //kernel.Bind<ServiceHost<ActionService>>().ToSelf();
             //var actionService = kernel.Get<ServiceHost<ActionService>>();
             //actionService.Open();
-            foreach (var item in kernel.GetAll<IServiceHost>())
+            var services = kernel.GetAll<IServiceHost>();
+
+            foreach (var item in services)
             {
                 item.Open();
             }
@@ -110,7 +112,7 @@ namespace Dommy.Console
             System.Console.ReadLine();
             engine.Stop();
 
-            foreach (var item in kernel.GetAll<IServiceHost>())
+            foreach (var item in services)
             {
                 item.Close();
             }

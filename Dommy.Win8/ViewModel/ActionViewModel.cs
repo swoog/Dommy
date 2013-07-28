@@ -1,61 +1,61 @@
-﻿using Dommy.Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿//using Dommy.Model;
+//using System;
+//using System.Collections.Generic;
+//using System.Collections.ObjectModel;
+//using System.Linq;
+//using System.Text;
 
-namespace Dommy.Win8.ViewModel
-{
-    public class ActionViewModel : BaseViewModel
-    {
-        public ActionData ActionData { get; set; }
+//namespace Dommy.Win8.ViewModel
+//{
+//    public class ActionViewModel : BaseViewModel
+//    {
+//        public ActionData ActionData { get; set; }
 
-        static ActionViewModel()
-        {
-            LoadActions();
-        }
+//        static ActionViewModel()
+//        {
+//            LoadActions();
+//        }
 
-        private static async void LoadActions()
-        {
-            var actionsData = await ServiceSingleton.Current.GetActionsAsync();
+//        private static async void LoadActions()
+//        {
+//            var actionsData = await ServiceSingleton.Current.GetActionsAsync();
 
-            var q = from a in actionsData select ActionViewModel.GetAction(a);
+//            var q = from a in actionsData select ActionViewModel.GetAction(a);
 
-            foreach (var item in q)
-            {
-                if (item != null)
-                {
-                    actions.Add(item);
-                }
-            }
-        }
+//            foreach (var item in q)
+//            {
+//                if (item != null)
+//                {
+//                    actions.Add(item);
+//                }
+//            }
+//        }
 
-        private static ObservableCollection<ActionViewModel> actions = new ObservableCollection<ActionViewModel>();
+//        private static ObservableCollection<ActionViewModel> actions = new ObservableCollection<ActionViewModel>();
 
-        public static ObservableCollection<ActionViewModel> GetActions()
-        {
-            return actions;
-        }
+//        public static ObservableCollection<ActionViewModel> GetActions()
+//        {
+//            return actions;
+//        }
 
-        public static ActionViewModel GetAction(Model.ActionData actionData)
-        {
-            if (actionData is OnOffLightActionData)
-            {
-                return new OnOffLightActionViewModel() { Data = (OnOffLightActionData)actionData };
-            }
+//        public static ActionViewModel GetAction(Model.ActionData actionData)
+//        {
+//            if (actionData is OnOffLightActionData)
+//            {
+//                return new OnOffLightActionViewModel() { Data = (OnOffLightActionData)actionData };
+//            }
 
-            return null;
-        }
-    }
+//            return null;
+//        }
+//    }
 
-    public class ActionViewModel<T> : ActionViewModel
-        where T : ActionData
-    {
-        public T Data
-        {
-            get { return (T)this.ActionData; }
-            set { this.ActionData = value; }
-        }
-    }
-}
+//    public class ActionViewModel<T> : ActionViewModel
+//        where T : ActionData
+//    {
+//        public T Data
+//        {
+//            get { return (T)this.ActionData; }
+//            set { this.ActionData = value; }
+//        }
+//    }
+//}
