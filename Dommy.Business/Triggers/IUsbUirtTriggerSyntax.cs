@@ -4,6 +4,6 @@ namespace Dommy.Business.Triggers
 {
     public interface IUsbUirtTriggerSyntax : IExtendSyntax
     {
-        IScenarioSyntax UsbUirtTrigger(string irCode);
+        ITriggerScenarioSyntax UsbUirtTrigger(string irCode);
     }
 }

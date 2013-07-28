@@ -1,18 +1,13 @@
-﻿@{
-    Layout = null;
+﻿@model Dommy.Web.Models.HomeIndexModel
+@{
+    Layout = "~/views/shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    <script src="~/signalr/hubs"></script>
-</head>
-<body>
-    <div>
-        
-    </div>
-</body>
-</html>
+<div>
+    @foreach (var tile in Model.Tiles)
+    {
+        <div style="background-color: @tile.BackGroundColor.Name">
+            <span>@tile.Title</span>
+        </div>
+    }
+</div>

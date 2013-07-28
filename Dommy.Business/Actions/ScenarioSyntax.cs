@@ -24,7 +24,7 @@ namespace Dommy.Business.Actions
     /// <summary>
     /// Class of a scenario object.
     /// </summary>
-    public class ScenarioSyntax : IScenarioSyntax, ITriggerSyntax, IScenario
+    public class ScenarioSyntax : ITriggerScenarioSyntax, IScenario
     {
         /// <summary>
         /// Instance of Eedomus helper.
@@ -67,9 +67,12 @@ namespace Dommy.Business.Actions
         public void Init(Engine engine)
         {
             this.Engine = engine;
-            if (this.Trigger != null)
+            if (this.Triggers != null)
             {
-                this.Trigger.Init(engine, this);
+                foreach (var t in this.Triggers)
+                {
+                    t.Init(engine, this);
+                }
             }
 
             this.childs.ForEach(c => c.Init(engine));
@@ -78,7 +81,7 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Gets or sets trigger of this scenario.
         /// </summary>
-        public ITrigger Trigger { get; set; }
+        public IList<ITrigger> Triggers { get; set; }
 
         /// <summary>
         /// List of actions to executes.
@@ -145,9 +148,9 @@ namespace Dommy.Business.Actions
         /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax ActionOnOffLight(string eedomusId, bool isOn)
         {
-            return Action(()=>
+            return Action(() =>
                 {
-                    this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphValue, eedomusId, isOn ? "100" :"0");
+                    this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphValue, eedomusId, isOn ? "100" : "0");
                     return true;
                 });
         }
@@ -236,9 +239,14 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="trigger">Trigger to add.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax ITriggerSyntax.Trigger(ITrigger trigger)
+        ITriggerScenarioSyntax ITriggerSyntax.Trigger(ITrigger trigger)
         {
-            this.Trigger = trigger;
+            if (this.Triggers == null)
+            {
+                this.Triggers = new List<ITrigger>();
+            }
+
+            this.Triggers.Add(trigger);
             return this;
         }
 
@@ -246,7 +254,7 @@ namespace Dommy.Business.Actions
         /// Create scenario syntax with no trigger.
         /// </summary>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax NoTrigger()
+        public ITriggerScenarioSyntax NoTrigger()
         {
             return this;
         }
@@ -256,22 +264,22 @@ namespace Dommy.Business.Actions
             return this.Extend<IIfActions>().If(predicate, trueScenario, falseScenario);
         }
 
-        public IScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences)
+        public ITriggerScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().NoPrefixSpeechTrigger(sentences);
         }
 
-        public IScenarioSyntax SpeechTrigger(params string[] sentences)
+        public ITriggerScenarioSyntax SpeechTrigger(params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().SpeechTrigger(sentences);
         }
 
-        public IScenarioSyntax SpeechTrigger(double confidence, params string[] sentences)
+        public ITriggerScenarioSyntax SpeechTrigger(double confidence, params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().SpeechTrigger(confidence, sentences);
         }
 
-        public IScenarioSyntax RestTrigger(string p)
+        public ITriggerScenarioSyntax RestTrigger(string p)
         {
             return this.Extend<IRestTriggerSyntax>().RestTrigger(p);
         }
@@ -329,7 +337,7 @@ namespace Dommy.Business.Actions
             return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
         }
 
-        public IScenarioSyntax UsbUirtTrigger(string irCode)
+        public ITriggerScenarioSyntax UsbUirtTrigger(string irCode)
         {
             return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(irCode);
         }
@@ -348,6 +356,16 @@ namespace Dommy.Business.Actions
         public IScrapActions GetUrl(string url)
         {
             return this.Extend<IUrlActions>().GetUrl(url);
+        }
+
+        public ITriggerScenarioSyntax TimeTrigger(DateTime startDate, TimeSpan tick)
+        {
+            return this.Extend<ITimeTriggerSyntax>().TimeTrigger(startDate, tick);
+        }
+
+        public ITriggerScenarioSyntax TileTrigger(string title, System.Drawing.Color backGround)
+        {
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(title, backGround);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace Dommy.Console
             var directory = Environment.CurrentDirectory;
 
             var kernel = new StandardKernel();
+
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
 
@@ -60,9 +61,18 @@ namespace Dommy.Console
 
             Configure.Build();
 
+            var web = kernel.Get<WebServerHost>();
+            web.Start();
+            
             // Scripting configuration
 
             kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IExtendSyntax>().BindDefaultInterface());
+
+            kernel.Bind<TileManager>().ToSelf().InSingletonScope();
+
+            kernel.Bind<IServiceHost>().To<ServiceHost<Engine>>();
+            kernel.Bind<IServiceHost>().To<ServiceHost<TileManager>>();
+            kernel.Bind<IServiceHost>().To<ServiceHost<WebServerHost>>();
 
             kernel.Bind<AsyncHelper>().ToSelf();
             kernel.Bind<SpeechLogger>().ToSelf();
@@ -87,18 +97,25 @@ namespace Dommy.Console
             //kernel.Bind<ServiceHost<ActionService>>().ToSelf();
             //var actionService = kernel.Get<ServiceHost<ActionService>>();
             //actionService.Open();
+            foreach (var item in kernel.GetAll<IServiceHost>())
+            {
+                item.Open();
+            }
+
             var engine = kernel.Get<Engine>();
             engine.IsSimulation = false;
 
             engine.Init();
 
-            var web = kernel.Get<WebServerHost>();
-            web.Start();
-
             System.Console.ReadLine();
-            web.Stop();
-            //actionService.Close();
             engine.Stop();
+
+            foreach (var item in kernel.GetAll<IServiceHost>())
+            {
+                item.Close();
+            }
+
+            web.Stop();
         }
     }
 }

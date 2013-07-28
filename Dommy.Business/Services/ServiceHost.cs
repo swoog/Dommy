@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Services
 {
-    public class ServiceHost<T>
+    public class ServiceHost<T> : IServiceHost
     {
         private T service;
 
@@ -21,11 +21,11 @@ namespace Dommy.Business.Services
 
         public void Open()
         {
-            host = new ServiceHost(service, new Uri[] { new Uri("http://localhost/" + typeof(T).Name) });
-            host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
+            host = new ServiceHost(service, new Uri[] { new Uri("net.pipe://localhost/dommy/" + typeof(T).Name) });
+            //host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
 
-            host.AddServiceEndpoint(typeof(T), new NetHttpBinding(), "");
-            host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
+            host.AddServiceEndpoint(typeof(T).GetInterface("I" + typeof(T).Name), new NetNamedPipeBinding(), "");
+            //host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
 
             host.Open();
         }

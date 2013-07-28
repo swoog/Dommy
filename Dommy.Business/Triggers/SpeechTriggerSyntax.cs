@@ -19,7 +19,7 @@ namespace Dommy.Business.Triggers
             this.scenario = scenario;
         }
 
-        public IScenarioSyntax SpeechTrigger(params string[] sentences)
+        public ITriggerScenarioSyntax SpeechTrigger(params string[] sentences)
         {
             var t = this.kernel.Get<SpeechTrigger>();
             t.WithPrefix = true;
@@ -27,7 +27,7 @@ namespace Dommy.Business.Triggers
             return this.scenario.Trigger(t);
         }
 
-        public IScenarioSyntax SpeechTrigger(double confidence, params string[] sentences)
+        public ITriggerScenarioSyntax SpeechTrigger(double confidence, params string[] sentences)
         {
             var t = this.kernel.Get<SpeechTrigger>();
             t.WithPrefix = true;
@@ -36,7 +36,7 @@ namespace Dommy.Business.Triggers
             return this.scenario.Trigger(t);
         }
 
-        public IScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences)
+        public ITriggerScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences)
         {
             var t = this.kernel.Get<SpeechTrigger>();
             t.WithPrefix = false;

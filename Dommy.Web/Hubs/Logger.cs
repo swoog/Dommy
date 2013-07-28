@@ -6,7 +6,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace Dommy.Web.Hubs
 {
-    public class LogginHub : Hub
+    public class Logger : Hub
     {
         public void Send(string message)
         {

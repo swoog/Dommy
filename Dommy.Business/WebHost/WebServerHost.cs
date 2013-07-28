@@ -1,15 +1,19 @@
 ﻿using CassiniDev;
 using Dommy.Business.Config;
+using Dommy.Business.Services;
+using Dommy.Business.Tools;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Dommy.Business.WebHost
 {
-    public class WebServerHost
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class WebServerHost : IWebServerHost
     {
         public class Config : IConfig
         {
@@ -17,7 +21,7 @@ namespace Dommy.Business.WebHost
 
             public void Create(Ninject.IKernel kernel)
             {
-                kernel.Bind<WebServerHost>().ToSelf()
+                kernel.Bind<WebServerHost>().ToSelf().InSingletonScope()
                     .WithConstructorArgument("port", this.Port);
             }
         }
@@ -45,6 +49,11 @@ namespace Dommy.Business.WebHost
         {
             server.StopServer();
             this.logger.Info("Webserver stoped");
+        }
+
+        public void Started()
+        {
+            WebAppender.WebStarted();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dommy.Business.Services;
+using Dommy.Business.Tools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,6 +21,11 @@ namespace Dommy.Web
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            using (var webService = Client<IWebServerHost>.Create())
+            {
+                webService.Channel.Started();
+            }
         }
     }
 }

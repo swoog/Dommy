@@ -1,7 +1,9 @@
 ﻿#r "Dommy.Business.dll"
 #r "System.Windows.Forms"
+#r "System.Drawing"
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Dommy.Business.Syntax;
 
@@ -22,3 +24,8 @@ Scenario.Create()
 		.Command("ShutDown", "/t 0 /r")
 		.Start();
 
+Scenario.Create()
+		.TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(10))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.Say("A live")
+		.Start();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Owin;
 
 namespace Dommy.Web
 {
@@ -11,6 +12,8 @@ namespace Dommy.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.MapHubs();
+
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
