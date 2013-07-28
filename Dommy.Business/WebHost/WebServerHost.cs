@@ -5,6 +5,7 @@ using Dommy.Business.Tools;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -40,6 +41,19 @@ namespace Dommy.Business.WebHost
 
         public void Start()
         {
+            if (!File.Exists(@"bin\Dommy.Business.dll"))
+            {
+                if (!Directory.Exists(@"bin"))
+                {
+                    Directory.CreateDirectory(@"bin");
+                }
+
+                foreach (var file in Directory.GetFiles(".", "*.dll"))
+                {
+                    File.Copy(file, Path.Combine("bin", Path.GetFileName(file)));
+                }
+            }
+
             server = new CassiniDevServer();
             server.StartServer("./", this.port, "/", "localhost");
             this.logger.Info("Webserver started on {0} port", this.port);

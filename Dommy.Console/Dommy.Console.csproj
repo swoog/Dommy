@@ -28,7 +28,7 @@
     <InstallUrl>\\AG-MINIPC\Dommy\</InstallUrl>
     <MinimumRequiredVersion>1.0.0.33</MinimumRequiredVersion>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>21</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.5.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -56,10 +56,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3570B6BDBB137F764F545E7C8961F5A070EB483B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>2A2D8993CB2C9986E3FFB9FD39CE2C0933250976</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Dommy.Console_CléTemporaire.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Dommy.Console_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -75,6 +75,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -128,10 +131,10 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Dommy.Console_CléTemporaire.pfx" />
     <Content Include="MainScenario.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Dommy.Console_TemporaryKey.pfx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -192,7 +195,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /R /Y /E "$(SolutionDir)\Dommy.Web\*.*" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

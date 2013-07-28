@@ -21,6 +21,7 @@ using Dommy.Business.Scripts;
 using Dommy.Business.Config;
 using System.IO;
 using Dommy.Business.WebHost;
+using System.Diagnostics;
 
 namespace Dommy.Console
 {
