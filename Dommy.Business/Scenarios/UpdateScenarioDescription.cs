@@ -44,9 +44,9 @@ namespace Dommy.Business.Scenarios
                                 info = ad.CheckForDetailedUpdate();
 
                             }
-                            catch (DeploymentDownloadException)
+                            catch (DeploymentDownloadException ex)
                             {
-                                this.speechLogger.Say(Actor.Dommy, "La connection réseau n'est pas disponible.");
+                                this.speechLogger.Say(Actor.Dommy, String.Format("La connection réseau n'est pas disponible. {0}", ex.Message));
                                 return false;
                             }
                             catch (InvalidDeploymentException)
