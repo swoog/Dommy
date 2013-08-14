@@ -35,8 +35,20 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CassiniDev4-lib">
+      <HintPath>..\packages\CassiniDev.5.0.2-bleeding-17\lib\net40\debug\CassiniDev4-lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.1.1.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Kinect, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -46,9 +58,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Speech\11.0.0.0__31bf3856ad364e35\Microsoft.Speech.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NAudio.1.5\lib\NAudio.dll</HintPath>
+      <HintPath>..\packages\NAudio.1.6\lib\net20\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -67,10 +82,12 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Speech" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -82,6 +99,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\EedomusActions.cs" />
+    <Compile Include="Actions\EedomusApi.cs" />
+    <Compile Include="Actions\IEedomusActions.cs" />
     <Compile Include="Actions\IfActions.cs" />
     <Compile Include="Actions\IIfActions.cs" />
     <Compile Include="Actions\IPingActions.cs" />
@@ -90,7 +110,9 @@
     <Compile Include="Actions\ITvActions.cs" />
     <Compile Include="Actions\PingActions.cs" />
     <Compile Include="Actions\SayActions.cs" />
+    <Compile Include="Actions\ScrapActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
+    <Compile Include="Actions\UrlActions.cs" />
     <Compile Include="Config\Configurator.cs" />
     <Compile Include="Config\Configure.cs" />
     <Compile Include="Config\IConfig.cs" />
@@ -127,14 +149,31 @@
     <Compile Include="Scripts\CSharpScriptEngine.cs" />
     <Compile Include="Scripts\IScriptEngine.cs" />
     <Compile Include="Scripts\ScriptEngine.cs" />
+    <Compile Include="Services\Client.cs" />
+    <Compile Include="Services\IEngine.cs" />
+    <Compile Include="Services\IServiceHost.cs" />
+    <Compile Include="Services\ITileManager.cs" />
+    <Compile Include="Services\IWebServerHost.cs" />
     <Compile Include="Speech\SpeechToTextConfig.cs" />
     <Compile Include="Syntax\IExtendSyntax.cs" />
     <Compile Include="Syntax\IScenarioDescriptionConfig.cs" />
     <Compile Include="Syntax\IScenarioSyntax.cs" />
+    <Compile Include="Syntax\ITriggerScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerSyntax.cs" />
     <Compile Include="Syntax\ScenarioContext.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="TileManager.cs" />
+    <Compile Include="TileSize.cs" />
+    <Compile Include="Actions\EedoumusAction.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
+    <Compile Include="Tools\WebAppender.cs" />
+    <Compile Include="Triggers\ITileTriggerSyntax.cs" />
+    <Compile Include="Triggers\ITimeTriggerSyntax.cs" />
+    <Compile Include="Triggers\TileTrigger.cs" />
+    <Compile Include="Triggers\TileTriggerSyntax.cs" />
+    <Compile Include="Triggers\TimeTrigger.cs" />
+    <Compile Include="Triggers\TimeTriggerSyntax.cs" />
     <Compile Include="Triggers\UsbUirtTriggerSyntax.cs" />
     <Compile Include="Triggers\UsbUirtTrigger.cs" />
     <Compile Include="Triggers\IUsbUirtTriggerSyntax.cs" />
@@ -166,11 +205,14 @@
     <Compile Include="Triggers\SpeechTriggerSyntax.cs" />
     <Compile Include="Tools\TvCommand.cs" />
     <Compile Include="UsbUirtListener.cs" />
+    <Compile Include="WebHost\WebServerHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dommy.Model\Dommy.Model.csproj">
       <Project>{7605e203-fa9c-42f1-92b8-123fef17d045}</Project>

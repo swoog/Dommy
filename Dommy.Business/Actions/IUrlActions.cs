@@ -9,6 +9,6 @@ namespace Dommy.Business.Actions
 {
     public interface IUrlActions : IExtendSyntax
     {
-        IScrapActions GetUrl(string url);
+        IScrapActions GetUrl<T>(string url);
     }
 }

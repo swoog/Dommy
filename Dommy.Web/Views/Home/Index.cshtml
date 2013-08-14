@@ -1,0 +1,13 @@
+﻿@model Dommy.Web.Models.HomeIndexModel
+@{
+    Layout = "~/views/shared/_Layout.cshtml";
+}
+
+<h1>Dommy</h1>
+
+<div class="grid">
+    @foreach (var tile in Model.Tiles)
+    {
+        Html.RenderPartial("Tile", tile);
+    }
+</div>

@@ -20,6 +20,8 @@ using Dommy.Business.Actions;
 using Dommy.Business.Scripts;
 using Dommy.Business.Config;
 using System.IO;
+using Dommy.Business.WebHost;
+using System.Diagnostics;
 
 namespace Dommy.Console
 {
@@ -31,7 +33,18 @@ namespace Dommy.Console
 
             var directory = Environment.CurrentDirectory;
 
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            {
+                directory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "Dommy");
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+            }
+
             var kernel = new StandardKernel();
+
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
 
@@ -52,13 +65,25 @@ namespace Dommy.Console
             Configure.Config<ScriptEngine.Config>()
                 .With(c => c.ScriptDirectory, Path.Combine(directory, @"scripts"));
 
+            Configure.Config<WebServerHost.Config>()
+                .With(c => c.Port, 5000);
+
             Configure.LoadConfig(Path.Combine(directory, "config.xml"));
 
             Configure.Build();
 
+            var web = kernel.Get<WebServerHost>();
+            web.Start();
+            
             // Scripting configuration
 
             kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IExtendSyntax>().BindDefaultInterface());
+
+            kernel.Bind<TileManager>().ToSelf().InSingletonScope();
+
+            kernel.Bind<IServiceHost>().To<ServiceHost<Engine>>();
+            kernel.Bind<IServiceHost>().To<ServiceHost<TileManager>>();
+            kernel.Bind<IServiceHost>().To<ServiceHost<WebServerHost>>();
 
             kernel.Bind<AsyncHelper>().ToSelf();
             kernel.Bind<SpeechLogger>().ToSelf();
@@ -76,8 +101,6 @@ namespace Dommy.Console
                 .WithPropertyValue("Name", "Programme TV")
                 ;
 
-
-
             // TODO : Add scenario to restart freebox and router.
 
             //kernel.Bind<ActionService>().ToSelf();
@@ -85,15 +108,27 @@ namespace Dommy.Console
             //kernel.Bind<ServiceHost<ActionService>>().ToSelf();
             //var actionService = kernel.Get<ServiceHost<ActionService>>();
             //actionService.Open();
+            var services = kernel.GetAll<IServiceHost>().ToList();
+
+            foreach (var item in services)
+            {
+                item.Open();
+            }
+
             var engine = kernel.Get<Engine>();
             engine.IsSimulation = false;
 
             engine.Init();
 
             System.Console.ReadLine();
-
-            //actionService.Close();
             engine.Stop();
+
+            foreach (var item in services)
+            {
+                item.Close();
+            }
+
+            web.Stop();
         }
     }
 }

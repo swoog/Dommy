@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Dommy.Business.Syntax
 {
-    public interface IScenarioSyntax: IIfActions, IPingActions, ITvActions, ISayActions, IUrlActions
+    public interface IScenarioSyntax: IIfActions, IPingActions, ITvActions, ISayActions, IUrlActions, IEedomusActions
     {
         IScenarioSyntax Action(Func<bool> action);
 
@@ -21,8 +21,6 @@ namespace Dommy.Business.Syntax
         IScenario ToScenario();
 
         void Start();
-
-        IScenarioSyntax ActionOnOffLight(string id, bool isOn);
 
         IScenarioSyntax UsbUirt(string irCode);
 

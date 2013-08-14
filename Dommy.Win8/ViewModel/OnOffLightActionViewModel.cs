@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Dommy.Win8.ViewModel
 {
-    public class OnOffLightActionViewModel : ActionViewModel<OnOffLightActionData>
-    {
-        public bool IsOn
-        {
-            get { return this.Data.IsOn; }
-            set
-            {
-                var isOn = this.Data.IsOn;
-                this.Set(ref isOn, value);
-                this.Data.IsOn = isOn;
+    //public class OnOffLightActionViewModel : ActionViewModel<OnOffLightActionData>
+    //{
+    //    public bool IsOn
+    //    {
+    //        get { return this.Data.IsOn; }
+    //        set
+    //        {
+    //            var isOn = this.Data.IsOn;
+    //            this.Set(ref isOn, value);
+    //            this.Data.IsOn = isOn;
 
-                ServiceSingleton.Current.RunAsync(this.Data);
-            }
-        }
-    }
+    //            ServiceSingleton.Current.RunAsync(this.Data);
+    //        }
+    //    }
+    //}
 }

@@ -108,9 +108,10 @@ namespace Dommy.Business.Speech
             if (this.kinect != null)
             {
                 var audioSource = this.kinect.AudioSource;
-                audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
-                //audioSource.
+                //audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
                 var audioStream = audioSource.Start();
+                speechRecognizer.MaxAlternates = 2;
+                speechRecognizer.UpdateRecognizerSetting("AdaptationOn", 0);
                 speechRecognizer.SetInputToAudioStream(audioStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
             }
             else

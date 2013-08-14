@@ -1,4 +1,5 @@
-﻿using Dommy.Business.Config;
+﻿using Dommy.Business.Actions;
+using Dommy.Business.Config;
 using Ninject;
 using Ninject.Extensions.Logging;
 using System;
@@ -48,16 +49,8 @@ namespace Dommy.Business.Tools
             Set,
         }
 
-        public enum EedoumusAction
-        {
-            AuthTest,
-            PeriphValue,
-            PeriphCaract,
-            PeriphHistory,
-        }
-
-        //const string url = "http://{0}/api/{1}?action={2}&periph_id={3}&{4}&api_user={5}&api_secret={6}";
-        const string url = "http://api.eedomus.com/{1}?action={2}&periph_id={3}&{4}&api_user={5}&api_secret={6}";
+        const string localUrl = "http://{0}/api/{1}?action={2}&periph_id={3}&{4}&api_user={5}&api_secret={6}";
+        const string distantUrl = "http://api.eedomus.com/{1}?action={2}&periph_id={3}&{4}&api_user={5}&api_secret={6}";
 
         private string apiAddr;
         private string apiUser;
@@ -66,13 +59,13 @@ namespace Dommy.Business.Tools
         [Inject]
         public ILogger Logger { get; set; }
 
-        public string CallService(EedoumusAction action, string eedomusId, string value = null)
+        public string CallService(EedomusApi api, EedoumusAction action, string eedomusId, string value = null)
         {
             this.Logger.Info("Call eedomus {0} to {1}", eedomusId, value);
 
             var requestType = getRequestType(action);
 
-            var url = getUrl(requestType, action, eedomusId, String.Format("value={0}", value));
+            var url = getUrl(api, requestType, action, eedomusId, String.Format("value={0}", value));
 
             this.asyncHelper.Wait(() =>
             {
@@ -160,8 +153,15 @@ namespace Dommy.Business.Tools
             }
         }
 
-        private string getUrl(EedoumusRequestType requestType, EedoumusAction action, string eedomusId, string parameter)
+        private string getUrl(EedomusApi api, EedoumusRequestType requestType, EedoumusAction action, string eedomusId, string parameter)
         {
+            var url = localUrl;
+
+            if (api == EedomusApi.Distant)
+            {
+                url = distantUrl;
+            }
+
             return String.Format(url, this.apiAddr, requestType.ToString().ToLower(), ActionToString(action), eedomusId, parameter, apiUser, apiSecret);
         }
 
@@ -180,11 +180,6 @@ namespace Dommy.Business.Tools
                 default:
                     return String.Empty;
             }
-        }
-
-        public void Create()
-        {
-            throw new NotImplementedException();
         }
     }
 }

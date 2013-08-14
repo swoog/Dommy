@@ -2,6 +2,7 @@ using Dommy.Business.Config;
 using Dommy.Business.Result;
 using Dommy.Business.Scenarios;
 using Dommy.Business.Scripts;
+using Dommy.Business.Services;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;
 using Microsoft.Speech.Recognition;
@@ -11,12 +12,14 @@ using System;
 using System.Collections.Generic;
 using System.Deployment.Application;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dommy.Business
 {
-    public class Engine
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public class Engine : IEngine
     {
         public ILogger Logger { get; private set; }
 
@@ -80,13 +83,27 @@ namespace Dommy.Business
             }
 
             this.Logger.Info("Build scenarios");
-            Scenario.Build();
+            try
+            {
+                Scenario.Build();
+            }
+            catch (Exception ex)
+            {
+                this.SayError(ex);
+            }
 
             this.Logger.Info("Initializing scenarios.");
             foreach (var s in this.Kernel.GetAll<IScenario>())
             {
-                this.Logger.Info("Scenario : {0}", s.ScenarioName);
-                s.Init(this);
+                try
+                {
+                    this.Logger.Info("Scenario : {0}", s.ScenarioName);
+                    s.Init(this);
+                }
+                catch (Exception ex)
+                {
+                    this.SayError(ex);
+                }
             }
 
             this.SpeechListener.Logs();
@@ -191,5 +208,10 @@ namespace Dommy.Business
         public string Name { get; set; }
 
         public UsbUirtListener UsbUirtListener { get; set; }
+
+        public string GetName()
+        {
+            return this.Name;
+        }
     }
 }

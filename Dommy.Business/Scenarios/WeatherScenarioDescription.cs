@@ -28,6 +28,8 @@ namespace Dommy.Business.Scenarios
 
         public string EedomusWindId { get; set; }
 
+        public EedomusApi Mode { get; set; }
+
         private string[] speech = new[]{
             "{Condition}, Il fait {Degre} degré.",
             "{Degre} degré, {Condition} !",
@@ -37,6 +39,7 @@ namespace Dommy.Business.Scenarios
         {
             this.wait = wait;
             this.eedomusHelper = eedomusHelper;
+            this.Mode = EedomusApi.Local;
         }
 
         private class WeatherData
@@ -59,11 +62,11 @@ namespace Dommy.Business.Scenarios
                     {
                         var weather = Cache.Get("WeatherAction", TimeSpan.FromHours(1), () =>
                         {
-                            var temperature = this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
+                            var temperature = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
 
-                            var rain = this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphCaract, this.EedomusRainId);
+                            var rain = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusRainId);
 
-                            var wind = this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphCaract, this.EedomusWindId);
+                            var wind = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusWindId);
 
                             return new Weather
                             {

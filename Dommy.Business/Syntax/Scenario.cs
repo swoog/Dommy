@@ -37,9 +37,23 @@ namespace Dommy.Business.Syntax
         {
             var descriptions = Scenario.kernel.GetAll<IScenarioDescription>();
 
+            Exception ex = null;
+
             foreach (var d in descriptions)
             {
-                d.Create();
+                try
+                {
+                    d.Create();
+                }
+                catch (Exception ex2)
+                {
+                    ex = ex2;
+                }
+            }
+
+            if (ex != null)
+            {
+                throw ex;
             }
         }
     }

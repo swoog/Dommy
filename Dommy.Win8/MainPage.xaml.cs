@@ -38,7 +38,7 @@ namespace Dommy.Win8
         /// antérieure. Null lors de la première visite de la page.</param>
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-            this.DataContext = new ViewModel.MainViewModel();
+            //this.DataContext = new ViewModel.MainViewModel();
         }
     }
 }

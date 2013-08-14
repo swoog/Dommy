@@ -59,9 +59,9 @@ namespace Dommy.Business.Scenarios
                 .TvCommand(TvCommand.Play)
                 .Start();
 
-            Scenario.Create("TV Play")
+            Scenario.Create("TV éteint")
                 .SpeechTrigger("éteint la télé")
-                .TvCommand(TvCommand.Play)
+                .TvCommand(TvCommand.PowerOff)
                 .Start();
 
             Scenario.Create("TV Augment volume")

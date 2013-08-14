@@ -1,9 +1,17 @@
 ﻿#r "Dommy.Business.dll"
 #r "System.Windows.Forms"
+#r "System.Drawing"
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Dommy.Business.Syntax;
+using Dommy.Business.Action;
+using Dommy.Business.Scenarios;
+using Dommy.Business.Syntax;
+using Dommy.Business.Tools;
+
+Scenario.CreateFrom<UpdateScenarioDescription>();
 
 Scenario.Create()
 		.SpeechTrigger("redemarre")
@@ -22,3 +30,16 @@ Scenario.Create()
 		.Command("ShutDown", "/t 0 /r")
 		.Start();
 
+
+Scenario.Create()
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.Say("A live")
+		.Start();
