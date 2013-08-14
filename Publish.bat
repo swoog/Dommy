@@ -1,16 +1,15 @@
-set version=1.5.0.34
+set version=1.5.0.43
 set deployDirectory=c:\temp\dommydeploy\
-REM set urlApplication=\\AG-W8LAP1\DommyDeploy\Dommy.application
-REM set urlApplication=\\AG-MINIPC\Dommy\test\Dommy.application
-set urlApplicationDirectory=\\AG-MINIPC\Dommy.test\
+set urlApplicationDirectory=\\destination\folder
 set urlApplication=%urlApplicationDirectory%Dommy.application
 
-msbuild /target:clean
+msbuild /p:Configuration=Release /target:clean
 msbuild /p:Configuration=Release /p:DeployOnBuild=true /p:TargetZone=LocalIntranet
 xcopy /R /Y /E "Dommy.Console\bin\release\*.*" "Dommy.Web\obj\release\Package\PackageTmp"
 move Dommy.Web\obj\release\Package\PackageTmp\bin\*.dll Dommy.Web\obj\release\Package\PackageTmp
 REM xcopy /R /Y /E "Dommy.Bootstrap\bin\release\*.*" "Dommy.Web\obj\release\Package\PackageTmp"
 REM xcopy /R /Y /E "Dommy.Console\bin\release\*.*" "Dommy.Web\obj\release\Package\PackageTmp"
+rmdir %deployDirectory%%version%\ /s /q
 xcopy /R /Y /E "Dommy.Web\obj\release\Package\PackageTmp" %deployDirectory%%version%\
 REM move %deployDirectory%%version%\bin\*.dll %deployDirectory%%version%\
 REM xcopy /R /Y /E "Dommy.Console\bin\release\*.*" %deployDirectory%%version%\bin\

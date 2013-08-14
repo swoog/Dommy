@@ -30,8 +30,16 @@ Scenario.Create()
 		.Command("ShutDown", "/t 0 /r")
 		.Start();
 
-//Scenario.Create()
-//		.TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(10))
-//		.TileTrigger("A live", Color.FromName("Blue"))
-//		.Say("A live")
-//		.Start();
+
+Scenario.Create()
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", Color.FromName("Blue"))
+		.Say("A live")
+		.Start();

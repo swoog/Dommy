@@ -146,13 +146,9 @@ namespace Dommy.Business.Actions
         /// <param name="eedomusId">eedomus id.</param>
         /// <param name="isOn">On or off the light.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax ActionOnOffLight(string eedomusId, bool isOn)
+        public IScenarioSyntax EedomusOnOff(string eedomusId, bool isOn)
         {
-            return Action(() =>
-                {
-                    this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphValue, eedomusId, isOn ? "100" : "0");
-                    return true;
-                });
+            return this.Extend<IEedomusActions>().EedomusOnOff(eedomusId, isOn);
         }
 
         /// <summary>
@@ -353,9 +349,9 @@ namespace Dommy.Business.Actions
             return this;
         }
 
-        public IScrapActions GetUrl(string url)
+        public IScrapActions GetUrl<T>(string url)
         {
-            return this.Extend<IUrlActions>().GetUrl(url);
+            return this.Extend<IUrlActions>().GetUrl<T>(url);
         }
 
         public ITriggerScenarioSyntax TimeTrigger(DateTime startDate, TimeSpan tick)
@@ -366,6 +362,21 @@ namespace Dommy.Business.Actions
         public ITriggerScenarioSyntax TileTrigger(string title, System.Drawing.Color backGround)
         {
             return this.Extend<ITileTriggerSyntax>().TileTrigger(title, backGround);
+        }
+
+        public ITriggerScenarioSyntax RestTrigger(string p, object data)
+        {
+            return this.Extend<IRestTriggerSyntax>().RestTrigger(p, data);
+        }
+
+        public IScenarioSyntax EedomusCall(EedomusApi api, EedoumusAction action, string eedomusId, string value = null)
+        {
+            return this.Extend<IEedomusActions>().EedomusCall(api, action, eedomusId, value);
+        }
+
+        public IScenarioSyntax EedomusCall(EedoumusAction action, string eedomusId, string value = null)
+        {
+            return this.Extend<IEedomusActions>().EedomusCall(action, eedomusId, value);
         }
     }
 }

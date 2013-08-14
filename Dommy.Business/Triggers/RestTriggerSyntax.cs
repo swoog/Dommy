@@ -25,5 +25,13 @@ namespace Dommy.Business.Triggers
             t.Url = p;
             return this.scenario.Trigger(t);
         }
+
+        public ITriggerScenarioSyntax RestTrigger(string p, object data)
+        {
+            var t = this.kernel.Get<RestTrigger>();
+            t.Url = p;
+            t.Data = data;
+            return this.scenario.Trigger(t);
+        }
     }
 }

@@ -41,6 +41,9 @@
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -96,6 +99,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\EedomusActions.cs" />
+    <Compile Include="Actions\EedomusApi.cs" />
+    <Compile Include="Actions\IEedomusActions.cs" />
     <Compile Include="Actions\IfActions.cs" />
     <Compile Include="Actions\IIfActions.cs" />
     <Compile Include="Actions\IPingActions.cs" />
@@ -104,7 +110,9 @@
     <Compile Include="Actions\ITvActions.cs" />
     <Compile Include="Actions\PingActions.cs" />
     <Compile Include="Actions\SayActions.cs" />
+    <Compile Include="Actions\ScrapActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
+    <Compile Include="Actions\UrlActions.cs" />
     <Compile Include="Config\Configurator.cs" />
     <Compile Include="Config\Configure.cs" />
     <Compile Include="Config\IConfig.cs" />
@@ -155,6 +163,8 @@
     <Compile Include="Syntax\ScenarioContext.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileManager.cs" />
+    <Compile Include="TileSize.cs" />
+    <Compile Include="Actions\EedoumusAction.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\WebAppender.cs" />

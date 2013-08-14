@@ -1,4 +1,5 @@
 ﻿using Dommy.Business.Action;
+using Dommy.Business.Actions;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;
 using System;
@@ -21,10 +22,13 @@ namespace Dommy.Business.Scenarios
 
         public string EedomusTemperatureId { get; set; }
 
+        public EedomusApi Mode { get; set; }
+
         public TemperatureScenarioDescription(AsyncHelper wait, EedomusHelper eedomusHelper)
         {
             this.wait = wait;
             this.eedomusHelper = eedomusHelper;
+            this.Mode = EedomusApi.Local;
         }
 
         private class TemperatureSentence
@@ -38,15 +42,15 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create("Temperature")
                 .SpeechTrigger(
-                    "quelle est la temperature interieur",
-                    "donne moi la temperature",
-                    "donne moi la temperature interieur",
-                    "la temperature interieur")
+                    "quelle est la température interieur",
+                    "donne moi la température",
+                    "donne moi la température interieur",
+                    "la température interieur")
                     .Action(() =>
                     {
                         var weather = Cache.Get("TemperatureAction", TimeSpan.FromMinutes(30), () =>
                         {
-                            var temperature = this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
+                            var temperature = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
 
                             return new Weather
                             {

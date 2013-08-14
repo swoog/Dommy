@@ -43,7 +43,7 @@ namespace Dommy.Business.Scenarios
         public void ExecutionOf(IScenario scenario)
         {
             // If this not Again action.
-            if (scenario.ScenarioName != "Again")
+            if (scenario.ScenarioName == null || !scenario.ScenarioName.StartsWith("Again"))
             {
                 LastExecution = DateTime.Now;
                 LastScenario = scenario;
@@ -55,7 +55,7 @@ namespace Dommy.Business.Scenarios
             Scenario.Create("Again")
                         .SpeechTrigger("recommence", "encore")
                         .Action(Again)
-                        .Start(); 
+                        .Start();
 
             Scenario.Create("Again No prefix")
              .NoPrefixSpeechTrigger("recommence", "encore")

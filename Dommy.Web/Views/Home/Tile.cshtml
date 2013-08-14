@@ -1,0 +1,12 @@
+﻿@model Dommy.Business.Tile
+@{
+    Layout = null;
+}
+
+<div class="tile" style="width:@(Model.Width)px;height:@(Model.Height)px;background-color: @Model.ColorCode">
+    <div class="back">
+
+        <div class="title">@Model.Title</div>
+        <div class="content"></div>
+    </div>
+</div>

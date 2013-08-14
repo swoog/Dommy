@@ -83,13 +83,27 @@ namespace Dommy.Business
             }
 
             this.Logger.Info("Build scenarios");
-            Scenario.Build();
+            try
+            {
+                Scenario.Build();
+            }
+            catch (Exception ex)
+            {
+                this.SayError(ex);
+            }
 
             this.Logger.Info("Initializing scenarios.");
             foreach (var s in this.Kernel.GetAll<IScenario>())
             {
-                this.Logger.Info("Scenario : {0}", s.ScenarioName);
-                s.Init(this);
+                try
+                {
+                    this.Logger.Info("Scenario : {0}", s.ScenarioName);
+                    s.Init(this);
+                }
+                catch (Exception ex)
+                {
+                    this.SayError(ex);
+                }
             }
 
             this.SpeechListener.Logs();

@@ -154,6 +154,7 @@ namespace Dommy.Business
             {
                 if (this.SpeechLogger.IgnoreRecognition)
                 {
+                    this.Logger.Debug("Ignore : {0}", sentence.Text);
                     return;
                 }
 
@@ -172,7 +173,12 @@ namespace Dommy.Business
                 if (this.dicoScenario.ContainsKey(sentence.Text))
                 {
                     var s = this.dicoScenario[sentence.Text];
-                    if ((s.Confidence.HasValue && sentence.Confidence > s.Confidence.Value) || (!s.Confidence.HasValue && sentence.Confidence > this.confidence))
+                    var confidence = this.confidence;
+                    if (s.Confidence.HasValue)
+                    {
+                        confidence = s.Confidence.Value;
+                    }
+                    if (sentence.Confidence > confidence)
                     {
                         if (words.First() == this.engine.Name)
                         {
@@ -190,7 +196,7 @@ namespace Dommy.Business
                         }
 
                         UnloadContextGrammar();
-                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, this.confidence);
+                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, confidence);
                         this.SpeechLogger.Say(Actor.Me, sentence.Text);
 
                         foreach (var l in this.ActionLoggers)
@@ -199,6 +205,11 @@ namespace Dommy.Business
                         }
 
                         s.Scenario.Run();
+                    }
+                    else
+                    {
+                        this.Logger.Info("Sentence ignored : {0}", sentence.Text);
+                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, confidence);
                     }
 
                     return;

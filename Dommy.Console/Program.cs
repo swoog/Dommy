@@ -33,6 +33,16 @@ namespace Dommy.Console
 
             var directory = Environment.CurrentDirectory;
 
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            {
+                directory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "Dommy");
+
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+            }
+
             var kernel = new StandardKernel();
 
             Configure.InitKernel(kernel);
@@ -98,7 +108,7 @@ namespace Dommy.Console
             //kernel.Bind<ServiceHost<ActionService>>().ToSelf();
             //var actionService = kernel.Get<ServiceHost<ActionService>>();
             //actionService.Open();
-            var services = kernel.GetAll<IServiceHost>();
+            var services = kernel.GetAll<IServiceHost>().ToList();
 
             foreach (var item in services)
             {

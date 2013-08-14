@@ -8,6 +8,8 @@ namespace Dommy.Business.Actions
 {
     public interface IScrapActions
     {
+        IScrapActions Scrap(string path, string property);
+
         IScenarioSyntax EndScrap();
     }
 }

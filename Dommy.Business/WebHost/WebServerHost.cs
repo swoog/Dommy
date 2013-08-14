@@ -55,7 +55,7 @@ namespace Dommy.Business.WebHost
             }
 
             server = new CassiniDevServer();
-            server.StartServer("./", this.port, "/", "localhost");
+            server.StartServer("./", this.port, "/", "*");
             this.logger.Info("Webserver started on {0} port", this.port);
         }
 

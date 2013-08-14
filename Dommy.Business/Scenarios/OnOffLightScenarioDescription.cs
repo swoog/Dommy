@@ -1,4 +1,5 @@
 ﻿using Dommy.Business.Action;
+using Dommy.Business.Actions;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;
 using System;
@@ -25,7 +26,7 @@ namespace Dommy.Business.Scenarios
             "J'ai {StatusMale} la lumière {PrefixName}.",
             "Tous de suite.",
             "Je le fais.",
-            "je m'execute.",
+            "Je m'exécute.",
             "Okay",
         };
 
@@ -69,9 +70,9 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create(StringHelper.Format("Eteint {Name}", this.RoomNames[0]))
                 .SpeechTrigger(sentences)
+                .EedomusOnOff(this.EedomusId, false)
                 .Action(() =>
                 {
-                    this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphValue, this.EedomusId, "0");
                     onOffResponse.Sentence = this.CreateResponse(false);
                     return true;
                 })
@@ -88,9 +89,9 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create(StringHelper.Format("Allume {Name}", this.RoomNames[0]))
                 .SpeechTrigger(sentences)
+                .EedomusOnOff(this.EedomusId, true)
                 .Action(() =>
                 {
-                    this.eedomusHelper.CallService(EedomusHelper.EedoumusAction.PeriphValue, this.EedomusId, "100");
                     onOffResponse.Sentence = this.CreateResponse(true);
                     return true;
                 })

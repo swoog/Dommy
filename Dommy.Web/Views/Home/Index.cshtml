@@ -3,11 +3,11 @@
     Layout = "~/views/shared/_Layout.cshtml";
 }
 
-<div>
+<h1>Dommy</h1>
+
+<div class="grid">
     @foreach (var tile in Model.Tiles)
     {
-        <div style="background-color: @tile.BackGroundColor.Name">
-            <span>@tile.Title</span>
-        </div>
+        Html.RenderPartial("Tile", tile);
     }
 </div>
