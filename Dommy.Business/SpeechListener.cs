@@ -34,7 +34,6 @@ namespace Dommy.Business
         private double confidenceCible;
         private double confidence;
 
-        private Dictionary<string, IAction> dicoAction = new Dictionary<string, IAction>();
         private Dictionary<string, SpeechInfo> dicoScenario = new Dictionary<string, SpeechInfo>();
         private ISpeechToText speechToText;
 
@@ -55,45 +54,17 @@ namespace Dommy.Business
             this.confidence = this.confidenceCible;
         }
 
-        public void Init(Engine engine, IList<IAction> actions)
+        public void Init(Engine engine)
         {
             this.engine = engine;
             this.speechToText.Init();
             this.Logger.Info("Speech recognition intialized.");
-
-            // Read all Sentences property of IAction to create speech recognition.
-            foreach (var action in actions)
-            {
-                Grammar gWithoutPrefix = CreateGrammar(action, action.SentencesNoPrefixName);
-
-                if (gWithoutPrefix != null)
-                {
-                    this.speechToText.LoadGrammar(gWithoutPrefix);
-                }
-
-                Grammar g = CreateGrammar(action, action.Sentences, true);
-
-                if (g != null)
-                {
-                    this.speechToText.LoadGrammar(g);
-                }
-
-                this.Logger.Info("Action {0} : {1}", action.Data.Id, action.Data.Name);
-            }
-
-            this.speechToText.Start(SpeechRecognized);
-            this.Logger.Info("Wait for audio stream.");
         }
 
-        public Grammar CreateGrammar(IAction action, IList<string> sentences, bool prefixName = false)
+        public void Start()
         {
-            return CreateGrammar(text =>
-            {
-                if (!dicoAction.ContainsKey(text))
-                {
-                    dicoAction.Add(text, action);
-                }
-            }, sentences, prefixName);
+            this.speechToText.Start(SpeechRecognized);
+            this.Logger.Info("Wait for audio stream.");
         }
 
         /// <summary>
@@ -248,30 +219,7 @@ namespace Dommy.Business
                         wordsConfidence = wordsConfidence.Skip(1).ToArray();
                     }
 
-                    if (!this.dicoAction.ContainsKey(sentence.Text))
-                    {
-                        var text = sentence.Text;
-
-                        if (text.StartsWith(this.engine.Name))
-                        {
-                            text = text.Substring(this.engine.Name.Length);
-                        }
-
-                        sentence = new Sentence
-                        {
-                            Confidence = sentence.Confidence,
-                            Words = words,
-                            WordsConfidence = wordsConfidence,
-                            Text = text.Trim(),
-                        };
-                    }
-
                     UnloadContextGrammar();
-
-                    // Execute action.
-                    IAction action = this.dicoAction[sentence.Text];
-
-                    SpeechRecognition(sentence, s => action.RunAction(s));
                 }
                 else
                 {
@@ -388,7 +336,7 @@ namespace Dommy.Business
         {
             if (!String.IsNullOrEmpty(this.SentenceLogFile))
             {
-                var sentences = this.dicoAction.Keys.Select(a => String.Format("{0} {1}", this.engine.Name, a)).Union(this.dicoScenario.Keys).OrderBy(s => s);
+                var sentences = this.dicoScenario.Keys.OrderBy(s => s);
 
                 if (File.Exists(this.SentenceLogFile))
                 {

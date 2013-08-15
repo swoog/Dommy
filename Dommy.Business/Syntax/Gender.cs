@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Business.Action
+namespace Dommy.Business.Syntax
 {
     using System;
     using System.Collections.Generic;

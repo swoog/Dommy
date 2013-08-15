@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using System.Speech.Synthesis;
 using Microsoft.Speech.Synthesis;
-using Dommy.Business.Action;
 using Ninject.Extensions.Logging;
+using Dommy.Business.Syntax;
 
 namespace Dommy.Business.Speech
 {

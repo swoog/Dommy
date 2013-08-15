@@ -6,10 +6,8 @@
 
 namespace Dommy.Business.Actions
 {
-    using System;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
-    using Dommy.Model;
 
     /// <summary>
     /// TV syntax.

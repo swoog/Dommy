@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dommy.Business.Action
+namespace Dommy.Business.Syntax
 {
     /// <summary>
     /// 

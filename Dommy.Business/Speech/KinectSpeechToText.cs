@@ -1,5 +1,4 @@
-﻿using Dommy.Business.Action;
-using Dommy.Business.Config;
+﻿using Dommy.Business.Config;
 using Microsoft.Kinect;
 using Microsoft.Speech.AudioFormat;
 using Microsoft.Speech.Recognition;

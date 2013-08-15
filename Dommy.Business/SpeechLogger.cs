@@ -7,9 +7,12 @@ namespace Dommy.Business
 {
     using System;
     using System.Linq;
-    using Dommy.Business.Action;
     using Ninject;
     using Ninject.Extensions.Logging;
+
+    /// <summary>
+    /// Actor of speech.
+    /// </summary>
     public enum Actor
     {
         Me,

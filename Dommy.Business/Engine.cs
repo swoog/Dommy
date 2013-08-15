@@ -25,14 +25,9 @@ namespace Dommy.Business
 
         public SpeechLogger SpeechLogger { get; private set; }
 
-        public bool IsSimulation { get; set; }
-
-        public IList<IAction> Actions { get; private set; }
-
         public ScriptEngine ScriptEngine { get; private set; }
 
         public Engine(
-            IList<IAction> actions,
             IKernel kernel,
             ILogger logger,
             SpeechListener speechListener,
@@ -41,7 +36,6 @@ namespace Dommy.Business
             SpeechLogger speechLogger,
             ScriptEngine scriptEngine)
         {
-            this.Actions = actions;
             this.Kernel = kernel;
             this.Logger = logger;
             this.SpeechListener = speechListener;
@@ -58,7 +52,7 @@ namespace Dommy.Business
 
             this.Logger.Info("Initializing speech listener");
 
-            this.SpeechListener.Init(this, this.Actions);
+            this.SpeechListener.Init(this);
 
             this.Logger.Info("Initializing rest listener");
 
@@ -105,6 +99,10 @@ namespace Dommy.Business
                     this.SayError(ex);
                 }
             }
+
+            this.Logger.Info("Start speech listener");
+
+            this.SpeechListener.Start();
 
             this.SpeechListener.Logs();
 
@@ -167,36 +165,6 @@ namespace Dommy.Business
         public void Stop()
         {
             this.SpeechListener.Stop();
-        }
-
-        public void Run(Model.ActionData data, bool withResult = true)
-        {
-            try
-            {
-                // Execute action.
-                IAction action = this.Actions.First(a => a.Data.Id == data.Id);
-
-                IResult result = action.RunAction(data);
-
-                if (withResult)
-                {
-                    RunResult(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                SayError(ex);
-            }
-        }
-
-        public Model.ActionData GetData(int id)
-        {
-            return this.Actions.First(a => a.Data.Id == id).Data;
-        }
-
-        public Model.ActionData[] GetDatas()
-        {
-            return this.Actions.Select(a => a.Data).ToArray();
         }
 
         public IKernel Kernel { get; private set; }

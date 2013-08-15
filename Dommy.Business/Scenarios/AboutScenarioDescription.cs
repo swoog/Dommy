@@ -12,7 +12,6 @@ namespace Dommy.Business.Scenarios
     using System.Text;
     using Dommy.Business.Result;
     using Dommy.Business.Tools;
-    using Dommy.Model;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
     using Dommy.Business.Triggers;

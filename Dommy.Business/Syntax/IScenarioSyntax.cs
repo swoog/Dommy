@@ -2,7 +2,6 @@
 using Dommy.Business.Actions;
 using Dommy.Business.Result;
 using Dommy.Business.Scenarios;
-using Dommy.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +14,6 @@ namespace Dommy.Business.Syntax
         IScenarioSyntax Action(Func<bool> action);
 
         //IScenarioSyntax Action(Func<ScenarioContext, bool> action);
-
-        IScenarioSyntax Action(ActionData actionData);
 
         IScenario ToScenario();
 

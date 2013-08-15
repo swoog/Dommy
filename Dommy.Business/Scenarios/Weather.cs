@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Dommy.Business.Action
+namespace Dommy.Business.Scenarios
 {
-    class Weather
+    internal class Weather
     {
         public double Temperature { get; set; }
 

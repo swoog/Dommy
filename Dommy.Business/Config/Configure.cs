@@ -1,6 +1,6 @@
-﻿using Dommy.Business.Action;
-using Dommy.Business.Scripts;
+﻿using Dommy.Business.Scripts;
 using Dommy.Business.Speech;
+using Dommy.Business.Syntax;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using System;

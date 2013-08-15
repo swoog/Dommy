@@ -8,7 +8,6 @@ namespace Dommy.Business.Actions
 {
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
-    using Dommy.Model;
 
     /// <summary>
     /// Implementation of TV actions.

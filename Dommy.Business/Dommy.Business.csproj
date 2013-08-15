@@ -118,25 +118,21 @@
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
     <Compile Include="Scenarios\AgainScenarioDescription.cs" />
-    <Compile Include="Action\BaseAction.cs" />
+    <Compile Include="Scenarios\DommyScenarioDescription.cs" />
     <Compile Include="Scenarios\OnOffLightScenarioDescription.cs" />
     <Compile Include="Scenarios\TemperatureScenarioDescription.cs" />
     <Compile Include="Scenarios\UsbUirtScenarioDescription.cs" />
     <Compile Include="Scenarios\WhatScenarioDescription.cs" />
     <Compile Include="Scenarios\FreeboxScenarioDescription.cs" />
     <Compile Include="Scenarios\InternetScenarioDescription.cs" />
-    <Compile Include="Action\DommyAction.cs" />
-    <Compile Include="Action\EmailAction.cs" />
-    <Compile Include="Action\Gender.cs" />
-    <Compile Include="Action\ProgrammeTVAction.cs" />
-    <Compile Include="Action\RoomName.cs" />
+    <Compile Include="Syntax\Gender.cs" />
+    <Compile Include="Syntax\RoomName.cs" />
     <Compile Include="Scenarios\TimeScenarioDescription.cs" />
     <Compile Include="Scenarios\TvScenarioDescription.cs" />
     <Compile Include="Scenarios\UpdateScenarioDescription.cs" />
-    <Compile Include="Action\Weather.cs" />
+    <Compile Include="Scenarios\Weather.cs" />
     <Compile Include="Scenarios\WeatherScenarioDescription.cs" />
     <Compile Include="Engine.cs" />
-    <Compile Include="IAction.cs" />
     <Compile Include="IActionLogger.cs" />
     <Compile Include="IResult.cs" />
     <Compile Include="RestListener.cs" />
@@ -182,7 +178,6 @@
     <Compile Include="Triggers\RestTrigger.cs" />
     <Compile Include="Syntax\Scenario.cs" />
     <Compile Include="Actions\ScenarioSyntax.cs" />
-    <Compile Include="Services\ActionService.cs" />
     <Compile Include="Services\ServiceHost.cs" />
     <Compile Include="SpeechListener.cs" />
     <Compile Include="Speech\MicrosoftTextToSpeech.cs" />
@@ -212,12 +207,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dommy.Model\Dommy.Model.csproj">
-      <Project>{7605e203-fa9c-42f1-92b8-123fef17d045}</Project>
-      <Name>Dommy.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

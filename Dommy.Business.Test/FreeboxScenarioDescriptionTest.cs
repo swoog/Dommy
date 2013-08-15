@@ -1,5 +1,4 @@
-﻿using Dommy.Business.Action;
-using Dommy.Business.Scenarios;
+﻿using Dommy.Business.Scenarios;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

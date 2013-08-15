@@ -3,7 +3,6 @@ using Dommy.Business.Scenarios;
 using Dommy.Business.Syntax;
 using Dommy.Business.Triggers;
 using Dommy.Business.Tools;
-using Dommy.Model;
 using System;
 using System.Collections.Generic;
 using System.Deployment.Application;

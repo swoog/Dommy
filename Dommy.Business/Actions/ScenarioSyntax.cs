@@ -14,7 +14,6 @@ namespace Dommy.Business.Actions
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using Dommy.Business.Triggers;
-    using Dommy.Model;
     using Ninject;
     using Ninject.Extensions.Logging;
     using Ninject.Parameters;
@@ -92,23 +91,6 @@ namespace Dommy.Business.Actions
         /// List of childs scenarios.
         /// </summary>
         private List<IScenario> childs = new List<IScenario>();
-
-        /// <summary>
-        /// Add an action.
-        /// </summary>
-        /// <param name="actionData">Action data object to use.</param>
-        /// <returns>Scenario syntax.</returns>
-        [ObsoleteAttribute]
-        public IScenarioSyntax Action(Model.ActionData actionData)
-        {
-            this.actions.Add(() =>
-            {
-                this.Engine.Run(actionData, false);
-                return true;
-            });
-
-            return this;
-        }
 
         /// <summary>
         /// Return an instance of scenario.

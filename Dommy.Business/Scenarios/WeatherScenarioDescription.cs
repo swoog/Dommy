@@ -1,18 +1,9 @@
+using Dommy.Business.Actions;
+using Dommy.Business.Syntax;
+using Dommy.Business.Tools;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Xml;
-using Dommy.Business.Result;
-using Dommy.Business.Tools;
-using Dommy.Business.Triggers;
-using Dommy.Model;
 using System.Globalization;
-using Dommy.Business.Scenarios;
-using Dommy.Business.Syntax;
-using Dommy.Business.Actions;
-using Dommy.Business.Action;
 
 namespace Dommy.Business.Scenarios
 {

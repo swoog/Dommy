@@ -1,27 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ninject;
 using Dommy.Business;
-using Dommy.Business.Action;
-using Ninject.Parameters;
-using System.Threading;
-using Dommy.Business.Speech;
-using Dommy.Business.Tools;
-using Dommy.Business.Services;
-using Dommy.Model;
-using Dommy.Business.Result;
-using Dommy.Business.Triggers;
-using Dommy.Business.Scenarios;
-using Ninject.Extensions.Conventions;
-using Dommy.Business.Syntax;
-using Dommy.Business.Actions;
-using Dommy.Business.Scripts;
 using Dommy.Business.Config;
-using System.IO;
+using Dommy.Business.Scenarios;
+using Dommy.Business.Scripts;
+using Dommy.Business.Services;
+using Dommy.Business.Syntax;
+using Dommy.Business.Tools;
 using Dommy.Business.WebHost;
-using System.Diagnostics;
+using Ninject;
+using Ninject.Extensions.Conventions;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Dommy.Console
 {
@@ -91,16 +80,6 @@ namespace Dommy.Console
             kernel.Bind<IActionLogger>().To<AgainScenarioDescription>().InSingletonScope();
             kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();
 
-            kernel.Bind<IAction>().To<DommyAction>().InSingletonScope()
-                .WithPropertyValue("Id", 2)
-                .WithPropertyValue("Name", "Dommy")
-                ;
-
-            kernel.Bind<IAction>().To<ProgrammeTVAction>().InSingletonScope()
-                .WithPropertyValue("Id", 8)
-                .WithPropertyValue("Name", "Programme TV")
-                ;
-
             // TODO : Add scenario to restart freebox and router.
 
             //kernel.Bind<ActionService>().ToSelf();
@@ -116,7 +95,6 @@ namespace Dommy.Console
             }
 
             var engine = kernel.Get<Engine>();
-            engine.IsSimulation = false;
 
             engine.Init();
 

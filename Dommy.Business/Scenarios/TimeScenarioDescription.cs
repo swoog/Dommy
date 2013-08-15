@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Dommy.Business.Result;
 using Dommy.Business.Tools;
-using Dommy.Model;
 using Dommy.Business.Scenarios;
 using Ninject;
 using Dommy.Business.Triggers;

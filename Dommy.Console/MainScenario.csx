@@ -6,7 +6,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Dommy.Business.Syntax;
-using Dommy.Business.Action;
 using Dommy.Business.Scenarios;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;

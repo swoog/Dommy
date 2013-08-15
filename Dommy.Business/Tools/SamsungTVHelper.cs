@@ -1,5 +1,4 @@
 ﻿using Dommy.Business.Config;
-using Dommy.Model;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;

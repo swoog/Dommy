@@ -14,10 +14,10 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>publier\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -25,6 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://dommy.codeplex.com/releases/clickonce/</InstallUrl>
     <MinimumRequiredVersion>1.0.0.33</MinimumRequiredVersion>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>34</ApplicationRevision>
@@ -150,10 +151,6 @@
     <ProjectReference Include="..\Dommy.Business\Dommy.Business.csproj">
       <Project>{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}</Project>
       <Name>Dommy.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dommy.Model\Dommy.Model.csproj">
-      <Project>{7605e203-fa9c-42f1-92b8-123fef17d045}</Project>
-      <Name>Dommy.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

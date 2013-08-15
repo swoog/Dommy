@@ -11,7 +11,6 @@ namespace Dommy.Business.Scenarios
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Dommy.Model;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
 
