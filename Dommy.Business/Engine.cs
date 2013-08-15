@@ -27,22 +27,20 @@ namespace Dommy.Business
 
         public ScriptEngine ScriptEngine { get; private set; }
 
+        public IList<IListener> Listeners { get; private set; }
+
         public Engine(
             IKernel kernel,
             ILogger logger,
-            SpeechListener speechListener,
-            RestListener restListener,
-            UsbUirtListener usbUirtListener,
             SpeechLogger speechLogger,
-            ScriptEngine scriptEngine)
+            ScriptEngine scriptEngine,
+            IList<IListener> listeners)
         {
             this.Kernel = kernel;
             this.Logger = logger;
-            this.SpeechListener = speechListener;
-            this.RestListener = restListener;
-            this.UsbUirtListener = usbUirtListener;
             this.SpeechLogger = speechLogger;
             this.ScriptEngine = scriptEngine;
+            this.Listeners = listeners;
         }
 
         public void Init()
@@ -50,30 +48,18 @@ namespace Dommy.Business
             this.Logger.Info("Execute scripts.");
             this.ScriptEngine.Execute();
 
-            this.Logger.Info("Initializing speech listener");
-
-            this.SpeechListener.Init(this);
-
-            this.Logger.Info("Initializing rest listener");
-
-            try
+            foreach (var listener in this.Listeners)
             {
-                this.RestListener.Init();
-            }
-            catch (Exception ex)
-            {
-                this.SayError(ex);
-            }
+                this.Logger.Info("Initializing {0}", listener.GetType());
 
-            this.Logger.Info("Initializing UsbUirt listener");
-
-            try
-            {
-                this.UsbUirtListener.Init();
-            }
-            catch (Exception ex)
-            {
-                this.SayError(ex);
+                try
+                {
+                    listener.Init(this);
+                }
+                catch (Exception ex)
+                {
+                    this.SayError(ex);
+                }
             }
 
             this.Logger.Info("Build scenarios");
@@ -100,11 +86,21 @@ namespace Dommy.Business
                 }
             }
 
-            this.Logger.Info("Start speech listener");
+            foreach (var listener in this.Listeners)
+            {
+                this.Logger.Info("Start {0}", listener.GetType());
 
-            this.SpeechListener.Start();
+                try
+                {
+                    listener.Start();
+                }
+                catch (Exception ex)
+                {
+                    this.SayError(ex);
+                }
+            }
 
-            this.SpeechListener.Logs();
+            this.Listener<SpeechListener>().Logs();
 
             if (ApplicationDeployment.IsNetworkDeployed)
             {
@@ -125,7 +121,7 @@ namespace Dommy.Business
             {
                 var precision = result as PrecisionResult;
 
-                this.SpeechListener.Precision(precision.SentenceActions, precision.Speech);
+                this.Listener<SpeechListener>().Precision(precision.SentenceActions, precision.Speech);
             }
             else if (result is SayResult)
             {
@@ -164,22 +160,35 @@ namespace Dommy.Business
 
         public void Stop()
         {
-            this.SpeechListener.Stop();
+            foreach (var listener in this.Listeners)
+            {
+                this.Logger.Info("Stop {0}", listener.GetType());
+
+                try
+                {
+                    listener.Stop();
+                }
+                catch (Exception ex)
+                {
+                    this.SayError(ex);
+                }
+            }
+
         }
 
         public IKernel Kernel { get; private set; }
 
-        public SpeechListener SpeechListener { get; set; }
-
-        public RestListener RestListener { get; set; }
-
         public string Name { get; set; }
-
-        public UsbUirtListener UsbUirtListener { get; set; }
 
         public string GetName()
         {
             return this.Name;
+        }
+
+        internal T Listener<T>()
+            where T : IListener
+        {
+            return this.Listeners.OfType<T>().FirstOrDefault();
         }
     }
 }

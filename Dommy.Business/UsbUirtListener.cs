@@ -9,7 +9,7 @@ using UsbUirt;
 
 namespace Dommy.Business
 {
-    public class UsbUirtListener : IDisposable
+    public class UsbUirtListener : IListener
     {
         private ILogger logger;
 
@@ -23,7 +23,12 @@ namespace Dommy.Business
         private Driver driver = null;
         private Receiver receiver = null;
 
-        public void Init()
+        public void Init(Engine engine)
+        {
+        
+        }
+
+        public void Start()
         {
             try
             {
@@ -53,10 +58,17 @@ namespace Dommy.Business
             scenarios.Add(irCode, scenario);
         }
 
-        public void Dispose()
+        public void Stop()
         {
-            this.receiver.Dispose();
-            this.driver.Dispose();
+            if (this.receiver != null)
+            {
+                this.receiver.Dispose();
+            }
+
+            if (this.driver != null)
+            {
+                this.driver.Dispose();
+            }
         }
     }
 }

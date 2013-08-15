@@ -18,7 +18,7 @@ namespace Dommy.Business.Speech
         {
             kernel.Bind<ISpeechToText>().To<KinectSpeechToText>().InSingletonScope()
                 .WithConstructorArgument("culture", this.Culture);
-            kernel.Bind<SpeechListener>().ToSelf()
+            kernel.Bind<IListener>().To<SpeechListener>()
                 .WithConstructorArgument("confidence", this.Confidence)
                 .WithPropertyValue("SentenceLogFile", this.InfoSentenceFile)
                 ;

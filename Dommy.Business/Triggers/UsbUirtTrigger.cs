@@ -14,7 +14,7 @@ namespace Dommy.Business.Triggers
 
         public void Init(Engine engine, IScenario scenario)
         {
-            engine.UsbUirtListener.Subscribe(this.Code, scenario);
+            engine.Listener<UsbUirtListener>().Subscribe(this.Code, scenario);
         }
     }
 }

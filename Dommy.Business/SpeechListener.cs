@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business
 {
-    public class SpeechListener
+    public class SpeechListener : IListener
     {
         private class SpeechInfo
         {
@@ -303,7 +303,7 @@ namespace Dommy.Business
             public IList<string> Sentences { get; set; }
         }
 
-        internal void Stop()
+        public void Stop()
         {
             this.speechToText.Stop();
         }

@@ -12,7 +12,7 @@ using System.Web;
 
 namespace Dommy.Business
 {
-    public class RestListener
+    public class RestListener : IListener
     {
         public class Config : IConfig
         {
@@ -20,7 +20,7 @@ namespace Dommy.Business
 
             public void Create(IKernel kernel)
             {
-                kernel.Bind<RestListener>().ToSelf()
+                kernel.Bind<IListener>().To<RestListener>()
                     .WithConstructorArgument("port", this.Port)
                     ;
             }
@@ -92,7 +92,12 @@ namespace Dommy.Business
             this.port = port;
         }
 
-        public void Init()
+        public void Init(Engine engine)
+        {
+
+        }
+
+        public void Start()
         {
             this.listener = new HttpListener();
             this.listener.Start();
@@ -128,6 +133,14 @@ namespace Dommy.Business
         public void Subscribe(string url, object data, IScenario scenario)
         {
             scenarios.Add(url, new ScenarioData { Scenario = scenario, Data = data, Url = url });
+        }
+
+        public void Stop()
+        {
+            if (this.listener != null)
+            {
+                this.listener.Stop();
+            }
         }
     }
 }
