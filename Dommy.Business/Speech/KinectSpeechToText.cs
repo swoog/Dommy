@@ -90,35 +90,38 @@ namespace Dommy.Business.Speech
 
         public void Start(Action<ISentence> action)
         {
-            speechRecognizer.SpeechRecognized += (o, e) =>
+            if (this.speechRecognizer != null)
             {
-                action(new Sentence
+                speechRecognizer.SpeechRecognized += (o, e) =>
                 {
-                    Words = e.Result.Words.Select(w => w.Text).ToArray(),
-                    WordsConfidence = e.Result.Words.Select(w => w.Confidence).ToArray(),
-                    Text = e.Result.Text,
-                    Confidence = e.Result.Confidence,
-                });
-            };
-            speechRecognizer.SpeechHypothesized += speechRecognizer_SpeechHypothesized;
-            speechRecognizer.SpeechRecognitionRejected += speechRecognizer_SpeechRecognitionRejected;
-            this.logger.Info("Subscribe to recognized event");
+                    action(new Sentence
+                    {
+                        Words = e.Result.Words.Select(w => w.Text).ToArray(),
+                        WordsConfidence = e.Result.Words.Select(w => w.Confidence).ToArray(),
+                        Text = e.Result.Text,
+                        Confidence = e.Result.Confidence,
+                    });
+                };
+                speechRecognizer.SpeechHypothesized += speechRecognizer_SpeechHypothesized;
+                speechRecognizer.SpeechRecognitionRejected += speechRecognizer_SpeechRecognitionRejected;
+                this.logger.Info("Subscribe to recognized event");
 
-            if (this.kinect != null)
-            {
-                var audioSource = this.kinect.AudioSource;
-                //audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
-                var audioStream = audioSource.Start();
-                speechRecognizer.MaxAlternates = 2;
-                speechRecognizer.UpdateRecognizerSetting("AdaptationOn", 0);
-                speechRecognizer.SetInputToAudioStream(audioStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
-            }
-            else
-            {
-                speechRecognizer.SetInputToDefaultAudioDevice();
-            }
+                if (this.kinect != null)
+                {
+                    var audioSource = this.kinect.AudioSource;
+                    //audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
+                    var audioStream = audioSource.Start();
+                    speechRecognizer.MaxAlternates = 2;
+                    speechRecognizer.UpdateRecognizerSetting("AdaptationOn", 0);
+                    speechRecognizer.SetInputToAudioStream(audioStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                }
+                else
+                {
+                    speechRecognizer.SetInputToDefaultAudioDevice();
+                }
 
-            speechRecognizer.RecognizeAsync(RecognizeMode.Multiple);
+                speechRecognizer.RecognizeAsync(RecognizeMode.Multiple);
+            }
         }
 
         private void speechRecognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
@@ -133,12 +136,18 @@ namespace Dommy.Business.Speech
 
         public void LoadGrammar(Grammar grammar)
         {
-            this.speechRecognizer.LoadGrammar(grammar);
+            if (this.speechRecognizer != null)
+            {
+                this.speechRecognizer.LoadGrammar(grammar);
+            }
         }
 
         public void UnloadGrammar(Grammar grammar)
         {
-            this.speechRecognizer.UnloadGrammar(grammar);
+            if (this.speechRecognizer != null)
+            {
+                this.speechRecognizer.UnloadGrammar(grammar);
+            }
         }
 
         public void Stop()
