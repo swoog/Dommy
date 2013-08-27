@@ -15,7 +15,7 @@ namespace Dommy.Business.Test.Scenarios
     public class WeatherScenarioDescriptionTest : BaseTest
     {
         [TestMethod]
-        public void CreateTest()
+        public void CreateAndRunTest()
         {
             var kernel = this.CreateKernel();
 
@@ -28,7 +28,14 @@ namespace Dommy.Business.Test.Scenarios
 
             var s = kernel.Get<WeatherScenarioDescription>();
 
+            // Create Scenario
             s.Create();
+
+            // Get this scenario
+            var scenario = kernel.Get<IScenario>();
+
+            Assert.AreEqual("Météo", scenario.ScenarioName);
+            scenario.Run();
         }
     }
 }
