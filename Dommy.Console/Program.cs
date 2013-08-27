@@ -33,6 +33,7 @@ namespace Dommy.Console
             }
 
             var kernel = new StandardKernel();
+            kernel.Load("Dommy.*.dll");
 
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
@@ -67,8 +68,6 @@ namespace Dommy.Console
             web.Start();
             
             // Scripting configuration
-
-            kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IExtendSyntax>().BindDefaultInterface());
 
             kernel.Bind<TileManager>().ToSelf().InSingletonScope();
 

@@ -4,8 +4,8 @@ namespace Dommy.Business.Triggers
 {
     public interface IRestTriggerSyntax : IExtendSyntax
     {
-        ITriggerScenarioSyntax RestTrigger(string p);
+        ITriggerScenarioSyntax RestTrigger(string url);
     
-        ITriggerScenarioSyntax RestTrigger(string p, object data);
+        ITriggerScenarioSyntax RestTrigger(string url, object data);
     }
 }
