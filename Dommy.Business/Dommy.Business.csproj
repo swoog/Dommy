@@ -174,8 +174,11 @@
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\WebAppender.cs" />
+    <Compile Include="Triggers\IStartupTriggerSyntax.cs" />
     <Compile Include="Triggers\ITileTriggerSyntax.cs" />
     <Compile Include="Triggers\ITimeTriggerSyntax.cs" />
+    <Compile Include="Triggers\StartupTrigger.cs" />
+    <Compile Include="Triggers\StartupTriggerSyntax.cs" />
     <Compile Include="Triggers\TileTrigger.cs" />
     <Compile Include="Triggers\TileTriggerSyntax.cs" />
     <Compile Include="Triggers\TimeTrigger.cs" />

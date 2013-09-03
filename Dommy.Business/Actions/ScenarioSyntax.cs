@@ -360,5 +360,10 @@ namespace Dommy.Business.Actions
         {
             return this.Extend<IEedomusActions>().EedomusCall(action, eedomusId, value);
         }
+
+        public ITriggerScenarioSyntax StartupTrigger()
+        {
+            return this.Extend<IStartupTriggerSyntax>().StartupTrigger();
+        }
     }
 }

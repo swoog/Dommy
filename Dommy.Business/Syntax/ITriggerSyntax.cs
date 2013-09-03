@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Syntax
 {
-    public interface ITriggerSyntax  : ISpeechTriggerSyntax, IRestTriggerSyntax, IUsbUirtTriggerSyntax, ITimeTriggerSyntax, ITileTriggerSyntax
+    public interface ITriggerSyntax  : ISpeechTriggerSyntax, IRestTriggerSyntax, IUsbUirtTriggerSyntax, ITimeTriggerSyntax, ITileTriggerSyntax, IStartupTriggerSyntax
     {
         ITriggerScenarioSyntax NoTrigger();
         ITriggerScenarioSyntax Trigger(ITrigger trigger);
