@@ -175,7 +175,7 @@ namespace Dommy.Business
                             l.ExecutionOf(s.Scenario);
                         }
 
-                        s.Scenario.Run();
+                        s.Scenario.RunAsync();
                     }
                     else
                     {
