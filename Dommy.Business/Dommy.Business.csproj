@@ -26,6 +26,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -124,6 +126,7 @@
     <Compile Include="Config\Configurator.cs" />
     <Compile Include="Config\Configure.cs" />
     <Compile Include="Config\IConfig.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
     <Compile Include="Scenarios\AgainScenarioDescription.cs" />

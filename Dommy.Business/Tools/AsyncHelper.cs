@@ -18,7 +18,7 @@ namespace Dommy.Business.Tools
 
         public void Wait(System.Action action)
         {
-            int i = Wait(() =>
+            Wait(() =>
             {
                 action();
                 return 0;
@@ -62,6 +62,7 @@ namespace Dommy.Business.Tools
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public T Retry<T>(int count, Func<T> action)
         {
             Exception error;

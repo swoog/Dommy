@@ -217,7 +217,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="trigger">Trigger to add.</param>
         /// <returns>Scenario syntax.</returns>
-        ITriggerScenarioSyntax ITriggerSyntax.Trigger(ITrigger trigger)
+        public ITriggerScenarioSyntax Trigger(ITrigger trigger)
         {
             if (this.Triggers == null)
             {

@@ -149,7 +149,7 @@ namespace Dommy.Business.Config
                         }
                         catch (Exception ex)
                         {
-
+                            
                         }
                     }
                 }

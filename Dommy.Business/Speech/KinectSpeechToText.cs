@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace Dommy.Business.Speech
 {
-    public class KinectSpeechToText : ISpeechToText
+    public sealed class KinectSpeechToText : ISpeechToText, IDisposable
     {
         private SpeechRecognitionEngine speechRecognizer;
 
@@ -34,8 +34,8 @@ namespace Dommy.Business.Speech
             {
                 string value;
                 r.AdditionalInfo.TryGetValue("Kinect", out value);
-                return "True".Equals(value, StringComparison.InvariantCultureIgnoreCase)
-                    && this.Culture.Equals(r.Culture.Name, StringComparison.InvariantCultureIgnoreCase)
+                return "True".Equals(value, StringComparison.OrdinalIgnoreCase)
+                    && this.Culture.Equals(r.Culture.Name, StringComparison.OrdinalIgnoreCase)
                     ;
             };
             return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
@@ -158,6 +158,26 @@ namespace Dommy.Business.Speech
                 this.kinect.Stop();
                 this.logger.Info("Sensor stoped");
             }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected void Dispose(bool b)
+        {
+            if (this.kinect != null)
+            {
+                this.kinect.Dispose();
+            }
+
+            if (this.speechRecognizer != null)
+            {
+                this.speechRecognizer.Dispose();
+            }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

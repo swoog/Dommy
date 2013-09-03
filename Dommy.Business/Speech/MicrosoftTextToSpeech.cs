@@ -8,7 +8,7 @@ using Dommy.Business.Syntax;
 
 namespace Dommy.Business.Speech
 {
-    public class MicrosoftTextToSpeech : ITextToSpeech
+    public sealed class MicrosoftTextToSpeech : ITextToSpeech, IDisposable
     {
         private SpeechSynthesizer synthesizer;
 
@@ -55,6 +55,21 @@ namespace Dommy.Business.Speech
         public void Speak(string text)
         {
             synthesizer.Speak(text);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected void Dispose(bool b)
+        {
+            if (this.synthesizer != null)
+            {
+                this.synthesizer.Dispose();
+            }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

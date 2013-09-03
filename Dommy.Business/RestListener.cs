@@ -12,7 +12,7 @@ using System.Web;
 
 namespace Dommy.Business
 {
-    public class RestListener : IListener
+    public sealed class RestListener : IListener, IDisposable
     {
         public class Config : IConfig
         {
@@ -140,6 +140,19 @@ namespace Dommy.Business
             if (this.listener != null)
             {
                 this.listener.Stop();
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        private void Dispose(bool p)
+        {
+            if (this.listener != null)
+            {
+                ((IDisposable)this.listener).Dispose();
             }
         }
     }

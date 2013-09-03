@@ -13,6 +13,7 @@ namespace Dommy.Business.Scenarios
     using System.Threading.Tasks;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// This action make the last action executed.
@@ -30,19 +31,16 @@ namespace Dommy.Business.Scenarios
         public static IScenario LastScenario { get; set; }
 
         /// <summary>
-        /// Gets the last sentences matched.
-        /// </summary>
-        public static ISentence Sentence { get; private set; }
-
-        /// <summary>
         /// Method to log executed actions.
         /// </summary>
         /// <param name="sentence">Sentence match.</param>
         /// <param name="action">Executed action.</param>
         public void ExecutionOf(IScenario scenario)
         {
+            Contract.Requires(scenario != null);
+
             // If this not Again action.
-            if (scenario.ScenarioName == null || !scenario.ScenarioName.StartsWith("Again"))
+            if (scenario.ScenarioName == null || !scenario.ScenarioName.StartsWith("Again", StringComparison.Ordinal))
             {
                 LastExecution = DateTime.Now;
                 LastScenario = scenario;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Services
 {
-    public class Client<T> : IDisposable
+    public sealed class Client<T> : IDisposable
     {
         private static ChannelFactory<T> channelFactory = null;
 
@@ -35,7 +35,17 @@ namespace Dommy.Business.Services
 
         public void Dispose()
         {
-            ((IDisposable)this.Channel).Dispose();
+            this.Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ((IDisposable)this.Channel).Dispose();
+            }
         }
     }
 }

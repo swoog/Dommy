@@ -138,8 +138,8 @@ namespace Dommy.Business
 
                     actionInProgress = true;
                 }
-                    var words = sentence.Words;
-                    var wordsConfidence = sentence.WordsConfidence;
+                var words = sentence.Words;
+                var wordsConfidence = sentence.WordsConfidence;
 
                 if (this.dicoScenario.ContainsKey(sentence.Text))
                 {
@@ -344,15 +344,13 @@ namespace Dommy.Business
                 }
 
                 using (var file = File.OpenWrite(this.SentenceLogFile))
-                using (var writer = new StreamWriter(file))
                 {
+                    var writer = new StreamWriter(file);
+
                     foreach (var s in sentences)
                     {
                         writer.WriteLine(s);
                     }
-
-                    writer.Close();
-                    file.Close();
                 }
             }
         }
