@@ -30,10 +30,10 @@ namespace Dommy.Business.Scripts
         public string ScriptDirectory { get; set; }
 
         private IList<IScriptEngine> scriptEngines;
-        private SpeechLogger speechLogger;
+        private ISpeechLogger speechLogger;
         private ILogger logger;
 
-        public ScriptEngine(IList<IScriptEngine> scriptEngines, SpeechLogger speechLogger, ILogger logger)
+        public ScriptEngine(IList<IScriptEngine> scriptEngines, ISpeechLogger speechLogger, ILogger logger)
         {
             this.scriptEngines = scriptEngines;
             this.speechLogger = speechLogger;

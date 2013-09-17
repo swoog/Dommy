@@ -15,9 +15,9 @@ namespace Dommy.Business.Scenarios
 {
     public class UpdateScenarioDescription : IScenarioDescription
     {
-        private SpeechLogger speechLogger;
+        private ISpeechLogger speechLogger;
 
-        public UpdateScenarioDescription(SpeechLogger speechLogger)
+        public UpdateScenarioDescription(ISpeechLogger speechLogger)
         {
             this.speechLogger = speechLogger;
         }

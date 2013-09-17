@@ -11,5 +11,7 @@ namespace Dommy.Business
         void ErrorRecognition(Actor actor, string p);
 
         void Say(Actor actor, string p);
+
+        bool IgnoreRecognition { get; }
     }
 }

@@ -68,7 +68,6 @@ namespace Dommy.Console
             web.Start();
             
             // Scripting configuration
-
             kernel.Bind<TileManager>().ToSelf().InSingletonScope();
 
             kernel.Bind<IServiceHost>().To<ServiceHost<Engine>>();
@@ -76,7 +75,7 @@ namespace Dommy.Console
             kernel.Bind<IServiceHost>().To<ServiceHost<WebServerHost>>();
 
             kernel.Bind<AsyncHelper>().ToSelf();
-            kernel.Bind<SpeechLogger>().ToSelf();
+            kernel.Bind<ISpeechLogger>().To<SpeechLogger>().InSingletonScope();
 
             kernel.Bind<IActionLogger>().To<AgainScenarioDescription>().InSingletonScope();
             kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();
