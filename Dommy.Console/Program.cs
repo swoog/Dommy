@@ -56,7 +56,7 @@ namespace Dommy.Console
                 .With(c => c.ScriptDirectory, Path.Combine(directory, @"scenarios"));
 
             Configure.Config<WebServerHost.Config>()
-                .With(c => c.Port, 5000);
+                .With(c => c.Port, 5556);
 
             Configure.LoadConfig(Path.Combine(directory, "config.xml"));
 
