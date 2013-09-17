@@ -125,6 +125,7 @@
     <Compile Include="Config\Configure.cs" />
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="IListener.cs" />
+    <Compile Include="ISpeechLogger.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
     <Compile Include="Scenarios\AgainScenarioDescription.cs" />
     <Compile Include="Scenarios\DommyScenarioDescription.cs" />

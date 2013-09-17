@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenarios\WeatherScenarioDescriptionTest.cs" />
     <Compile Include="SpeechListenerTest.cs" />
+    <Compile Include="Tools\AsyncHelperTest.cs" />
     <Compile Include="Triggers\SpeechTriggerTest.cs" />
   </ItemGroup>
   <ItemGroup>
