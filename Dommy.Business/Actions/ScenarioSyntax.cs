@@ -369,7 +369,17 @@ namespace Dommy.Business.Actions
 
         public void RunAsync()
         {
-            Task.Run(()=>this.Run());
+            Task.Run(() =>
+            {
+                try
+                {
+                    this.Run();
+                }
+                catch (Exception ex)
+                {
+                    this.Engine.SayError(ex);
+                }
+            });
         }
     }
 }
