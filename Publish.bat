@@ -1,4 +1,4 @@
-set version=1.5.0.43
+set version=1.5.0.44
 set deployDirectory=c:\temp\dommydeploy\
 set urlApplicationDirectory=\\destination\folder
 set urlApplication=%urlApplicationDirectory%Dommy.application

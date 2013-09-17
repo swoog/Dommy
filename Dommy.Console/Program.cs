@@ -53,10 +53,10 @@ namespace Dommy.Console
                 .With(c => c.Port, 5555);
 
             Configure.Config<ScriptEngine.Config>()
-                .With(c => c.ScriptDirectory, Path.Combine(directory, @"scripts"));
+                .With(c => c.ScriptDirectory, Path.Combine(directory, @"scenarios"));
 
             Configure.Config<WebServerHost.Config>()
-                .With(c => c.Port, 5000);
+                .With(c => c.Port, 5556);
 
             Configure.LoadConfig(Path.Combine(directory, "config.xml"));
 
@@ -68,7 +68,6 @@ namespace Dommy.Console
             web.Start();
             
             // Scripting configuration
-
             kernel.Bind<TileManager>().ToSelf().InSingletonScope();
 
             kernel.Bind<IServiceHost>().To<ServiceHost<Engine>>();
@@ -76,7 +75,7 @@ namespace Dommy.Console
             kernel.Bind<IServiceHost>().To<ServiceHost<WebServerHost>>();
 
             kernel.Bind<AsyncHelper>().ToSelf();
-            kernel.Bind<SpeechLogger>().ToSelf();
+            kernel.Bind<ISpeechLogger>().To<SpeechLogger>().InSingletonScope();
 
             kernel.Bind<IActionLogger>().To<AgainScenarioDescription>().InSingletonScope();
             kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();

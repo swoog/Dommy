@@ -23,7 +23,7 @@ namespace Dommy.Business
     {
         public ILogger Logger { get; private set; }
 
-        public SpeechLogger SpeechLogger { get; private set; }
+        public ISpeechLogger SpeechLogger { get; private set; }
 
         public ScriptEngine ScriptEngine { get; private set; }
 
@@ -32,7 +32,7 @@ namespace Dommy.Business
         public Engine(
             IKernel kernel,
             ILogger logger,
-            SpeechLogger speechLogger,
+            ISpeechLogger speechLogger,
             ScriptEngine scriptEngine,
             IList<IListener> listeners)
         {

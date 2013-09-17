@@ -22,7 +22,7 @@ namespace Dommy.Business
     /// <summary>
     /// Speech logger.
     /// </summary>
-    public class SpeechLogger
+    public class SpeechLogger : ISpeechLogger
     {
         private ITextToSpeech textToSpeech;
 

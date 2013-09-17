@@ -27,7 +27,7 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Information logger.
         /// </summary>
-        private SpeechLogger logger;
+        private ISpeechLogger logger;
 
         /// <summary>
         /// Asynchronous helper.
