@@ -112,7 +112,7 @@ namespace Dommy.Business
                     context.Response.OutputStream.Close();
                     if (this.scenarios.ContainsKey(context.Request.RawUrl))
                     {
-                        this.scenarios[context.Request.RawUrl].Scenario.Run();
+                        this.scenarios[context.Request.RawUrl].Scenario.RunAsync();
                     }
                     else
                     {
@@ -121,7 +121,7 @@ namespace Dommy.Business
                         {
                             if (item.IsMatch(context.Request.RawUrl))
                             {
-                                item.Scenario.Run();
+                                item.Scenario.RunAsync();
                                 break;
                             }
                         }

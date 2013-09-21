@@ -14,6 +14,8 @@ namespace Dommy.Business.Scenarios
 
         void Run();
 
+        void RunAsync();
+
         string ScenarioName { get; }
     }
 }
