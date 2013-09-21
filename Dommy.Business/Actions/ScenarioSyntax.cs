@@ -381,5 +381,10 @@ namespace Dommy.Business.Actions
                 }
             });
         }
+
+        public IScenarioSyntax EedomusValue(string id, double value)
+        {
+            return this.Extend<IEedomusActions>().EedomusValue(id, value);
+        }
     }
 }

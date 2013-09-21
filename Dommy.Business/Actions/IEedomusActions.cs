@@ -19,5 +19,7 @@ namespace Dommy.Business.Actions
         IScenarioSyntax EedomusCall(EedoumusAction action, string eedomusId, string value = null);
     
         IScenarioSyntax EedomusOnOff(string id, bool isOn);
+
+        IScenarioSyntax EedomusValue(string id, double value);
     }
 }
