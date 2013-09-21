@@ -19,6 +19,7 @@ namespace Dommy.Business.Actions
     using Ninject.Parameters;
     using UsbUirt;
     using UsbUirt.Enums;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Class of a scenario object.
@@ -364,6 +365,21 @@ namespace Dommy.Business.Actions
         public ITriggerScenarioSyntax StartupTrigger()
         {
             return this.Extend<IStartupTriggerSyntax>().StartupTrigger();
+        }
+
+        public void RunAsync()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    this.Run();
+                }
+                catch (Exception ex)
+                {
+                    this.Engine.SayError(ex);
+                }
+            });
         }
     }
 }

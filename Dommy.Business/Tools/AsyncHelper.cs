@@ -9,9 +9,9 @@ namespace Dommy.Business.Tools
 {
     public class AsyncHelper
     {
-        private SpeechLogger speechLogger;
+        private ISpeechLogger speechLogger;
 
-        public AsyncHelper(SpeechLogger speechLogger)
+        public AsyncHelper(ISpeechLogger speechLogger)
         {
             this.speechLogger = speechLogger;
         }
@@ -27,29 +27,9 @@ namespace Dommy.Business.Tools
 
         public T Wait<T>(Func<T> action)
         {
-            bool isEnd = false;
-            Task.Factory.StartNew(() =>
-            {
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-
-                if (!isEnd)
-                {
-                    var rechercheSentence = new string[]{
-                        "Je recherche...",
-                        "Je cherche...",
-                        "Attend...",
-                        "2 secondes...",
-                        "3 secondes...",
-                        "Recherche...",
-                        "Patientez...",
-                        "Encours...",
-                        "Oui je recherche...",
-                        "Je vais te dire cela dans quelques secondes.",
-                    };
-
-                    this.speechLogger.ErrorRecognition(Actor.Dommy, StringHelper.Format(rechercheSentence));
-                }
-            });
+            var cancelationToken = new CancellationTokenSource();
+            var ct = cancelationToken.Token;
+            var t = Task.Run(((Action)this.SayWait), ct);
 
             try
             {
@@ -58,7 +38,7 @@ namespace Dommy.Business.Tools
             }
             finally
             {
-                isEnd = true;
+                cancelationToken.Cancel();
             }
         }
 
@@ -82,6 +62,29 @@ namespace Dommy.Business.Tools
             } while (count >= 0);
 
             throw error;
+        }
+
+        private void SayWait()
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+
+            if (!Task.Factory.CancellationToken.IsCancellationRequested)
+            {
+                var rechercheSentence = new string[]{
+                        "Je recherche...",
+                        "Je cherche...",
+                        "Attend...",
+                        "2 secondes...",
+                        "3 secondes...",
+                        "Recherche...",
+                        "Patientez...",
+                        "Encours...",
+                        "Oui je recherche...",
+                        "Je vais te dire cela dans quelques secondes.",
+                    };
+
+                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(rechercheSentence));
+            }
         }
     }
 }

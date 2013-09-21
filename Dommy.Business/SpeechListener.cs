@@ -40,7 +40,7 @@ namespace Dommy.Business
         private Engine engine;
 
         public SpeechListener(
-                        SpeechLogger speechLogger,
+                        ISpeechLogger speechLogger,
                         ILogger logger,
                         ISpeechToText speechToText,
                         IList<IActionLogger> actionLoggers,
@@ -175,7 +175,7 @@ namespace Dommy.Business
                             l.ExecutionOf(s.Scenario);
                         }
 
-                        s.Scenario.Run();
+                        s.Scenario.RunAsync();
                     }
                     else
                     {
@@ -247,7 +247,7 @@ namespace Dommy.Business
 
         public ILogger Logger { get; set; }
 
-        public SpeechLogger SpeechLogger { get; set; }
+        public ISpeechLogger SpeechLogger { get; set; }
 
         internal void Precision(IList<Result.PrecisionResult.SentenceAction> sentenceActions, string speech)
         {

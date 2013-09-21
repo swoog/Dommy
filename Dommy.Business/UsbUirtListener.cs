@@ -49,7 +49,7 @@ namespace Dommy.Business
 
             if (scenarios.ContainsKey(e.IRCode))
             {
-                scenarios[e.IRCode].Run();
+                scenarios[e.IRCode].RunAsync();
             }
         }
 

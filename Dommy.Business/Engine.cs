@@ -23,7 +23,7 @@ namespace Dommy.Business
     {
         public ILogger Logger { get; private set; }
 
-        public SpeechLogger SpeechLogger { get; private set; }
+        public ISpeechLogger SpeechLogger { get; private set; }
 
         public ScriptEngine ScriptEngine { get; private set; }
 
@@ -32,7 +32,7 @@ namespace Dommy.Business
         public Engine(
             IKernel kernel,
             ILogger logger,
-            SpeechLogger speechLogger,
+            ISpeechLogger speechLogger,
             ScriptEngine scriptEngine,
             IList<IListener> listeners)
         {
@@ -45,6 +45,8 @@ namespace Dommy.Business
 
         public void Init()
         {
+            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+
             this.Logger.Info("Execute scripts.");
             this.ScriptEngine.Execute();
 
@@ -112,6 +114,11 @@ namespace Dommy.Business
                     "Démaré. Version {Version}",
                 }, new { Version = ad.CurrentVersion.ToString() }));
             }
+        }
+
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            this.SayError(e.ExceptionObject as Exception);
         }
 
         public void RunResult(IResult result)
