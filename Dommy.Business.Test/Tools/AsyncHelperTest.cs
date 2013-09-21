@@ -44,5 +44,30 @@ namespace Dommy.Business.Test.Tools
 
             speechLogger.Verify();
         }
+
+        [TestMethod]
+        public void WaitTest_LongRunTimeWithCallBeforeEnd()
+        {
+            var called = false;
+            var end = false;
+            var speechLogger = new Moq.Mock<ISpeechLogger>();
+            speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
+                .Callback(() =>
+                {
+                    Assert.IsFalse(end);
+                    called = true;
+                });
+
+            var helper = new AsyncHelper(speechLogger.Object);
+
+            helper.Wait(() =>
+            {
+                Thread.Sleep(1001);
+            });
+
+            end = true;
+
+            Assert.IsFalse(called);
+        }
     }
 }
