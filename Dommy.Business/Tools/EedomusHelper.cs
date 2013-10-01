@@ -67,44 +67,41 @@ namespace Dommy.Business.Tools
 
             var url = getUrl(api, requestType, action, eedomusId, String.Format("value={0}", value));
 
-            this.asyncHelper.Wait(() =>
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                throw new Exception(String.Format("Erreur eedomus. Code {0}", response.StatusCode));
+            }
 
-                var response = (HttpWebResponse)request.GetResponse();
+            var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
 
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    throw new Exception(String.Format("Erreur eedomus. Code {0}", response.StatusCode));
-                }
+            var jsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-                var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
+            jsonString = jsonString.Replace("é", "&#233;");
+            jsonString = jsonString.Replace("è", "&#232;");
+            jsonString = jsonString.Replace("à", "&#224;");
 
-                var jsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            jsonString = Regex.Replace(jsonString, @"^[^\{]+", String.Empty);
 
-                jsonString = jsonString.Replace("é", "&#233;");
-                jsonString = jsonString.Replace("è", "&#232;");
-                jsonString = jsonString.Replace("à", "&#224;");
+            var memoryStream = new MemoryStream();
+            var writer = new StreamWriter(memoryStream);
+            writer.Write(jsonString);
+            writer.Flush();
+            memoryStream.Position = 0;
 
-                jsonString = Regex.Replace(jsonString, @"^[^\{]+", String.Empty);
+            var result = (EedomusResult)serializer.ReadObject(memoryStream);
 
-                var memoryStream = new MemoryStream();
-                var writer = new StreamWriter(memoryStream);
-                writer.Write(jsonString);
-                writer.Flush();
-                memoryStream.Position = 0;
+            if (!result.Success)
+            {
+                throw new Exception(String.Format("Erreur eedomus : {0}", result.Body.ErrorMsg));
+            }
 
-                var result = (EedomusResult)serializer.ReadObject(memoryStream);
+            value = result.Body.LastValue;
 
-                if (!result.Success)
-                {
-                    throw new Exception(String.Format("Erreur eedomus : {0}", result.Body.ErrorMsg));
-                }
-
-                value = result.Body.LastValue;
-
-                this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
-            });
+            this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
 
             return value;
         }
@@ -130,7 +127,7 @@ namespace Dommy.Business.Tools
 
             [DataMember(Name = "last_value_change")]
             public string LastValueChange { get; set; }
-            
+
             [DataMember(Name = "error_code")]
             public string ErrorCode { get; set; }
 

@@ -27,6 +27,11 @@ namespace Dommy.Business.Actions
     public class ScenarioSyntax : ITriggerScenarioSyntax, IScenario
     {
         /// <summary>
+        /// Instance of AsyncHelper.
+        /// </summary>
+        private AsyncHelper asyncHelper;
+
+        /// <summary>
         /// Instance of Eedomus helper.
         /// </summary>
         private EedomusHelper eedomusHelper;
@@ -42,12 +47,13 @@ namespace Dommy.Business.Actions
         /// <param name="name">Name of scenario.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
-        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper)
+        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper, AsyncHelper asyncHelper)
         {
             this.ScenarioName = name;
             this.Kernel = kernel;
             this.logger = logger;
             this.eedomusHelper = eedomusHelper;
+            this.asyncHelper = asyncHelper;
         }
 
         /// <summary>
@@ -373,7 +379,10 @@ namespace Dommy.Business.Actions
             {
                 try
                 {
-                    this.Run();
+                    this.asyncHelper.Wait(() =>
+                    {
+                        this.Run();
+                    });
                 }
                 catch (Exception ex)
                 {
