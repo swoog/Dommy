@@ -65,12 +65,22 @@ namespace Dommy.Business.Scenarios
                 .Start();
 
             Scenario.Create("TV Augment volume")
-                .SpeechTrigger("Monte le son", "Met le son", "Remet le son", "Augmente le volume", "Remet le volume")
+                .SpeechTrigger("Monte le son", "Augmente le volume")
+                .TvSound(5)
+                .Start();
+
+            Scenario.Create("TV Augment volume un peux")
+                .SpeechTrigger("Monte un peux le son", "Met le son", "Remet le son", "Augmente un peux le volume", "Remet le volume")
                 .TvSound(1)
                 .Start();
 
             Scenario.Create("TV Baisse volume")
                 .SpeechTrigger("Baisse le son", "Descent le son")
+                .TvSound(-5)
+                .Start();
+
+            Scenario.Create("TV Baisse volume un peux")
+                .SpeechTrigger("Baisse un peux le son", "Descent un peux le son")
                 .TvSound(-1)
                 .Start();
 

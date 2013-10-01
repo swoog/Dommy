@@ -10,7 +10,7 @@ using Dommy.Business.Scenarios;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;
 
-Scenario.CreateFrom<UpdateScenarioDescription>();
+//Scenario.CreateFrom<UpdateScenarioDescription>();
 
 Scenario.Create()
 		.SpeechTrigger("redemarre")
