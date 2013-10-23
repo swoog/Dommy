@@ -1,6 +1,7 @@
 ﻿using Dommy.Business.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Dommy.Business.Test.Tools
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
                 .Throws(new Exception("Call to this method is deny"));
 
-            var helper = new AsyncHelper(speechLogger.Object);
+            var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
 
             helper.Wait(() =>
             {
@@ -35,7 +36,7 @@ namespace Dommy.Business.Test.Tools
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
                 .Verifiable();
 
-            var helper = new AsyncHelper(speechLogger.Object);
+            var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
 
             helper.Wait(() =>
             {
@@ -58,7 +59,7 @@ namespace Dommy.Business.Test.Tools
                     called = true;
                 });
 
-            var helper = new AsyncHelper(speechLogger.Object);
+            var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
 
             helper.Wait(() =>
             {
