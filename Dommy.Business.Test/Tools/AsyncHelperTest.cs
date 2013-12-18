@@ -63,7 +63,7 @@ namespace Dommy.Business.Test.Tools
 
             helper.Wait(() =>
             {
-                Thread.Sleep(1001);
+                Thread.Sleep(1002);
             });
 
             end = true;
