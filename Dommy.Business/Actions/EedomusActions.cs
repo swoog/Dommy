@@ -1,15 +1,14 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ISayActions.cs" company="TrollCorp">
+// <copyright file="EedomusActions.cs" company="TrollCorp">
 //     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 namespace Dommy.Business.Actions
 {
-    using System;
     using Dommy.Business.Syntax;
-    using Ninject.Extensions.Logging;
     using Dommy.Business.Tools;
+    using Ninject.Extensions.Logging;
 
     /// <summary>
     /// Eedomus syntax.
@@ -36,6 +35,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
         /// <param name="logger">Information logger.</param>
+        /// <param name="eedomusHelper">Eedomus helper</param>
         public EedomusActions(IScenarioSyntax scenario, ILogger logger, EedomusHelper eedomusHelper)
         {
             this.scenario = scenario;
@@ -43,7 +43,15 @@ namespace Dommy.Business.Actions
             this.eedomusHelper = eedomusHelper;
         }
 
-        public IScenarioSyntax EedomusCall(EedomusApi api, EedoumusAction action, string eedomusId, string value = null)
+        /// <summary>
+        /// Call API eedomus.
+        /// </summary>
+        /// <param name="api">Eedomus API type. (Local or distant)</param>
+        /// <param name="action">Action to execute.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
+        /// <param name="value">Optional value to set.</param>
+        /// <returns>Scenario syntax.</returns>
+        public IScenarioSyntax EedomusCall(EedomusApi api, EedomusAction action, string eedomusId, string value = null)
         {
             return this.scenario.Action(() =>
             {
@@ -52,7 +60,14 @@ namespace Dommy.Business.Actions
             });
         }
 
-        public IScenarioSyntax EedomusCall(EedoumusAction action, string eedomusId, string value = null)
+        /// <summary>
+        /// Call local API eedomus.
+        /// </summary>
+        /// <param name="action">Action to execute.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
+        /// <param name="value">Optional value to set.</param>
+        /// <returns>Scenario syntax.</returns>
+        public IScenarioSyntax EedomusCall(EedomusAction action, string eedomusId, string value = null)
         {
             return this.scenario.Action(() =>
             {
@@ -61,11 +76,17 @@ namespace Dommy.Business.Actions
             });
         }
 
+         /// <summary>
+        /// Call local API eedomus and make on/off (Light, ...).
+        /// </summary>
+        /// <param name="id">Eedomus id element.</param>
+        /// <param name="isOn">Light on or off.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax EedomusOnOff(string id, bool isOn)
         {
             return this.scenario.Action(() =>
             {
-                this.eedomusHelper.CallService(EedomusApi.Local, EedoumusAction.PeriphValue, id, isOn ? "100" : "0");
+                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, id, isOn ? "100" : "0");
                 return true;
             });
         }

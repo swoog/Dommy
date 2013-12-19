@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ISayActions.cs" company="TrollCorp">
+// <copyright file="IEedomusActions.cs" company="TrollCorp">
 //     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -14,10 +14,31 @@ namespace Dommy.Business.Actions
     /// </summary>
     public interface IEedomusActions : IExtendSyntax
     {
-        IScenarioSyntax EedomusCall(EedomusApi api, EedoumusAction action, string eedomusId, string value = null);
+        /// <summary>
+        /// Call API eedomus.
+        /// </summary>
+        /// <param name="api">Eedomus API type. (Local or distant)</param>
+        /// <param name="action">Action to execute.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
+        /// <param name="value">Optional value to set.</param>
+        /// <returns>Scenario syntax.</returns>
+        IScenarioSyntax EedomusCall(EedomusApi api, EedomusAction action, string eedomusId, string value = null);
 
-        IScenarioSyntax EedomusCall(EedoumusAction action, string eedomusId, string value = null);
-    
+        /// <summary>
+        /// Call local API eedomus.
+        /// </summary>
+        /// <param name="action">Action to execute.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
+        /// <param name="value">Optional value to set.</param>
+        /// <returns>Scenario syntax.</returns>
+        IScenarioSyntax EedomusCall(EedomusAction action, string eedomusId, string value = null);
+
+        /// <summary>
+        /// Call local API eedomus and make on/off (Light, ...).
+        /// </summary>
+        /// <param name="id">Eedomus id element.</param>
+        /// <param name="isOn">Light on or off.</param>
+        /// <returns>Scenario syntax.</returns>   
         IScenarioSyntax EedomusOnOff(string id, bool isOn);
     }
 }

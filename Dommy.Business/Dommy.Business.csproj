@@ -174,7 +174,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
-    <Compile Include="Actions\EedoumusAction.cs" />
+    <Compile Include="Actions\EedomusAction.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\WebAppender.cs" />

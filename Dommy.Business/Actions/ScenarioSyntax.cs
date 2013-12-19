@@ -352,12 +352,12 @@ namespace Dommy.Business.Actions
             return this.Extend<IRestTriggerSyntax>().RestTrigger(p, data);
         }
 
-        public IScenarioSyntax EedomusCall(EedomusApi api, EedoumusAction action, string eedomusId, string value = null)
+        public IScenarioSyntax EedomusCall(EedomusApi api, EedomusAction action, string eedomusId, string value = null)
         {
             return this.Extend<IEedomusActions>().EedomusCall(api, action, eedomusId, value);
         }
 
-        public IScenarioSyntax EedomusCall(EedoumusAction action, string eedomusId, string value = null)
+        public IScenarioSyntax EedomusCall(EedomusAction action, string eedomusId, string value = null)
         {
             return this.Extend<IEedomusActions>().EedomusCall(action, eedomusId, value);
         }
