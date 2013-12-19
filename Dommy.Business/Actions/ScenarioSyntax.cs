@@ -42,6 +42,7 @@ namespace Dommy.Business.Actions
         /// <param name="name">Name of scenario.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
+        /// <param name="eedomusHelper">Eedomus helper.</param>
         public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper)
         {
             this.ScenarioName = name;
@@ -238,11 +239,23 @@ namespace Dommy.Business.Actions
             return this;
         }
 
+        /// <summary>
+        /// If syntax.
+        /// </summary>
+        /// <param name="predicate">Predicate of if.</param>
+        /// <param name="trueScenario">Scenario when predicate is true.</param>
+        /// <param name="falseScenario">Scenario when predicate is false.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax If(Func<bool> predicate, Func<IScenarioSyntax, IScenarioSyntax> trueScenario, Func<IScenarioSyntax, IScenarioSyntax> falseScenario = null)
         {
             return this.Extend<IIfActions>().If(predicate, trueScenario, falseScenario);
         }
 
+        /// <summary>
+        /// Create scenario without 
+        /// </summary>
+        /// <param name="sentences"></param>
+        /// <returns></returns>
         public ITriggerScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().NoPrefixSpeechTrigger(sentences);
