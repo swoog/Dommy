@@ -11,6 +11,7 @@ using Ninject.Extensions.Conventions;
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 
 namespace Dommy.Console
 {
@@ -18,6 +19,9 @@ namespace Dommy.Console
     {
         static void Main(string[] args)
         {
+            ProfileOptimization.SetProfileRoot(@".\");
+            ProfileOptimization.StartProfile("DommyProfile");
+
             log4net.Config.XmlConfigurator.Configure();
 
             var directory = Environment.CurrentDirectory;
