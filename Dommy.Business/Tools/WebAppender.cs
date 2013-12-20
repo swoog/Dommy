@@ -1,4 +1,5 @@
 ﻿using log4net.Appender;
+using Microsoft.AspNet.SignalR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 using System;
 using System.Collections.Generic;

@@ -36,7 +36,13 @@ namespace Dommy.Business
 
         public bool IgnoreRecognition
         {
-            get { return DateTime.Now < lastSpeak.AddSeconds(1); }
+            get
+            {
+                lock (this)
+                {
+                    return DateTime.Now < lastSpeak.AddSeconds(1);
+                }
+            }
         }
 
         public ILogger Logger { get; private set; }
@@ -53,8 +59,11 @@ namespace Dommy.Business
 
         private void Speak(string text)
         {
-            this.textToSpeech.Speak(text);
-            this.lastSpeak = DateTime.Now;
+            lock (this)
+            {
+                this.textToSpeech.Speak(text);
+                this.lastSpeak = DateTime.Now;
+            }
         }
 
         public void ErrorRecognition(Actor actor, string text)

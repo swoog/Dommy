@@ -40,5 +40,7 @@ namespace Dommy.Business.Actions
         /// <param name="isOn">Light on or off.</param>
         /// <returns>Scenario syntax.</returns>   
         IScenarioSyntax EedomusOnOff(string id, bool isOn);
+
+        IScenarioSyntax EedomusValue(string id, double value);
     }
 }

@@ -27,6 +27,11 @@ namespace Dommy.Business.Actions
     public class ScenarioSyntax : ITriggerScenarioSyntax, IScenario
     {
         /// <summary>
+        /// Instance of AsyncHelper.
+        /// </summary>
+        private AsyncHelper asyncHelper;
+
+        /// <summary>
         /// Instance of Eedomus helper.
         /// </summary>
         private EedomusHelper eedomusHelper;
@@ -53,12 +58,13 @@ namespace Dommy.Business.Actions
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
         /// <param name="eedomusHelper">Eedomus helper.</param>
-        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper)
+        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper, AsyncHelper asyncHelper)
         {
             this.ScenarioName = name;
             this.Kernel = kernel;
             this.logger = logger;
             this.eedomusHelper = eedomusHelper;
+            this.asyncHelper = asyncHelper;
         }
 
         /// <summary>
@@ -192,9 +198,9 @@ namespace Dommy.Business.Actions
                         new PrecisionResult.SentenceAction()
                         {
                             Sentences = response, Action = s => 
-                            {
-                                scenario(s.Text, ss).ToScenario().Run();
-                                return new NoneResult();
+                {
+                    scenario(s.Text, ss).ToScenario().Run();
+                    return new NoneResult();
                             }
                         }
                     }));
@@ -409,13 +415,21 @@ namespace Dommy.Business.Actions
             {
                 try
                 {
+                    this.asyncHelper.Wait(() =>
+                    {
                     this.Run();
+                    });
                 }
                 catch (Exception ex)
                 {
                     this.Engine.SayError(ex);
                 }
             });
+        }
+
+        public IScenarioSyntax EedomusValue(string id, double value)
+        {
+            return this.Extend<IEedomusActions>().EedomusValue(id, value);
         }
 
         private T Extend<T>()

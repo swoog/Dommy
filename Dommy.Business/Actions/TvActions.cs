@@ -56,10 +56,7 @@ namespace Dommy.Business.Actions
         {
             this.scenario.Action(() =>
             {
-                this.asyncHelper.Wait(() =>
-                {
-                    this.teleHelper.Command(command);
-                });
+                this.teleHelper.Command(command);
 
                 return true;
             });
@@ -76,10 +73,7 @@ namespace Dommy.Business.Actions
         {
             this.scenario.Action(() =>
             {
-                this.asyncHelper.Wait(() =>
-                {
-                    this.teleHelper.Canal(canal);
-                });
+                this.teleHelper.Canal(canal);
 
                 return true;
             });
@@ -96,23 +90,20 @@ namespace Dommy.Business.Actions
         {
             this.scenario.Action(() =>
             {
-                this.asyncHelper.Wait(() =>
+                if (quantity > 0)
                 {
-                    if (quantity > 0)
+                    for (int i = 0; i < quantity; i++)
                     {
-                        for (int i = 0; i < quantity; i++)
-                        {
-                            this.teleHelper.Command(Tools.TvCommand.VolUp);
-                        }
+                        this.teleHelper.Command(Tools.TvCommand.VolUp);
                     }
-                    else
+                }
+                else
+                {
+                    for (int i = 0; i < -quantity; i++)
                     {
-                        for (int i = 0; i < -quantity; i++)
-                        {
-                            this.teleHelper.Command(Tools.TvCommand.VolDown);
-                        }
+                        this.teleHelper.Command(Tools.TvCommand.VolDown);
                     }
-                });
+                }
 
                 return true;
             });
@@ -128,10 +119,7 @@ namespace Dommy.Business.Actions
         {
             this.scenario.Action(() =>
             {
-                this.asyncHelper.Wait(() =>
-                {
-                    this.teleHelper.Command(Tools.TvCommand.Mute);
-                });
+                this.teleHelper.Command(Tools.TvCommand.Mute);
 
                 return true;
             });

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ninject.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,14 @@ namespace Dommy.Business.Tools
 {
     public class AsyncHelper
     {
+        private ILogger logger;
+
         private ISpeechLogger speechLogger;
 
-        public AsyncHelper(ISpeechLogger speechLogger)
+        public AsyncHelper(ISpeechLogger speechLogger, ILogger logger)
         {
             this.speechLogger = speechLogger;
+            this.logger = logger;
         }
 
         public void Wait(System.Action action)
@@ -33,7 +37,9 @@ namespace Dommy.Business.Tools
 
             try
             {
+                this.logger.Debug("Begin action");
                 var result = action();
+                this.logger.Debug("End action");
                 return result;
             }
             finally
@@ -68,8 +74,11 @@ namespace Dommy.Business.Tools
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            if (!Task.Factory.CancellationToken.IsCancellationRequested)
+            if (!Task.Factory.CancellationToken.IsCancellationRequested && 
+                !this.speechLogger.IgnoreRecognition)
             {
+
+                this.logger.Debug("Say");
                 var rechercheSentence = new string[]{
                         "Je recherche...",
                         "Je cherche...",
