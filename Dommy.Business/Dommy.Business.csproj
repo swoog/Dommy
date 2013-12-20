@@ -124,7 +124,9 @@
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
     <Compile Include="Config\Configurator.cs" />
-    <Compile Include="Config\Configure.cs" />
+    <Compile Include="Config\Configure.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Config\IConfig.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IListener.cs" />

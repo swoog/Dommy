@@ -9,6 +9,7 @@ namespace Dommy.Business.Actions
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading.Tasks;
     using Dommy.Business.Result;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
@@ -19,7 +20,6 @@ namespace Dommy.Business.Actions
     using Ninject.Parameters;
     using UsbUirt;
     using UsbUirt.Enums;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Class of a scenario object.
@@ -37,6 +37,16 @@ namespace Dommy.Business.Actions
         private ILogger logger;
 
         /// <summary>
+        /// List of actions to executes.
+        /// </summary>
+        private List<Func<bool>> actions = new List<Func<bool>>();
+
+        /// <summary>
+        /// List of childs scenarios.
+        /// </summary>
+        private List<IScenario> childs = new List<IScenario>();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ScenarioSyntax"/> class.
         /// </summary>
         /// <param name="name">Name of scenario.</param>
@@ -52,6 +62,11 @@ namespace Dommy.Business.Actions
         }
 
         /// <summary>
+        /// Gets or sets trigger of this scenario.
+        /// </summary>
+        public IList<ITrigger> Triggers { get; set; }
+
+        /// <summary>
         /// Gets core engine.
         /// </summary>
         public Engine Engine { get; private set; }
@@ -60,6 +75,11 @@ namespace Dommy.Business.Actions
         /// Gets Ninject kernel.
         /// </summary>
         public IKernel Kernel { get; private set; }
+
+        /// <summary>
+        /// Gets scenario name.
+        /// </summary>
+        public string ScenarioName { get; private set; }
 
         /// <summary>
         /// Initialize scenario with the instance of engine.
@@ -78,21 +98,6 @@ namespace Dommy.Business.Actions
 
             this.childs.ForEach(c => c.Init(engine));
         }
-
-        /// <summary>
-        /// Gets or sets trigger of this scenario.
-        /// </summary>
-        public IList<ITrigger> Triggers { get; set; }
-
-        /// <summary>
-        /// List of actions to executes.
-        /// </summary>
-        private List<Func<bool>> actions = new List<Func<bool>>();
-
-        /// <summary>
-        /// List of childs scenarios.
-        /// </summary>
-        private List<IScenario> childs = new List<IScenario>();
 
         /// <summary>
         /// Return an instance of scenario.
@@ -138,16 +143,16 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Send infra red code on USB-UIRT device.
         /// </summary>
-        /// <param name="irCode">infra red ode to send.</param>
+        /// <param name="infraRedCode">infra red ode to send.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax UsbUirt(string irCode)
+        public IScenarioSyntax UsbUirt(string infraRedCode)
         {
             this.actions.Add(() =>
             {
                 using (var driver = new Driver())
                 {
                     var transmitter = new Transmitter(driver);
-                    transmitter.Transmit(irCode, emitter: Emitter.Internal);
+                    transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
 
                     return true;
                 }
@@ -155,11 +160,6 @@ namespace Dommy.Business.Actions
 
             return this;
         }
-
-        /// <summary>
-        /// Gets scenario name.
-        /// </summary>
-        public string ScenarioName { get; private set; }
 
         /// <summary>
         /// Generic lambda action.
@@ -185,11 +185,19 @@ namespace Dommy.Business.Actions
             var ss = Scenario.Create().NoTrigger();
             this.actions.Add(() =>
             {
-                this.Engine.RunResult(new PrecisionResult(StringHelper.Format(sentences), new List<PrecisionResult.SentenceAction>{ new PrecisionResult.SentenceAction(){ Sentences = response, Action = s => 
-                {
-                    scenario(s.Text, ss).ToScenario().Run();
-                    return new NoneResult();
-                }}}));
+                this.Engine.RunResult(new PrecisionResult(
+                    StringHelper.Format(sentences),
+                    new List<PrecisionResult.SentenceAction>
+                    { 
+                        new PrecisionResult.SentenceAction()
+                        {
+                            Sentences = response, Action = s => 
+                            {
+                                scenario(s.Text, ss).ToScenario().Run();
+                                return new NoneResult();
+                            }
+                        }
+                    }));
 
                 return true;
             });
@@ -252,30 +260,50 @@ namespace Dommy.Business.Actions
         }
 
         /// <summary>
-        /// Create scenario without 
+        /// Create scenario with speech trigger.
         /// </summary>
-        /// <param name="sentences"></param>
-        /// <returns></returns>
+        /// <param name="sentences">All trigger sentences without prefix.</param>
+        /// <returns>Scenario trigger syntax.</returns>
         public ITriggerScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().NoPrefixSpeechTrigger(sentences);
         }
 
+        /// <summary>
+        /// Create scenario with speech trigger.
+        /// </summary>
+        /// <param name="sentences">All trigger sentences with prefix.</param>
+        /// <returns>Scenario trigger syntax.</returns>
         public ITriggerScenarioSyntax SpeechTrigger(params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().SpeechTrigger(sentences);
         }
 
+        /// <summary>
+        /// Create scenario with speech trigger.
+        /// </summary>
+        /// <param name="confidence">Acceptable confidence.</param>
+        /// <param name="sentences">All trigger sentences with prefix.</param>
+        /// <returns>Scenario trigger syntax.</returns>
         public ITriggerScenarioSyntax SpeechTrigger(double confidence, params string[] sentences)
         {
             return this.Extend<ISpeechTriggerSyntax>().SpeechTrigger(confidence, sentences);
         }
 
+        /// <summary>
+        /// Create scenario with REST trigger.
+        /// </summary>
+        /// <param name="p">Relative uri trigger.</param>
+        /// <returns>Scenario trigger syntax.</returns>
         public ITriggerScenarioSyntax RestTrigger(string p)
         {
             return this.Extend<IRestTriggerSyntax>().RestTrigger(p);
         }
 
+        /// <summary>
+        /// Add child scenario.
+        /// </summary>
+        /// <param name="scenario">Child scenario.</param>
         public void AddChild(IScenario scenario)
         {
             this.childs.Add(scenario);
@@ -324,14 +352,9 @@ namespace Dommy.Business.Actions
             this.Kernel.Bind<IScenario>().ToMethod(c => this);
         }
 
-        private T Extend<T>()
+        public ITriggerScenarioSyntax UsbUirtTrigger(string infraRedCode)
         {
-            return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
-        }
-
-        public ITriggerScenarioSyntax UsbUirtTrigger(string irCode)
-        {
-            return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(irCode);
+            return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(infraRedCode);
         }
 
         public IScenarioSyntax Log(string format, object obj)
@@ -393,6 +416,11 @@ namespace Dommy.Business.Actions
                     this.Engine.SayError(ex);
                 }
             });
+        }
+
+        private T Extend<T>()
+        {
+            return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
         }
     }
 }

@@ -1,24 +1,50 @@
-﻿using Dommy.Business.Scripts;
-using Dommy.Business.Speech;
-using Dommy.Business.Syntax;
-using Ninject;
-using Ninject.Extensions.Conventions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿//-----------------------------------------------------------------------
+// <copyright file="Configure.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Config
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Xml;
+    using Dommy.Business.Speech;
+    using Dommy.Business.Syntax;
+    using Ninject;
+    using Ninject.Extensions.Conventions;
+
+    /// <summary>
+    /// Configure all elements in the project.
+    /// </summary>
     public class Configure
     {
+        /// <summary>
+        /// Config file.
+        /// </summary>
+        private static string configFile;
+
+        /// <summary>
+        /// Dictionary of configurations.
+        /// </summary>
+        private static Dictionary<Type, IConfig> configs;
+        
+        /// <summary>
+        /// Dictionary of configurations type.
+        /// </summary>
+        private static Dictionary<string, Type> configsName;
+
+        /// <summary>
+        /// Ninject kernel.
+        /// </summary>
         private static IKernel kernel;
 
+        /// <summary>
+        /// Initialize instance of the Ninject kernel used.
+        /// </summary>
+        /// <param name="kernel">Ninject kernel.</param>
         public static void InitKernel(IKernel kernel)
         {
             Configure.kernel = kernel;
@@ -28,6 +54,10 @@ namespace Dommy.Business.Config
             configsName = configs.Keys.ToDictionary(c => c.FullName.Substring(c.Namespace.Length + 1).Replace("+", "."));
         }
 
+        /// <summary>
+        /// Configure engine.
+        /// </summary>
+        /// <param name="name">Name of the engine. Default it's Dommy.</param>
         public static void Engine(string name = "Dommy")
         {
             kernel.Bind<Engine>()
@@ -36,36 +66,29 @@ namespace Dommy.Business.Config
                 .WithPropertyValue("Name", name);
         }
 
+        /// <summary>
+        /// Configure SpeechToText.
+        /// </summary>
+        /// <returns>SpeechToText configurator.</returns>
         public static Configurator<SpeechToTextConfig> SpeechToText()
         {
             return Config<SpeechToTextConfig>();
         }
 
-        public class TextToSpeechConfig : IConfig
-        {
-            public Gender Gender { get; set; }
-
-            public string Culture { get; set; }
-
-
-            public void Create(IKernel kernel)
-            {
-                kernel.Bind<ITextToSpeech>()
-                    .To<MicrosoftTextToSpeech>()
-                    .InSingletonScope()
-                    .WithConstructorArgument("gender", this.Gender)
-                    .WithConstructorArgument("culture", this.Culture);
-            }
-        }
-
+        /// <summary>
+        /// Configure text to speech.
+        /// </summary>
+        /// <returns>Text to speech configurator.</returns>
         public static Configurator<TextToSpeechConfig> TextToSpeech()
         {
             return Config<TextToSpeechConfig>();
         }
 
-        private static Dictionary<Type, IConfig> configs;
-        private static Dictionary<string, Type> configsName;
-
+        /// <summary>
+        /// Configure another element of dommy.
+        /// </summary>
+        /// <typeparam name="T1">Type of the config.</typeparam>
+        /// <returns>Configurator of the type.</returns>
         public static Configurator<T1> Config<T1>()
             where T1 : IConfig, new()
         {
@@ -78,6 +101,9 @@ namespace Dommy.Business.Config
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Build all configurations. Initialize Ninject kernel.
+        /// </summary>
         public static void Build()
         {
             foreach (var item in configs.Values)
@@ -86,8 +112,9 @@ namespace Dommy.Business.Config
             }
         }
 
-        private static string configFile;
-
+        /// <summary>
+        /// Save actual configuration to XML file.
+        /// </summary>
         public static void SaveConfig()
         {
             using (XmlWriter writer = XmlWriter.Create(Configure.configFile))
@@ -104,21 +131,16 @@ namespace Dommy.Business.Config
                     WriteConfig(type, instance, writer);
                     writer.WriteEndElement();
                 }
+
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
             }
         }
 
-        private static void WriteConfig(Type type, IConfig instance, XmlWriter writer)
-        {
-            foreach (var item in type.GetProperties())
-            {
-                writer.WriteStartElement(item.Name, item.Name);
-                writer.WriteString(String.Format("{0}", item.GetValue(instance)));
-                writer.WriteEndElement();
-            }
-        }
-
+        /// <summary>
+        /// Load configuration file.
+        /// </summary>
+        /// <param name="configFile">Configuration file name.</param>
         public static void LoadConfig(string configFile)
         {
             Configure.configFile = configFile;
@@ -147,15 +169,36 @@ namespace Dommy.Business.Config
                                 ReadConfig(node, config, reader);
                             }
                         }
-                        catch (Exception ex)
+                        catch 
                         {
-                            
                         }
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// Write configuration element.
+        /// </summary>
+        /// <param name="type">Type of the config.</param>
+        /// <param name="instance">Instance of the config.</param>
+        /// <param name="writer">XML writer</param>
+        private static void WriteConfig(Type type, IConfig instance, XmlWriter writer)
+        {
+            foreach (var item in type.GetProperties())
+            {
+                writer.WriteStartElement(item.Name, item.Name);
+                writer.WriteString(string.Format("{0}", item.GetValue(instance)));
+                writer.WriteEndElement();
+            }
+        }
+
+        /// <summary>
+        /// Read configuration element.
+        /// </summary>
+        /// <param name="configName">Config name.</param>
+        /// <param name="config">Config instance.</param>
+        /// <param name="reader">XML reader</param>
         private static void ReadConfig(string configName, IConfig config, XmlReader reader)
         {
             string propertyName = null;
@@ -192,6 +235,35 @@ namespace Dommy.Business.Config
                         return;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Text to speech config class.
+        /// </summary>
+        public class TextToSpeechConfig : IConfig
+        {
+            /// <summary>
+            /// Gets or sets text to speech gender.
+            /// </summary>
+            public Gender Gender { get; set; }
+
+            /// <summary>
+            /// Gets or sets text to speech culture.
+            /// </summary>
+            public string Culture { get; set; }
+
+            /// <summary>
+            /// Create ninject configuration.
+            /// </summary>
+            /// <param name="kernel">Kernel used for configuration.</param>
+            public void Create(IKernel kernel)
+            {
+                kernel.Bind<ITextToSpeech>()
+                    .To<MicrosoftTextToSpeech>()
+                    .InSingletonScope()
+                    .WithConstructorArgument("gender", this.Gender)
+                    .WithConstructorArgument("culture", this.Culture);
             }
         }
     }
