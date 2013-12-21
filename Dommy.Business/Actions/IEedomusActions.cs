@@ -41,6 +41,12 @@ namespace Dommy.Business.Actions
         /// <returns>Scenario syntax.</returns>   
         IScenarioSyntax EedomusOnOff(string id, bool isOn);
 
+        /// <summary>
+        /// Set value to local API eedomus.
+        /// </summary>
+        /// <param name="id">Eedomus id element.</param>
+        /// <param name="value">Value to set.</param>
+        /// <returns>Scenario syntax.</returns>
         IScenarioSyntax EedomusValue(string id, double value);
     }
 }

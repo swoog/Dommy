@@ -58,6 +58,7 @@ namespace Dommy.Business.Actions
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
         /// <param name="eedomusHelper">Eedomus helper.</param>
+        /// <param name="asyncHelper">Asynchronous helper.</param>
         public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper, AsyncHelper asyncHelper)
         {
             this.ScenarioName = name;

@@ -92,7 +92,7 @@ namespace Dommy.Business
         /// </summary>
         public void Init()
         {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += this.UnhandledException;
 
             this.logger.Info("Execute scripts.");
             this.scriptEngine.Execute();
@@ -155,14 +155,26 @@ namespace Dommy.Business
             {
                 var ad = ApplicationDeployment.CurrentDeployment;
 
-                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(new[] { 
-                    "Je suis prête. Version {Version}",
-                    "J'attend tes ordres. Version {Version}",
-                    "Démaré. Version {Version}",
-                }, new { Version = ad.CurrentVersion.ToString() }));
+                this.speechLogger.Say(
+                    Actor.Dommy, 
+                    StringHelper.Format(
+                        new[] 
+                        {
+                            "Je suis prête. Version {Version}",
+                            "J'attend tes ordres. Version {Version}",
+                            "Démaré. Version {Version}",
+                        }, 
+                        new 
+                        { 
+                            Version = ad.CurrentVersion.ToString() 
+                        }));
             }
         }
 
+        /// <summary>
+        /// Run result.
+        /// </summary>
+        /// <param name="result">Run an implementation of IResult.</param>
         public void RunResult(IResult result)
         {
             // Execute information of action.
@@ -179,24 +191,32 @@ namespace Dommy.Business
             }
         }
 
+        /// <summary>
+        /// Say an error.
+        /// </summary>
+        /// <param name="ex">Exception of the error.</param>
         public void SayError(Exception ex)
         {
-            var errors = new[]{
-                    "Une erreur c'est produite.",
-                    "Il y a eu une erreur pendant l'éxécution.",
-                    "J'ai identifié une erreur pendant l'éxécution.",
-                    "Je n'ai pas réussis a éxécuter l'action.",
-                    "Impossible, il y a une erreur.",
-                    "Il y a une erreur.",
-                    "J'ai eu un problème.",
-                    "Je n'y arrive pas."
-                };
+            var errors = new[]
+            {
+                "Une erreur c'est produite.",
+                "Il y a eu une erreur pendant l'éxécution.",
+                "J'ai identifié une erreur pendant l'éxécution.",
+                "Je n'ai pas réussis a éxécuter l'action.",
+                "Impossible, il y a une erreur.",
+                "Il y a une erreur.",
+                "J'ai eu un problème.",
+                "Je n'y arrive pas."
+            };
 
             this.speechLogger.ErrorRecognition(Actor.Dommy, StringHelper.Format(errors));
             this.speechLogger.ErrorRecognition(Actor.Dommy, ex.Message);
             this.logger.Error(ex, "Speech recognition error");
         }
 
+        /// <summary>
+        /// Speech recognition error.
+        /// </summary>
         public void SpeechRecognitionError()
         {
             string sentence = string.Empty;
@@ -207,6 +227,9 @@ namespace Dommy.Business
             }
         }
 
+        /// <summary>
+        /// Stop engine.
+        /// </summary>
         public void Stop()
         {
             foreach (var listener in this.listeners)
@@ -222,7 +245,17 @@ namespace Dommy.Business
                     this.SayError(ex);
                 }
             }
+        }
 
+        /// <summary>
+        /// Find instance of the listener.
+        /// </summary>
+        /// <typeparam name="T">Listener Type.</typeparam>
+        /// <returns>Listener instance.</returns>
+        internal T Listener<T>()
+            where T : IListener
+        {
+            return this.listeners.OfType<T>().FirstOrDefault();
         }
 
         /// <summary>
@@ -233,12 +266,6 @@ namespace Dommy.Business
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             this.SayError(e.ExceptionObject as Exception);
-        }
-
-        internal T Listener<T>()
-            where T : IListener
-        {
-            return this.listeners.OfType<T>().FirstOrDefault();
         }
     }
 }

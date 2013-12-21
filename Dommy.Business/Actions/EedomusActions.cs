@@ -91,6 +91,12 @@ namespace Dommy.Business.Actions
             });
         }
 
+        /// <summary>
+        /// Set value to local API eedomus.
+        /// </summary>
+        /// <param name="id">Eedomus id element.</param>
+        /// <param name="value">Value to set.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax EedomusValue(string id, double value)
         {
             return this.scenario.Action(() =>
