@@ -46,13 +46,13 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.0.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.0.1\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Kinect, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,9 +62,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Speech\11.0.0.0__31bf3856ad364e35\Microsoft.Speech.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NAudio, Version=1.7.0.15, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NAudio.1.6\lib\net20\NAudio.dll</HintPath>
+      <HintPath>..\packages\NAudio.1.7\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
