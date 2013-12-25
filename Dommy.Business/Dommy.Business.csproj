@@ -176,6 +176,7 @@
     <Compile Include="Actions\EedoumusAction.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
+    <Compile Include="Tools\MessageLogger.cs" />
     <Compile Include="Tools\WebAppender.cs" />
     <Compile Include="Triggers\IStartupTriggerSyntax.cs" />
     <Compile Include="Triggers\ITileTriggerSyntax.cs" />

@@ -22,9 +22,15 @@ namespace Dommy.Business.Triggers
 
         public ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor)
         {
+            return TileTrigger(title, backgroundColor, null);
+        }
+
+        public ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor, string url)
+        {
             var t = this.kernel.Get<TileTrigger>();
             t.Title = title;
             t.BackgroundColor = backgroundColor;
+            t.Url = url;
             return this.scenario.Trigger(t);
         }
     }

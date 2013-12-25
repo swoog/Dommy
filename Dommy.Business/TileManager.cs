@@ -11,16 +11,24 @@ namespace Dommy.Business
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class TileManager : ITileManager
     {
-        private List<Tile> tiles = new List<Tile>();
+        private int nextId = 1;
+
+        private Dictionary<int, Tile> tiles = new Dictionary<int, Tile>();
 
         public void AddTile(Tile tile)
         {
-            this.tiles.Add(tile);
+            tile.Id = nextId++;
+            this.tiles.Add(tile.Id, tile);
         }
 
         public List<Tile> GetTiles()
         {
-            return tiles;
+            return tiles.Values.ToList();
+        }
+
+        public Tile GetTile(int id)
+        {
+            return tiles[id];
         }
     }
 }

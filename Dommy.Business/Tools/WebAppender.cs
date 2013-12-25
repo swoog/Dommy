@@ -58,7 +58,7 @@ namespace Dommy.Business.Tools
 
                 if (init)
                 {
-                    this.logger.Invoke("send", loggingEvent.RenderedMessage);
+                    this.logger.Invoke("send", new MessageLogger { Level = loggingEvent.Level.ToString(), Message = loggingEvent.RenderedMessage });
                 }
             }
         }

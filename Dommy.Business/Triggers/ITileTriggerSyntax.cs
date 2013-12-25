@@ -11,5 +11,6 @@ namespace Dommy.Business.Triggers
     public interface ITileTriggerSyntax : IExtendSyntax
     {
         ITriggerScenarioSyntax TileTrigger(string title, Color backGround);
+        ITriggerScenarioSyntax TileTrigger(string p1, System.Drawing.Color color, string url);
     }
 }

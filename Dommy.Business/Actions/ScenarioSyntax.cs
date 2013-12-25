@@ -395,5 +395,10 @@ namespace Dommy.Business.Actions
         {
             return this.Extend<IEedomusActions>().EedomusValue(id, value);
         }
+
+        public ITriggerScenarioSyntax TileTrigger(string p1, System.Drawing.Color color, string p2)
+        {
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(p1, color, p2);
+        }
     }
 }

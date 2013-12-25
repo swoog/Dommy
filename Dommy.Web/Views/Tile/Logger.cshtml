@@ -1,0 +1,27 @@
+﻿@model Dommy.Business.Tile
+
+@{
+    ViewBag.Title = "View1";
+    Layout = "~/views/shared/_Layout.cshtml";
+}
+
+<h1>Logger</h1>
+
+<script type="text/javascript">
+    $(function () {
+        // Proxy created on the fly
+        var logger = $.connection.logger;
+
+        // Declare a function on the chat hub so the server can invoke it
+        logger.client.receive = function (m) {
+            $('.logger').append('<li class="' + m.Level + '">' + m.Message + '</li>');
+        };
+
+
+        $.connection.hub.start();
+    });
+</script>
+
+<div class="logger">
+
+</div>
