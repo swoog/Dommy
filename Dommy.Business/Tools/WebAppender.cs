@@ -11,6 +11,8 @@ namespace Dommy.Business.Tools
 {
     public class WebAppender : AppenderSkeleton
     {
+        private static string uriAppender = "http://localhost:17909";
+
         private HubConnection connection;
         private IHubProxy logger;
 
@@ -30,7 +32,7 @@ namespace Dommy.Business.Tools
         {
             try
             {
-                this.connection = new HubConnection("http://localhost:5000");
+                this.connection = new HubConnection(WebAppender.uriAppender);
                 this.logger = connection.CreateHubProxy("logger");
                 this.connection.Start().Wait();
                 return true;
