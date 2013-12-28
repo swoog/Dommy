@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Dommy.Business.Syntax
 {
-    public interface IScenarioSyntax: IIfActions, IPingActions, ITvActions, ISayActions, IUrlActions, IEedomusActions
+    public interface IScenarioSyntax: IIfActions, IPingActions, ITvActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
     {
         IScenarioSyntax Action(Func<bool> action);
 

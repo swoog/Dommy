@@ -373,9 +373,9 @@ namespace Dommy.Business.Actions
             return this.Extend<IStartupTriggerSyntax>().StartupTrigger();
         }
 
-        public void RunAsync()
+        public Task RunAsync()
         {
-            Task.Run(() =>
+            return Task.Run(() =>
             {
                 try
                 {
@@ -394,6 +394,16 @@ namespace Dommy.Business.Actions
         public IScenarioSyntax EedomusValue(string id, double value)
         {
             return this.Extend<IEedomusActions>().EedomusValue(id, value);
+        }
+
+        public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, string file)
+        {
+            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, file);
+        }
+
+        public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, object data, string file)
+        {
+            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, data, file);
         }
     }
 }
