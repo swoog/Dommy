@@ -316,36 +316,72 @@ namespace Dommy.Business.Actions
             this.childs.Add(scenario);
         }
 
+        /// <summary>
+        /// Ping conditional syntax.
+        /// </summary>
+        /// <param name="ip">IP to ping.</param>
+        /// <param name="b">Status excepted.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax IfPing(string ip, bool b)
         {
             return this.Extend<IPingActions>().IfPing(ip, b);
         }
 
+        /// <summary>
+        /// Execute command on TV.
+        /// </summary>
+        /// <param name="command">Command to execute.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax TvCommand(TvCommand command)
         {
             return this.Extend<ITvActions>().TvCommand(command);
         }
 
+        /// <summary>
+        /// Change sound on TV.
+        /// </summary>
+        /// <param name="quantity">Quantity to change volume.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax TvSound(int quantity)
         {
             return this.Extend<ITvActions>().TvSound(quantity);
         }
 
+        /// <summary>
+        /// Mute on TV.
+        /// </summary>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax TvMute()
         {
             return this.Extend<ITvActions>().TvMute();
         }
 
+        /// <summary>
+        /// Change canal on TV.
+        /// </summary>
+        /// <param name="canal">Canal to change.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax TvCanal(int canal)
         {
             return this.Extend<ITvActions>().TvCanal(canal);
         }
 
+        /// <summary>
+        /// Implementation of say sentences alternatively.
+        /// </summary>
+        /// <param name="sentences">Sentences to say.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax Say(params string[] sentences)
         {
             return this.Extend<ISayActions>().Say(sentences);
         }
 
+        /// <summary>
+        /// Implementation of say sentences alternatively with context object. See <see cref="StringHelper"/> class for more details.
+        /// </summary>
+        /// <param name="data">Data object to use for replacement.</param>
+        /// <param name="sentences">Sentences to say.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax Say(object data, params string[] sentences)
         {
             return this.Extend<ISayActions>().Say(data, sentences);
