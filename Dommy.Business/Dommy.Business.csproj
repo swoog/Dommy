@@ -119,10 +119,12 @@
     <Compile Include="Actions\IPingActions.cs" />
     <Compile Include="Actions\ISayActions.cs" />
     <Compile Include="Actions\IScrapActions.cs" />
+    <Compile Include="Actions\ISynologyDownloadActions.cs" />
     <Compile Include="Actions\ITvActions.cs" />
     <Compile Include="Actions\PingActions.cs" />
     <Compile Include="Actions\SayActions.cs" />
     <Compile Include="Actions\ScrapActions.cs" />
+    <Compile Include="Actions\SynologyDownloadActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
     <Compile Include="Config\Configurator.cs" />
