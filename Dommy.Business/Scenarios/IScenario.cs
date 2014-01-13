@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Dommy.Business.Scenarios
 {
@@ -14,7 +15,7 @@ namespace Dommy.Business.Scenarios
 
         void Run();
 
-        void RunAsync();
+        Task RunAsync();
 
         string ScenarioName { get; }
     }
