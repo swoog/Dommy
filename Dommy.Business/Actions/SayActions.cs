@@ -22,14 +22,14 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Information logger.
         /// </summary>
-        private SpeechLogger logger;
+        private ISpeechLogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SayActions" /> class.
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
         /// <param name="logger">Information logger.</param>
-        public SayActions(IScenarioSyntax scenario, SpeechLogger logger)
+        public SayActions(IScenarioSyntax scenario, ISpeechLogger logger)
         {
             this.scenario = scenario;
             this.logger = logger;

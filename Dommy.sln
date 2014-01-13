@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Business", "Dommy.Business\Dommy.Business.csproj", "{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Business.Test", "Dommy.Business.Test\Dommy.Business.Test.csproj", "{BD7EFB70-7EF0-4163-95B3-04B00026D658}"
@@ -8,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Dommy.vsmdi = Dommy.vsmdi
 		Local.testsettings = Local.testsettings
+		Performance1.psess = Performance1.psess
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
@@ -28,9 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB92FF
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Dommy.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -118,7 +118,13 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BD7EFB70-7EF0-4163-95B3-04B00026D658} = {87060017-9390-47C0-9FDA-527D6172B341}
+	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Dommy.vsmdi
 	EndGlobalSection
 EndGlobal

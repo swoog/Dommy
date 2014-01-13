@@ -18,7 +18,10 @@ namespace Dommy.Business.Scripts
         public void Execute(string file)
         {
             var engine = new Roslyn.Scripting.CSharp.ScriptEngine();
+            engine.AddReference("System");
             engine.AddReference("System.Core");
+            engine.AddReference("System.ServiceModel");
+            engine.AddReference("System.Xml");
 
             var session = engine.CreateSession(this);
             session.SetReferenceSearchPaths(Environment.CurrentDirectory);

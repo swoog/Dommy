@@ -69,5 +69,14 @@ namespace Dommy.Business.Actions
                 return true;
             });
         }
+
+        public IScenarioSyntax EedomusValue(string id, double value)
+        {
+            return this.scenario.Action(() =>
+            {
+                this.eedomusHelper.CallService(EedomusApi.Local, EedoumusAction.PeriphValue, id, String.Format("{0}", value));
+                return true;
+            });
+        }
     }
 }

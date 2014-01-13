@@ -19,12 +19,18 @@ namespace Dommy.Business.Actions
     using Ninject.Parameters;
     using UsbUirt;
     using UsbUirt.Enums;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Class of a scenario object.
     /// </summary>
     public class ScenarioSyntax : ITriggerScenarioSyntax, IScenario
     {
+        /// <summary>
+        /// Instance of AsyncHelper.
+        /// </summary>
+        private AsyncHelper asyncHelper;
+
         /// <summary>
         /// Instance of Eedomus helper.
         /// </summary>
@@ -41,12 +47,13 @@ namespace Dommy.Business.Actions
         /// <param name="name">Name of scenario.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
-        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper)
+        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper, AsyncHelper asyncHelper)
         {
             this.ScenarioName = name;
             this.Kernel = kernel;
             this.logger = logger;
             this.eedomusHelper = eedomusHelper;
+            this.asyncHelper = asyncHelper;
         }
 
         /// <summary>
@@ -359,6 +366,44 @@ namespace Dommy.Business.Actions
         public IScenarioSyntax EedomusCall(EedoumusAction action, string eedomusId, string value = null)
         {
             return this.Extend<IEedomusActions>().EedomusCall(action, eedomusId, value);
+        }
+
+        public ITriggerScenarioSyntax StartupTrigger()
+        {
+            return this.Extend<IStartupTriggerSyntax>().StartupTrigger();
+        }
+
+        public Task RunAsync()
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    this.asyncHelper.Wait(() =>
+                    {
+                        this.Run();
+                    });
+                }
+                catch (Exception ex)
+                {
+                    this.Engine.SayError(ex);
+                }
+            });
+        }
+
+        public IScenarioSyntax EedomusValue(string id, double value)
+        {
+            return this.Extend<IEedomusActions>().EedomusValue(id, value);
+        }
+
+        public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, string file)
+        {
+            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, file);
+        }
+
+        public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, object data, string file)
+        {
+            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, data, file);
         }
     }
 }

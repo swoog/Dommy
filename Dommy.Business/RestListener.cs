@@ -80,6 +80,19 @@ namespace Dommy.Business
 
                 return false;
             }
+
+            internal void SetListernerContext(HttpListenerContext context)
+            {
+                if (this.Data != null)
+                {
+                    var property = this.Data.GetType().GetProperty("Context");
+
+                    if (property != null && property.PropertyType == typeof(HttpListenerContext))
+                    {
+                        property.SetValue(this.Data, context);
+                    }
+                }
+            }
         }
 
         private Dictionary<string, ScenarioData> scenarios = new Dictionary<string, ScenarioData>();
@@ -109,25 +122,38 @@ namespace Dommy.Business
                 {
                     var context = this.listener.GetContext();
 
-                    context.Response.OutputStream.Close();
-                    if (this.scenarios.ContainsKey(context.Request.RawUrl))
+                    StartRequest(context);
+                }
+            });
+        }
+
+        private async void StartRequest(HttpListenerContext context)
+        {
+            try
+            {
+                if (this.scenarios.ContainsKey(context.Request.RawUrl))
+                {
+                    await this.scenarios[context.Request.RawUrl].Scenario.RunAsync();
+                }
+                else
+                {
+                    // Test pattern matching
+                    foreach (var item in this.scenarios.Values)
                     {
-                        this.scenarios[context.Request.RawUrl].Scenario.Run();
-                    }
-                    else
-                    {
-                        // Test pattern matching
-                        foreach (var item in this.scenarios.Values)
+                        if (item.IsMatch(context.Request.RawUrl))
                         {
-                            if (item.IsMatch(context.Request.RawUrl))
-                            {
-                                item.Scenario.Run();
-                                break;
-                            }
+                            item.SetListernerContext(context);
+
+                            await item.Scenario.RunAsync();
+                            break;
                         }
                     }
                 }
-            });
+            }
+            finally
+            {
+                context.Response.OutputStream.Close();
+            }
         }
 
         public void Subscribe(string url, object data, IScenario scenario)

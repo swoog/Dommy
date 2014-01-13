@@ -28,5 +28,59 @@ namespace Dommy.Business.Test
 
             listenerPrivate.SpeechRecognized(sentence);
         }
+
+        [TestMethod]
+        public void StartTest()
+        {
+            var kernel = this.CreateKernel();
+
+            kernel.Bind<SpeechListener>().ToSelf()
+                .WithConstructorArgument("confidence", 0.1);
+
+
+            var listener = kernel.Get<SpeechListener>();
+            listener.Init(kernel.Get<Engine>());
+
+            listener.Start();
+        }
+
+        [TestMethod]
+        public void CreateGrammarTest()
+        {
+            var kernel = this.CreateKernel();
+
+            kernel.Bind<SpeechListener>().ToSelf()
+                .WithConstructorArgument("confidence", 0.1);
+
+
+            var listener = kernel.Get<SpeechListener>();
+            listener.Init(kernel.Get<Engine>());
+
+            var gram = listener.CreateGrammar(s => { }, new[] { "Test" });
+
+            Assert.IsNotNull(gram);
+            Assert.IsTrue(gram.Enabled);
+        }
+
+        [TestMethod]
+        public void CreateGrammarTest_WithPrefix()
+        {
+            var kernel = this.CreateKernel();
+
+            kernel.Bind<Engine>().ToSelf()
+                .WithPropertyValue("Name", "Dommy");
+
+            kernel.Bind<SpeechListener>().ToSelf()
+                .WithConstructorArgument("confidence", 0.1);
+
+
+            var listener = kernel.Get<SpeechListener>();
+            listener.Init(kernel.Get<Engine>());
+
+            var gram = listener.CreateGrammar(s => { }, new[] { "Test" }, true);
+
+            Assert.IsNotNull(gram);
+            Assert.IsTrue(gram.Enabled);
+        }
     }
 }
