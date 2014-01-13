@@ -395,11 +395,22 @@ namespace Dommy.Business.Actions
             this.Kernel.Bind<IScenario>().ToMethod(c => this);
         }
 
+        /// <summary>
+        /// Create scenario based on infra red code returned by USB-UIRT module.
+        /// </summary>
+        /// <param name="infraRedCode">Infra red code.</param>
+        /// <returns>Trigger scenario syntax.</returns>
         public ITriggerScenarioSyntax UsbUirtTrigger(string infraRedCode)
         {
             return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(infraRedCode);
         }
 
+        /// <summary>
+        /// Log to the application log file.
+        /// </summary>
+        /// <param name="format">Format of the log.</param>
+        /// <param name="obj">Object used to get property format.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax Log(string format, object obj)
         {
             this.Action(() =>
@@ -411,41 +422,88 @@ namespace Dommy.Business.Actions
             return this;
         }
 
+        /// <summary>
+        /// Get a scrapper for url.
+        /// </summary>
+        /// <typeparam name="T">Type of object to create when scrap.</typeparam>
+        /// <param name="url">Url to scrap.</param>
+        /// <returns>Scrapper action.</returns>
         public IScrapActions GetUrl<T>(string url)
         {
             return this.Extend<IUrlActions>().GetUrl<T>(url);
         }
 
+        /// <summary>
+        /// Create scenario based on a TimeSpan.
+        /// </summary>
+        /// <param name="startDate">Start date of the trigger.</param>
+        /// <param name="tick">Delay to execute trigger.</param>
+        /// <returns>Trigger scenario syntax.</returns>
         public ITriggerScenarioSyntax TimeTrigger(DateTime startDate, TimeSpan tick)
         {
             return this.Extend<ITimeTriggerSyntax>().TimeTrigger(startDate, tick);
         }
 
+        /// <summary>
+        /// Create a tile on the web interface used to start scenario.
+        /// </summary>
+        /// <param name="title">Tile name.</param>
+        /// <param name="backGround">Background color of the tile.</param>
+        /// <returns>Trigger scenario syntax.</returns>
         public ITriggerScenarioSyntax TileTrigger(string title, System.Drawing.Color backGround)
         {
             return this.Extend<ITileTriggerSyntax>().TileTrigger(title, backGround);
         }
 
-        public ITriggerScenarioSyntax RestTrigger(string p, object data)
+        /// <summary>
+        /// Create a REST trigger used to start scenario.
+        /// </summary>
+        /// <param name="url">Url used to start scenario.</param>
+        /// <param name="data">Object used to map the url. Example : /hello/{MyName} and MyName is property of data.</param>
+        /// <returns>Trigger scenario syntax.</returns>
+        public ITriggerScenarioSyntax RestTrigger(string url, object data)
         {
-            return this.Extend<IRestTriggerSyntax>().RestTrigger(p, data);
+            return this.Extend<IRestTriggerSyntax>().RestTrigger(url, data);
         }
 
+        /// <summary>
+        /// Call API eedomus.
+        /// </summary>
+        /// <param name="api">Eedomus API type. (Local or distant)</param>
+        /// <param name="action">Action to execute.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
+        /// <param name="value">Optional value to set.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax EedomusCall(EedomusApi api, EedomusAction action, string eedomusId, string value = null)
         {
             return this.Extend<IEedomusActions>().EedomusCall(api, action, eedomusId, value);
         }
 
+        /// <summary>
+        /// Call local API eedomus.
+        /// </summary>
+        /// <param name="action">Action to execute.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
+        /// <param name="value">Optional value to set.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax EedomusCall(EedomusAction action, string eedomusId, string value = null)
         {
             return this.Extend<IEedomusActions>().EedomusCall(action, eedomusId, value);
         }
 
+        /// <summary>
+        /// Create a scenario started a begin of application.
+        /// </summary>
+        /// <returns>Trigger scenario syntax.</returns>
         public ITriggerScenarioSyntax StartupTrigger()
         {
             return this.Extend<IStartupTriggerSyntax>().StartupTrigger();
         }
 
+        /// <summary>
+        /// Start scenario asynchronously.
+        /// </summary>
+        /// <returns>Return Task to wait on this.</returns>
         public Task RunAsync()
         {
             return Task.Run(() =>
@@ -464,21 +522,49 @@ namespace Dommy.Business.Actions
             });
         }
 
+        /// <summary>
+        /// Set value to local API eedomus.
+        /// </summary>
+        /// <param name="id">Eedomus id element.</param>
+        /// <param name="value">Value to set.</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax EedomusValue(string id, double value)
         {
             return this.Extend<IEedomusActions>().EedomusValue(id, value);
         }
 
+        /// <summary>
+        /// Add file to synology download manager.
+        /// </summary>
+        /// <param name="server">Server name with port.</param>
+        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="password">Password used for connect to synology.</param>
+        /// <param name="file">Url file to download (EDK2, HTTP, ...)</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, string file)
         {
             return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, file);
         }
 
+        /// <summary>
+        /// Add file to synology download manager.
+        /// </summary>
+        /// <param name="server">Server name with port.</param>
+        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="password">Password used for connect to synology.</param>
+        /// <param name="data">Data used to create file url.</param>
+        /// <param name="file">Format url file to download (EDK2, HTTP, ...)</param>
+        /// <returns>Scenario syntax.</returns>
         public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, object data, string file)
         {
             return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, data, file);
         }
 
+        /// <summary>
+        /// Get the implement instance of the interface syntax.
+        /// </summary>
+        /// <typeparam name="T">Interface syntax.</typeparam>
+        /// <returns>Implemented instance.</returns>
         private T Extend<T>()
         {
             return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
