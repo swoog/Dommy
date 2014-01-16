@@ -1,17 +1,19 @@
-﻿using Dommy.Business.Config;
-using Microsoft.Kinect;
-using Microsoft.Speech.AudioFormat;
-using Microsoft.Speech.Recognition;
-using Ninject;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿//-----------------------------------------------------------------------
+// <copyright file="KinectSpeechToText.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Speech
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using Microsoft.Kinect;
+    using Microsoft.Speech.AudioFormat;
+    using Microsoft.Speech.Recognition;
+    using Ninject.Extensions.Logging;
+    
     public sealed class KinectSpeechToText : ISpeechToText, IDisposable
     {
         private SpeechRecognitionEngine speechRecognizer;

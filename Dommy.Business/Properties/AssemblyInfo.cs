@@ -1,3 +1,9 @@
+//-----------------------------------------------------------------------
+// <copyright file="AssemblyInfo.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
