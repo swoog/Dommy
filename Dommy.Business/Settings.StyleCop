@@ -3,7 +3,9 @@
     <CollectionProperty Name="RecognizedWords">
       <Value>Dommy</Value>
       <Value>Eedomus</Value>
+      <Value>Freebox</Value>
       <Value>Ninject</Value>
+      <Value>Synology</Value>
     </CollectionProperty>
   </GlobalSettings>
   <Analyzers>

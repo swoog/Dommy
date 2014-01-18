@@ -26,6 +26,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -53,14 +55,6 @@
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.0.0\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Kinect, Version=1.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.5\Assemblies\Microsoft.Kinect.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Speech, Version=11.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Speech\11.0.0.0__31bf3856ad364e35\Microsoft.Speech.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -126,8 +120,13 @@
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
     <Compile Include="Config\Configurator.cs" />
-    <Compile Include="Config\Configure.cs" />
+    <Compile Include="Config\Configure.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Config\IConfig.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GrammarChoices.cs" />
+    <Compile Include="GrammarData.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="ISpeechLogger.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
@@ -175,7 +174,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
-    <Compile Include="Actions\EedoumusAction.cs" />
+    <Compile Include="Actions\EedomusAction.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\WebAppender.cs" />
@@ -198,9 +197,7 @@
     <Compile Include="Actions\ScenarioSyntax.cs" />
     <Compile Include="Services\ServiceHost.cs" />
     <Compile Include="SpeechListener.cs" />
-    <Compile Include="Speech\MicrosoftTextToSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Speech\KinectSpeechToText.cs" />
     <Compile Include="Result\NoneResult.cs" />
     <Compile Include="Result\SayResult.cs" />
     <Compile Include="Sentence.cs" />

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Services
 {
-    public class ServiceHost<T> : IServiceHost
+    public sealed class ServiceHost<T> : IServiceHost, IDisposable
     {
         private T service;
 
@@ -33,6 +33,21 @@ namespace Dommy.Business.Services
         public void Close()
         {
             host.Close();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        public void Dispose(bool b)
+        {
+            if (host != null)
+            {
+                ((IDisposable)host).Dispose();
+            }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

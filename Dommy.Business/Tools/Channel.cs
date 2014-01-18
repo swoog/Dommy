@@ -116,8 +116,8 @@ namespace Dommy.Business.Tools
             InitChannels();
 
             var q = from c in channels
-                    where c.Name.Equals(text.Replace(" ", ""), StringComparison.InvariantCultureIgnoreCase)
-                    || c.NumberToString.Equals(text.Replace(" ", ""), StringComparison.InvariantCultureIgnoreCase)
+                    where c.Name.Equals(text.Replace(" ", ""), StringComparison.OrdinalIgnoreCase)
+                    || c.NumberToString.Equals(text.Replace(" ", ""), StringComparison.OrdinalIgnoreCase)
                     select c;
 
             return q;

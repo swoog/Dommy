@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Triggers
 {
-    public class TimeTrigger : ITrigger
+    public sealed class TimeTrigger : ITrigger, IDisposable
     {
         public DateTime StartDate { get; set; }
 
@@ -26,6 +26,21 @@ namespace Dommy.Business.Triggers
         private void CallBack(object state)
         {
             this.scenario.Run();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected void Dispose(bool b)
+        {
+            if (timer != null)
+            {
+                this.timer.Dispose();
+            }
+
+            GC.SuppressFinalize(this);
         }
     }
 }
