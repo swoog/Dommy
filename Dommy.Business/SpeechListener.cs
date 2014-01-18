@@ -1,6 +1,5 @@
 ﻿using Dommy.Business.Scenarios;
 using Dommy.Business.Tools;
-using Microsoft.Speech.Recognition;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace Dommy.Business
 
         public string SentenceLogFile { get; set; }
 
-        private List<Grammar> contextGrammar = null;
+        private List<GrammarData> contextGrammar = null;
         private Dictionary<string, Func<ISentence, IResult>> contextFunction = null;
 
         public IList<IActionLogger> ActionLoggers { get; private set; }
@@ -85,20 +84,20 @@ namespace Dommy.Business
             }
         }
 
-        public Grammar CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
+        public GrammarData CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
         {
             if (sentences.Count > 0)
             {
-                GrammarBuilder gb = new GrammarBuilder();
+                var data = new GrammarData();
 
                 if (prefixName)
                 {
-                    Choices dommy = new Choices();
+                    var dommy = new GrammarChoices();
                     dommy.Add(this.engine.Name);
-                    gb.Append(dommy);
+                    data.Append(dommy);
                 }
 
-                Choices c = new Choices();
+                var c = new GrammarChoices();
                 foreach (var sentence in sentences)
                 {
                     var text = sentence.Trim();
@@ -111,9 +110,9 @@ namespace Dommy.Business
                     }
                 }
 
-                gb.Append(c);
+                data.Append(c);
 
-                return new Grammar(gb);
+                return data;
             }
 
             return null;
@@ -255,7 +254,7 @@ namespace Dommy.Business
             this.UnloadContextGrammar();
 
             // Load all grammar.
-            this.contextGrammar = new List<Grammar>();
+            this.contextGrammar = new List<GrammarData>();
             this.contextFunction = new Dictionary<string, Func<ISentence, IResult>>();
             foreach (var item in sentenceActions)
             {
@@ -266,23 +265,19 @@ namespace Dommy.Business
                     key = Guid.NewGuid().ToString();
                 }
 
-                var grammarInfo = Cache.Get<GrammarInfo>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
+                var grammarInfo = Cache.Get<GrammarData>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
                 {
                     var sentences = new List<string>();
                     var g = this.CreateGrammar(s => sentences.Add(s), item.Sentences);
-                    return new GrammarInfo
-                    {
-                        Grammar = g,
-                        Sentences = sentences,
-                    };
+                    return g;
                 });
 
-                if (grammarInfo.Grammar != null)
+                if (grammarInfo != null)
                 {
-                    this.contextGrammar.Add(grammarInfo.Grammar);
-                    this.speechToText.LoadGrammar(grammarInfo.Grammar);
+                    this.contextGrammar.Add(grammarInfo);
+                    this.speechToText.LoadGrammar(grammarInfo);
 
-                    foreach (var s in grammarInfo.Sentences)
+                    foreach (var s in item.Sentences)
                     {
                         if (!contextFunction.ContainsKey(s))
                         {
@@ -294,13 +289,6 @@ namespace Dommy.Business
 
             // Say
             this.SpeechLogger.Say(Actor.Dommy, speech);
-        }
-
-        private class GrammarInfo
-        {
-            public Grammar Grammar { get; set; }
-
-            public IList<string> Sentences { get; set; }
         }
 
         public void Stop()

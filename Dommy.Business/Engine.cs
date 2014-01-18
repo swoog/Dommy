@@ -60,12 +60,14 @@ namespace Dommy.Business
         /// <param name="scriptEngine">Script engine.</param>
         /// <param name="listeners">All listeners.</param>
         public Engine(
+            string name,
             IKernel kernel,
             ILogger logger,
             ISpeechLogger speechLogger,
             ScriptEngine scriptEngine,
             IList<IListener> listeners)
         {
+            this.Name = name;
             this.kernel = kernel;
             this.logger = logger;
             this.speechLogger = speechLogger;

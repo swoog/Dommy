@@ -31,7 +31,7 @@ namespace Dommy.Business
         /// Load grammar for speech to text recognition.
         /// </summary>
         /// <param name="grammar">Grammar to load.</param>
-        void LoadGrammar(Microsoft.Speech.Recognition.Grammar grammar);
+        void LoadGrammar(GrammarData grammar);
 
         /// <summary>
         /// Stop recognition.
@@ -42,6 +42,6 @@ namespace Dommy.Business
         /// Unload grammar from speech to text recognition.
         /// </summary>
         /// <param name="grammar">Grammar to unload.</param>
-        void UnloadGrammar(Microsoft.Speech.Recognition.Grammar grammar);
+        void UnloadGrammar(GrammarData grammar);
     }
 }
