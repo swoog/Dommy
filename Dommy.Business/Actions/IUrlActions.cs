@@ -1,14 +1,24 @@
-﻿using Dommy.Business.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IUrlActions.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Actions
 {
+    using Dommy.Business.Syntax;
+
+    /// <summary>
+    /// Url syntax.
+    /// </summary>
     public interface IUrlActions : IExtendSyntax
     {
+        /// <summary>
+        /// Get a scrapper for url.
+        /// </summary>
+        /// <typeparam name="T">Type of object to create when scrap.</typeparam>
+        /// <param name="url">Url to scrap.</param>
+        /// <returns>Scrapper action.</returns>
         IScrapActions GetUrl<T>(string url);
     }
 }

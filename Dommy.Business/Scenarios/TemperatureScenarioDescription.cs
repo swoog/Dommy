@@ -49,7 +49,7 @@ namespace Dommy.Business.Scenarios
                     {
                         var weather = Cache.Get("TemperatureAction", TimeSpan.FromMinutes(30), () =>
                         {
-                            var temperature = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
+                            var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
 
                             return new Weather
                             {

@@ -59,7 +59,7 @@ namespace Dommy.Business.Tools
         [Inject]
         public ILogger Logger { get; set; }
 
-        public string CallService(EedomusApi api, EedoumusAction action, string eedomusId, string value = null)
+        public string CallService(EedomusApi api, EedomusAction action, string eedomusId, string value = null)
         {
             this.Logger.Info("Call eedomus {0} to {1}", eedomusId, value);
 
@@ -135,22 +135,22 @@ namespace Dommy.Business.Tools
             public string ErrorMsg { get; set; }
         }
 
-        private EedoumusRequestType getRequestType(EedoumusAction action)
+        private EedoumusRequestType getRequestType(EedomusAction action)
         {
             switch (action)
             {
-                case EedoumusAction.AuthTest:
-                case EedoumusAction.PeriphCaract:
-                case EedoumusAction.PeriphHistory:
+                case EedomusAction.AuthTest:
+                case EedomusAction.PeriphCaract:
+                case EedomusAction.PeriphHistory:
                     return EedoumusRequestType.Get;
-                case EedoumusAction.PeriphValue:
+                case EedomusAction.PeriphValue:
                     return EedoumusRequestType.Set;
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        private string getUrl(EedomusApi api, EedoumusRequestType requestType, EedoumusAction action, string eedomusId, string parameter)
+        private string getUrl(EedomusApi api, EedoumusRequestType requestType, EedomusAction action, string eedomusId, string parameter)
         {
             var url = localUrl;
 
@@ -162,17 +162,17 @@ namespace Dommy.Business.Tools
             return String.Format(url, this.apiAddr, requestType.ToString().ToLower(), ActionToString(action), eedomusId, parameter, apiUser, apiSecret);
         }
 
-        private string ActionToString(EedoumusAction action)
+        private string ActionToString(EedomusAction action)
         {
             switch (action)
             {
-                case EedoumusAction.AuthTest:
+                case EedomusAction.AuthTest:
                     return "action.test";
-                case EedoumusAction.PeriphValue:
+                case EedomusAction.PeriphValue:
                     return "periph.value";
-                case EedoumusAction.PeriphCaract:
+                case EedomusAction.PeriphCaract:
                     return "periph.caract";
-                case EedoumusAction.PeriphHistory:
+                case EedomusAction.PeriphHistory:
                     return "periph.history";
                 default:
                     return String.Empty;

@@ -1,8 +1,9 @@
 //-----------------------------------------------------------------------
-// <copyright file="NoneResult.cs" company="Microsoft">
-//     Copyright (c) agaltier, Microsoft. All rights reserved.
+// <copyright file="NoneResult.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace Dommy.Business.Result
 {
     using System;
@@ -13,6 +14,5 @@ namespace Dommy.Business.Result
     /// </summary>
     public class NoneResult : IResult
     {
-
     }
 }

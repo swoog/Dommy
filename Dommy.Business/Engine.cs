@@ -1,58 +1,107 @@
-using Dommy.Business.Config;
-using Dommy.Business.Result;
-using Dommy.Business.Scenarios;
-using Dommy.Business.Scripts;
-using Dommy.Business.Services;
-using Dommy.Business.Syntax;
-using Dommy.Business.Tools;
-using Microsoft.Speech.Recognition;
-using Ninject;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Deployment.Application;
-using System.Linq;
-using System.ServiceModel;
-using System.Threading;
-using System.Threading.Tasks;
+//-----------------------------------------------------------------------
+// <copyright file="Engine.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Deployment.Application;
+    using System.Linq;
+    using System.ServiceModel;
+    using Dommy.Business.Result;
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Scripts;
+    using Dommy.Business.Services;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+    using Ninject;
+    using Ninject.Extensions.Logging;
+
+    /// <summary>
+    /// Dommy engine.
+    /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class Engine : IEngine
     {
-        public ILogger Logger { get; private set; }
+        /// <summary>
+        /// Engine logger.
+        /// </summary>
+        private ILogger logger;
 
-        public ISpeechLogger SpeechLogger { get; private set; }
+        /// <summary>
+        /// Speech logger.
+        /// </summary>
+        private ISpeechLogger speechLogger;
 
-        public ScriptEngine ScriptEngine { get; private set; }
+        /// <summary>
+        /// Script engine.
+        /// </summary>
+        private ScriptEngine scriptEngine;
 
-        public IList<IListener> Listeners { get; private set; }
+        /// <summary>
+        /// All listeners.
+        /// </summary>
+        private IList<IListener> listeners;
 
+        /// <summary>
+        /// Ninject kernel.
+        /// </summary>
+        private IKernel kernel;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Engine"/> class.
+        /// </summary>
+        /// <param name="kernel">Ninject kernel.</param>
+        /// <param name="logger">Information logger.</param>
+        /// <param name="speechLogger">Speech logger.</param>
+        /// <param name="scriptEngine">Script engine.</param>
+        /// <param name="listeners">All listeners.</param>
         public Engine(
+            string name,
             IKernel kernel,
             ILogger logger,
             ISpeechLogger speechLogger,
             ScriptEngine scriptEngine,
             IList<IListener> listeners)
         {
-            this.Kernel = kernel;
-            this.Logger = logger;
-            this.SpeechLogger = speechLogger;
-            this.ScriptEngine = scriptEngine;
-            this.Listeners = listeners;
+            this.Name = name;
+            this.kernel = kernel;
+            this.logger = logger;
+            this.speechLogger = speechLogger;
+            this.scriptEngine = scriptEngine;
+            this.listeners = listeners;
         }
 
+        /// <summary>
+        /// Gets name of engine.
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// Gets name of engine.
+        /// </summary>
+        /// <returns>Return name of the engine.</returns>
+        public string GetName()
+        {
+            return this.Name;
+        }
+
+        /// <summary>
+        /// Initialize engine.
+        /// </summary>
         public void Init()
         {
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += this.UnhandledException;
 
-            this.Logger.Info("Execute scripts.");
-            this.ScriptEngine.Execute();
+            this.logger.Info("Execute scripts.");
+            this.scriptEngine.Execute();
 
-            foreach (var listener in this.Listeners)
+            foreach (var listener in this.listeners)
             {
-                this.Logger.Info("Initializing {0}", listener.GetType());
+                this.logger.Info("Initializing {0}", listener.GetType());
 
                 try
                 {
@@ -64,7 +113,7 @@ namespace Dommy.Business
                 }
             }
 
-            this.Logger.Info("Build scenarios");
+            this.logger.Info("Build scenarios");
             try
             {
                 Scenario.Build();
@@ -74,12 +123,12 @@ namespace Dommy.Business
                 this.SayError(ex);
             }
 
-            this.Logger.Info("Initializing scenarios.");
-            foreach (var s in this.Kernel.GetAll<IScenario>())
+            this.logger.Info("Initializing scenarios.");
+            foreach (var s in this.kernel.GetAll<IScenario>())
             {
                 try
                 {
-                    this.Logger.Info("Scenario : {0}", s.ScenarioName);
+                    this.logger.Info("Scenario : {0}", s.ScenarioName);
                     s.Init(this);
                 }
                 catch (Exception ex)
@@ -88,9 +137,9 @@ namespace Dommy.Business
                 }
             }
 
-            foreach (var listener in this.Listeners)
+            foreach (var listener in this.listeners)
             {
-                this.Logger.Info("Start {0}", listener.GetType());
+                this.logger.Info("Start {0}", listener.GetType());
 
                 try
                 {
@@ -108,19 +157,26 @@ namespace Dommy.Business
             {
                 var ad = ApplicationDeployment.CurrentDeployment;
 
-                this.SpeechLogger.Say(Actor.Dommy, StringHelper.Format(new[] { 
-                    "Je suis prête. Version {Version}",
-                    "J'attend tes ordres. Version {Version}",
-                    "Démaré. Version {Version}",
-                }, new { Version = ad.CurrentVersion.ToString() }));
+                this.speechLogger.Say(
+                    Actor.Dommy, 
+                    StringHelper.Format(
+                        new[] 
+                        {
+                            "Je suis prête. Version {Version}",
+                            "J'attend tes ordres. Version {Version}",
+                            "Démaré. Version {Version}",
+                        }, 
+                        new 
+                        { 
+                            Version = ad.CurrentVersion.ToString() 
+                        }));
             }
         }
 
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            this.SayError(e.ExceptionObject as Exception);
-        }
-
+        /// <summary>
+        /// Run result.
+        /// </summary>
+        /// <param name="result">Run an implementation of IResult.</param>
         public void RunResult(IResult result)
         {
             // Execute information of action.
@@ -133,43 +189,54 @@ namespace Dommy.Business
             else if (result is SayResult)
             {
                 string speech = (result as SayResult).Speech;
-                this.SpeechLogger.Say(Actor.Dommy, speech);
+                this.speechLogger.Say(Actor.Dommy, speech);
             }
         }
 
+        /// <summary>
+        /// Say an error.
+        /// </summary>
+        /// <param name="ex">Exception of the error.</param>
         public void SayError(Exception ex)
         {
-            var errors = new[]{
-                    "Une erreur c'est produite.",
-                    "Il y a eu une erreur pendant l'éxécution.",
-                    "J'ai identifié une erreur pendant l'éxécution.",
-                    "Je n'ai pas réussis a éxécuter l'action.",
-                    "Impossible, il y a une erreur.",
-                    "Il y a une erreur.",
-                    "J'ai eu un problème.",
-                    "Je n'y arrive pas."
-                };
+            var errors = new[]
+            {
+                "Une erreur c'est produite.",
+                "Il y a eu une erreur pendant l'éxécution.",
+                "J'ai identifié une erreur pendant l'éxécution.",
+                "Je n'ai pas réussis a éxécuter l'action.",
+                "Impossible, il y a une erreur.",
+                "Il y a une erreur.",
+                "J'ai eu un problème.",
+                "Je n'y arrive pas."
+            };
 
-            this.SpeechLogger.ErrorRecognition(Actor.Dommy, StringHelper.Format(errors));
-            this.SpeechLogger.ErrorRecognition(Actor.Dommy, ex.Message);
-            this.Logger.Error(ex, "Speech recognition error");
+            this.speechLogger.ErrorRecognition(Actor.Dommy, StringHelper.Format(errors));
+            this.speechLogger.ErrorRecognition(Actor.Dommy, ex.Message);
+            this.logger.Error(ex, "Speech recognition error");
         }
 
+        /// <summary>
+        /// Speech recognition error.
+        /// </summary>
         public void SpeechRecognitionError()
         {
             string sentence = string.Empty;
 
             if (sentence.StartsWith(this.Name, StringComparison.CurrentCultureIgnoreCase))
             {
-                this.Logger.Info("Recognition error : '{0}'", sentence);
+                this.logger.Info("Recognition error : '{0}'", sentence);
             }
         }
 
+        /// <summary>
+        /// Stop engine.
+        /// </summary>
         public void Stop()
         {
-            foreach (var listener in this.Listeners)
+            foreach (var listener in this.listeners)
             {
-                this.Logger.Info("Stop {0}", listener.GetType());
+                this.logger.Info("Stop {0}", listener.GetType());
 
                 try
                 {
@@ -180,22 +247,27 @@ namespace Dommy.Business
                     this.SayError(ex);
                 }
             }
-
         }
 
-        public IKernel Kernel { get; private set; }
-
-        public string Name { get; set; }
-
-        public string GetName()
-        {
-            return this.Name;
-        }
-
+        /// <summary>
+        /// Find instance of the listener.
+        /// </summary>
+        /// <typeparam name="T">Listener Type.</typeparam>
+        /// <returns>Listener instance.</returns>
         internal T Listener<T>()
             where T : IListener
         {
-            return this.Listeners.OfType<T>().FirstOrDefault();
+            return this.listeners.OfType<T>().FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Match all unhandled exception.
+        /// </summary>
+        /// <param name="sender">Unhandled exception sender.</param>
+        /// <param name="e">Event exception.</param>
+        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            this.SayError(e.ExceptionObject as Exception);
         }
     }
 }

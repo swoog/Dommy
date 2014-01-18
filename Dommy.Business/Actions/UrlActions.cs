@@ -1,16 +1,20 @@
-﻿using Dommy.Business.Syntax;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UrlActions.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Actions
 {
+    using Dommy.Business.Syntax;
+    using Ninject.Extensions.Logging;
+
+    /// <summary>
+    /// Url syntax.
+    /// </summary>
     public class UrlActions : IUrlActions
     {
-                /// <summary>
+        /// <summary>
         /// Scenario syntax to use.
         /// </summary>
         private IScenarioSyntax scenario;
@@ -21,7 +25,7 @@ namespace Dommy.Business.Actions
         private ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PingActions" /> class.
+        /// Initializes a new instance of the <see cref="UrlActions" /> class.
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
         /// <param name="logger">Information logger.</param>
@@ -31,15 +35,20 @@ namespace Dommy.Business.Actions
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Get a scrapper for url.
+        /// </summary>
+        /// <typeparam name="T">Type of object to create when scrap.</typeparam>
+        /// <param name="url">Url to scrap.</param>
+        /// <returns>Scrapper action.</returns>
         public IScrapActions GetUrl<T>(string url)
         {
             var scrapper = new ScrapActions();
 
-            //return this.scenario.Action(() =>
-            //{
-            //    return true;
-            //});
-
+            // return this.scenario.Action(() =>
+            // {
+            //     return true;
+            // });
             return scrapper;
         }
     }

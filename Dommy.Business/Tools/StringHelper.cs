@@ -1,13 +1,13 @@
 //-----------------------------------------------------------------------
-// <copyright file="StringHelper.cs" company="Microsoft">
-//     Copyright (c) agaltier, Microsoft. All rights reserved.
+// <copyright file="StringHelper.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Dommy.Business.Tools
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -15,45 +15,70 @@ namespace Dommy.Business.Tools
     /// </summary>
     public class StringHelper
     {
-        public static string Format(string format, object obj = null)
+        /// <summary>
+        /// Initialize a random generator.
+        /// </summary>
+        private static Random r = new Random();
+
+        /// <summary>
+        /// Format string with data of properties.
+        /// Example : "Hello {FirstName}" will be convert to by "Hello YourName" if the data contains a property FirstName.
+        /// </summary>
+        /// <param name="format">String format.</param>
+        /// <param name="data">Object with properties used in the format.</param>
+        /// <returns>Return string.</returns>
+        public static string Format(string format, object data = null)
         {
             Dictionary<string, string> dico = new Dictionary<string, string>();
 
-            if (obj != null)
+            if (data != null)
             {
-                foreach (var p in obj.GetType().GetProperties())
+                foreach (var p in data.GetType().GetProperties())
                 {
-                    dico.Add(p.Name, Convert.ToString(p.GetValue(obj, new object[0])));
+                    dico.Add(p.Name, Convert.ToString(p.GetValue(data, new object[0])));
                 }
             }
 
             return Format(format, dico);
         }
 
-        public static string Format(string format, Dictionary<string, string> values)
+        /// <summary>
+        /// Format string with data of dictionary.
+        /// Example : "Hello {FirstName}" will be convert to by "Hello YourName" if the data contains a key FirstName.
+        /// </summary>
+        /// <param name="format">String format.</param>
+        /// <param name="data">Object with properties used in the format.</param>
+        /// <returns>Return string.</returns>
+        public static string Format(string format, Dictionary<string, string> data)
         {
             Regex reg = new Regex(@"\{([^\}]+)\}");
 
-            return reg.Replace(format, new MatchEvaluator(m =>
-            {
-                if (values.ContainsKey(m.Groups[1].Value))
+            return reg.Replace(format, new MatchEvaluator(
+                m =>
                 {
-                    return values[m.Groups[1].Value];
-                }
-                else
-                {
-                    return "{" + m.Groups[1].Value + "}";
-                }
-            }));
+                    if (data.ContainsKey(m.Groups[1].Value))
+                    {
+                        return data[m.Groups[1].Value];
+                    }
+                    else
+                    {
+                        return "{" + m.Groups[1].Value + "}";
+                    }
+                }));
         }
 
-        private static Random r = new Random();
-
-        public static string Format(IList<string> formats, object obj = null)
+        /// <summary>
+        /// Format string with data of properties.
+        /// Example : "Hello {FirstName}" will be convert to by "Hello YourName" if the data contains a property FirstName.
+        /// </summary>
+        /// <param name="formats">String format. Used randomly a format.</param>
+        /// <param name="data">Object with properties used in the format.</param>
+        /// <returns>Return string.</returns>
+        public static string Format(IList<string> formats, object data = null)
         {
             int num = r.Next(formats.Count);
 
-            return StringHelper.Format(formats[num], obj);
+            return StringHelper.Format(formats[num], data);
         }
     }
 }

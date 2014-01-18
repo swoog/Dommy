@@ -29,7 +29,9 @@ namespace Dommy.Business.Tools
                 return "&#38;" + m.Groups[1].Value;
             });
 
-            return new XmlReaderPatch(new StringReader(file));
+            var stringReader = new StringReader(file);
+
+            return new XmlReaderPatch(stringReader);
         }
 
         private XmlReaderPatch(TextReader tr)
@@ -89,7 +91,7 @@ namespace Dommy.Business.Tools
                 for (int i = 1; i < 13; i++)
                 {
                     var dt = new DateTime(2011, i, 1);
-                    if (dt.ToString("MMMM", CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat).StartsWith(m.Groups[2].Value, StringComparison.InvariantCultureIgnoreCase))
+                    if (dt.ToString("MMMM", CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat).StartsWith(m.Groups[2].Value, StringComparison.OrdinalIgnoreCase))
                     {
                         return m.Groups[1].Value + " " + dt.ToString("MMM", CultureInfo.InvariantCulture) + " ";
                     }

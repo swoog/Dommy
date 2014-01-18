@@ -53,11 +53,11 @@ namespace Dommy.Business.Scenarios
                     {
                         var weather = Cache.Get("WeatherAction", TimeSpan.FromHours(1), () =>
                         {
-                            var temperature = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusTemperatureId);
+                            var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
 
-                            var rain = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusRainId);
+                            var rain = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusRainId);
 
-                            var wind = this.eedomusHelper.CallService(this.Mode, EedoumusAction.PeriphCaract, this.EedomusWindId);
+                            var wind = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusWindId);
 
                             return new Weather
                             {

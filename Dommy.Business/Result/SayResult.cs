@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="SayResult.cs" company="Microsoft">
-//     Copyright (c) agaltier, Microsoft. All rights reserved.
+// <copyright file="SayResult.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Dommy.Business.Result
@@ -13,11 +13,18 @@ namespace Dommy.Business.Result
     /// </summary>
     public class SayResult : IResult
     {
-        public string Speech { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SayResult"/> class.
+        /// </summary>
+        /// <param name="speech">Sentence to say.</param>
         public SayResult(string speech)
         {
             this.Speech = speech;
         }
+
+        /// <summary>
+        /// Gets speech to say.
+        /// </summary>
+        public string Speech { get; private set; }
     }
 }

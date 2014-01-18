@@ -1,15 +1,25 @@
-﻿using Dommy.Business.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ITileTriggerSyntax.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Triggers
 {
+    using System.Drawing;
+    using Dommy.Business.Syntax;
+
+    /// <summary>
+    /// Syntax of the tiles trigger.
+    /// </summary>
     public interface ITileTriggerSyntax : IExtendSyntax
     {
+        /// <summary>
+        /// Create a tile on the web interface used to start scenario.
+        /// </summary>
+        /// <param name="title">Tile name.</param>
+        /// <param name="backGround">Background color of the tile.</param>
+        /// <returns>Trigger scenario syntax.</returns>
         ITriggerScenarioSyntax TileTrigger(string title, Color backGround);
         ITriggerScenarioSyntax TileTrigger(string p1, System.Drawing.Color color, string url);
     }

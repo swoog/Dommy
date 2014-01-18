@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="SpeechLogger.cs" company="Microsoft">
-//     Copyright (c) agaltier, Microsoft. All rights reserved.
+// <copyright file="SpeechLogger.cs" company="Trollcorp">
+//     Copyright (c) agaltier, Trollcorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Dommy.Business

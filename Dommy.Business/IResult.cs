@@ -1,10 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+//-----------------------------------------------------------------------
+// <copyright file="IResult.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business
 {
+    /// <summary>
+    /// Result class.
+    /// </summary>
     public interface IResult
     {
     }

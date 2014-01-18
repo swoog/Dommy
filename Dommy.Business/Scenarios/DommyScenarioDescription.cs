@@ -1,17 +1,22 @@
-﻿using Dommy.Business.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="DommyScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    /// <summary>
+    /// Dommy scenarios.
+    /// </summary>
     public class DommyScenarioDescription : IScenarioDescription
     {
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
         public void Create()
         {
-            //Scenario.Create("Dommy")
+            // Scenario.Create("Dommy")
             //    .SpeechTrigger("dommy")
             //    .Precision(new[]{"Oui ?",
             //    "Que puis-je faire ?",

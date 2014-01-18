@@ -1,14 +1,16 @@
-﻿using Dommy.Business.Actions;
-using Dommy.Business.Syntax;
-using Dommy.Business.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="OnOffLightScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+    using System;
+    using System.Linq;
+
     public class OnOffLightScenarioDescription : IScenarioDescription
     {
         /// <summary>
