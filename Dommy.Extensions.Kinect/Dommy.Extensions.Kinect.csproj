@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KinectSensorSelector.cs" />
     <Compile Include="KinectSkeletonListener.cs" />
     <Compile Include="KinectSpeechToText.cs" />
     <Compile Include="MicrosoftTextToSpeech.cs" />

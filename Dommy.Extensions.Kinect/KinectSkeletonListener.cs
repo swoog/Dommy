@@ -7,6 +7,7 @@
 namespace Dommy.Extensions.Kinect
 {
     using Dommy.Business;
+    using Dommy.Business.Config;
     using Microsoft.Kinect;
     using System;
     using System.Collections.Generic;
@@ -19,38 +20,50 @@ namespace Dommy.Extensions.Kinect
         /// <summary>
         /// Instance of the kinect sensor.
         /// </summary>
-        private KinectSensor kinect = null;
+        private KinectSensorSelector kinect = null;
+
+        public KinectSkeletonListener(KinectSensorSelector kinect)
+        {
+            this.kinect = kinect;
+        }
 
         public void Init(Engine engine)
         {
-            throw new NotImplementedException();
         }
 
         public void Start()
         {
-            throw new NotImplementedException();
-        //    using (var skeletonFrame = this.kinect.SkeletonStream.OpenNextFrame(0))
-        //    {
-        //        // Sometimes we get a null frame back if no data is ready
-        //        if (null == skeletonFrame)
-        //        {
-        //            return;
-        //        }
+            this.kinect.Start();
+            //    using (var skeletonFrame = this.kinect.SkeletonStream.OpenNextFrame(0))
+            //    {
+            //        // Sometimes we get a null frame back if no data is ready
+            //        if (null == skeletonFrame)
+            //        {
+            //            return;
+            //        }
 
-        //        // Reallocate if necessary
-        //        if (null == skeletonData || skeletonData.Length != skeletonFrame.SkeletonArrayLength)
-        //        {
-        //            skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
-        //        }
+            //        // Reallocate if necessary
+            //        if (null == skeletonData || skeletonData.Length != skeletonFrame.SkeletonArrayLength)
+            //        {
+            //            skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
+            //        }
 
-        //        skeletonFrame.CopySkeletonDataTo(skeletonData);
-        //        skeletonDrawn = false;
-        //    }
-        //}
+            //        skeletonFrame.CopySkeletonDataTo(skeletonData);
+            //        skeletonDrawn = false;
+            //    }
+        }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            this.kinect.Stop();
+        }
+
+        public class Config : IConfig
+        {
+            public void Create(Ninject.IKernel kernel)
+            {
+                kernel.Bind<IListener>().To<KinectSkeletonListener>();
+            }
         }
     }
 }
