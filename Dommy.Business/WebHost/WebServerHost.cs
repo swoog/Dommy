@@ -16,6 +16,11 @@ namespace Dommy.Business.WebHost
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WebServerHost : IWebServerHost
     {
+#if DEBUG
+        private const string WebServerPath = @"..\..\..\Dommy.Web\";
+#else
+        private const string WebServerPath = @".\";
+#endif
         public class Config : IConfig
         {
             public int Port { get; set; }
@@ -55,7 +60,7 @@ namespace Dommy.Business.WebHost
             }
 
             server = new CassiniDevServer();
-            server.StartServer("./", this.port, "/", "*");
+            server.StartServer(WebServerHost.WebServerPath, this.port, "/", "*");
             this.logger.Info("Webserver started on {0} port", this.port);
         }
 
