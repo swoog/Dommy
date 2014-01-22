@@ -266,7 +266,7 @@ namespace Dommy.Business
                     key = Guid.NewGuid().ToString();
                 }
 
-                var grammarInfo = Cache.Get<GrammarInfo>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
+                var grammarInfo = DommyCache.Get<GrammarInfo>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
                 {
                     var sentences = new List<string>();
                     var g = this.CreateGrammar(s => sentences.Add(s), item.Sentences);

@@ -15,11 +15,13 @@ namespace Dommy.Business.Config
     using Dommy.Business.Syntax;
     using Ninject;
     using Ninject.Extensions.Conventions;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
 
     /// <summary>
     /// Configure all elements in the project.
     /// </summary>
-    public class Configure
+    public static class Configure
     {
         /// <summary>
         /// Config file.
@@ -143,6 +145,8 @@ namespace Dommy.Business.Config
         /// <param name="configFile">Configuration file name.</param>
         public static void LoadConfig(string configFile)
         {
+            Contract.Requires(!string.IsNullOrEmpty(configFile));
+
             Configure.configFile = configFile;
 
             if (!File.Exists(configFile))
@@ -188,7 +192,7 @@ namespace Dommy.Business.Config
             foreach (var item in type.GetProperties())
             {
                 writer.WriteStartElement(item.Name, item.Name);
-                writer.WriteString(string.Format("{0}", item.GetValue(instance)));
+                writer.WriteString(string.Format(CultureInfo.InvariantCulture, "{0}", item.GetValue(instance)));
                 writer.WriteEndElement();
             }
         }
@@ -219,7 +223,7 @@ namespace Dommy.Business.Config
                     }
                     else
                     {
-                        val = Convert.ChangeType(reader.Value, property.PropertyType);
+                        val = Convert.ChangeType(reader.Value, property.PropertyType, CultureInfo.InvariantCulture);
                     }
 
                     property.SetValue(config, val);

@@ -7,6 +7,7 @@ namespace Dommy.Business.Tools
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -76,6 +77,8 @@ namespace Dommy.Business.Tools
         /// <returns>Return string.</returns>
         public static string Format(IList<string> formats, object data = null)
         {
+            Contract.Requires(formats != null);
+
             int num = r.Next(formats.Count);
 
             return StringHelper.Format(formats[num], data);

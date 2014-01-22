@@ -62,7 +62,7 @@ namespace Dommy.Business.Speech
             this.Dispose(true);
         }
 
-        protected void Dispose(bool b)
+        public void Dispose(bool b)
         {
             if (this.synthesizer != null)
             {

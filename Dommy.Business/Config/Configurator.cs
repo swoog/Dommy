@@ -7,6 +7,7 @@
 namespace Dommy.Business.Config
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -40,6 +41,8 @@ namespace Dommy.Business.Config
         /// <returns>Configuration class.</returns>
         public Configurator<T> With<TResult>(Expression<Func<T, TResult>> property, TResult value)
         {
+            Contract.Requires(property != null);
+
             var b = property.Body as MemberExpression;
 
             if (b == null)
