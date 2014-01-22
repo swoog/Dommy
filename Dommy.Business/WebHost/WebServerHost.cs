@@ -1,5 +1,5 @@
 ﻿using CassiniDev;
-using Dommy.Business.Config;
+using Dommy.Business.Configs;
 using Dommy.Business.Services;
 using Dommy.Business.Tools;
 using Ninject.Extensions.Logging;

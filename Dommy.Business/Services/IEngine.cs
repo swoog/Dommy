@@ -11,6 +11,6 @@ namespace Dommy.Business.Services
     public interface IEngine
     {
         [OperationContract]
-        string GetName();
+        string GetEngineName();
     }
 }

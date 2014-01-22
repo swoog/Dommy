@@ -9,6 +9,7 @@ namespace Dommy.Business.Actions
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using Ninject.Extensions.Logging;
+    using System.Globalization;
 
     /// <summary>
     /// Eedomus syntax.
@@ -21,11 +22,6 @@ namespace Dommy.Business.Actions
         private IScenarioSyntax scenario;
 
         /// <summary>
-        /// Information logger.
-        /// </summary>
-        private ILogger logger;
-
-        /// <summary>
         /// Eedomus helper.
         /// </summary>
         private EedomusHelper eedomusHelper;
@@ -34,12 +30,10 @@ namespace Dommy.Business.Actions
         /// Initializes a new instance of the <see cref="EedomusActions" /> class.
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
-        /// <param name="logger">Information logger.</param>
         /// <param name="eedomusHelper">Eedomus helper</param>
-        public EedomusActions(IScenarioSyntax scenario, ILogger logger, EedomusHelper eedomusHelper)
+        public EedomusActions(IScenarioSyntax scenario, EedomusHelper eedomusHelper)
         {
             this.scenario = scenario;
-            this.logger = logger;
             this.eedomusHelper = eedomusHelper;
         }
 
@@ -76,7 +70,7 @@ namespace Dommy.Business.Actions
             });
         }
 
-         /// <summary>
+        /// <summary>
         /// Call local API eedomus and make on/off (Light, ...).
         /// </summary>
         /// <param name="id">Eedomus id element.</param>
@@ -101,7 +95,7 @@ namespace Dommy.Business.Actions
         {
             return this.scenario.Action(() =>
             {
-                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, id, string.Format("{0}", value));
+                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, id, string.Format(CultureInfo.InvariantCulture, "{0}", value));
                 return true;
             });
         }

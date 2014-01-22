@@ -12,6 +12,7 @@ namespace Dommy.Business.Actions
     using System.Web;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Use Synology API.
@@ -97,6 +98,8 @@ namespace Dommy.Business.Actions
         /// <param name="parameter">HTTP parameters.</param>
         private void CallRequest(string url, string method, string parameter)
         {
+            Contract.Requires(!string.IsNullOrEmpty(url));
+            Contract.Requires(method == "GET" || method == "POST");
             var urlTemp = method == "GET" ? url + "?" + parameter : url;
 
             HttpWebRequest request = HttpWebRequest.Create(urlTemp) as HttpWebRequest;

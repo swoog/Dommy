@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Business.Config
+namespace Dommy.Business.Configs
 {
     using Ninject;
 

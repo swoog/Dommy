@@ -1,4 +1,4 @@
-﻿using Dommy.Business.Config;
+﻿using Dommy.Business.Configs;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Logging;

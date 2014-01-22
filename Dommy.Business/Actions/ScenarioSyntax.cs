@@ -158,8 +158,10 @@ namespace Dommy.Business.Actions
             {
                 using (var driver = new Driver())
                 {
-                    var transmitter = new Transmitter(driver);
-                    transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
+                    using (var transmitter = new Transmitter(driver))
+                    {
+                        transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
+                    }
 
                     return true;
                 }
