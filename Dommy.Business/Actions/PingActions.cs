@@ -46,19 +46,21 @@ namespace Dommy.Business.Actions
         {
             this.scenario.Action(() =>
             {
-                Ping p = new Ping();
-                var ret = p.Send(ip, 2000);
-
-                this.logger.Debug("Ping {0} : {1}", ip, ret.Status);
-
-                var value = ret.Status == IPStatus.Success;
-
-                if (b)
+                using (var p = new Ping())
                 {
-                    return value;
-                }
+                    var ret = p.Send(ip, 2000);
 
-                return !value;
+                    this.logger.Debug("Ping {0} : {1}", ip, ret.Status);
+
+                    var value = ret.Status == IPStatus.Success;
+
+                    if (b)
+                    {
+                        return value;
+                    }
+
+                    return !value;
+                }
             });
 
             return this.scenario;

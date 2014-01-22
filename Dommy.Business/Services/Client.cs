@@ -44,7 +44,10 @@ namespace Dommy.Business.Services
         {
             if (disposing)
             {
-                ((IDisposable)this.Channel).Dispose();
+                if (this.Channel != null)
+                {
+                    ((IDisposable)this.Channel).Dispose();
+                }
             }
         }
     }

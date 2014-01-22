@@ -1,5 +1,5 @@
 using Dommy.Business;
-using Dommy.Business.Config;
+using Dommy.Business.Configs;
 using Dommy.Business.Scenarios;
 using Dommy.Business.Scripts;
 using Dommy.Business.Services;

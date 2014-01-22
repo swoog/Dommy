@@ -14,6 +14,7 @@ namespace Dommy.Business.Scenarios
     using System.Text;
     using System.Threading;
     using Dommy.Business.Syntax;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Freebox scenarios.
@@ -56,7 +57,7 @@ namespace Dommy.Business.Scenarios
         /// <returns>Indicate if the scenario must continue.</returns>
         public bool FreeboxReboot()
         {
-            var value = GetFreeboxInfo(@"{""jsonrpc"":""2.0"",""method"":""system.reboot"",""params"":[true]}");
+            GetFreeboxInfo(@"{""jsonrpc"":""2.0"",""method"":""system.reboot"",""params"":[true]}");
             return true;
         }
 
@@ -83,12 +84,14 @@ namespace Dommy.Business.Scenarios
                         i++;
                         try
                         {
-                            Ping p = new Ping();
-                            var result = p.Send("www.google.fr");
-
-                            if (result.Status == IPStatus.Success)
+                            using (var p = new Ping())
                             {
-                                return true;
+                                var result = p.Send("www.google.fr");
+
+                                if (result.Status == IPStatus.Success)
+                                {
+                                    return true;
+                                }
                             }
                         }
                         catch
@@ -112,6 +115,8 @@ namespace Dommy.Business.Scenarios
         /// <returns>Returned information by Freebox API.</returns>
         private static VersionResult GetFreeboxInfo(string req)
         {
+            Contract.Requires(!string.IsNullOrEmpty(req));
+            
             var c = "login=freebox&passwd=pendore2010";
             var r = System.Net.HttpWebRequest.CreateHttp("http://mafreebox.fr/login.php");
             r.Method = "POST";
@@ -121,7 +126,6 @@ namespace Dommy.Business.Scenarios
             r.Credentials = CredentialCache.DefaultCredentials;
             r.CookieContainer = new CookieContainer();
             r.AllowAutoRedirect = false;
-            var cookie = r.CookieContainer;
             using (var requestStream = r.GetRequestStream())
             {
                 requestStream.Write(encoding.GetBytes(c), 0, encoding.GetByteCount(c));

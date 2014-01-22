@@ -161,11 +161,11 @@
     <Compile Include="Actions\SynologyDownloadActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
-    <Compile Include="Config\Configurator.cs" />
-    <Compile Include="Config\Configure.cs">
+    <Compile Include="Configs\Configurator.cs" />
+    <Compile Include="Configs\Configure.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Config\IConfig.cs" />
+    <Compile Include="Configs\IConfig.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GrammarChoices.cs" />
     <Compile Include="GrammarData.cs" />
@@ -217,6 +217,7 @@
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
     <Compile Include="Actions\EedomusAction.cs" />
+    <Compile Include="Tools\EedomusException.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\WebAppender.cs" />

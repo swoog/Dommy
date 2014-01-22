@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Business.Config
+namespace Dommy.Business.Configs
 {
     using System;
     using System.Collections.Generic;
@@ -189,6 +189,8 @@ namespace Dommy.Business.Config
         /// <param name="writer">XML writer</param>
         private static void WriteConfig(Type type, IConfig instance, XmlWriter writer)
         {
+            Contract.Requires(type != null);
+
             foreach (var item in type.GetProperties())
             {
                 writer.WriteStartElement(item.Name, item.Name);
@@ -205,6 +207,8 @@ namespace Dommy.Business.Config
         /// <param name="reader">XML reader</param>
         private static void ReadConfig(string configName, IConfig config, XmlReader reader)
         {
+            Contract.Requires(reader != null);
+
             string propertyName = null;
             while (reader.Read())
             {

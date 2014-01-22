@@ -1,5 +1,5 @@
 ﻿using Dommy.Business.Actions;
-using Dommy.Business.Config;
+using Dommy.Business.Configs;
 using Ninject;
 using Ninject.Extensions.Logging;
 using System;
@@ -71,7 +71,7 @@ namespace Dommy.Business.Tools
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus. Code {0}", response.StatusCode));
+                throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus. Code {0}", response.StatusCode));
             }
 
             var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
@@ -97,7 +97,7 @@ namespace Dommy.Business.Tools
 
             if (!result.Success)
             {
-                throw new Exception(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus : {0}", result.Body.ErrorMsg));
+                throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus : {0}", result.Body.ErrorMsg));
             }
 
             value = result.Body.LastValue;
@@ -160,7 +160,7 @@ namespace Dommy.Business.Tools
                 url = distantUrl;
             }
 
-            return String.Format(url, this.apiAddr, requestType.ToString().ToLower(), ActionToString(action), eedomusId, parameter, apiUser, apiSecret);
+            return String.Format(CultureInfo.InvariantCulture, url, this.apiAddr, requestType.ToString().ToLower(CultureInfo.InvariantCulture), ActionToString(action), eedomusId, parameter, apiUser, apiSecret);
         }
 
         private static string ActionToString(EedomusAction action)

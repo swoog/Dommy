@@ -1,7 +1,9 @@
-﻿using Dommy.Business.Config;
+﻿using Dommy.Business.Configs;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -120,123 +122,128 @@ namespace Dommy.Business.Tools
 
         public void Command(TvCommand command)
         {
-            Command(String.Format("KEY_{0}", command.ToString().ToUpper()));
+            Command(String.Format("KEY_{0}", command.ToString().ToUpper(CultureInfo.InvariantCulture)));
         }
 
         private void Command(string key)
         {
+            Contract.Requires(key != null);
+
             this.logger.Info("TV {0}: {1}", this.TvIp, key);
 
-            TcpClient ourMagicClient = new TcpClient();
+            using (var ourMagicClient = new TcpClient())
+            {
 
-            try
-            {
-                //Connect to the server - change this IP address to match your server's IP!
-                ourMagicClient.Connect(this.TvIp, 55000);
-            }
-            catch (SocketException ex)
-            {
-                if (ex.SocketErrorCode == SocketError.TimedOut)
+                try
                 {
-                    this.logger.Info("TV not found");
-                    return;
+                    //Connect to the server - change this IP address to match your server's IP!
+                    ourMagicClient.Connect(this.TvIp, 55000);
+                }
+                catch (SocketException ex)
+                {
+                    if (ex.SocketErrorCode == SocketError.TimedOut)
+                    {
+                        this.logger.Info("TV not found");
+                        return;
+                    }
+
+                    throw;
                 }
 
-                throw;
+                var myip = this.MyIp;
+                var mymac = this.MyMac;
+                var remotename = "Dommy";
+                var appstring = "iphone..iapp.samsung";
+                var tvAppString = "iphone..iapp.samsung";
+
+                //Use a NetworkStream object to send and/or receive some data
+                NetworkStream ourStream = ourMagicClient.GetStream();
+
+                var ipencoded = EncodeTo64(myip);
+                var macencoded = EncodeTo64(mymac);
+                var remotenameencoded = EncodeTo64(remotename);
+                var appStringByte = System.Text.ASCIIEncoding.ASCII.GetBytes(appstring);
+                var tvAppStringByte = System.Text.ASCIIEncoding.ASCII.GetBytes(tvAppString);
+
+                var messagePart1Writer = new ByteWriter();
+
+                messagePart1Writer.Append(0x64);
+                messagePart1Writer.Append(0x00);
+                messagePart1Writer.Append(Convert.ToByte(ipencoded.Length));
+                messagePart1Writer.Append(0x00);
+                messagePart1Writer.Append(ipencoded);
+                messagePart1Writer.Append(Convert.ToByte(macencoded.Length));
+                messagePart1Writer.Append(0x00);
+                messagePart1Writer.Append(macencoded);
+                messagePart1Writer.Append(Convert.ToByte(remotenameencoded.Length));
+                messagePart1Writer.Append(0x00);
+                messagePart1Writer.Append(remotenameencoded);
+
+                var messagePart1 = messagePart1Writer.ToByteArray();
+
+                var part1Writer = new ByteWriter();
+                part1Writer.Append(0x00);
+                part1Writer.Append(Convert.ToByte(appStringByte.Length));
+                part1Writer.Append(0x00);
+                part1Writer.Append(appStringByte);
+                part1Writer.Append(Convert.ToByte(messagePart1.Length));
+                part1Writer.Append(0x00);
+                part1Writer.Append(messagePart1);
+
+                var part1 = part1Writer.ToByteArray();
+                ourStream.Write(part1, 0, part1.Length);
+
+                var messagePart2Writer = new ByteWriter();
+                messagePart2Writer.Append(0xc8);
+                messagePart2Writer.Append(0x00);
+                var messagePart2 = messagePart2Writer.ToByteArray();
+
+                var part2Writer = new ByteWriter();
+                part2Writer.Append(0x00);
+                part2Writer.Append(Convert.ToByte(appStringByte.Length));
+                part2Writer.Append(0x00);
+                part2Writer.Append(appStringByte);
+                part2Writer.Append(Convert.ToByte(messagePart2.Length));
+                part2Writer.Append(0x00);
+                part2Writer.Append(messagePart2);
+                var part2 = part2Writer.ToByteArray();
+                ourStream.Write(part2, 0, part2.Length);
+
+                //Preceding sections all first time only
+
+                //if (isset($_REQUEST["key"])) {
+                //Send remote key
+                var messagePart3Writer = new ByteWriter();
+                messagePart3Writer.Append(0x00);
+                messagePart3Writer.Append(0x00);
+                messagePart3Writer.Append(0x00);
+                messagePart3Writer.Append(Convert.ToByte(EncodeTo64(key).Length));
+                messagePart3Writer.Append(0x00);
+                messagePart3Writer.Append(EncodeTo64(key));
+                var messagepart3 = messagePart3Writer.ToByteArray();
+                var part3Writer = new ByteWriter();
+                part3Writer.Append(0x00);
+                part3Writer.Append(Convert.ToByte(tvAppStringByte.Length));
+                part3Writer.Append(0x00);
+                part3Writer.Append(tvAppStringByte);
+                part3Writer.Append(Convert.ToByte(messagepart3.Length));
+                part3Writer.Append(0x00);
+                part3Writer.Append(messagepart3);
+                var part3 = part3Writer.ToByteArray();
+                ourStream.Write(part3, 0, part3.Length);
+                //} else if (isset($_REQUEST["text"])) {
+                ////Send text, e.g. in YouTube app's search, N.B. NOT BBC iPlayer app.
+                //$text = $_REQUEST["text"];
+                //$messagepart3 = chr(0x01) . chr(0x00) . chr(strlen(base64_encode($text, ""))) . chr(0x00) . base64_encode($text, "");
+                //$part3 = chr(0x01) . chr(strlen($appstring)) . chr(0x00) . $appstring . chr(strlen($messagepart3)) . chr(0x00) . $messagepart3;
+                //socket_write($sock,$part3,strlen($part3));
+                //echo $part3;
+                //echo "\n";   
+                //}
+
+                ourMagicClient.Close();
             }
 
-            var myip = this.MyIp;
-            var mymac = this.MyMac;
-            var remotename = "Dommy";
-            var appstring = "iphone..iapp.samsung";
-            var tvAppString = "iphone..iapp.samsung";
-
-            //Use a NetworkStream object to send and/or receive some data
-            NetworkStream ourStream = ourMagicClient.GetStream();
-
-            var ipencoded = EncodeTo64(myip);
-            var macencoded = EncodeTo64(mymac);
-            var remotenameencoded = EncodeTo64(remotename);
-            var appStringByte = System.Text.ASCIIEncoding.ASCII.GetBytes(appstring);
-            var tvAppStringByte = System.Text.ASCIIEncoding.ASCII.GetBytes(tvAppString);
-
-            var messagePart1Writer = new ByteWriter();
-
-            messagePart1Writer.Append(0x64);
-            messagePart1Writer.Append(0x00);
-            messagePart1Writer.Append(Convert.ToByte(ipencoded.Length));
-            messagePart1Writer.Append(0x00);
-            messagePart1Writer.Append(ipencoded);
-            messagePart1Writer.Append(Convert.ToByte(macencoded.Length));
-            messagePart1Writer.Append(0x00);
-            messagePart1Writer.Append(macencoded);
-            messagePart1Writer.Append(Convert.ToByte(remotenameencoded.Length));
-            messagePart1Writer.Append(0x00);
-            messagePart1Writer.Append(remotenameencoded);
-
-            var messagePart1 = messagePart1Writer.ToByteArray();
-
-            var part1Writer = new ByteWriter();
-            part1Writer.Append(0x00);
-            part1Writer.Append(Convert.ToByte(appStringByte.Length));
-            part1Writer.Append(0x00);
-            part1Writer.Append(appStringByte);
-            part1Writer.Append(Convert.ToByte(messagePart1.Length));
-            part1Writer.Append(0x00);
-            part1Writer.Append(messagePart1);
-
-            var part1 = part1Writer.ToByteArray();
-            ourStream.Write(part1, 0, part1.Length);
-
-            var messagePart2Writer = new ByteWriter();
-            messagePart2Writer.Append(0xc8);
-            messagePart2Writer.Append(0x00);
-            var messagePart2 = messagePart2Writer.ToByteArray();
-
-            var part2Writer = new ByteWriter();
-            part2Writer.Append(0x00);
-            part2Writer.Append(Convert.ToByte(appStringByte.Length));
-            part2Writer.Append(0x00);
-            part2Writer.Append(appStringByte);
-            part2Writer.Append(Convert.ToByte(messagePart2.Length));
-            part2Writer.Append(0x00);
-            part2Writer.Append(messagePart2);
-            var part2 = part2Writer.ToByteArray();
-            ourStream.Write(part2, 0, part2.Length);
-
-            //Preceding sections all first time only
-
-            //if (isset($_REQUEST["key"])) {
-            //Send remote key
-            var messagePart3Writer = new ByteWriter();
-            messagePart3Writer.Append(0x00);
-            messagePart3Writer.Append(0x00);
-            messagePart3Writer.Append(0x00);
-            messagePart3Writer.Append(Convert.ToByte(EncodeTo64(key).Length));
-            messagePart3Writer.Append(0x00);
-            messagePart3Writer.Append(EncodeTo64(key));
-            var messagepart3 = messagePart3Writer.ToByteArray();
-            var part3Writer = new ByteWriter();
-            part3Writer.Append(0x00);
-            part3Writer.Append(Convert.ToByte(tvAppStringByte.Length));
-            part3Writer.Append(0x00);
-            part3Writer.Append(tvAppStringByte);
-            part3Writer.Append(Convert.ToByte(messagepart3.Length));
-            part3Writer.Append(0x00);
-            part3Writer.Append(messagepart3);
-            var part3 = part3Writer.ToByteArray();
-            ourStream.Write(part3, 0, part3.Length);
-            //} else if (isset($_REQUEST["text"])) {
-            ////Send text, e.g. in YouTube app's search, N.B. NOT BBC iPlayer app.
-            //$text = $_REQUEST["text"];
-            //$messagepart3 = chr(0x01) . chr(0x00) . chr(strlen(base64_encode($text, ""))) . chr(0x00) . base64_encode($text, "");
-            //$part3 = chr(0x01) . chr(strlen($appstring)) . chr(0x00) . $appstring . chr(strlen($messagepart3)) . chr(0x00) . $messagepart3;
-            //socket_write($sock,$part3,strlen($part3));
-            //echo $part3;
-            //echo "\n";   
-            //}
-
-            ourMagicClient.Close();
             Thread.Sleep(TimeSpan.FromMilliseconds(500));
         }
 
@@ -251,11 +258,15 @@ namespace Dommy.Business.Tools
 
             public void Append(byte[] b)
             {
+                Contract.Requires(b != null);
+
                 bytes.AddRange(b);
             }
 
             public void Append(ByteWriter writer)
             {
+                Contract.Requires(writer != null);
+
                 bytes.AddRange(writer.ToByteArray());
             }
 
@@ -267,6 +278,8 @@ namespace Dommy.Business.Tools
 
         private byte[] Combine(params byte[][] arrays)
         {
+            Contract.Requires(arrays != null);
+
             byte[] rv = new byte[arrays.Sum(a => a.Length)];
             int offset = 0;
             foreach (byte[] array in arrays)
@@ -279,13 +292,13 @@ namespace Dommy.Business.Tools
 
         static public byte[] EncodeTo64(string toEncode)
         {
+            Contract.Requires(toEncode != null);
 
             byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(toEncode);
 
             string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
 
             return System.Text.ASCIIEncoding.ASCII.GetBytes(returnValue);
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Dommy.Business.Config;
+﻿using Dommy.Business.Configs;
 using Ninject;
 using System;
 using System.Collections.Generic;
