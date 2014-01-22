@@ -65,7 +65,7 @@ namespace Dommy.Business.Config
             kernel.Bind<Engine>()
                 .ToSelf()
                 .InSingletonScope()
-                .WithPropertyValue("Name", name);
+                .WithConstructorArgument("name", name);
         }
 
         /// <summary>
@@ -263,11 +263,18 @@ namespace Dommy.Business.Config
             /// <param name="kernel">Kernel used for configuration.</param>
             public void Create(IKernel kernel)
             {
-                kernel.Bind<ITextToSpeech>()
-                    .To<MicrosoftTextToSpeech>()
-                    .InSingletonScope()
-                    .WithConstructorArgument("gender", this.Gender)
-                    .WithConstructorArgument("culture", this.Culture);
+                kernel.Bind(c =>
+                {
+                    c.FromAssembliesMatching("*.dll")
+                        .SelectAllClasses()
+                        .InheritedFrom<ITextToSpeech>()
+                        .BindUsingRegex("^ITextToSpeech$")
+                        .Configure(conf => 
+                            conf
+                            .InSingletonScope()
+                            .WithConstructorArgument("gender", this.Gender)
+                            .WithConstructorArgument("culture", this.Culture));
+                });
             }
         }
     }

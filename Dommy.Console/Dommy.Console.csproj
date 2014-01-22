@@ -157,6 +157,10 @@
       <Project>{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}</Project>
       <Name>Dommy.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect\Dommy.Extensions.Kinect.csproj">
+      <Project>{fdcfb3e9-d345-480b-9d1e-7fc7179bc45f}</Project>
+      <Name>Dommy.Extensions.Kinect</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

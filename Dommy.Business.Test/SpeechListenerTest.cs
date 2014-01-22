@@ -59,7 +59,11 @@ namespace Dommy.Business.Test
             var gram = listener.CreateGrammar(s => { }, new[] { "Test" });
 
             Assert.IsNotNull(gram);
-            Assert.IsTrue(gram.Enabled);
+            Assert.IsNotNull(gram.Choices);
+            Assert.AreEqual(1, gram.Choices.Count);
+            Assert.IsNotNull(gram.Choices[0].Elements);
+            Assert.AreEqual(1, gram.Choices[0].Elements.Count);
+            Assert.AreEqual("Test", gram.Choices[0].Elements[0]);
         }
 
         [TestMethod]
@@ -68,7 +72,7 @@ namespace Dommy.Business.Test
             var kernel = this.CreateKernel();
 
             kernel.Bind<Engine>().ToSelf()
-                .WithPropertyValue("Name", "Dommy");
+                .WithConstructorArgument("name", "Dommy");
 
             kernel.Bind<SpeechListener>().ToSelf()
                 .WithConstructorArgument("confidence", 0.1);
@@ -80,7 +84,14 @@ namespace Dommy.Business.Test
             var gram = listener.CreateGrammar(s => { }, new[] { "Test" }, true);
 
             Assert.IsNotNull(gram);
-            Assert.IsTrue(gram.Enabled);
+            Assert.IsNotNull(gram.Choices);
+            Assert.AreEqual(2, gram.Choices.Count);
+            Assert.IsNotNull(gram.Choices[0].Elements);
+            Assert.AreEqual(1, gram.Choices[0].Elements.Count);
+            Assert.AreEqual("Dommy", gram.Choices[0].Elements[0]);
+            Assert.IsNotNull(gram.Choices[1].Elements);
+            Assert.AreEqual(1, gram.Choices[1].Elements.Count);
+            Assert.AreEqual("Test", gram.Choices[1].Elements[0]);
         }
     }
 }
