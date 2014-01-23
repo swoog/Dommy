@@ -21,21 +21,21 @@ namespace Dommy.Business.Actions
         /// Add file to synology download manager.
         /// </summary>
         /// <param name="server">Server name with port.</param>
-        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="userName">Username used for connect to synology.</param>
         /// <param name="password">Password used for connect to synology.</param>
         /// <param name="file">Url file to download (EDK2, HTTP, ...)</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, string file);
+        IScenarioSyntax SynologyDownloadCreate(string server, string userName, string password, string file);
 
         /// <summary>
         /// Add file to synology download manager.
         /// </summary>
         /// <param name="server">Server name with port.</param>
-        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="userName">Username used for connect to synology.</param>
         /// <param name="password">Password used for connect to synology.</param>
         /// <param name="data">Data used to create file url.</param>
         /// <param name="file">Format url file to download (EDK2, HTTP, ...)</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, object data, string file);
+        IScenarioSyntax SynologyDownloadCreate(string server, string userName, string password, object data, string file);
     }
 }

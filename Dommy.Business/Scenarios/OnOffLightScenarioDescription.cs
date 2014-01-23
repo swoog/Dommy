@@ -9,6 +9,7 @@ namespace Dommy.Business.Scenarios
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
 
@@ -38,18 +39,12 @@ namespace Dommy.Business.Scenarios
         public string EedomusId { get; set; }
 
         /// <summary>
-        /// Instance of Eedomus helper.
-        /// </summary>
-        private EedomusHelper eedomusHelper;
-
-        /// <summary>
         /// Gets or sets names of the room.
         /// </summary>
-        public RoomName[] RoomNames { get; set; }
+        public ICollection<RoomName> RoomNames { get; set; }
 
-        public OnOffLightScenarioDescription(EedomusHelper eedomusHelper)
+        public OnOffLightScenarioDescription()
         {
-            this.eedomusHelper = eedomusHelper;
         }
 
         private class OnOffResponse
@@ -65,13 +60,13 @@ namespace Dommy.Business.Scenarios
 
         private void CreateOff()
         {
-            Contract.Requires(0 < this.RoomNames.Length);
+            Contract.Requires(0 < this.RoomNames.Count);
             var onOffResponse = new OnOffResponse();
             var sentences = (from s in new[] { "éteint la lumière {PrefixName}", "éteint {Name}" }
                              from r in this.RoomNames
                              select StringHelper.Format(s, r)).ToArray();
 
-            Scenario.Create(StringHelper.Format("Eteint {Name}", this.RoomNames[0]))
+            Scenario.Create(StringHelper.Format("Eteint {Name}", this.RoomNames.First()))
                 .SpeechTrigger(sentences)
                 .EedomusOnOff(this.EedomusId, false)
                 .Action(() =>
@@ -85,13 +80,13 @@ namespace Dommy.Business.Scenarios
 
         private void CreateOn()
         {
-            Contract.Requires(0 < this.RoomNames.Length);
+            Contract.Requires(0 < this.RoomNames.Count);
             var onOffResponse = new OnOffResponse();
             var sentences = (from s in new[] { "allume la lumière {PrefixName}", "allume {Name}" }
                              from r in this.RoomNames
                              select StringHelper.Format(s, r)).ToArray();
 
-            Scenario.Create(StringHelper.Format("Allume {Name}", this.RoomNames[0]))
+            Scenario.Create(StringHelper.Format("Allume {Name}", this.RoomNames.First()))
                 .SpeechTrigger(sentences)
                 .EedomusOnOff(this.EedomusId, true)
                 .Action(() =>
@@ -127,8 +122,8 @@ namespace Dommy.Business.Scenarios
             }
 
             Random r = new Random();
-            int roomNum = r.Next(this.RoomNames.Length);
-            var room = this.RoomNames[roomNum];
+            int roomNum = r.Next(this.RoomNames.Count);
+            var room = this.RoomNames.ElementAt(roomNum);
 
             return StringHelper.Format(this.speech, new { StatusFemale = statusFemale, StatusMale = statusMale, Name = room.Name, PrefixName = room.PrefixName, StatusNeutre = statusNeutre });
         }

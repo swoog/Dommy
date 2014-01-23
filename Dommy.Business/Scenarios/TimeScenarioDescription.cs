@@ -9,6 +9,7 @@ using Ninject;
 using Dommy.Business.Triggers;
 using Dommy.Business.Syntax;
 using Dommy.Business.Actions;
+using System.Globalization;
 
 namespace Dommy.Business.Scenarios
 {
@@ -63,8 +64,8 @@ namespace Dommy.Business.Scenarios
                         formatString = StringHelper.Format(minuteStr);
                     }
 
-                    value.Hour = String.Format(hourStr, hour);
-                    value.Minute = String.Format(formatString, minute);
+                    value.Hour = String.Format(CultureInfo.InvariantCulture, hourStr, hour);
+                    value.Minute = String.Format(CultureInfo.InvariantCulture, formatString, minute);
 
                     return true;
                 })

@@ -13,6 +13,7 @@ namespace Dommy.Business.Actions
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using System.Diagnostics.Contracts;
+    using System.Globalization;
 
     /// <summary>
     /// Use Synology API.
@@ -52,35 +53,35 @@ namespace Dommy.Business.Actions
         /// Add file to synology download manager.
         /// </summary>
         /// <param name="server">Server name with port.</param>
-        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="userName">Username used for connect to synology.</param>
         /// <param name="password">Password used for connect to synology.</param>
         /// <param name="file">Url file to download (EDK2, HTTP, ...)</param>
         /// <returns>Scenario syntax.</returns>
-        public Syntax.IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, string file)
+        public Syntax.IScenarioSyntax SynologyDownloadCreate(string server, string userName, string password, string file)
         {
-            return this.SynologyDownloadCreate(server, username, password, null, file);
+            return this.SynologyDownloadCreate(server, userName, password, null, file);
         }
 
         /// <summary>
         /// Add file to synology download manager.
         /// </summary>
         /// <param name="server">Server name with port.</param>
-        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="userName">Username used for connect to synology.</param>
         /// <param name="password">Password used for connect to synology.</param>
         /// <param name="data">Data used to create file url.</param>
         /// <param name="file">Format url file to download (EDK2, HTTP, ...)</param>
         /// <returns>Scenario syntax.</returns>
-        public Syntax.IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, object data, string file)
+        public Syntax.IScenarioSyntax SynologyDownloadCreate(string server, string userName, string password, object data, string file)
         {
             this.scenario.Action(() =>
             {
-                var urlAuthServer = string.Format(urlAuth, server);
-                var parameterAuth = string.Format("api=SYNO.API.Auth&version=2&method=login&account={0}&passwd={1}&session=DownloadStation&format=cookie", username, password);
+                var urlAuthServer = string.Format(CultureInfo.InvariantCulture, urlAuth, server);
+                var parameterAuth = string.Format(CultureInfo.InvariantCulture, "api=SYNO.API.Auth&version=2&method=login&account={0}&passwd={1}&session=DownloadStation&format=cookie", userName, password);
                 CallRequest(urlAuthServer, "GET", parameterAuth);
 
-                var urlTaskServer = string.Format(urlTask, server);
+                var urlTaskServer = string.Format(CultureInfo.InvariantCulture, urlTask, server);
                 var fileFormat = HttpUtility.UrlEncode(StringHelper.Format(file, data));
-                var parameterTask = string.Format("api=SYNO.DownloadStation.Task&version=1&method=create&uri={0}", fileFormat);
+                var parameterTask = string.Format(CultureInfo.InvariantCulture, "api=SYNO.DownloadStation.Task&version=1&method=create&uri={0}", fileFormat);
 
                 CallRequest(urlTaskServer, "POST", parameterTask);
 
@@ -124,6 +125,12 @@ namespace Dommy.Business.Actions
             var response = request.GetResponse() as HttpWebResponse;
             this.cookies = response.Cookies;
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            if (String.IsNullOrEmpty(responseString))
+            {
+                throw new FormatException();
+            }
+
             response.Close();
         }
     }

@@ -67,7 +67,7 @@ namespace Dommy.Business.Test
         }
 
         [TestMethod]
-        public void CreateGrammarTest_WithPrefix()
+        public void CreateGrammarTestWithPrefix()
         {
             var kernel = this.CreateKernel();
 

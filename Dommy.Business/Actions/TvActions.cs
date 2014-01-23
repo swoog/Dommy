@@ -12,12 +12,12 @@ namespace Dommy.Business.Actions
     /// <summary>
     /// Implementation of TV actions.
     /// </summary>
-    public class TvActions : ITvActions
+    public class TVActions : ITVActions
     {
         /// <summary>
         /// TV helper used to send commands.
         /// </summary>
-        private ITvHelper teleHelper;
+        private ITVHelper teleHelper;
 
         /// <summary>
         /// Scenario syntax to use.
@@ -25,21 +25,15 @@ namespace Dommy.Business.Actions
         private IScenarioSyntax scenario;
 
         /// <summary>
-        /// Asynchronous helper.
-        /// </summary>
-        private AsyncHelper asyncHelper;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TvActions" /> class.
+        /// Initializes a new instance of the <see cref="TVActions" /> class.
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
         /// <param name="teleHelper">TV helper used to send commands.</param>
         /// <param name="asyncHelper">Asynchronous helper.</param>
-        public TvActions(IScenarioSyntax scenario, ITvHelper teleHelper, AsyncHelper asyncHelper)
+        public TVActions(IScenarioSyntax scenario, ITVHelper teleHelper)
         {
             this.scenario = scenario;
             this.teleHelper = teleHelper;
-            this.asyncHelper = asyncHelper;
         }
 
         /// <summary>
@@ -47,7 +41,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvCommand(TvCommand command)
+        public IScenarioSyntax TVCommand(TVCommand command)
         {
             this.scenario.Action(() =>
             {
@@ -64,7 +58,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="canal">Canal to change.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvCanal(int canal)
+        public IScenarioSyntax TVCanal(int canal)
         {
             this.scenario.Action(() =>
             {
@@ -81,7 +75,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="quantity">Quantity to change volume.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvSound(int quantity)
+        public IScenarioSyntax TVSound(int quantity)
         {
             this.scenario.Action(() =>
             {
@@ -89,14 +83,14 @@ namespace Dommy.Business.Actions
                 {
                     for (int i = 0; i < quantity; i++)
                     {
-                        this.teleHelper.Command(Tools.TvCommand.VolUp);
+                        this.teleHelper.Command(Tools.TVCommand.VolUp);
                     }
                 }
                 else
                 {
                     for (int i = 0; i < -quantity; i++)
                     {
-                        this.teleHelper.Command(Tools.TvCommand.VolDown);
+                        this.teleHelper.Command(Tools.TVCommand.VolDown);
                     }
                 }
 
@@ -110,11 +104,11 @@ namespace Dommy.Business.Actions
         /// Mute on TV.
         /// </summary>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvMute()
+        public IScenarioSyntax TVMute()
         {
             this.scenario.Action(() =>
             {
-                this.teleHelper.Command(Tools.TvCommand.Mute);
+                this.teleHelper.Command(Tools.TVCommand.Mute);
 
                 return true;
             });

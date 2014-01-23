@@ -16,6 +16,7 @@ namespace Dommy.Business
     using Dommy.Business.Scenarios;
     using Ninject;
     using System.Diagnostics.Contracts;
+    using System.Globalization;
 
     /// <summary>
     /// Listen of a REST request on an HTTP port.
@@ -49,8 +50,8 @@ namespace Dommy.Business
         /// <summary>
         /// Initialize the engine to use.
         /// </summary>
-        /// <param name="engine">Dommy engine</param>
-        public void Init(Engine engine)
+        /// <param name="currentEngine">Dommy engine</param>
+        public void Init(Engine currentEngine)
         {
         }
 
@@ -61,7 +62,7 @@ namespace Dommy.Business
         {
             this.listener = new HttpListener();
             this.listener.Start();
-            this.listener.Prefixes.Add(string.Format("http://+:{0}/", this.port));
+            this.listener.Prefixes.Add(string.Format(CultureInfo.InvariantCulture, "http://+:{0}/", this.port));
 
             Task.Run(() =>
             {
@@ -104,6 +105,7 @@ namespace Dommy.Business
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -139,15 +141,18 @@ namespace Dommy.Business
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Dispose HTTP listener.
         /// </summary>
-        /// <param name="p">Indicate dispose finalize.</param>
-        private void Dispose(bool p)
+        /// <param name="disposing">Indicate disposing managed object.</param>
+        private void Dispose(bool disposing)
         {
-            if (this.listener != null)
+            if (disposing)
             {
-                ((IDisposable)this.listener).Dispose();
+                if (this.listener != null)
+                {
+                    ((IDisposable)this.listener).Dispose();
+                }
             }
         }
 
@@ -206,7 +211,7 @@ namespace Dommy.Business
                 {
                     Contract.Requires(value != null);
 
-                    this.urlRegex = string.Format("^{0}$", Regex.Replace(value, @"\{([a-zA-Z0-9]+)\}", this.M));
+                    this.urlRegex = string.Format(CultureInfo.InvariantCulture, "^{0}$", Regex.Replace(value, @"\{([a-zA-Z0-9]+)\}", this.M));
                 }
             }
 
@@ -233,7 +238,7 @@ namespace Dommy.Business
 
                             var val = HttpUtility.UrlDecode(m.Groups[i].Value);
 
-                            pi.SetValue(this.Data, Convert.ChangeType(val, pi.PropertyType));
+                            pi.SetValue(this.Data, Convert.ChangeType(val, pi.PropertyType, CultureInfo.InvariantCulture));
                         }
                     }
                     catch

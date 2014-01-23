@@ -10,11 +10,11 @@ namespace Dommy.Business.Syntax
 {
     public class ScenarioDescriptionConfig<T>
     {
-        private IBindingWithSyntax<T> c;
+        private IBindingWithSyntax<T> configurator;
 
-        public ScenarioDescriptionConfig(IBindingWithSyntax<T> c)
+        public ScenarioDescriptionConfig(IBindingWithSyntax<T> configurator)
         {
-            this.c = c;
+            this.configurator = configurator;
         }
 
         public ScenarioDescriptionConfig<T> With<TReturn>(Expression<Func<T, TReturn>> property, TReturn value)
@@ -28,7 +28,7 @@ namespace Dommy.Business.Syntax
                 throw new ArgumentException("the parameter must be an MemberExpression", "property");
             }
 
-            this.c = this.c.WithPropertyValue(b.Member.Name, value);
+            this.configurator = this.configurator.WithPropertyValue(b.Member.Name, value);
 
             return this;
         }

@@ -4,6 +4,7 @@ using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -54,9 +55,9 @@ namespace Dommy.Business
             this.confidence = this.confidenceCible;
         }
 
-        public void Init(Engine engine)
+        public void Init(Engine currentEngine)
         {
-            this.engine = engine;
+            this.engine = currentEngine;
             this.speechToText.Init();
             this.Logger.Info("Speech recognition intialized.");
         }
@@ -146,12 +147,12 @@ namespace Dommy.Business
                 if (this.dicoScenario.ContainsKey(sentence.Text))
                 {
                     var s = this.dicoScenario[sentence.Text];
-                    var confidence = this.confidence;
+                    var currentConfidence = this.confidence;
                     if (s.Confidence.HasValue)
                     {
-                        confidence = s.Confidence.Value;
+                        currentConfidence = s.Confidence.Value;
                     }
-                    if (sentence.Confidence > confidence)
+                    if (sentence.Confidence > currentConfidence)
                     {
                         if (words.First() == this.engine.Name)
                         {
@@ -169,7 +170,7 @@ namespace Dommy.Business
                         }
 
                         UnloadContextGrammar();
-                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, confidence);
+                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, currentConfidence);
                         this.SpeechLogger.Say(Actor.Me, sentence.Text);
 
                         foreach (var l in this.ActionLoggers)
@@ -182,7 +183,7 @@ namespace Dommy.Business
                     else
                     {
                         this.Logger.Info("Sentence ignored : {0}", sentence.Text);
-                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, confidence);
+                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, currentConfidence);
                     }
 
                     return;
@@ -273,7 +274,7 @@ namespace Dommy.Business
                     key = Guid.NewGuid().ToString();
                 }
 
-                var grammarInfo = DommyCache.Get<GrammarData>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
+                var grammarInfo = DommyCache.Get<GrammarData>(String.Format(CultureInfo.InvariantCulture, "Grammar {0}", key), TimeSpan.FromDays(30), () =>
                 {
                     var sentences = new List<string>();
                     var g = this.CreateGrammar(s => sentences.Add(s), item.Sentences);
@@ -315,7 +316,7 @@ namespace Dommy.Business
 
                 if (speechTrigger.WithPrefix)
                 {
-                    sentence = String.Format("{0} {1}", this.engine.Name, s);
+                    sentence = String.Format(CultureInfo.InvariantCulture, "{0} {1}", this.engine.Name, s);
                 }
                 else
                 {

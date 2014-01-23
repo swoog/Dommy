@@ -12,9 +12,9 @@ namespace Dommy.Business.Triggers
     {
         public string Code { get; set; }
 
-        public void Init(Engine engine, IScenario scenario)
+        public void Init(Engine currentEngine, IScenario currentScenario)
         {
-            engine.Listener<UsbUirtListener>().Subscribe(this.Code, scenario);
+            currentEngine.Listener<UsbUirtListener>().Subscribe(this.Code, currentScenario);
         }
     }
 }

@@ -9,9 +9,7 @@ namespace Dommy.Business.Scenarios
 {
     public class WeatherScenarioDescription : IScenarioDescription
     {
-        protected EedomusHelper eedomusHelper;
-
-        private AsyncHelper wait;
+        private EedomusHelper eedomusHelper;
 
         public string EedomusRainId { get; set; }
 
@@ -21,14 +19,8 @@ namespace Dommy.Business.Scenarios
 
         public EedomusApi Mode { get; set; }
 
-        private string[] speech = new[]{
-            "{Condition}, Il fait {Degre} degré.",
-            "{Degre} degré, {Condition} !",
-        };
-
-        public WeatherScenarioDescription(AsyncHelper wait, EedomusHelper eedomusHelper)
+        public WeatherScenarioDescription(EedomusHelper eedomusHelper)
         {
-            this.wait = wait;
             this.eedomusHelper = eedomusHelper;
             this.Mode = EedomusApi.Local;
         }

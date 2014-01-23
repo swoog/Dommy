@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Dommy.Business.Scenarios
 {
@@ -45,7 +46,7 @@ namespace Dommy.Business.Scenarios
                             }
                             catch (DeploymentDownloadException ex)
                             {
-                                this.speechLogger.Say(Actor.Dommy, String.Format("La connection réseau n'est pas disponible. {0}", ex.Message));
+                                this.speechLogger.Say(Actor.Dommy, String.Format(CultureInfo.InvariantCulture, "La connection réseau n'est pas disponible. {0}", ex.Message));
                                 return false;
                             }
                             catch (InvalidDeploymentException)

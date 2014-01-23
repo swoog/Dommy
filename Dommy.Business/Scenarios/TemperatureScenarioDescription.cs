@@ -17,15 +17,12 @@ namespace Dommy.Business.Scenarios
         /// </summary>
         private EedomusHelper eedomusHelper;
 
-        private AsyncHelper wait;
-
         public string EedomusTemperatureId { get; set; }
 
         public EedomusApi Mode { get; set; }
 
-        public TemperatureScenarioDescription(AsyncHelper wait, EedomusHelper eedomusHelper)
+        public TemperatureScenarioDescription(EedomusHelper eedomusHelper)
         {
-            this.wait = wait;
             this.eedomusHelper = eedomusHelper;
             this.Mode = EedomusApi.Local;
         }

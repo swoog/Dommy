@@ -10,18 +10,18 @@ namespace Dommy.Business.Test
 {
     public class PrivateAccessor : DynamicObject
     {
-        private object obj;
+        private object instance;
 
-        public PrivateAccessor(object obj)
+        public PrivateAccessor(object instance)
         {
-            this.obj = obj;
+            this.instance = instance;
         }
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            var memberInfo = this.obj.GetType().GetMethod(binder.Name, BindingFlags.NonPublic | BindingFlags.Instance);
+            var memberInfo = this.instance.GetType().GetMethod(binder.Name, BindingFlags.NonPublic | BindingFlags.Instance);
 
-            result = memberInfo.Invoke(this.obj, args);
+            result = memberInfo.Invoke(this.instance, args);
             return true;
         }
     }

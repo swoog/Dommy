@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Scenarios
 {
-    public class TvScenarioDescription : IScenarioDescription
+    public class TVScenarioDescription : IScenarioDescription
     {
-        private ITvHelper tvHelper;
+        private ITVHelper tvHelper;
 
-        public TvScenarioDescription(ITvHelper tvHelper)
+        public TVScenarioDescription(ITVHelper tvHelper)
         {
             this.tvHelper = tvHelper;
         }
@@ -46,47 +46,47 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create("TV Pause")
                 .SpeechTrigger("Met pause", "pause")
-                .TvCommand(TvCommand.Pause)
+                .TVCommand(TVCommand.Pause)
                 .Start();
 
             Scenario.Create("TV Stop")
                 .SpeechTrigger("Met stop", "stop")
-                .TvCommand(TvCommand.Stop)
+                .TVCommand(TVCommand.Stop)
                 .Start();
 
             Scenario.Create("TV Play")
                 .SpeechTrigger("play", "Met play", "lecture", "Met la lecture")
-                .TvCommand(TvCommand.Play)
+                .TVCommand(TVCommand.Play)
                 .Start();
 
             Scenario.Create("TV éteint")
                 .SpeechTrigger("éteint la télé")
-                .TvCommand(TvCommand.PowerOff)
+                .TVCommand(TVCommand.PowerOff)
                 .Start();
 
             Scenario.Create("TV Augment volume")
                 .SpeechTrigger("Monte le son", "Augmente le volume")
-                .TvSound(5)
+                .TVSound(5)
                 .Start();
 
             Scenario.Create("TV Augment volume un peux")
                 .SpeechTrigger("Monte un peux le son", "Met le son", "Remet le son", "Augmente un peux le volume", "Remet le volume")
-                .TvSound(1)
+                .TVSound(1)
                 .Start();
 
             Scenario.Create("TV Baisse volume")
                 .SpeechTrigger("Baisse le son", "Descent le son")
-                .TvSound(-5)
+                .TVSound(-5)
                 .Start();
 
             Scenario.Create("TV Baisse volume un peux")
                 .SpeechTrigger("Baisse un peux le son", "Descent un peux le son")
-                .TvSound(-1)
+                .TVSound(-1)
                 .Start();
 
             Scenario.Create("TV Mute")
                 .SpeechTrigger("Coupe le son", "Coupe le volume")
-                .TvMute()
+                .TVMute()
                 .Start();
         }
     }

@@ -10,6 +10,6 @@ namespace Dommy.Web.Models
     {
         public string Name { get; set; }
 
-        public List<Tile> Tiles { get; set; }
+        public IList<Tile> Tiles { get; set; }
     }
 }

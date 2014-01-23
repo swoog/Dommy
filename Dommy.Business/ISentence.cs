@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Collections.Generic;
 namespace Dommy.Business
 {
     /// <summary>
@@ -14,12 +15,12 @@ namespace Dommy.Business
         /// <summary>
         /// Gets words of the sentence.
         /// </summary>
-        string[] Words { get; }
+        ICollection<string> Words { get; }
 
         /// <summary>
         /// Gets confidence of each words.
         /// </summary>
-        float[] WordsConfidence { get; }
+        ICollection<float> WordsConfidence { get; }
 
         /// <summary>
         /// Gets recognized sentence.

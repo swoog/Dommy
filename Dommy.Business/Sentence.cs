@@ -7,12 +7,12 @@ namespace Dommy.Business
 {
     public class Sentence : ISentence
     {
-        public string[] Words { get; set; }
+        public ICollection<string> Words { get; set; }
 
         public string Text { get; set; }
 
         public float Confidence { get; set; }
 
-        public float[] WordsConfidence { get; set; }
+        public ICollection<float> WordsConfidence { get; set; }
     }
 }
