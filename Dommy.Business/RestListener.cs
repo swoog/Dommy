@@ -8,6 +8,8 @@ namespace Dommy.Business
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
     using System.Net;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
@@ -15,8 +17,6 @@ namespace Dommy.Business
     using Dommy.Business.Configs;
     using Dommy.Business.Scenarios;
     using Ninject;
-    using System.Diagnostics.Contracts;
-    using System.Globalization;
 
     /// <summary>
     /// Listen of a REST request on an HTTP port.

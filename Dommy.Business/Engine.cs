@@ -9,6 +9,7 @@ namespace Dommy.Business
     using System;
     using System.Collections.Generic;
     using System.Deployment.Application;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.ServiceModel;
     using Dommy.Business.Result;
@@ -19,7 +20,6 @@ namespace Dommy.Business
     using Dommy.Business.Tools;
     using Ninject;
     using Ninject.Extensions.Logging;
-    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Dommy engine.
@@ -55,6 +55,7 @@ namespace Dommy.Business
         /// <summary>
         /// Initializes a new instance of the <see cref="Engine"/> class.
         /// </summary>
+        /// <param name="name">Engine name.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
         /// <param name="speechLogger">Speech logger.</param>

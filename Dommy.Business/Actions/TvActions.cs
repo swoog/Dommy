@@ -29,7 +29,6 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
         /// <param name="teleHelper">TV helper used to send commands.</param>
-        /// <param name="asyncHelper">Asynchronous helper.</param>
         public TVActions(IScenarioSyntax scenario, ITVHelper teleHelper)
         {
             this.scenario = scenario;

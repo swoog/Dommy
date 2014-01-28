@@ -62,7 +62,7 @@ namespace Dommy.Business.Actions
         }
 
         /// <summary>
-        /// Gets or sets trigger of this scenario.
+        /// Gets triggers of this scenario.
         /// </summary>
         public IList<ITrigger> Triggers { get; private set; }
 

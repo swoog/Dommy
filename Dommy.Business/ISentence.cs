@@ -4,9 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.Collections.Generic;
 namespace Dommy.Business
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Information of a recognized sentence.
     /// </summary>

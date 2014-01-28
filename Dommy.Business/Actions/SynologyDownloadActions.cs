@@ -7,13 +7,13 @@
 namespace Dommy.Business.Actions
 {
     using System;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
     using System.IO;
     using System.Net;
     using System.Web;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
-    using System.Diagnostics.Contracts;
-    using System.Globalization;
 
     /// <summary>
     /// Use Synology API.
@@ -126,7 +126,7 @@ namespace Dommy.Business.Actions
             this.cookies = response.Cookies;
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
-            if (String.IsNullOrEmpty(responseString))
+            if (string.IsNullOrEmpty(responseString))
             {
                 throw new FormatException();
             }

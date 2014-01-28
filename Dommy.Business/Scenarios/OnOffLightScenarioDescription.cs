@@ -6,13 +6,16 @@
 
 namespace Dommy.Business.Scenarios
 {
-    using Dommy.Business.Syntax;
-    using Dommy.Business.Tools;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
 
+    /// <summary>
+    /// Scenario description for switch on/off light.
+    /// </summary>
     public class OnOffLightScenarioDescription : IScenarioDescription
     {
         /// <summary>
@@ -34,6 +37,13 @@ namespace Dommy.Business.Scenarios
         };
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="OnOffLightScenarioDescription"/> class.
+        /// </summary>
+        public OnOffLightScenarioDescription()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets Eedomus sensor id.
         /// </summary>
         public string EedomusId { get; set; }
@@ -43,21 +53,18 @@ namespace Dommy.Business.Scenarios
         /// </summary>
         public ICollection<RoomName> RoomNames { get; set; }
 
-        public OnOffLightScenarioDescription()
-        {
-        }
-
-        private class OnOffResponse
-        {
-            public string Sentence { get; set; }
-        }
-
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
         public void Create()
         {
-            CreateOn();
-            CreateOff();
+            this.CreateOn();
+            this.CreateOff();
         }
 
+        /// <summary>
+        /// Create off scenario.
+        /// </summary>
         private void CreateOff()
         {
             Contract.Requires(0 < this.RoomNames.Count);
@@ -78,6 +85,9 @@ namespace Dommy.Business.Scenarios
                 .Start();
         }
 
+        /// <summary>
+        /// Create on scenario.
+        /// </summary>
         private void CreateOn()
         {
             Contract.Requires(0 < this.RoomNames.Count);
@@ -128,5 +138,15 @@ namespace Dommy.Business.Scenarios
             return StringHelper.Format(this.speech, new { StatusFemale = statusFemale, StatusMale = statusMale, Name = room.Name, PrefixName = room.PrefixName, StatusNeutre = statusNeutre });
         }
 
+        /// <summary>
+        /// On/off class response.
+        /// </summary>
+        private class OnOffResponse
+        {
+            /// <summary>
+            /// Gets or sets sentence.
+            /// </summary>
+            public string Sentence { get; set; }
+        }
     }
 }

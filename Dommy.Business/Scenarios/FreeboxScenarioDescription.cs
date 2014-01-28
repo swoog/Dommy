@@ -6,6 +6,8 @@
 
 namespace Dommy.Business.Scenarios
 {
+    using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Net;
     using System.Net.NetworkInformation;
@@ -14,8 +16,6 @@ namespace Dommy.Business.Scenarios
     using System.Text;
     using System.Threading;
     using Dommy.Business.Syntax;
-    using System.Diagnostics.Contracts;
-    using System;
 
     /// <summary>
     /// Freebox scenarios.

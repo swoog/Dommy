@@ -10,6 +10,7 @@ namespace Dommy.Business.Actions
     /// <summary>
     /// Scrapper syntax.
     /// </summary>
+    /// <typeparam name="T">Object data to map.</typeparam>
     public class ScrapActions<T> : IScrapActions<T>
     {
         /// <summary>

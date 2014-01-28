@@ -209,7 +209,7 @@ namespace Dommy.Business.Configs
         {
             Contract.Requires(reader != null);
 
-            string propertyName = null;
+            string propertyName = string.Empty;
             while (reader.Read())
             {
                 if (reader.NodeType == XmlNodeType.Element && propertyName == null)

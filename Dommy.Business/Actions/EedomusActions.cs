@@ -6,10 +6,10 @@
 
 namespace Dommy.Business.Actions
 {
+    using System.Globalization;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using Ninject.Extensions.Logging;
-    using System.Globalization;
 
     /// <summary>
     /// Eedomus syntax.

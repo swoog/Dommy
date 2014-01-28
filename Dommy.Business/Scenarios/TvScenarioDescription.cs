@@ -1,29 +1,49 @@
-﻿using Dommy.Business.Scenarios;
-using Dommy.Business.Syntax;
-using Dommy.Business.Triggers;
-using Dommy.Business.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="TVScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Triggers;
+    using Dommy.Business.Tools;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// Description for TV scenarios.
+    /// </summary>
     public class TVScenarioDescription : IScenarioDescription
     {
+        /// <summary>
+        /// TV helper used for scenarios.
+        /// </summary>
         private ITVHelper tvHelper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TVScenarioDescription"/> class.
+        /// </summary>
+        /// <param name="tvHelper">TV helper used for scenario.</param>
         public TVScenarioDescription(ITVHelper tvHelper)
         {
             this.tvHelper = tvHelper;
         }
 
+        /// <summary>
+        /// Create TV scenarios.
+        /// </summary>
         public void Create()
         {
             for (int i = 0; i < Channel.ChannelsCount; i++)
             {
-                var sentence = new[]{
+                var sentence = new[]
+                {
                     "Met la {Chaine}",
                     "Met la chaine {Chaine}",
                     "La {Chaine}",
