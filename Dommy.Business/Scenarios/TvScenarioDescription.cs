@@ -6,15 +6,15 @@
 
 namespace Dommy.Business.Scenarios
 {
-    using Dommy.Business.Scenarios;
-    using Dommy.Business.Syntax;
-    using Dommy.Business.Triggers;
-    using Dommy.Business.Tools;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+    using Dommy.Business.Triggers;
 
     /// <summary>
     /// Description for TV scenarios.
