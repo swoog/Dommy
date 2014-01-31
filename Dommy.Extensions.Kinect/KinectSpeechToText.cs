@@ -65,7 +65,7 @@ namespace Dommy.Extensions.Kinect
         /// </summary>
         public void Init()
         {
-            if (this.kinect.IsKinectFound)
+            if (!this.kinect.IsKinectFound)
             {
                 this.logger.Error("Kinect sensor not found.");
                 this.logger.Info("Used mic input.");
