@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB92FF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.Kinect", "Dommy.Extensions.Kinect\Dommy.Extensions.Kinect.csproj", "{FDCFB3E9-D345-480B-9D1E-7FC7179BC45F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.Kinect.Tests", "Dommy.Extensions.Kinect.Tests\Dommy.Extensions.Kinect.Tests.csproj", "{3126EA89-CC3F-4493-9EC4-3645DD8D545F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +132,20 @@ Global
 		{FDCFB3E9-D345-480B-9D1E-7FC7179BC45F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FDCFB3E9-D345-480B-9D1E-7FC7179BC45F}.Release|x64.ActiveCfg = Release|Any CPU
 		{FDCFB3E9-D345-480B-9D1E-7FC7179BC45F}.Release|x86.ActiveCfg = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|x64.ActiveCfg = Release|Any CPU
+		{3126EA89-CC3F-4493-9EC4-3645DD8D545F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

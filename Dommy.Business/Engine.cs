@@ -254,7 +254,7 @@ namespace Dommy.Business
         /// </summary>
         /// <typeparam name="T">Listener Type.</typeparam>
         /// <returns>Listener instance.</returns>
-        internal T Listener<T>()
+        public T Listener<T>()
             where T : IListener
         {
             return this.listeners.OfType<T>().FirstOrDefault();

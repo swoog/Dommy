@@ -14,12 +14,18 @@ namespace Dommy.Extensions.Kinect
     using Dommy.Business;
     using Dommy.Business.Config;
     using Microsoft.Kinect;
+    using Dommy.Business.Scenarios;
 
     /// <summary>
     /// Listen to movement from kinect sensor.
     /// </summary>
     public sealed class KinectSkeletonListener : IListener
     {
+        /// <summary>
+        /// All scenarios subscribing to kinect skeleton listener.
+        /// </summary>
+        private Dictionary<ISkeletonCheck, IScenario> scenarios;
+
         /// <summary>
         /// Instance of the kinect sensor.
         /// </summary>
@@ -37,6 +43,7 @@ namespace Dommy.Extensions.Kinect
         public KinectSkeletonListener(KinectSensorSelector kinect)
         {
             this.kinect = kinect;
+            this.scenarios = new Dictionary<ISkeletonCheck, IScenario>();
         }
 
         /// <summary>
@@ -63,6 +70,11 @@ namespace Dommy.Extensions.Kinect
         public void Stop()
         {
             this.kinect.Stop();
+        }
+
+        public void Subscribe(ISkeletonCheck skeletonCheck, Business.Scenarios.IScenario scenario)
+        {
+            this.scenarios.Add(skeletonCheck, scenario);
         }
 
         /// <summary>
@@ -100,7 +112,21 @@ namespace Dommy.Extensions.Kinect
         {
             if (skeleton.TrackingState != SkeletonTrackingState.NotTracked)
             {
+                this.UpdateSkeletonHistorique(skeleton);
+
+                foreach (var scenario in this.scenarios)
+                {
+                    if (scenario.Key.Check(skeleton))
+                    {
+                        scenario.Value.RunAsync();
+                    }
+                }
             }
+        }
+
+        private void UpdateSkeletonHistorique(Skeleton skeleton)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -114,7 +140,7 @@ namespace Dommy.Extensions.Kinect
             /// <param name="kernel">Ninject kernel.</param>
             public void Create(Ninject.IKernel kernel)
             {
-                kernel.Bind<IListener>().To<KinectSkeletonListener>();
+                kernel.Bind<IListener>().To<KinectSkeletonListener>().InSingletonScope();
             }
         }
     }
