@@ -11,7 +11,8 @@ namespace Dommy.Business
         {
             this.Elements = new List<string>();
         }
-        public IList<string> Elements { get; set; }
+
+        public IList<string> Elements { get; private set; }
 
         internal void Add(string element)
         {

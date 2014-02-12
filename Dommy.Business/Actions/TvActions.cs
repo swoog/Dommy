@@ -25,11 +25,6 @@ namespace Dommy.Business.Actions
         private IScenarioSyntax scenario;
 
         /// <summary>
-        /// Information logger.
-        /// </summary>
-        private ISpeechLogger logger;
-
-        /// <summary>
         /// Asynchronous helper.
         /// </summary>
         private AsyncHelper asyncHelper;

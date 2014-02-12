@@ -19,6 +19,7 @@ namespace Dommy.Business
     using Dommy.Business.Tools;
     using Ninject;
     using Ninject.Extensions.Logging;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Dommy engine.
@@ -98,7 +99,7 @@ namespace Dommy.Business
         /// Gets name of engine.
         /// </summary>
         /// <returns>Return name of the engine.</returns>
-        public string GetName()
+        public string GetEngineName()
         {
             return this.Name;
         }
@@ -172,17 +173,17 @@ namespace Dommy.Business
                 var ad = ApplicationDeployment.CurrentDeployment;
 
                 this.speechLogger.Say(
-                    Actor.Dommy, 
+                    Actor.Dommy,
                     StringHelper.Format(
                         new[] 
                         {
                             "Je suis prête. Version {Version}",
                             "J'attend tes ordres. Version {Version}",
                             "Démaré. Version {Version}",
-                        }, 
-                        new 
-                        { 
-                            Version = ad.CurrentVersion.ToString() 
+                        },
+                        new
+                        {
+                            Version = ad.CurrentVersion.ToString()
                         }));
             }
         }
@@ -194,16 +195,19 @@ namespace Dommy.Business
         public void RunResult(IResult result)
         {
             // Execute information of action.
-            if (result is PrecisionResult)
+            var precisionResult = result as PrecisionResult;
+            if (precisionResult != null)
             {
-                var precision = result as PrecisionResult;
-
-                this.Listener<SpeechListener>().Precision(precision.SentenceActions, precision.Speech);
+                this.Listener<SpeechListener>().Precision(precisionResult.SentenceActions, precisionResult.Speech);
+                return;
             }
-            else if (result is SayResult)
+
+            var sayResult = result as SayResult;
+            if (sayResult != null)
             {
-                string speech = (result as SayResult).Speech;
+                string speech = sayResult.Speech;
                 this.speechLogger.Say(Actor.Dommy, speech);
+                return;
             }
         }
 
@@ -213,6 +217,8 @@ namespace Dommy.Business
         /// <param name="ex">Exception of the error.</param>
         public void SayError(Exception ex)
         {
+            Contract.Requires(ex != null);
+
             var errors = new[]
             {
                 "Une erreur c'est produite.",

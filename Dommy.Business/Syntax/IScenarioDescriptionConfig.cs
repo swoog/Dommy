@@ -1,6 +1,7 @@
 ﻿using Ninject.Syntax;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -18,6 +19,8 @@ namespace Dommy.Business.Syntax
 
         public ScenarioDescriptionConfig<T> With<TReturn>(Expression<Func<T, TReturn>> property, TReturn value)
         {
+            Contract.Requires(property != null);
+
             var b = property.Body as MemberExpression;
 
             if (b == null)

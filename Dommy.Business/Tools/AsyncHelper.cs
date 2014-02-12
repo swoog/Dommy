@@ -1,6 +1,7 @@
 ﻿using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -31,26 +32,32 @@ namespace Dommy.Business.Tools
 
         public T Wait<T>(Func<T> action)
         {
-            var cancelationToken = new CancellationTokenSource();
-            var ct = cancelationToken.Token;
-            var t = Task.Run(((Action)this.SayWait), ct);
+            Contract.Requires(action != null);
+            using (var cancelationToken = new CancellationTokenSource())
+            {
+                var ct = cancelationToken.Token;
+                Task.Run(((Action)this.SayWait), ct);
 
-            try
-            {
-                this.logger.Debug("Begin action");
-                var result = action();
-                this.logger.Debug("End action");
-                return result;
-            }
-            finally
-            {
-                cancelationToken.Cancel();
+                try
+                {
+                    this.logger.Debug("Begin action");
+                    var result = action();
+                    this.logger.Debug("End action");
+                    return result;
+                }
+                finally
+                {
+                    cancelationToken.Cancel();
+                }
             }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public T Retry<T>(int count, Func<T> action)
         {
+            Contract.Requires(action != null);
+            Contract.Requires(count >= 1);
+
             Exception error;
             do
             {
@@ -60,6 +67,7 @@ namespace Dommy.Business.Tools
                 }
                 catch (Exception ex)
                 {
+                    this.logger.Error(ex, "Error retry ({0})", count);
                     error = ex;
                 }
 
@@ -74,7 +82,7 @@ namespace Dommy.Business.Tools
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            if (!Task.Factory.CancellationToken.IsCancellationRequested && 
+            if (!Task.Factory.CancellationToken.IsCancellationRequested &&
                 !this.speechLogger.IgnoreRecognition)
             {
 

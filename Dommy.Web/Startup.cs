@@ -10,7 +10,7 @@ namespace Dommy.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapHubs();
+            // app.MapHubs();
         }
     }
 }
