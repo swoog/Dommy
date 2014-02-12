@@ -129,6 +129,7 @@
     <Compile Include="GrammarData.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="ISpeechLogger.cs" />
+    <Compile Include="OrderAttribute.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
     <Compile Include="Scenarios\AgainScenarioDescription.cs" />
     <Compile Include="Scenarios\DommyScenarioDescription.cs" />

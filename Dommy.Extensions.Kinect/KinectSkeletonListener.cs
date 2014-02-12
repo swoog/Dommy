@@ -13,12 +13,14 @@ namespace Dommy.Extensions.Kinect
     using System.Threading.Tasks;
     using Dommy.Business;
     using Dommy.Business.Config;
-    using Microsoft.Kinect;
     using Dommy.Business.Scenarios;
+    using Microsoft.Kinect;
+    using Ninject.Extensions.Conventions;
 
     /// <summary>
     /// Listen to movement from kinect sensor.
     /// </summary>
+    [Order(50)]
     public sealed class KinectSkeletonListener : IListener
     {
         /// <summary>
@@ -37,13 +39,19 @@ namespace Dommy.Extensions.Kinect
         private Skeleton[] skeletonData;
 
         /// <summary>
+        /// Skeletong listerners.
+        /// </summary>
+        private IList<ISkeletonListener> skeletonListeners;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="KinectSkeletonListener"/> class.
         /// </summary>
         /// <param name="kinect">Kinect sensor selector.</param>
-        public KinectSkeletonListener(KinectSensorSelector kinect)
+        public KinectSkeletonListener(KinectSensorSelector kinect, IList<ISkeletonListener> skeletonListeners)
         {
             this.kinect = kinect;
             this.scenarios = new Dictionary<ISkeletonCheck, IScenario>();
+            this.skeletonListeners = skeletonListeners;
         }
 
         /// <summary>
@@ -60,8 +68,11 @@ namespace Dommy.Extensions.Kinect
         /// </summary>
         public void Start()
         {
-            this.kinect.Sensor.SkeletonStream.Enable();
-            this.kinect.Sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
+            if (this.kinect.IsKinectFound)
+            {
+                this.kinect.Sensor.SkeletonStream.Enable();
+                this.kinect.Sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
+            }
         }
 
         /// <summary>
@@ -69,9 +80,17 @@ namespace Dommy.Extensions.Kinect
         /// </summary>
         public void Stop()
         {
-            this.kinect.Stop();
+            if (this.kinect.IsKinectFound)
+            {
+                this.kinect.Stop();
+            }
         }
 
+        /// <summary>
+        /// Subscribe to the skeleton listener.
+        /// </summary>
+        /// <param name="skeletonCheck"></param>
+        /// <param name="scenario"></param>
         public void Subscribe(ISkeletonCheck skeletonCheck, Business.Scenarios.IScenario scenario)
         {
             this.scenarios.Add(skeletonCheck, scenario);
@@ -101,7 +120,10 @@ namespace Dommy.Extensions.Kinect
                 skeletonFrame.CopySkeletonDataTo(this.skeletonData);
             }
 
-            Parallel.ForEach(this.skeletonData, this.Analyse);
+            foreach (var s in this.skeletonData)
+            {
+                this.Analyse(s);
+            }
         }
 
         /// <summary>
@@ -126,7 +148,10 @@ namespace Dommy.Extensions.Kinect
 
         private void UpdateSkeletonHistorique(Skeleton skeleton)
         {
-            throw new NotImplementedException();
+            foreach (var item in this.skeletonListeners)
+            {
+                item.NewSkeleton(skeleton);
+            }
         }
 
         /// <summary>
@@ -140,6 +165,11 @@ namespace Dommy.Extensions.Kinect
             /// <param name="kernel">Ninject kernel.</param>
             public void Create(Ninject.IKernel kernel)
             {
+                kernel.Bind(c => c.FromAssembliesMatching("*.dll")
+                    .SelectAllClasses()
+                    .InheritedFrom<ISkeletonListener>()
+                    .BindUsingRegex("ISkeletonListener")
+                    .Configure(conf => conf.InSingletonScope()));
                 kernel.Bind<IListener>().To<KinectSkeletonListener>().InSingletonScope();
             }
         }

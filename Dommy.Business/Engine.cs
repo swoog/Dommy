@@ -72,7 +72,21 @@ namespace Dommy.Business
             this.logger = logger;
             this.speechLogger = speechLogger;
             this.scriptEngine = scriptEngine;
-            this.listeners = listeners;
+            this.listeners = listeners.OrderBy(this.OrderListener).ToArray();
+        }
+
+        private int OrderListener(IListener arg)
+        {
+            var att = arg.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
+
+            if (att.Length != 0)
+            {
+                return ((OrderAttribute)att[0]).Order;
+            }
+            else
+            {
+                return 100;
+            }
         }
 
         /// <summary>
