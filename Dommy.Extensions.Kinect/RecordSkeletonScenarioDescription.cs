@@ -9,6 +9,7 @@ namespace Dommy.Extensions.Kinect
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
     using Microsoft.Kinect;
+    using System;
     using System.Collections.Generic;
     using System.IO;
 
@@ -69,6 +70,14 @@ namespace Dommy.Extensions.Kinect
 
         private void WriteSkeletonToFile(Skeleton item, StreamWriter writer)
         {
+            writer.Write("Skeleton : ");
+            writer.Write(item.TrackingId);
+
+            foreach (JointType joinType in Enum.GetValues(typeof(JointType)))
+            {
+                writer.Write(" {0} :", joinType);
+                writer.Write(item.Joints[joinType]);
+            }
 
         }
 
