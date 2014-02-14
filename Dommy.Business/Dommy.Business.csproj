@@ -16,6 +16,7 @@
     </TargetFrameworkProfile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,7 +28,42 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Dommy.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +77,9 @@
   <ItemGroup>
     <Reference Include="CassiniDev4-lib">
       <HintPath>..\packages\CassiniDev.5.0.2-bleeding-17\lib\net40\debug\CassiniDev4-lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
@@ -68,6 +107,9 @@
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions">
       <HintPath>..\packages\Ninject.Extensions.Conventions.3.0.0.11\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Factory">
+      <HintPath>..\packages\Ninject.Extensions.Factory.3.0.2-unstable-9020\lib\net45-full\Ninject.Extensions.Factory.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Logging">
       <HintPath>..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
@@ -119,16 +161,17 @@
     <Compile Include="Actions\SynologyDownloadActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
-    <Compile Include="Config\Configurator.cs" />
-    <Compile Include="Config\Configure.cs">
+    <Compile Include="Configs\Configurator.cs" />
+    <Compile Include="Configs\Configure.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Config\IConfig.cs" />
+    <Compile Include="Configs\IConfig.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GrammarChoices.cs" />
     <Compile Include="GrammarData.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="ISpeechLogger.cs" />
+    <Compile Include="OrderAttribute.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
     <Compile Include="Scenarios\AgainScenarioDescription.cs" />
     <Compile Include="Scenarios\DommyScenarioDescription.cs" />
@@ -175,6 +218,7 @@
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
     <Compile Include="Actions\EedomusAction.cs" />
+    <Compile Include="Tools\EedomusException.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\WebAppender.cs" />
@@ -202,7 +246,7 @@
     <Compile Include="Result\SayResult.cs" />
     <Compile Include="Sentence.cs" />
     <Compile Include="SpeechLogger.cs" />
-    <Compile Include="Tools\Cache.cs" />
+    <Compile Include="Tools\DommyCache.cs" />
     <Compile Include="Tools\Channel.cs" />
     <Compile Include="Tools\EedomusHelper.cs" />
     <Compile Include="Tools\SamsungTVHelper.cs" />

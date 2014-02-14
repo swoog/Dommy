@@ -9,6 +9,10 @@ namespace Dommy.Extensions.Kinect
     {
         public bool Check(Microsoft.Kinect.Skeleton skeleton)
         {
+            //CheckSkeleton.Create()
+            //    .Move(RightHand, m=> m.ToRight(10)
+            //                            .ToLeft(10))
+
             throw new NotImplementedException();
         }
     }

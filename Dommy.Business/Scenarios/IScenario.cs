@@ -16,9 +16,9 @@ namespace Dommy.Business.Scenarios
     public interface IScenario
     {
         /// <summary>
-        /// Gets or sets trigger of this scenario.
+        /// Gets triggers of this scenario.
         /// </summary>
-        IList<ITrigger> Triggers { get; set; }
+        IList<ITrigger> Triggers { get; }
 
         /// <summary>
         /// Gets scenario name.

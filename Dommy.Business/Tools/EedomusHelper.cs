@@ -1,9 +1,10 @@
 ﻿using Dommy.Business.Actions;
-using Dommy.Business.Config;
+using Dommy.Business.Configs;
 using Ninject;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -19,25 +20,22 @@ namespace Dommy.Business.Tools
     {
         public class Config : IConfig
         {
-            public string Ip { get; set; }
+            public string IP { get; set; }
             public string User { get; set; }
             public string Secret { get; set; }
 
             public void Create(IKernel kernel)
             {
                 kernel.Bind<EedomusHelper>().ToSelf()
-                    .WithConstructorArgument("apiAddr", this.Ip)
+                    .WithConstructorArgument("apiAddr", this.IP)
                     .WithConstructorArgument("apiUser", this.User)
                     .WithConstructorArgument("apiSecret", this.Secret)
                     ;
             }
         }
 
-        private AsyncHelper asyncHelper;
-
-        public EedomusHelper(AsyncHelper asyncHelper, string apiAddr, string apiUser, string apiSecret)
+        public EedomusHelper(string apiAddr, string apiUser, string apiSecret)
         {
-            this.asyncHelper = asyncHelper;
             this.apiAddr = apiAddr;
             this.apiUser = apiUser;
             this.apiSecret = apiSecret;
@@ -65,15 +63,15 @@ namespace Dommy.Business.Tools
 
             var requestType = getRequestType(action);
 
-            var url = getUrl(api, requestType, action, eedomusId, String.Format("value={0}", value));
+            var url = getUrl(api, requestType, action, eedomusId, String.Format(CultureInfo.InvariantCulture, "value={0}", value));
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(url));
 
             var response = (HttpWebResponse)request.GetResponse();
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception(String.Format("Erreur eedomus. Code {0}", response.StatusCode));
+                throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus. Code {0}", response.StatusCode));
             }
 
             var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
@@ -86,17 +84,20 @@ namespace Dommy.Business.Tools
 
             jsonString = Regex.Replace(jsonString, @"^[^\{]+", String.Empty);
 
-            var memoryStream = new MemoryStream();
-            var writer = new StreamWriter(memoryStream);
-            writer.Write(jsonString);
-            writer.Flush();
-            memoryStream.Position = 0;
+            EedomusResult result = null;
+            using (var memoryStream = new MemoryStream())
+            {
+                var writer = new StreamWriter(memoryStream);
+                writer.Write(jsonString);
+                writer.Flush();
+                memoryStream.Position = 0;
 
-            var result = (EedomusResult)serializer.ReadObject(memoryStream);
+                result = (EedomusResult)serializer.ReadObject(memoryStream);
+            }
 
             if (!result.Success)
             {
-                throw new Exception(String.Format("Erreur eedomus : {0}", result.Body.ErrorMsg));
+                throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus : {0}", result.Body.ErrorMsg));
             }
 
             value = result.Body.LastValue;
@@ -135,7 +136,7 @@ namespace Dommy.Business.Tools
             public string ErrorMsg { get; set; }
         }
 
-        private EedoumusRequestType getRequestType(EedomusAction action)
+        private static EedoumusRequestType getRequestType(EedomusAction action)
         {
             switch (action)
             {
@@ -159,10 +160,10 @@ namespace Dommy.Business.Tools
                 url = distantUrl;
             }
 
-            return String.Format(url, this.apiAddr, requestType.ToString().ToLower(), ActionToString(action), eedomusId, parameter, apiUser, apiSecret);
+            return String.Format(CultureInfo.InvariantCulture, url, this.apiAddr, requestType.ToString().ToLower(CultureInfo.InvariantCulture), ActionToString(action), eedomusId, parameter, apiUser, apiSecret);
         }
 
-        private string ActionToString(EedomusAction action)
+        private static string ActionToString(EedomusAction action)
         {
             switch (action)
             {

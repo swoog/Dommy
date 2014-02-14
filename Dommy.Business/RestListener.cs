@@ -12,9 +12,10 @@ namespace Dommy.Business
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using System.Web;
-    using Dommy.Business.Config;
+    using Dommy.Business.Configs;
     using Dommy.Business.Scenarios;
     using Ninject;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Listen of a REST request on an HTTP port.
@@ -66,7 +67,7 @@ namespace Dommy.Business
             {
                 while (true)
                 {
-                    var context = this.listener.GetContext();
+                        var context = this.listener.GetContext();
 
                     StartRequest(context);
                 }
@@ -81,6 +82,8 @@ namespace Dommy.Business
         /// <param name="scenario">Scenario to execute.</param>
         public void Subscribe(string url, object data, IScenario scenario)
         {
+            Contract.Requires(!string.IsNullOrEmpty(url));
+
             this.scenarios.Add(url, new ScenarioData { Scenario = scenario, Data = data, Url = url });
         }
 
@@ -201,6 +204,8 @@ namespace Dommy.Business
             {
                 set
                 {
+                    Contract.Requires(value != null);
+
                     this.urlRegex = string.Format("^{0}$", Regex.Replace(value, @"\{([a-zA-Z0-9]+)\}", this.M));
                 }
             }
@@ -212,6 +217,8 @@ namespace Dommy.Business
             /// <returns>Boolean to indicate the success of the match.</returns>
             public bool IsMatch(string url)
             {
+                Contract.Requires(!string.IsNullOrEmpty(url));
+
                 var m = Regex.Match(url, this.urlRegex);
 
                 if (m.Success)
@@ -264,6 +271,8 @@ namespace Dommy.Business
             /// <returns>Replace string.</returns>
             private string M(Match match)
             {
+                Contract.Requires(match != null);
+
                 this.elements.Add(match.Groups[1].Value);
 
                 return "(.+)";

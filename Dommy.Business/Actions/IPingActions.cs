@@ -18,8 +18,8 @@ namespace Dommy.Business.Actions
         /// Ping conditional syntax.
         /// </summary>
         /// <param name="ip">IP to ping.</param>
-        /// <param name="b">Status excepted.</param>
+        /// <param name="exptedStatus">Status excepted.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax IfPing(string ip, bool b);
+        IScenarioSyntax IfPing(string ip, bool exptedStatus);
     }
 }

@@ -25,8 +25,10 @@ namespace Dommy.Business.Scenarios
                 {
                     using (var driver = new UsbUirt.Driver())
                     {
-                        var l = new UsbUirt.Learner(driver);
-                        irCode.Code = l.Learn();
+                        using (var l = new UsbUirt.Learner(driver))
+                        {
+                            irCode.Code = l.Learn();
+                        }
                     }
 
                     return true;

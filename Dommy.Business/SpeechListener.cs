@@ -3,6 +3,7 @@ using Dommy.Business.Tools;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -86,6 +87,8 @@ namespace Dommy.Business
 
         public GrammarData CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
         {
+            Contract.Requires(sentences != null);
+
             if (sentences.Count > 0)
             {
                 var data = new GrammarData();
@@ -237,6 +240,9 @@ namespace Dommy.Business
 
         private void SpeechRecognition(ISentence sentence, Func<ISentence, IResult> exec)
         {
+            Contract.Requires(sentence != null);
+            Contract.Requires(exec != null);
+
             this.SpeechLogger.Say(Actor.Me, sentence.Text);
 
             IResult result = exec(sentence);
@@ -250,6 +256,8 @@ namespace Dommy.Business
 
         internal void Precision(IList<Result.PrecisionResult.SentenceAction> sentenceActions, string speech)
         {
+            Contract.Requires(sentenceActions != null);
+
             // If a context grammar is loaded.
             this.UnloadContextGrammar();
 
@@ -265,7 +273,7 @@ namespace Dommy.Business
                     key = Guid.NewGuid().ToString();
                 }
 
-                var grammarInfo = Cache.Get<GrammarData>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
+                var grammarInfo = DommyCache.Get<GrammarData>(String.Format("Grammar {0}", key), TimeSpan.FromDays(30), () =>
                 {
                     var sentences = new List<string>();
                     var g = this.CreateGrammar(s => sentences.Add(s), item.Sentences);
@@ -298,6 +306,8 @@ namespace Dommy.Business
 
         internal void Subscribe(Triggers.SpeechTrigger speechTrigger, IScenario scenario)
         {
+            Contract.Requires(speechTrigger != null);
+
             var sentences = new List<string>();
             foreach (var s in speechTrigger.Speech)
             {
