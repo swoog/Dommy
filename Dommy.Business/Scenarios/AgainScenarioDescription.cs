@@ -31,7 +31,7 @@ namespace Dommy.Business.Scenarios
         /// <param name="scenario">Executed scenario.</param>
         public void ExecutionOf(IScenario scenario)
         {
-            Contract.Requires(scenario != null);
+            Contract.Assert(scenario != null);
 
             // If this not Again action.
             if (scenario.ScenarioName == null || !scenario.ScenarioName.StartsWith("Again", StringComparison.Ordinal))

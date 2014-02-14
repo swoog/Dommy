@@ -47,7 +47,7 @@ namespace Dommy.Business.Scenarios
                     "la température interieur")
                     .Action(() =>
                     {
-                        var weather = Cache.Get("TemperatureAction", TimeSpan.FromMinutes(30), () =>
+                        var weather = DommyCache.Get("TemperatureAction", TimeSpan.FromMinutes(30), () =>
                         {
                             var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
 

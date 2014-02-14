@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -106,6 +107,8 @@ namespace Dommy.Business.Tools
 
         public static Channel GetChannel(int number)
         {
+            Contract.Requires(0 <= number);
+
             InitChannels();
 
             return channels[number];

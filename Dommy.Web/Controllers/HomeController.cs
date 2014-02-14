@@ -16,7 +16,7 @@ namespace Dommy.Web.Controllers
             using (var tileManager = Client<ITileManager>.Create())
             using (var engine = Client<IEngine>.Create())
             {
-                return View(new HomeIndexModel { Name = engine.Channel.GetName(), Tiles = tileManager.Channel.GetTiles() });
+                return View(new HomeIndexModel { Name = engine.Channel.GetEngineName(), Tiles = tileManager.Channel.GetTiles() });
             }
         }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UsbUirt;
+using UsbUirt.EventArgs;
 
 namespace Dommy.Business
 {
@@ -43,7 +44,7 @@ namespace Dommy.Business
             }
         }
 
-        public void t_Received(object sender, UsbUirt.EventArgs.ReceivedEventArgs e)
+        public void t_Received(object sender, ReceivedEventArgs e)
         {
             this.logger.Debug("Received IrCode : {0}", e.IRCode);
 
@@ -68,7 +69,7 @@ namespace Dommy.Business
             this.Dispose(true);
         }
 
-        protected void Dispose(bool b)
+        public void Dispose(bool b)
         {
             if (this.receiver != null)
             {

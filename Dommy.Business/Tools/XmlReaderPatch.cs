@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,9 @@ namespace Dommy.Business.Tools
     {
         public static XmlTextReader GetPatchStream(string url)
         {
-            WebRequest request = HttpWebRequest.Create(url);
+            Contract.Requires(!string.IsNullOrEmpty(url));
+
+            WebRequest request = HttpWebRequest.Create(new Uri(url));
 
             var response = request.GetResponse();
 

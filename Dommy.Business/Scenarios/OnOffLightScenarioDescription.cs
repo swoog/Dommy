@@ -9,6 +9,7 @@ namespace Dommy.Business.Scenarios
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using System;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     public class OnOffLightScenarioDescription : IScenarioDescription
@@ -64,6 +65,7 @@ namespace Dommy.Business.Scenarios
 
         private void CreateOff()
         {
+            Contract.Requires(0 < this.RoomNames.Length);
             var onOffResponse = new OnOffResponse();
             var sentences = (from s in new[] { "éteint la lumière {PrefixName}", "éteint {Name}" }
                              from r in this.RoomNames
@@ -83,6 +85,7 @@ namespace Dommy.Business.Scenarios
 
         private void CreateOn()
         {
+            Contract.Requires(0 < this.RoomNames.Length);
             var onOffResponse = new OnOffResponse();
             var sentences = (from s in new[] { "allume la lumière {PrefixName}", "allume {Name}" }
                              from r in this.RoomNames

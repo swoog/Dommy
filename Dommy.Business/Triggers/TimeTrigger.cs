@@ -33,7 +33,7 @@ namespace Dommy.Business.Triggers
             this.Dispose(true);
         }
 
-        protected void Dispose(bool b)
+        public void Dispose(bool b)
         {
             if (timer != null)
             {

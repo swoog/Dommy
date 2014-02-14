@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Dommy.Business.Tools
 {
-    public static class Cache
+    public static class DommyCache
     {
         private static MemoryCache cache = new MemoryCache("DommyCache");
 
@@ -18,6 +18,11 @@ namespace Dommy.Business.Tools
             {
                 obj = getValue();
                 cache.Add(key, obj, new DateTimeOffset(DateTime.Now.Add(time)));
+            }
+
+            if (obj == null)
+            {
+                return default(T);
             }
 
             return (T)obj;

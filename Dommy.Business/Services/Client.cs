@@ -40,11 +40,14 @@ namespace Dommy.Business.Services
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        public void Dispose(bool disposing)
         {
             if (disposing)
             {
-                ((IDisposable)this.Channel).Dispose();
+                if (this.Channel != null)
+                {
+                    ((IDisposable)this.Channel).Dispose();
+                }
             }
         }
     }
