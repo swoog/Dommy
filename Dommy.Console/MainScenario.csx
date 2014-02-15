@@ -31,7 +31,7 @@ Scenario.Create()
 
 
 Scenario.Create()
-		.TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(4))
+//		.TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(4))
 		.TileTrigger("A live", Color.FromName("Blue"))
 		.TileTrigger("A live", Color.FromName("Blue"))
 		.TileTrigger("A live", Color.FromName("Blue"))
