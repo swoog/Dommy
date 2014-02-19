@@ -10,6 +10,7 @@ namespace Dommy.Web
     {
         public void Configuration(IAppBuilder app)
         {
+            //app.UseCors()
             app.MapSignalR();
         }
     }

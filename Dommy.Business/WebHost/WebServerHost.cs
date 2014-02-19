@@ -2,7 +2,10 @@
 using Dommy.Business.Configs;
 using Dommy.Business.Services;
 using Dommy.Business.Tools;
+using Microsoft.Owin.Hosting.Services;
+using Microsoft.Owin.Hosting.Starter;
 using Ninject.Extensions.Logging;
+using Owin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +13,18 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+
+//namespace Dommy.Business
+//{
+//    public class Startup
+//    {
+//        public void Configuration(IAppBuilder app)
+//        {
+//            app.UseCors(CorsOptions.AllowAll);
+//            app.MapSignalR();
+//        }
+//    }
+//}
 
 namespace Dommy.Business.WebHost
 {
@@ -43,6 +58,7 @@ namespace Dommy.Business.WebHost
         }
 
         CassiniDevServer server;
+        private IDisposable disposable;
 
         public void Start()
         {
@@ -59,14 +75,44 @@ namespace Dommy.Business.WebHost
                 }
             }
 
-            server = new CassiniDevServer();
-            server.StartServer(WebServerHost.WebServerPath, this.port, "/", "*");
+            //Program.ResolveAssembliesFromDirectory(Path.Combine(Directory.GetCurrentDirectory(), "bin"));
+            //Program.WriteLine("Starting with " + Program.GetDisplayUrl(options));
+            IServiceProvider services = ServicesFactory.Create();
+            IHostingStarter service = services.GetService<IHostingStarter>();
+            var options = new Microsoft.Owin.Hosting.StartOptions();
+            options.Urls.Add(String.Format("http://*:{0}", this.port));
+            options.ServerFactory = "Microsoft.Owin.Host.HttpListener";
+
+            foreach (var file in Directory.GetFiles(Path.Combine(WebServerPath, "bin"), "*.dll"))
+            {
+                try
+                {
+                    System.Reflection.Assembly.LoadFile(new FileInfo(file).FullName);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            options.Settings["directory"] = WebServerHost.WebServerPath;
+            options.AppStartup = "Dommy.Web.Startup.Configuration,Dommy.Web";
+
+            disposable = service.Start(options);
+            //Program.WriteLine("Started successfully");
+            //Program.WriteLine("Press Enter to exit");
+            //Console.ReadLine();
+            //Program.WriteLine("Terminating.");
+            //disposable.Dispose();
+
+            //server = new CassiniDevServer();
+            //server.StartServer(WebServerHost.WebServerPath, this.port, "/", "*");
             this.logger.Info("Webserver started on {0} port", this.port);
         }
 
         public void Stop()
         {
-            server.StopServer();
+            disposable.Dispose();
+            //server.StopServer();
             this.logger.Info("Webserver stoped");
         }
 
