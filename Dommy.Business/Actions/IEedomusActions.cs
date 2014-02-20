@@ -6,8 +6,8 @@
 
 namespace Dommy.Business.Actions
 {
-    using System;
     using Dommy.Business.Syntax;
+    using System;
 
     /// <summary>
     /// Eedomus syntax.
@@ -38,7 +38,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="id">Eedomus id element.</param>
         /// <param name="isOn">Light on or off.</param>
-        /// <returns>Scenario syntax.</returns>   
+        /// <returns>Scenario syntax.</returns>
         IScenarioSyntax EedomusOnOff(string id, bool isOn);
 
         /// <summary>

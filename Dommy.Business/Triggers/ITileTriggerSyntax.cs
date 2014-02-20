@@ -6,8 +6,8 @@
 
 namespace Dommy.Business.Triggers
 {
-    using System.Drawing;
     using Dommy.Business.Syntax;
+    using System.Drawing;
 
     /// <summary>
     /// Syntax of the tiles trigger.
@@ -18,9 +18,14 @@ namespace Dommy.Business.Triggers
         /// Create a tile on the web interface used to start scenario.
         /// </summary>
         /// <param name="title">Tile name.</param>
-        /// <param name="backGround">Background color of the tile.</param>
+        /// <param name="backgroundColor">Background color of the tile.</param>
         /// <returns>Trigger scenario syntax.</returns>
-        ITriggerScenarioSyntax TileTrigger(string title, Color backGround);
-        ITriggerScenarioSyntax TileTrigger(string p1, System.Drawing.Color color, string url);
+        ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor);
+
+        ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, Color backgroundColor);
+
+        ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor, string url);
+
+        ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, Color backgroundColor, string url);
     }
 }

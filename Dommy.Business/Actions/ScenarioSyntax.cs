@@ -6,10 +6,6 @@
 
 namespace Dommy.Business.Actions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading.Tasks;
     using Dommy.Business.Result;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
@@ -18,6 +14,10 @@ namespace Dommy.Business.Actions
     using Ninject;
     using Ninject.Extensions.Logging;
     using Ninject.Parameters;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading.Tasks;
     using UsbUirt;
     using UsbUirt.Enums;
 
@@ -200,7 +200,7 @@ namespace Dommy.Business.Actions
                 {
                         new PrecisionResult.SentenceAction()
                         {
-                            Sentences = response, Action = s => 
+                            Sentences = response, Action = s =>
                 {
                     scenario(s.Text, ss).ToScenario().Run();
                     return new NoneResult();
@@ -572,9 +572,24 @@ namespace Dommy.Business.Actions
             return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
         }
 
-        public ITriggerScenarioSyntax TileTrigger(string p1, System.Drawing.Color color, string p2)
+        public ITriggerScenarioSyntax TileTrigger(string title, System.Drawing.Color backgroundColor, string url)
         {
-            return this.Extend<ITileTriggerSyntax>().TileTrigger(p1, color, p2);
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(title, backgroundColor, url);
+        }
+
+        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, System.Drawing.Color backgroundColor)
+        {
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, title, backgroundColor);
+        }
+
+        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, System.Drawing.Color backgroundColor, string url)
+        {
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, title, backgroundColor, url);
+        }
+
+        public IScenarioSyntax TileUpdate(Tile tile, object data)
+        {
+            return this.Extend<ITileActions>().TileUpdate(tile, data);
         }
     }
 }

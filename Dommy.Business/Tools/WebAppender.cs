@@ -32,6 +32,7 @@ namespace Dommy.Business.Tools
         {
             try
             {
+                // TODO : Use Ninject to get HubConnection
                 this.connection = new HubConnection(WebAppender.uriAppender);
                 this.logger = connection.CreateHubProxy("logger");
                 this.connection.Start().Wait();

@@ -10,6 +10,7 @@ namespace Dommy.Business.Scenarios
     using Dommy.Business.Tools;
     using System;
     using System.Diagnostics.Contracts;
+    using System.Drawing;
     using System.Linq;
 
     public class OnOffLightScenarioDescription : IScenarioDescription
@@ -61,6 +62,40 @@ namespace Dommy.Business.Scenarios
         {
             CreateOn();
             CreateOff();
+            CreateTile();
+        }
+
+        private void CreateTile()
+        {
+            Contract.Requires(0 < this.RoomNames.Length);
+
+            var etat = true;
+            Tile tile;
+
+            Scenario.Create(StringHelper.Format("Tile {Name}", this.RoomNames[0]))
+                .TileTrigger(out tile, StringHelper.Format("Lumière {Name}", this.RoomNames[0]), Color.Yellow)
+                .If(
+                    () => this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId) == "100",
+                    sTrue => sTrue.EedomusOnOff(this.EedomusId, true),
+                    sFalse => sFalse.EedomusOnOff(this.EedomusId, false))
+                .Start();
+
+            Scenario.Create(StringHelper.Format("Tile {Name} Notification", this.RoomNames[0]))
+                .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(1))
+                .Action(() =>
+                {
+                    var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId) == "100";
+
+                    if (newEtat != etat)
+                    {
+                        etat = newEtat;
+                        return true;
+                    }
+
+                    return false;
+                })
+                .TileUpdate(tile, etat)
+                .Start();
         }
 
         private void CreateOff()
@@ -132,6 +167,5 @@ namespace Dommy.Business.Scenarios
 
             return StringHelper.Format(this.speech, new { StatusFemale = statusFemale, StatusMale = statusMale, Name = room.Name, PrefixName = room.PrefixName, StatusNeutre = statusNeutre });
         }
-
     }
 }

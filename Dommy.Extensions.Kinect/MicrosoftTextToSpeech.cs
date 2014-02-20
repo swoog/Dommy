@@ -6,12 +6,12 @@
 
 namespace Dommy.Extensions.Kinect
 {
-    using System;
-    using System.Linq;
     using Dommy.Business;
     using Dommy.Business.Syntax;
     using Microsoft.Speech.Synthesis;
     using Ninject.Extensions.Logging;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// Implement a text to speech.
@@ -39,31 +39,40 @@ namespace Dommy.Extensions.Kinect
             this.logger = logger;
             this.Culture = culture;
             this.Gender = gender;
-            this.synthesizer = new SpeechSynthesizer();
-            this.synthesizer.SetOutputToDefaultAudioDevice();
 
-            var voices = this.synthesizer.GetInstalledVoices();
-
-            foreach (var lang in voices.Select(v => v.VoiceInfo.Name).ToArray())
+            try
             {
-                this.logger.Info("Lang : {0}", lang);
-            }
+                this.synthesizer = new SpeechSynthesizer();
+                this.synthesizer.SetOutputToDefaultAudioDevice();
 
-            var voice = voices.FirstOrDefault(v => v.VoiceInfo.Gender == (this.Gender == Gender.Female ? VoiceGender.Female : VoiceGender.Male) && v.VoiceInfo.Culture.Name == this.Culture);
-            if (voice == null)
-            {
-                this.logger.Error("Not found {0} {1}", gender, culture);
-                voice = voices.FirstOrDefault();
-                this.Language = voice.VoiceInfo.Name;
-                this.logger.Info("Used lang : {0}", this.Language);
-            }
-            else
-            {
-                this.Language = voice.VoiceInfo.Name;
-                this.logger.Info("Selected lang : {0}", this.Language);
-            }
+                var voices = this.synthesizer.GetInstalledVoices();
 
-            this.synthesizer.SelectVoice(this.Language);
+                foreach (var lang in voices.Select(v => v.VoiceInfo.Name).ToArray())
+                {
+                    this.logger.Info("Lang : {0}", lang);
+                }
+
+                var voice = voices.FirstOrDefault(v => v.VoiceInfo.Gender == (this.Gender == Gender.Female ? VoiceGender.Female : VoiceGender.Male) && v.VoiceInfo.Culture.Name == this.Culture);
+                if (voice == null)
+                {
+                    this.logger.Error("Not found {0} {1}", gender, culture);
+                    voice = voices.FirstOrDefault();
+                    this.Language = voice.VoiceInfo.Name;
+                    this.logger.Info("Used lang : {0}", this.Language);
+                }
+                else
+                {
+                    this.Language = voice.VoiceInfo.Name;
+                    this.logger.Info("Selected lang : {0}", this.Language);
+                }
+
+                this.synthesizer.SelectVoice(this.Language);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex, "Error to initialize speech to text.");
+                this.synthesizer = null;
+            }
         }
 
         /// <summary>
@@ -87,7 +96,10 @@ namespace Dommy.Extensions.Kinect
         /// <param name="text">Text to speak.</param>
         public void Speak(string text)
         {
-            this.synthesizer.Speak(text);
+            if (this.synthesizer != null)
+            {
+                this.synthesizer.Speak(text);
+            }
         }
 
         /// <summary>

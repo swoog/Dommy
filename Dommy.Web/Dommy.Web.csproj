@@ -183,6 +183,9 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Css\Dommy.less" />
+    <Content Include="Css\Dommy.css.map">
+      <DependentUpon>Dommy.css</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />

@@ -171,6 +171,8 @@
     <Compile Include="Actions\ISayActions.cs" />
     <Compile Include="Actions\IScrapActions.cs" />
     <Compile Include="Actions\ISynologyDownloadActions.cs" />
+    <Compile Include="Actions\TileActions.cs" />
+    <Compile Include="Actions\ITileActions.cs" />
     <Compile Include="Actions\ITvActions.cs" />
     <Compile Include="Actions\PingActions.cs" />
     <Compile Include="Actions\SayActions.cs" />

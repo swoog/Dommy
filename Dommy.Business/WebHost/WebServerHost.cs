@@ -2,6 +2,7 @@
 using Dommy.Business.Configs;
 using Dommy.Business.Services;
 using Dommy.Business.Tools;
+using Microsoft.AspNet.SignalR.Client;
 using Microsoft.Owin.Hosting.Services;
 using Microsoft.Owin.Hosting.Starter;
 using Ninject.Extensions.Logging;
@@ -36,6 +37,7 @@ namespace Dommy.Business.WebHost
 #else
         private const string WebServerPath = @".\";
 #endif
+
         public class Config : IConfig
         {
             public int Port { get; set; }
@@ -44,6 +46,14 @@ namespace Dommy.Business.WebHost
             {
                 kernel.Bind<WebServerHost>().ToSelf().InSingletonScope()
                     .WithConstructorArgument("port", this.Port);
+
+                kernel.Bind<HubConnection>().ToMethod(c =>
+                {
+                    var connection = new HubConnection(String.Format("http://localhost:{0}", this.Port));
+                    connection.Start().Wait();
+
+                    return connection;
+                }).InSingletonScope();
             }
         }
 
@@ -57,7 +67,7 @@ namespace Dommy.Business.WebHost
             this.logger = logger;
         }
 
-        CassiniDevServer server;
+        private CassiniDevServer server;
         private IDisposable disposable;
 
         public void Start()
@@ -80,7 +90,8 @@ namespace Dommy.Business.WebHost
             IServiceProvider services = ServicesFactory.Create();
             IHostingStarter service = services.GetService<IHostingStarter>();
             var options = new Microsoft.Owin.Hosting.StartOptions();
-            options.Urls.Add(String.Format("http://*:{0}", this.port));
+            var url = String.Format("http://*:{0}", this.port);
+            options.Urls.Add(url);
             options.ServerFactory = "Microsoft.Owin.Host.HttpListener";
 
             foreach (var file in Directory.GetFiles(Path.Combine(WebServerPath, "bin"), "*.dll"))
