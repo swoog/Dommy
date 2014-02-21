@@ -13,7 +13,7 @@ namespace Dommy.Business.Triggers
 
         public TimeSpan Tick { get; set; }
 
-        System.Threading.Timer timer;
+        private System.Threading.Timer timer;
 
         private IScenario scenario;
 
@@ -25,7 +25,13 @@ namespace Dommy.Business.Triggers
 
         private void CallBack(object state)
         {
-            this.scenario.Run();
+            try
+            {
+                this.scenario.Run();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public void Dispose()

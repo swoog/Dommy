@@ -587,9 +587,9 @@ namespace Dommy.Business.Actions
             return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, title, backgroundColor, url);
         }
 
-        public IScenarioSyntax TileUpdate(Tile tile, object data)
+        public IScenarioSyntax TileUpdate(Tile tile)
         {
-            return this.Extend<ITileActions>().TileUpdate(tile, data);
+            return this.Extend<ITileActions>().TileUpdate(tile);
         }
     }
 }

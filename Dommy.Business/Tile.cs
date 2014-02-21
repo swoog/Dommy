@@ -14,6 +14,8 @@ namespace Dommy.Business
 
         public TileSize Size { get; set; }
 
+        public object Data { get; set; }
+
         public string ColorCode
         {
             get

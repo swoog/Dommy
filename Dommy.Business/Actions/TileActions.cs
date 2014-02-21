@@ -40,11 +40,11 @@ namespace Dommy.Business.Actions
         /// <param name="tile"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public IScenarioSyntax TileUpdate(Tile tile, object data)
+        public IScenarioSyntax TileUpdate(Tile tile)
         {
             return this.scenario.Action(() =>
             {
-                this.tileHub.Invoke("UpdateTile", tile, data);
+                this.tileHub.Invoke("UpdateTile", tile);
                 return true;
             });
         }

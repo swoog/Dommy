@@ -15,9 +15,9 @@ using System.Runtime;
 
 namespace Dommy.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             ProfileOptimization.SetProfileRoot(@".\");
             ProfileOptimization.StartProfile("DommyProfile");
@@ -67,10 +67,10 @@ namespace Dommy.Console
             Configure.Build();
 
             kernel.Bind<IListener>().To<UsbUirtListener>();
-            
+
             var web = kernel.Get<WebServerHost>();
             web.Start();
-            
+
             // Scripting configuration
             kernel.Bind<TileManager>().ToSelf().InSingletonScope();
 
@@ -105,6 +105,8 @@ namespace Dommy.Console
             var engine = kernel.Get<Engine>();
 
             engine.Init();
+
+            web.StartSignalR();
 
             System.Console.ReadLine();
             engine.Stop();

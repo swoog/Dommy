@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,10 +50,7 @@ namespace Dommy.Business.WebHost
 
                 kernel.Bind<HubConnection>().ToMethod(c =>
                 {
-                    var connection = new HubConnection(String.Format("http://localhost:{0}", this.Port));
-                    connection.Start().Wait();
-
-                    return connection;
+                    return new HubConnection(String.Format("http://localhost:{0}", this.Port + 1));
                 }).InSingletonScope();
             }
         }
@@ -61,14 +59,16 @@ namespace Dommy.Business.WebHost
 
         private ILogger logger;
 
-        public WebServerHost(ILogger logger, int port)
+        public WebServerHost(ILogger logger, HubConnection connection, int port)
         {
             this.port = port;
             this.logger = logger;
+            this.connection = connection;
         }
 
         private CassiniDevServer server;
         private IDisposable disposable;
+        private HubConnection connection;
 
         public void Start()
         {
@@ -85,51 +85,57 @@ namespace Dommy.Business.WebHost
                 }
             }
 
-            //Program.ResolveAssembliesFromDirectory(Path.Combine(Directory.GetCurrentDirectory(), "bin"));
-            //Program.WriteLine("Starting with " + Program.GetDisplayUrl(options));
             IServiceProvider services = ServicesFactory.Create();
             IHostingStarter service = services.GetService<IHostingStarter>();
             var options = new Microsoft.Owin.Hosting.StartOptions();
-            var url = String.Format("http://*:{0}", this.port);
+            var url = String.Format("http://*:{0}", this.port + 1);
             options.Urls.Add(url);
             options.ServerFactory = "Microsoft.Owin.Host.HttpListener";
 
-            foreach (var file in Directory.GetFiles(Path.Combine(WebServerPath, "bin"), "*.dll"))
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, e) =>
             {
-                try
+                var assemblyName = e.Name.Split(',');
+
+                if (assemblyName.Length > 0)
                 {
-                    System.Reflection.Assembly.LoadFile(new FileInfo(file).FullName);
+                    var file = new FileInfo(Path.Combine(WebServerPath, "bin", assemblyName[0] + ".dll")).FullName;
+
+                    if (File.Exists(file))
+                    {
+                        return Assembly.LoadFile(file);
+                    }
                 }
-                catch (Exception)
-                {
-                }
-            }
+
+                return null;
+            };
 
             options.Settings["directory"] = WebServerHost.WebServerPath;
             options.AppStartup = "Dommy.Web.Startup.Configuration,Dommy.Web";
 
             disposable = service.Start(options);
-            //Program.WriteLine("Started successfully");
-            //Program.WriteLine("Press Enter to exit");
-            //Console.ReadLine();
-            //Program.WriteLine("Terminating.");
-            //disposable.Dispose();
+            this.logger.Info("SignalR started on {0} port", this.port + 1);
 
-            //server = new CassiniDevServer();
-            //server.StartServer(WebServerHost.WebServerPath, this.port, "/", "*");
+            server = new CassiniDevServer();
+            server.StartServer(WebServerHost.WebServerPath, this.port, "/", "*");
             this.logger.Info("Webserver started on {0} port", this.port);
         }
 
         public void Stop()
         {
+            server.StopServer();
             disposable.Dispose();
-            //server.StopServer();
             this.logger.Info("Webserver stoped");
         }
 
         public void Started()
         {
             WebAppender.WebStarted();
+        }
+
+        public void StartSignalR()
+        {
+            connection.Start().Wait();
+            this.logger.Info("SignalR client connection started");
         }
     }
 }

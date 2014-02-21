@@ -69,7 +69,6 @@ namespace Dommy.Business.Scenarios
         {
             Contract.Requires(0 < this.RoomNames.Length);
 
-            var etat = true;
             Tile tile;
 
             Scenario.Create(StringHelper.Format("Tile {Name}", this.RoomNames[0]))
@@ -81,20 +80,20 @@ namespace Dommy.Business.Scenarios
                 .Start();
 
             Scenario.Create(StringHelper.Format("Tile {Name} Notification", this.RoomNames[0]))
-                .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(1))
+                .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
                 .Action(() =>
                 {
                     var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId) == "100";
 
-                    if (newEtat != etat)
+                    if (tile.Data != null && newEtat != (bool)tile.Data)
                     {
-                        etat = newEtat;
+                        tile.Data = newEtat;
                         return true;
                     }
 
                     return false;
                 })
-                .TileUpdate(tile, etat)
+                .TileUpdate(tile)
                 .Start();
         }
 

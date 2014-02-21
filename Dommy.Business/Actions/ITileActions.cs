@@ -9,6 +9,6 @@ namespace Dommy.Business.Actions
 {
     public interface ITileActions : IExtendSyntax
     {
-        IScenarioSyntax TileUpdate(Tile tile, object data);
+        IScenarioSyntax TileUpdate(Tile tile);
     }
 }

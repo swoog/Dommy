@@ -1,14 +1,15 @@
+using Dommy.Business.Actions;
+using Dommy.Business.Result;
+using Dommy.Business.Scenarios;
+using Dommy.Business.Syntax;
+using Dommy.Business.Tools;
+using Dommy.Business.Triggers;
+using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using Dommy.Business.Result;
-using Dommy.Business.Tools;
-using Dommy.Business.Scenarios;
-using Ninject;
-using Dommy.Business.Triggers;
-using Dommy.Business.Syntax;
-using Dommy.Business.Actions;
 
 namespace Dommy.Business.Scenarios
 {
@@ -24,6 +25,18 @@ namespace Dommy.Business.Scenarios
         public void Create()
         {
             var value = new TimeData();
+            Tile tile;
+
+            Scenario.Create(StringHelper.Format("Tile Time"))
+                .TileTrigger(out tile, "Time", Color.Red)
+                .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(10))
+                .Action(() =>
+                {
+                    tile.Data = DateTime.Now;
+                    return true;
+                })
+                .TileUpdate(tile)
+                .Start();
 
             Scenario.Create("Heure")
                 .SpeechTrigger("Quel heure est-il", "Donne moi l'heure", "L'heure s'il te plait")
