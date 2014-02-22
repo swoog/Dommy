@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dommy.Extentions.Kinect2.Tests
+namespace Dommy.Extensions.Kinect.Sdk2.Tests
 {
     [TestClass]
     public class UnitTest1

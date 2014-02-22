@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Extensions.Kinect2
+namespace Dommy.Extensions.Kinect.Sdk2
 {
     using System;
     using System.Collections.Generic;
