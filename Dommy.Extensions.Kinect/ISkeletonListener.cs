@@ -6,8 +6,6 @@
 
 namespace Dommy.Extensions.Kinect
 {
-    using Microsoft.Kinect;
-
     /// <summary>
     /// Interface to listen the movement of skeleton.
     /// </summary>
@@ -17,6 +15,6 @@ namespace Dommy.Extensions.Kinect
         /// New skeleton detected.
         /// </summary>
         /// <param name="skeleton">Kinect skeleton.</param>
-        void NewSkeleton(Skeleton skeleton);
+        void NewSkeleton(ISkeleton skeleton);
     }
 }

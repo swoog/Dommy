@@ -281,6 +281,17 @@ namespace Dommy.Business
         }
 
         /// <summary>
+        /// Find instances of the listener.
+        /// </summary>
+        /// <typeparam name="T">Listener Type.</typeparam>
+        /// <returns>Listener instance.</returns>
+        public IList<T> GetListeners<T>()
+            where T : IListener
+        {
+            return this.listeners.OfType<T>().ToList();
+        }
+
+        /// <summary>
         /// Match all unhandled exception.
         /// </summary>
         /// <param name="sender">Unhandled exception sender.</param>

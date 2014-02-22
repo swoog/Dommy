@@ -7,6 +7,6 @@ namespace Dommy.Extensions.Kinect
 {
     public interface ISkeletonCheck
     {
-        bool Check(Microsoft.Kinect.Skeleton skeleton);
+        bool Check(ISkeleton skeleton);
     }
 }

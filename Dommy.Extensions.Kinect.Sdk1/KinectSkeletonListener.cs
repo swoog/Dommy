@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Extensions.Kinect
+namespace Dommy.Extensions.Kinect.Sdk1
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace Dommy.Extensions.Kinect
     /// Listen to movement from kinect sensor.
     /// </summary>
     [Order(50)]
-    public sealed class KinectSkeletonListener : IListener
+    public sealed class KinectSkeletonListener : IKinectSkeletonListener
     {
         /// <summary>
         /// All scenarios subscribing to kinect skeleton listener.
@@ -138,7 +138,7 @@ namespace Dommy.Extensions.Kinect
 
                 foreach (var scenario in this.scenarios)
                 {
-                    if (scenario.Key.Check(skeleton))
+                    if (scenario.Key.Check(new SkeletonSdk1(skeleton)))
                     {
                         scenario.Value.RunAsync();
                     }
@@ -150,7 +150,7 @@ namespace Dommy.Extensions.Kinect
         {
             foreach (var item in this.skeletonListeners)
             {
-                item.NewSkeleton(skeleton);
+                item.NewSkeleton(new SkeletonSdk1(skeleton));
             }
         }
 

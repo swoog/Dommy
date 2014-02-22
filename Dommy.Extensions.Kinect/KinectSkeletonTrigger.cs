@@ -12,7 +12,10 @@ namespace Dommy.Extensions.Kinect
 
         public void Init(Business.Engine engine, Business.Scenarios.IScenario scenario)
         {
-            engine.Listener<KinectSkeletonListener>().Subscribe(this.Checker, scenario);
+            foreach (var listener in engine.GetListeners<IKinectSkeletonListener>())
+            {
+                listener.Subscribe(this.Checker, scenario);
+            }
         }
     }
 }

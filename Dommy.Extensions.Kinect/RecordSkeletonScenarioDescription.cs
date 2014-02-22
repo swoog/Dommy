@@ -8,7 +8,6 @@ namespace Dommy.Extensions.Kinect
 {
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
-    using Microsoft.Kinect;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -18,7 +17,7 @@ namespace Dommy.Extensions.Kinect
     /// </summary>
     public class RecodSkeletonScenarioDescription : IScenarioDescription, ISkeletonListener
     {
-        private static List<Skeleton> skeletons = null;
+        private static List<ISkeleton> skeletons = null;
 
         /// <summary>
         /// Create the scenario to recorde kinect sceleton recorder.
@@ -42,7 +41,7 @@ namespace Dommy.Extensions.Kinect
         {
             if (skeletons == null)
             {
-                skeletons = new List<Skeleton>();
+                skeletons = new List<ISkeleton>();
                 return true;
             }
 
@@ -68,20 +67,20 @@ namespace Dommy.Extensions.Kinect
             return false;
         }
 
-        private void WriteSkeletonToFile(Skeleton item, StreamWriter writer)
+        private void WriteSkeletonToFile(ISkeleton item, StreamWriter writer)
         {
             writer.Write("Skeleton : ");
             writer.Write(item.TrackingId);
 
-            foreach (JointType joinType in Enum.GetValues(typeof(JointType)))
+            foreach (IJointType joinType in item.GetJointTypes())
             {
                 writer.Write(" {0} :", joinType);
-                writer.Write(item.Joints[joinType]);
+                writer.Write(item[joinType]);
             }
 
         }
 
-        public void NewSkeleton(Microsoft.Kinect.Skeleton skeleton)
+        public void NewSkeleton(ISkeleton skeleton)
         {
             if (skeletons != null)
             {

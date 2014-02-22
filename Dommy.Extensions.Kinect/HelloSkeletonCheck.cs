@@ -7,7 +7,7 @@ namespace Dommy.Extensions.Kinect
 {
     public class HelloSkeletonCheck : ISkeletonCheck
     {
-        public bool Check(Microsoft.Kinect.Skeleton skeleton)
+        public bool Check(ISkeleton skeleton)
         {
             //CheckSkeleton.Create()
             //    .Move(RightHand, m=> m.ToRight(10)
