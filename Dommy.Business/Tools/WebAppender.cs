@@ -11,7 +11,7 @@ namespace Dommy.Business.Tools
 {
     public class WebAppender : AppenderSkeleton
     {
-        private static string uriAppender = "http://localhost:17909";
+        private static string uriAppender = "http://localhost:5557";
 
         private HubConnection connection;
         private IHubProxy logger;

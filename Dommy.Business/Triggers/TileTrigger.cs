@@ -16,7 +16,7 @@ namespace Dommy.Business.Triggers
 
         public void Init(Engine engine, Scenarios.IScenario scenario)
         {
-            this.tileManager.AddTile(this.Tile);
+            this.tileManager.AddTile(this.Tile, scenario);
         }
 
         public Tile Tile { get; set; }

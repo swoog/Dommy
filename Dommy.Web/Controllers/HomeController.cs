@@ -20,19 +20,15 @@ namespace Dommy.Web.Controllers
             }
         }
 
-        //public ActionResult Tile(int id)
-        //{
-        //    using (var tileManager = Client<ITileManager>.Create())
-        //    {
-        //        var tile = tileManager.Channel.GetTile(id);
+        [HttpPost]
+        public ActionResult Tile(int id)
+        {
+            using (var tileManager = Client<ITileManager>.Create())
+            {
+                tileManager.Channel.Start(id);
+            }
 
-        //        if (!string.IsNullOrEmpty(tile.Url))
-        //        {
-        //            return RedirectToAction(tile.Url, "tile");
-        //        }
-        //    }
-
-        //    return null;
-        //}
+            return null;
+        }
     }
 }

@@ -16,9 +16,6 @@
         logger.client.receive = function (m) {
             $('.logger').append('<li class="' + m.Level + '">' + m.Message + '</li>');
         };
-
-
-        $.connection.hub.start();
     });
 </script>
 
