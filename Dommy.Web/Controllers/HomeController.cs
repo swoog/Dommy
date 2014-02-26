@@ -22,14 +22,9 @@ namespace Dommy.Web.Controllers
 
         public ActionResult TileRender(Tile tile)
         {
-            if (!string.IsNullOrEmpty(tile.View))
-            {
-                return View(new RazorView(this.ControllerContext, tile.View, null, false, null), tile);
-            }
-            else
-            {
-                return View(tile);
-            }
+            var html = RazorEngine.Razor.Parse(tile.View, tile);
+
+            return View(html);
         }
 
         [HttpPost]
