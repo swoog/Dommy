@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\ResolverEngine.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Global.asax.cs">
@@ -214,6 +215,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Tile.cshtml" />
     <Content Include="Views\Tile\Logger.cshtml" />
+    <Content Include="Views\Home\TileRender.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

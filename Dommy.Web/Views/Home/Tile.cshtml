@@ -8,6 +8,10 @@
         <span class="id" style="visibility:collapse">@Model.Id</span>
         <span class="url" style="visibility:collapse">@Model.Url</span>
         <div class="title">@Model.Title</div>
-        <div class="content"></div>
+        <div class="content">
+
+            @{Html.RenderAction("TileRender", new { Tile = @Model });}
+
+        </div>
     </div>
 </div>

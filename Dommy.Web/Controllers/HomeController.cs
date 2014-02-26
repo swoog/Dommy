@@ -20,6 +20,18 @@ namespace Dommy.Web.Controllers
             }
         }
 
+        public ActionResult TileRender(Tile tile)
+        {
+            if (!string.IsNullOrEmpty(tile.View))
+            {
+                return View(new RazorView(this.ControllerContext, tile.View, null, false, null), tile);
+            }
+            else
+            {
+                return View(tile);
+            }
+        }
+
         [HttpPost]
         public ActionResult Tile(int id)
         {
