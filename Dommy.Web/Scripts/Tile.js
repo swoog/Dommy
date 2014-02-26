@@ -21,4 +21,6 @@ $(document).ready(function () {
     // Declare a function on the chat hub so the server can invoke it
     tile.client.UpdateTile = function (m) {
     };
+
+    $.connection.hub.start();
 });

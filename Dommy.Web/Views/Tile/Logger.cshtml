@@ -8,7 +8,7 @@
 <h1>Logger</h1>
 
 <script type="text/javascript">
-    $(function () {
+    $(document).ready(function() {
         // Proxy created on the fly
         var logger = $.connection.logger;
 
@@ -16,6 +16,8 @@
         logger.client.receive = function (m) {
             $('.logger').append('<li class="' + m.Level + '">' + m.Message + '</li>');
         };
+
+        $.connection.hub.start();
     });
 </script>
 
