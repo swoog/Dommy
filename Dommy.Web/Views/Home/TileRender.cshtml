@@ -1,6 +1,6 @@
-﻿@model Dommy.Business.Tile
+﻿@model Dommy.Web.Models.HomeTileRenderModel
 @{
     Layout = null;
 }
 
-@Model
+@Html.Raw(Model.Render)

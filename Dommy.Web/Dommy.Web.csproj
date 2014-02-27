@@ -173,6 +173,7 @@
     <Compile Include="Hubs\Tile.cs" />
     <Compile Include="Hubs\Logger.cs" />
     <Compile Include="Models\HomeIndexModel.cs" />
+    <Compile Include="Models\HomeTileRenderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

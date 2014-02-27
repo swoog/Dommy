@@ -20,11 +20,21 @@ namespace Dommy.Web.Controllers
             }
         }
 
-        public ActionResult TileRender(Tile tile)
+        public ActionResult TileRender(int tileId)
         {
-            var html = RazorEngine.Razor.Parse(tile.View, tile);
+            using (var tileManager = Client<ITileManager>.Create())
+            {
+                var tile = tileManager.Channel.GetTile(tileId);
 
-            return View(html);
+                if (string.IsNullOrEmpty(tile.View))
+                {
+                    return View(new HomeTileRenderModel { Render = string.Empty });
+                }
+
+                var html = RazorEngine.Razor.Parse(tile.View, tile);
+
+                return View(new HomeTileRenderModel { Render = html });
+            }
         }
 
         [HttpPost]

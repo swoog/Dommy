@@ -10,7 +10,7 @@
         <div class="title">@Model.Title</div>
         <div class="content">
 
-            @{Html.RenderAction("TileRender", new { Tile = @Model });}
+            @{Html.RenderAction("TileRender", new { TileId = Model.Id });}
 
         </div>
     </div>

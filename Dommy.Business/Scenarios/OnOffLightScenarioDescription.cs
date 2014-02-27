@@ -79,7 +79,7 @@ namespace Dommy.Business.Scenarios
                     sFalse => sFalse.EedomusOnOff(this.EedomusId, false))
                 .Start();
 
-            tile.View = System.IO.File.ReadAllText(new System.IO.FileInfo(@"..\..\Scenarios\OnOffLightScenarioTile.cshtml").FullName);
+            tile.View = System.IO.File.ReadAllText(new System.IO.FileInfo(@"..\..\..\Dommy.Business\Scenarios\OnOffLightScenarioTile.cshtml").FullName);
 
             Scenario.Create(StringHelper.Format("Tile {Name} Notification", this.RoomNames[0]))
                 .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
