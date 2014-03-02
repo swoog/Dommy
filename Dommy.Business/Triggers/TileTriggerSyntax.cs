@@ -20,30 +20,31 @@ namespace Dommy.Business.Triggers
             this.scenario = scenario;
         }
 
-        public ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor)
+        public ITriggerScenarioSyntax TileTrigger(string section, string title, TileColor tileColor)
         {
-            return TileTrigger(title, backgroundColor, null);
+            return TileTrigger(section, title, tileColor, null);
         }
 
-        public ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor, string url)
+        public ITriggerScenarioSyntax TileTrigger(string section, string title, TileColor tileColor, string url)
         {
             Tile t;
 
-            return TileTrigger(out t, title, backgroundColor, url);
+            return TileTrigger(out t, section, title, tileColor, url);
         }
 
-        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, Color backgroundColor)
+        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string section, string title, TileColor tileColor)
         {
-            return TileTrigger(out tile, title, backgroundColor, null);
+            return TileTrigger(out tile, section, title, tileColor, null);
         }
 
-        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, Color backgroundColor, string url)
+        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string section, string title, TileColor tileColor, string url)
         {
             var t = this.kernel.Get<TileTrigger>();
             t.Tile = new Tile
             {
+                SectionName = section,
                 Title = title,
-                BackGroundColor = backgroundColor,
+                Color = tileColor,
                 Size = TileSize.Medium,
                 Url = url,
             };

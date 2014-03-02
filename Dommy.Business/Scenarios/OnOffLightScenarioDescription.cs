@@ -72,7 +72,7 @@ namespace Dommy.Business.Scenarios
             Tile tile;
 
             Scenario.Create(StringHelper.Format("Tile {Name}", this.RoomNames[0]))
-                .TileTrigger(out tile, StringHelper.Format("Lumière {Name}", this.RoomNames[0]), Color.Yellow)
+                .TileTrigger(out tile, null, StringHelper.Format("Lumière {Name}", this.RoomNames[0]), TileColor.Victoria)
                 .If(
                     () => this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId) == "100",
                     sTrue => sTrue.EedomusOnOff(this.EedomusId, true),

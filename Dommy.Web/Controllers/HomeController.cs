@@ -16,7 +16,27 @@ namespace Dommy.Web.Controllers
             using (var tileManager = Client<ITileManager>.Create())
             using (var engine = Client<IEngine>.Create())
             {
-                return View(new HomeIndexModel { Name = engine.Channel.GetEngineName(), Tiles = tileManager.Channel.GetTiles() });
+                var tiles = tileManager.Channel.GetTiles();
+
+                var sections = (from t in tiles
+                                group t by t.SectionName into g
+                                select new SectionModel
+                                {
+                                    Name = g.First().SectionName ?? "Aucun",
+                                    Tiles = g.ToList(),
+                                }).ToList();
+
+                var enums = Enum.GetNames(typeof(TileColor))
+                    .Select(color => string.Format("{0}{1}", color.Substring(0, 1).ToLower(), color.Substring(1)))
+                    .ToArray();
+
+                for (int i = 0; i < sections.Count; i++)
+                {
+                    sections[i].Id = i;
+                    sections[i].Color = enums[i % enums.Length];
+                }
+
+                return View(new HomeIndexModel { Name = engine.Channel.GetEngineName(), Sections = sections });
             }
         }
 

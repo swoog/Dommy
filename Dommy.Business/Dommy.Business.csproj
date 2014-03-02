@@ -233,6 +233,7 @@
     <Compile Include="Syntax\ScenarioContext.cs" />
     <Compile Include="Syntax\SyntaxModule.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="TileColor.cs" />
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
     <Compile Include="Actions\EedomusAction.cs" />

@@ -20,12 +20,12 @@ namespace Dommy.Business.Triggers
         /// <param name="title">Tile name.</param>
         /// <param name="backgroundColor">Background color of the tile.</param>
         /// <returns>Trigger scenario syntax.</returns>
-        ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor);
+        ITriggerScenarioSyntax TileTrigger(string section, string title, TileColor tileColor);
 
-        ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, Color backgroundColor);
+        ITriggerScenarioSyntax TileTrigger(out Tile tile, string section, string title, TileColor tileColor);
 
-        ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor, string url);
+        ITriggerScenarioSyntax TileTrigger(string section, string title, TileColor tileColor, string url);
 
-        ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, Color backgroundColor, string url);
+        ITriggerScenarioSyntax TileTrigger(out Tile tile, string section, string title, TileColor tileColor, string url);
     }
 }

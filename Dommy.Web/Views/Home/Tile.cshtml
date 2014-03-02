@@ -3,15 +3,17 @@
     Layout = null;
 }
 
-<div class="tile" style="width:@(Model.Width)px;height:@(Model.Height)px;background-color: @Model.ColorCode">
-    <div class="back">
-        <span class="id" style="visibility:collapse">@Model.Id</span>
-        <span class="url" style="visibility:collapse">@Model.Url</span>
-        <div class="title">@Model.Title</div>
-        <div class="content">
+<div class ="@Model.CssColor">
+    <div class="tile borderColor backColor" style="width:@(Model.Width)px;height:@(Model.Height)px">
+        <div class="back">
+            <span class="id" style="visibility:collapse">@Model.Id</span>
+            <span class="url" style="visibility:collapse">@Model.Url</span>
+            <div class="title">@Model.Title</div>
+            <div class="content">
 
-            @{Html.RenderAction("TileRender", new { TileId = Model.Id });}
+                @{Html.RenderAction("TileRender", new { TileId = Model.Id });}
 
+            </div>
         </div>
     </div>
 </div>

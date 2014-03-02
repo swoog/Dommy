@@ -452,9 +452,9 @@ namespace Dommy.Business.Actions
         /// <param name="title">Tile name.</param>
         /// <param name="backGround">Background color of the tile.</param>
         /// <returns>Trigger scenario syntax.</returns>
-        public ITriggerScenarioSyntax TileTrigger(string title, System.Drawing.Color backGround)
+        public ITriggerScenarioSyntax TileTrigger(string section, string title, TileColor tileColor)
         {
-            return this.Extend<ITileTriggerSyntax>().TileTrigger(title, backGround);
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(section, title, tileColor);
         }
 
         /// <summary>
@@ -572,19 +572,19 @@ namespace Dommy.Business.Actions
             return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
         }
 
-        public ITriggerScenarioSyntax TileTrigger(string title, System.Drawing.Color backgroundColor, string url)
+        public ITriggerScenarioSyntax TileTrigger(string section, string title, TileColor tileColor, string url)
         {
-            return this.Extend<ITileTriggerSyntax>().TileTrigger(title, backgroundColor, url);
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(section, title, tileColor, url);
         }
 
-        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, System.Drawing.Color backgroundColor)
+        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string section, string title, TileColor tileColor)
         {
-            return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, title, backgroundColor);
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, section, title, tileColor);
         }
 
-        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string title, System.Drawing.Color backgroundColor, string url)
+        public ITriggerScenarioSyntax TileTrigger(out Tile tile, string section, string title, TileColor tileColor, string url)
         {
-            return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, title, backgroundColor, url);
+            return this.Extend<ITileTriggerSyntax>().TileTrigger(out tile, section, title, tileColor, url);
         }
 
         public IScenarioSyntax TileUpdate(Tile tile)

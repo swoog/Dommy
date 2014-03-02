@@ -85,7 +85,7 @@ namespace Dommy.Console
             kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();
 
             Scenario.Create("Web logger")
-                .TileTrigger("Informations", System.Drawing.Color.Green, "/Tile/Logger")
+                .TileTrigger("Salon", "Informations", TileColor.Cinnabar, "/Tile/Logger")
                 .Start();
 
             // TODO : Add scenario to restart freebox and router.

@@ -8,19 +8,25 @@ namespace Dommy.Business
 {
     public class Tile
     {
+        public string SectionName { get; set; }
+
         public string Title { get; set; }
 
-        public System.Drawing.Color BackGroundColor { get; set; }
+        public TileColor Color { get; set; }
 
         public TileSize Size { get; set; }
 
         public object Data { get; set; }
 
-        public string ColorCode
+        public string CssColor
         {
             get
             {
-                return "#" + this.BackGroundColor.R.ToString("X2") + this.BackGroundColor.G.ToString("X2") + this.BackGroundColor.B.ToString("X2");
+                var color = this.Color.ToString();
+
+                color = string.Format("{0}{1}", color.Substring(0, 1).ToLower(), color.Substring(1));
+
+                return color;
             }
         }
 

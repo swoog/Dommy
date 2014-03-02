@@ -6,9 +6,33 @@
 <h1>Dommy</h1>
 
 <script src="Scripts/Tile.js" type="text/javascript"></script>
-<div class="grid">
-    @foreach (var tile in Model.Tiles)
+<div class="gridMenu">
+    @foreach (var sectionModel in Model.Sections)
     {
-        Html.RenderPartial("Tile", tile);
+        <a class="menu @sectionModel.Color" href="#section@(sectionModel.Id)">
+            <span class="id" style="display:none">@sectionModel.Id</span>
+            <div class="backColor borderColor">
+                <div class="back">
+                    @sectionModel.Name
+                </div>
+            </div>
+            <div class="borderColor arrowRight">
+
+            </div>
+        </a>
+    }
+</div>
+
+<div class="grid">
+    @foreach (var sectionModel in Model.Sections)
+    {
+        <div id="section@(sectionModel.Id)" class="gridSection">
+            @foreach (var tile in sectionModel.Tiles)
+            {
+                Html.RenderPartial("Tile", tile);
+            }
+
+            <div class="clear"></div>
+        </div>
     }
 </div>

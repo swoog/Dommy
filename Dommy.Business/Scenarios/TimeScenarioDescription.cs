@@ -28,7 +28,7 @@ namespace Dommy.Business.Scenarios
             Tile tile;
 
             Scenario.Create(StringHelper.Format("Tile Time"))
-                .TileTrigger(out tile, "Time", Color.Red)
+                .TileTrigger(out tile, null, "Time", TileColor.EasternBlue)
                 .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(10))
                 .Action(() =>
                 {

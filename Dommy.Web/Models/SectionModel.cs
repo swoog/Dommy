@@ -6,10 +6,14 @@ using System.Web;
 
 namespace Dommy.Web.Models
 {
-    public class HomeIndexModel
+    public class SectionModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        public List<SectionModel> Sections { get; set; }
+        public List<Tile> Tiles { get; set; }
+
+        public string Color { get; set; }
     }
 }
