@@ -1,19 +1,47 @@
 ﻿/// <reference path="Scripts/jquery-2.0.3.js" />
 
 $(document).ready(function () {
-    $(".tile").on("click", function () {
-        var url = $(this).find(".url").html();
-
-        if (url) {
-            window.location = url;
-        } else {
-            $.post("/home/tile/" + $(this).find(".id").html(), null, function (result) {
-                if (result.redirectUrl != null) {
-                    window.location = result.redirectUrl;
-                }
+    $(".tile").mousedown(function (e) {
+        if (e.which === 3) {
+            $(".grid").addClass("edit");
+            $(this).addClass("selected");
+            $(".tile").each(function () {
+                $(this).css(
+                    {
+                        animation: 'floatAnimation' + Math.floor(Math.random() * 5) + ' 10s',
+                        animationIterationCount: 'infinite'
+                    });
             });
+            return false;
+        } else {
+            var editMode = $(".grid").hasClass("edit");
+
+            if (editMode) {
+                $(".tile").removeClass("selected");
+                $(this).addClass("selected");
+                return false;
+            } else {
+                var url = $(this).find(".url").html();
+
+                if (url) {
+                    window.location = url;
+                } else {
+                    $.post("/home/tile/" + $(this).find(".id").html(), null, function (result) {
+                        if (result.redirectUrl != null) {
+                            window.location = result.redirectUrl;
+                        }
+                    });
+                }
+            }
         }
+    }).bind("contextmenu", function (e) {
+        return false;
     });
+
+    $(document).mousedown(function (event) {
+        $(".grid").removeClass("edit");
+        $(".grid .tile").removeClass("selected");
+    })
 
     $('a[href^="#"]').click(function () {
         var the_id = $(this).attr("href");

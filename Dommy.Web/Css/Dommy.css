@@ -114,11 +114,12 @@ h1 {
 }
 .grid .gridSection {
   padding-bottom: 10px;
+  display: inline-grid;
 }
 .grid .tile {
   position: relative;
   margin: 0 10px 10px 0;
-  float: left;
+  /*float: left;*/
   color: #fff;
 }
 .grid .tile .title {
@@ -126,6 +127,121 @@ h1 {
   position: absolute;
   left: 20px;
   bottom: 10px;
+}
+.grid .tile.small {
+  width: 70px;
+  height: 70px;
+}
+.grid .tile.medium {
+  width: 150px;
+  height: 150px;
+}
+.grid .tile.mediumLine {
+  width: 150px;
+  height: 70px;
+}
+.grid .tile.large {
+  width: 310px;
+  height: 310px;
+}
+.grid .tile.selected {
+  border: 1px solid black;
+}
+@keyframes floatAnimation1 {
+  0% {
+    margin: 5px 15px 15px 5px;
+  }
+  20% {
+    margin: 0 20px 20px 0;
+  }
+  40% {
+    margin: 10px 20px 10px 0;
+  }
+  60% {
+    margin: 10px 10px 10px 10px;
+  }
+  80% {
+    margin: 0 10px 20px 10px;
+  }
+  100% {
+    margin: 5px 15px 15px 5px;
+  }
+}
+@keyframes floatAnimation2 {
+  0% {
+    margin: 5px 15px 15px 5px;
+  }
+  20% {
+    margin: 10px 10px 10px 10px;
+  }
+  40% {
+    margin: 5px 15px 15px 5px;
+  }
+  60% {
+    margin: 0 20px 20px 0;
+  }
+  80% {
+    margin: 0 10px 20px 10px;
+  }
+  100% {
+    margin: 5px 15px 15px 5px;
+  }
+}
+@keyframes floatAnimation3 {
+  0% {
+    margin: 5px 15px 15px 5px;
+  }
+  20% {
+    margin: 10px 10px 10px 10px;
+  }
+  40% {
+    margin: 0 10px 20px 10px;
+  }
+  60% {
+    margin: 5px 15px 15px 5px;
+  }
+  80% {
+    margin: 0 20px 20px 0;
+  }
+  100% {
+    margin: 5px 15px 15px 5px;
+  }
+}
+@keyframes floatAnimation4 {
+  0% {
+    margin: 5px 15px 15px 5px;
+  }
+  20% {
+    margin: 10px 20px 10px 0;
+  }
+  40% {
+    margin: 0 10px 20px 10px;
+  }
+  60% {
+    margin: 10px 10px 10px 10px;
+  }
+  80% {
+    margin: 0 20px 20px 0;
+  }
+  100% {
+    margin: 5px 15px 15px 5px;
+  }
+}
+.grid.edit .tile.small {
+  width: 60px;
+  height: 60px;
+}
+.grid.edit .tile.medium {
+  width: 140px;
+  height: 140px;
+}
+.grid.edit .tile.mediumLine {
+  width: 140px;
+  height: 60px;
+}
+.grid.edit .tile.large {
+  width: 300px;
+  height: 300px;
 }
 .borderColor {
   border: 1px solid;
@@ -152,11 +268,11 @@ h1 {
   border-top: 36px solid transparent !important;
   border-bottom: 36px solid transparent !important;
 }
-.selected {
+.arrowRight.selected {
   animation: arrowAnimSelected 1s;
   border-left-width: 18px;
 }
-.unselected {
+.arrowRight.unselected {
   animation: arrowAnimUnSelected 1s;
 }
 .logger .DEBUG {

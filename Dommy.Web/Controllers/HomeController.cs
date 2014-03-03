@@ -26,9 +26,7 @@ namespace Dommy.Web.Controllers
                                     Tiles = g.ToList(),
                                 }).ToList();
 
-                var enums = Enum.GetNames(typeof(TileColor))
-                    .Select(color => string.Format("{0}{1}", color.Substring(0, 1).ToLower(), color.Substring(1)))
-                    .ToArray();
+                var enums = Enum.GetNames(typeof(TileColor));
 
                 for (int i = 0; i < sections.Count; i++)
                 {

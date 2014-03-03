@@ -1,5 +1,17 @@
 ﻿@fontName: 'Segoe UI';
-@color1: #73B5DD;
+
+// Tiles size
+@smallWidth: 70px;
+@mediumLineWidth: 150px;
+@mediumWidth: 150px;
+@largeWidth: 310px;
+@smallHeight: 70px;
+@mediumLineHeight: 70px;
+@mediumHeight: 150px;
+@largeHeight: 310px;
+
+@tileMarge: 10px;
+@editMarge: 10px;
 
 html {
     padding: 0;
@@ -173,12 +185,13 @@ h1 {
 
     .gridSection {
         padding-bottom: 10px;
+        display:inline-grid;
     }
 
     .tile {
         position: relative;
-        margin: 0 10px 10px 0;
-        float: left;
+        margin: 0 @tileMarge @tileMarge 0;
+        /*float: left;*/
         color: #fff;
 
         .title {
@@ -188,6 +201,146 @@ h1 {
             bottom: 10px;
         }
     }
+
+        .tile.small {
+            width: @smallWidth;
+            height: @smallHeight;
+        }
+
+        .tile.medium {
+            width: @mediumWidth;
+            height: @mediumHeight;
+        }
+
+        .tile.mediumLine {
+            width: @mediumLineWidth;
+            height: @mediumLineHeight;
+        }
+
+        .tile.large {
+            width: @largeWidth;
+            height: @largeHeight;
+        }
+
+        .tile.selected {
+            border: 1px solid black;
+        }
+}
+
+@marginAnimation : @editMarge/2 @tileMarge+@editMarge/2 @tileMarge+@editMarge/2 @editMarge/2;
+@marginAnimationCoin1 : 0 @tileMarge+@editMarge @tileMarge+@editMarge 0;
+@marginAnimationCoin2 : @editMarge @tileMarge+@editMarge @tileMarge 0;
+@marginAnimationCoin3 : @editMarge @tileMarge @tileMarge @editMarge;
+@marginAnimationCoin4 : 0 @tileMarge @tileMarge+@editMarge @editMarge;
+
+@keyframes floatAnimation1 {
+    0% {
+        margin: @marginAnimation;
+    }
+    20% {
+        margin: @marginAnimationCoin1;
+    }
+    40% {
+        margin: @marginAnimationCoin2;
+    }
+    60% {
+        margin: @marginAnimationCoin3;
+    }
+    80% {
+        margin: @marginAnimationCoin4;
+    }
+    100% {
+        margin: @marginAnimation;
+    }
+}
+@keyframes floatAnimation2 {
+    0% {
+        margin: @marginAnimation;
+    }
+    20% {
+        margin: @marginAnimationCoin3;
+    }
+    40% {
+        margin: @marginAnimation;
+    }
+    60% {
+        margin: @marginAnimationCoin1;
+    }
+    80% {
+        margin: @marginAnimationCoin4;
+    }
+    100% {
+        margin: @marginAnimation;
+    }
+}
+@keyframes floatAnimation3 {
+    0% {
+        margin: @marginAnimation;
+    }
+    20% {
+        margin: @marginAnimationCoin3;
+    }
+    40% {
+        margin: @marginAnimationCoin4;
+    }
+    60% {
+        margin: @marginAnimation;
+    }
+    80% {
+        margin: @marginAnimationCoin1;
+    }
+    100% {
+        margin: @marginAnimation;
+    }
+}
+
+@keyframes floatAnimation4 {
+    0% {
+        margin: @marginAnimation;
+    }
+    20% {
+        margin: @marginAnimationCoin2;
+    }
+    40% {
+        margin: @marginAnimationCoin4;
+    }
+    60% {
+        margin: @marginAnimationCoin3;
+    }
+    80% {
+        margin: @marginAnimationCoin1;
+    }
+    100% {
+        margin: @marginAnimation;
+    }
+}
+
+
+.grid.edit {
+
+    .tile {
+        
+    }
+
+        .tile.small {
+            width: @smallWidth - @editMarge;
+            height: @smallHeight - @editMarge;
+        }
+
+        .tile.medium {
+            width: @mediumWidth - @editMarge;
+            height: @mediumHeight - @editMarge;
+        }
+
+        .tile.mediumLine {
+            width: @mediumLineWidth - @editMarge;
+            height: @mediumLineHeight - @editMarge;
+        }
+
+        .tile.large {
+            width: @largeWidth - @editMarge;
+            height: @largeHeight - @editMarge;
+        }
 }
 
 .borderColor {
@@ -221,14 +374,14 @@ h1 {
     border-bottom: 36px solid transparent !important;
 }
 
-.selected {
-    animation: arrowAnimSelected 1s;
-    border-left-width: 18px;
-}
+    .arrowRight.selected {
+        animation: arrowAnimSelected 1s;
+        border-left-width: 18px;
+    }
 
-.unselected {
-    animation: arrowAnimUnSelected 1s;
-}
+    .arrowRight.unselected {
+        animation: arrowAnimUnSelected 1s;
+    }
 
 .logger {
     .DEBUG {

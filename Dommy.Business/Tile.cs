@@ -18,18 +18,6 @@ namespace Dommy.Business
 
         public object Data { get; set; }
 
-        public string CssColor
-        {
-            get
-            {
-                var color = this.Color.ToString();
-
-                color = string.Format("{0}{1}", color.Substring(0, 1).ToLower(), color.Substring(1));
-
-                return color;
-            }
-        }
-
         public int Width
         {
             get

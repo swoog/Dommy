@@ -14,7 +14,7 @@ namespace Dommy.Business.Tools
     /// <summary>
     /// Format string with multiple format and random.
     /// </summary>
-    public class StringHelper
+    public static class StringHelper
     {
         /// <summary>
         /// Initialize a random generator.
@@ -82,6 +82,20 @@ namespace Dommy.Business.Tools
             int num = r.Next(formats.Count);
 
             return StringHelper.Format(formats[num], data);
+        }
+
+        public static string LowerFirstChar(this string text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+            else if (text.Length == 1)
+            {
+                return text.ToLower();
+            }
+
+            return string.Format("{0}{1}", text.Substring(0, 1).ToLower(), text.Substring(1));
         }
     }
 }

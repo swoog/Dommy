@@ -9,7 +9,7 @@
 <div class="gridMenu">
     @foreach (var sectionModel in Model.Sections)
     {
-        <a class="menu @sectionModel.Color" href="#section@(sectionModel.Id)">
+        <a class="menu @sectionModel.Color.ToString().LowerFirstChar()" href="#section@(sectionModel.Id)">
             <span class="id" style="display:none">@sectionModel.Id</span>
             <div class="backColor borderColor">
                 <div class="back">
