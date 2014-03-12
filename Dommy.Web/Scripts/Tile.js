@@ -1,7 +1,30 @@
 ﻿/// <reference path="Scripts/jquery-2.0.3.js" />
 
 $(document).ready(function () {
-    $(".tile").mousedown(function (e) {
+    $(".gridSection").each(function () {
+        var maxWidth = $(this).width();
+        var x = 0;
+        var y = 0;
+        $(this).css({ position: 'relative' })
+            .find(".tile").each(function () {
+                $(this).css({ position: 'absolute'});
+
+                if ((x + $(this).outerWidth()) > maxWidth) {
+                    x = 0;
+                    y += $(this).outerHeight();
+                }
+
+                $(this).css({ left: x, top: y });
+
+                x += $(this).outerWidth();
+            });
+
+        $(this).outerHeight(y);
+        $(this).outerWidth(maxWidth);
+    });
+
+    $(".tile")
+        .mousedown(function (e) {
         if (e.which === 3) {
             $(".grid").addClass("edit");
             $(this).addClass("selected");

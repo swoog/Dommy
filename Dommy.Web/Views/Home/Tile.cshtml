@@ -3,8 +3,8 @@
     Layout = null;
 }
 
-<div class="@Model.Color.ToString().LowerFirstChar()">
-    <div class="tile borderColor backColor @(Model.Size.ToString().LowerFirstChar())">
+<div class="tile @Model.Color.ToString().LowerFirstChar()">
+    <div class="borderColor backColor @(Model.Size.ToString().LowerFirstChar())">
         <div class="back">
             <span class="id" style="visibility:collapse">@Model.Id</span>
             <span class="url" style="visibility:collapse">@Model.Url</span>

@@ -117,8 +117,8 @@ h1 {
   display: inline-grid;
 }
 .grid .tile {
-  position: relative;
-  margin: 0 10px 10px 0;
+  /*position: relative;*/
+  padding: 0 10px 10px 0;
   /*float: left;*/
   color: #fff;
 }
@@ -132,7 +132,7 @@ h1 {
   width: 70px;
   height: 70px;
 }
-.grid .tile.medium {
+.grid .tile .medium {
   width: 150px;
   height: 150px;
 }
