@@ -7,7 +7,7 @@ namespace Dommy.Extensions.Kinect
 {
     public interface ISkeleton
     {
-        string TrackingId { get; set; }
+        string TrackingId { get; }
 
         IList<IJointType> GetJointTypes();
 

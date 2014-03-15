@@ -15,7 +15,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
     /// <summary>
     /// Make choice of the Kinect sensor.
     /// </summary>
-    public class KinectSensorSelector : IDisposable
+    public class Kinect2SensorSelector : IDisposable
     {
         /// <summary>
         /// Sensor logger.
@@ -23,10 +23,10 @@ namespace Dommy.Extensions.Kinect.Sdk2
         private ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KinectSensorSelector"/> class.
+        /// Initializes a new instance of the <see cref="Kinect2SensorSelector"/> class.
         /// </summary>
         /// <param name="logger">Sensor logger.</param>
-        public KinectSensorSelector(ILogger logger)
+        public Kinect2SensorSelector(ILogger logger)
         {
             this.logger = logger;
             this.Sensor = KinectSensor.KinectSensors.FirstOrDefault();

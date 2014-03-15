@@ -7,8 +7,8 @@
     <ProjectGuid>{7AA2E2C7-1AB1-4C18-9835-279280869C3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dommy.Extensions.Kinect2</RootNamespace>
-    <AssemblyName>Dommy.Extensions.Kinect2</AssemblyName>
+    <RootNamespace>Dommy.Extensions.Kinect.Sdk2</RootNamespace>
+    <AssemblyName>Dommy.Extensions.Kinect.Sdk2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -55,7 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KinectSensorSelector.cs" />
+    <Compile Include="BodySdk2.cs" />
+    <Compile Include="Kinect2SensorSelector.cs" />
+    <Compile Include="Kinect2SkeletonListener.cs" />
     <Compile Include="KinectSpeechToText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +65,10 @@
     <ProjectReference Include="..\Dommy.Business\Dommy.Business.csproj">
       <Project>{0d4c5af6-942d-49e2-8034-a2b87d159ce8}</Project>
       <Name>Dommy.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect\Dommy.Extensions.Kinect.csproj">
+      <Project>{fdcfb3e9-d345-480b-9d1e-7fc7179bc45f}</Project>
+      <Name>Dommy.Extensions.Kinect</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

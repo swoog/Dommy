@@ -157,6 +157,14 @@
       <Project>{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}</Project>
       <Name>Dommy.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect.Sdk1\Dommy.Extensions.Kinect.Sdk1.csproj">
+      <Project>{b5d5034a-7760-4db0-b4e2-5f636a33d6bc}</Project>
+      <Name>Dommy.Extensions.Kinect.Sdk1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect.Sdk2\Dommy.Extensions.Kinect.Sdk2.csproj">
+      <Project>{7aa2e2c7-1ab1-4c18-9835-279280869c3b}</Project>
+      <Name>Dommy.Extensions.Kinect.Sdk2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dommy.Extensions.Kinect\Dommy.Extensions.Kinect.csproj">
       <Project>{fdcfb3e9-d345-480b-9d1e-7fc7179bc45f}</Project>
       <Name>Dommy.Extensions.Kinect</Name>

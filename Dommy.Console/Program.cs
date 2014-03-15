@@ -91,6 +91,11 @@ namespace Dommy.Console
             //kernel.Bind<ServiceHost<ActionService>>().ToSelf();
             //var actionService = kernel.Get<ServiceHost<ActionService>>();
             //actionService.Open();
+
+            //File.Move("Microsoft.Kinect.dll", "Microsoft.Kinect.Sdk2.dll");
+
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             var services = kernel.GetAll<IServiceHost>().ToList();
 
             foreach (var item in services)
@@ -111,6 +116,11 @@ namespace Dommy.Console
             }
 
             web.Stop();
+        }
+
+        static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return null;
         }
     }
 }

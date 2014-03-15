@@ -60,6 +60,8 @@ namespace Dommy.Extensions.Kinect.Sdk1
         /// </summary>
         public string Culture { get; private set; }
 
+        public bool IsActive { get; private set; }
+
         /// <summary>
         /// Initialize speech recognizer.
         /// </summary>
@@ -69,10 +71,12 @@ namespace Dommy.Extensions.Kinect.Sdk1
             {
                 this.logger.Error("Kinect sensor not found.");
                 this.logger.Info("Used mic input.");
+                this.IsActive = false;
             }
             else
             {
                 this.kinect.Start();
+                this.IsActive = true;
             }
 
             RecognizerInfo ri = this.GetKinectRecognizer();

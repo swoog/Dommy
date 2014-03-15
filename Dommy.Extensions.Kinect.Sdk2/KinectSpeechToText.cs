@@ -29,7 +29,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         /// <summary>
         /// Instance of the kinect sensor selector.
         /// </summary>
-        private KinectSensorSelector kinect = null;
+        private Kinect2SensorSelector kinect = null;
 
         /// <summary>
         /// Instance of a logger.
@@ -47,7 +47,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         /// <param name="culture">Culture to recognize.</param>
         /// <param name="kinect">Kinect sensor selector.</param>
         /// <param name="logger">Instance of a logger.</param>
-        public KinectSpeechToText(string culture, KinectSensorSelector kinect, ILogger logger)
+        public KinectSpeechToText(string culture, Kinect2SensorSelector kinect, ILogger logger)
         {
             this.logger = logger;
             this.Culture = culture;
@@ -69,10 +69,12 @@ namespace Dommy.Extensions.Kinect.Sdk2
             {
                 this.logger.Error("Kinect sensor not found.");
                 this.logger.Info("Used mic input.");
+                this.IsActive = false;
             }
             else
             {
                 this.kinect.Start();
+                this.IsActive = true;
             }
 
             RecognizerInfo ri = this.GetKinectRecognizer();
@@ -278,5 +280,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
 
             return new Grammar(gb);
         }
+
+        public bool IsActive { get; private set; }
     }
 }
