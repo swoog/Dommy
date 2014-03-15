@@ -5,6 +5,7 @@ $(document).ready(function () {
         var maxWidth = $(this).width();
         var x = 0;
         var y = 0;
+        var maxHeight = 0;
         $(this).css({ position: 'relative' })
             .find(".tile").each(function () {
                 $(this).css({ position: 'absolute'});
@@ -17,9 +18,12 @@ $(document).ready(function () {
                 $(this).css({ left: x, top: y });
 
                 x += $(this).outerWidth();
+                if (y + $(this).outerHeight() > maxHeight) {
+                    maxHeight = y + $(this).outerHeight();
+                }
             });
 
-        $(this).outerHeight(y);
+        $(this).outerHeight(maxHeight);
         $(this).outerWidth(maxWidth);
     });
 

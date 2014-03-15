@@ -73,19 +73,16 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create(StringHelper.Format("Tile {Name}", this.RoomNames[0]))
                 .TileTrigger(out tile, null, StringHelper.Format("Lumière {Name}", this.RoomNames[0]), TileColor.Victoria)
-                .If(
-                    () => this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId) == "100",
-                    sTrue => sTrue.EedomusOnOff(this.EedomusId, true),
-                    sFalse => sFalse.EedomusOnOff(this.EedomusId, false))
+                .EedomusCall(Actions.EedomusAction.PeriphValue, this.EedomusId, "TOGGLE[0|100]")
                 .Start();
 
-            tile.View = System.IO.File.ReadAllText(new System.IO.FileInfo(@"..\..\..\Dommy.Business\Scenarios\OnOffLightScenarioTile.cshtml").FullName);
+            tile.Setembedded("Dommy.Business.Scenarios.OnOffLightScenarioTile.cshtml");
 
             Scenario.Create(StringHelper.Format("Tile {Name} Notification", this.RoomNames[0]))
                 .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
                 .Action(() =>
                 {
-                    var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId) == "100";
+                    var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) == "100";
 
                     if (tile.Data != null && newEtat != (bool)tile.Data)
                     {

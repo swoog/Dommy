@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Dommy.Business
@@ -53,5 +55,16 @@ namespace Dommy.Business
         public string Url { get; set; }
 
         public string View { get; set; }
+
+        public void Setembedded(string resourceName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                this.View = reader.ReadToEnd();
+            }
+        }
     }
 }
