@@ -9,7 +9,7 @@ namespace Dommy.Web.Hubs
 {
     public class Tile : Hub
     {
-        public void UpdateTile(Tile tile)
+        public void UpdateTile(Dommy.Business.Tile tile)
         {
             Clients.Others.UpdateTile(tile);
         }

@@ -116,7 +116,7 @@ namespace Dommy.Business.WebHost
             this.logger.Info("SignalR started on {0} port", this.port + 1);
 
             server = new CassiniDevServer();
-            server.StartServer(WebServerHost.WebServerPath, this.port, "/", "*");
+            server.StartServer(WebServerHost.WebServerPath, System.Net.IPAddress.Any, this.port, "/", "*");
             this.logger.Info("Webserver started on {0} port", this.port);
         }
 

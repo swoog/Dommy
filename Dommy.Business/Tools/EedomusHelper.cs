@@ -59,6 +59,7 @@ namespace Dommy.Business.Tools
 
         public string CallService(EedomusApi api, EedomusAction action, string eedomusId, string value = null)
         {
+            api = EedomusApi.Distant;
             this.Logger.Info("Call eedomus {0} to {1}", eedomusId, value);
 
             var requestType = getRequestType(action);
@@ -102,6 +103,11 @@ namespace Dommy.Business.Tools
 
             value = result.Body.LastValue;
 
+            if (string.IsNullOrEmpty(value) && result.Body.History != null)
+            {
+                value = result.Body.History.OrderByDescending(k => k.Value).First().Key;
+            }
+
             this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
 
             return value;
@@ -134,6 +140,9 @@ namespace Dommy.Business.Tools
 
             [DataMember(Name = "error_msg")]
             public string ErrorMsg { get; set; }
+
+            [DataMember(Name = "history")]
+            public Dictionary<string, DateTime> History { get; set; }
         }
 
         private static EedoumusRequestType getRequestType(EedomusAction action)

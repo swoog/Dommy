@@ -8,7 +8,7 @@ $(document).ready(function () {
         var maxHeight = 0;
         $(this).css({ position: 'relative' })
             .find(".tile").each(function () {
-                $(this).css({ position: 'absolute'});
+                $(this).css({ position: 'absolute' });
 
                 if ((x + $(this).outerWidth()) > maxWidth) {
                     x = 0;
@@ -29,41 +29,41 @@ $(document).ready(function () {
 
     $(".tile")
         .mousedown(function (e) {
-        if (e.which === 3) {
-            $(".grid").addClass("edit");
-            $(this).addClass("selected");
-            $(".tile").each(function () {
-                $(this).css(
-                    {
-                        animation: 'floatAnimation' + Math.floor(Math.random() * 5) + ' 10s',
-                        animationIterationCount: 'infinite'
-                    });
-            });
-            return false;
-        } else {
-            var editMode = $(".grid").hasClass("edit");
-
-            if (editMode) {
-                $(".tile").removeClass("selected");
+            if (e.which === 3) {
+                $(".grid").addClass("edit");
                 $(this).addClass("selected");
+                $(".tile").each(function () {
+                    $(this).css(
+                        {
+                            animation: 'floatAnimation' + Math.floor(Math.random() * 5) + ' 10s',
+                            animationIterationCount: 'infinite'
+                        });
+                });
                 return false;
             } else {
-                var url = $(this).find(".url").html();
+                var editMode = $(".grid").hasClass("edit");
 
-                if (url) {
-                    window.location = url;
+                if (editMode) {
+                    $(".tile").removeClass("selected");
+                    $(this).addClass("selected");
+                    return false;
                 } else {
-                    $.post("/home/tile/" + $(this).find(".id").html(), null, function (result) {
-                        if (result.redirectUrl != null) {
-                            window.location = result.redirectUrl;
-                        }
-                    });
+                    var url = $(this).find(".url").html();
+
+                    if (url) {
+                        window.location = url;
+                    } else {
+                        $.post("/home/tile/" + $(this).find(".id").html(), null, function (result) {
+                            if (result.redirectUrl != null) {
+                                window.location = result.redirectUrl;
+                            }
+                        });
+                    }
                 }
             }
-        }
-    }).bind("contextmenu", function (e) {
-        return false;
-    });
+        }).bind("contextmenu", function (e) {
+            return false;
+        });
 
     $(document).mousedown(function (event) {
         $(".grid").removeClass("edit");
@@ -111,7 +111,14 @@ $(document).ready(function () {
     var tile = $.connection.tile;
 
     // Declare a function on the chat hub so the server can invoke it
-    tile.client.UpdateTile = function (m) {
+    tile.client.UpdateTile = function (t) {
+        var name = "UpdateTile" + t.Id;
+
+        var f = window[name];
+
+        if (f) {
+            f(t);
+        }
     };
 
     $.connection.hub.start();

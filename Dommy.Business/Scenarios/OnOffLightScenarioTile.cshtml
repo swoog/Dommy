@@ -1,1 +1,17 @@
-﻿<img src="/resource/Dommy.Business.Scenarios.Light-On.png" />
+﻿@if (Model.Data != null && (bool)Model.Data)
+{
+    <img id="tileLight@(Model.Id)" src="/resource/Dommy.Business.Scenarios.Light-On.png" />
+}
+else
+{
+    <img id="tileLight@(Model.Id)" src="/resource/Dommy.Business.Scenarios.Light-Off.png" />
+}
+<script>
+    function UpdateTile@(Model.Id)(tile) {
+        if (tile.Data) {
+            $("#tileLight@(Model.Id)").attr('src', '/resource/Dommy.Business.Scenarios.Light-On.png')
+        } else {
+            $("#tileLight@(Model.Id)").attr('src', '/resource/Dommy.Business.Scenarios.Light-Off.png')
+        }
+    }
+</script>
