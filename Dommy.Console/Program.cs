@@ -94,6 +94,8 @@ namespace Dommy.Console
 
             //File.Move("Microsoft.Kinect.dll", "Microsoft.Kinect.Sdk2.dll");
 
+            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             var services = kernel.GetAll<IServiceHost>().ToList();
@@ -116,6 +118,10 @@ namespace Dommy.Console
             }
 
             web.Stop();
+        }
+
+        static void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+        {
         }
 
         static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
