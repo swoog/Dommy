@@ -216,7 +216,7 @@ namespace Dommy.Business.Configs
                 {
                     propertyName = reader.Name;
                 }
-                else if (reader.NodeType == XmlNodeType.Text)
+                else if (reader.NodeType == XmlNodeType.Text && propertyName != null)
                 {
                     var property = config.GetType().GetProperty(propertyName);
                     object val = null;
