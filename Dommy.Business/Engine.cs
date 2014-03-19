@@ -11,7 +11,6 @@ namespace Dommy.Business
     using System.Deployment.Application;
     using System.Linq;
     using System.ServiceModel;
-    using Dommy.Business.Result;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Scripts;
     using Dommy.Business.Services;
@@ -171,29 +170,6 @@ namespace Dommy.Business
                         {
                             Version = ad.CurrentVersion.ToString()
                         }));
-            }
-        }
-
-        /// <summary>
-        /// Run result.
-        /// </summary>
-        /// <param name="result">Run an implementation of IResult.</param>
-        public void RunResult(IResult result)
-        {
-            // Execute information of action.
-            var precisionResult = result as PrecisionResult;
-            if (precisionResult != null)
-            {
-                this.Listener<SpeechListener>().Precision(precisionResult.SentenceActions, precisionResult.Speech);
-                return;
-            }
-
-            var sayResult = result as SayResult;
-            if (sayResult != null)
-            {
-                string speech = sayResult.Speech;
-                this.speechLogger.Say(Actor.Dommy, speech);
-                return;
             }
         }
 

@@ -10,7 +10,6 @@ namespace Dommy.Business.Actions
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
-    using Dommy.Business.Result;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
@@ -194,20 +193,20 @@ namespace Dommy.Business.Actions
             var ss = Scenario.Create().NoTrigger();
             this.actions.Add(() =>
             {
-                this.Engine.RunResult(new PrecisionResult(
-                    StringHelper.Format(sentences),
-                    new List<PrecisionResult.SentenceAction>
+
+                this.Engine.Listener<SpeechListener>()
+                    .Precision(
+                    new List<SentenceAction>
                     { 
-                        new PrecisionResult.SentenceAction()
+                        new SentenceAction()
                         {
                             Sentences = response, Action = s => 
-                {
-                    scenario(s.Text, ss).ToScenario().Run();
-                    return new NoneResult();
+                            {
+                                scenario(s.Text, ss).ToScenario().Run();
                             }
                         }
-                    }));
-
+                    }, 
+                    StringHelper.Format(sentences));
                 return true;
             });
 

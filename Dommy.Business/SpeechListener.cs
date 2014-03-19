@@ -23,7 +23,7 @@ namespace Dommy.Business
         public string SentenceLogFile { get; set; }
 
         private List<GrammarData> contextGrammar = null;
-        private Dictionary<string, Func<ISentence, IResult>> contextFunction = null;
+        private Dictionary<string, Action<ISentence>> contextFunction = null;
 
         public IList<IActionLogger> ActionLoggers { get; private set; }
 
@@ -238,23 +238,21 @@ namespace Dommy.Business
             }
         }
 
-        private void SpeechRecognition(ISentence sentence, Func<ISentence, IResult> exec)
+        private void SpeechRecognition(ISentence sentence, Action<ISentence> exec)
         {
             Contract.Requires(sentence != null);
             Contract.Requires(exec != null);
 
             this.SpeechLogger.Say(Actor.Me, sentence.Text);
 
-            IResult result = exec(sentence);
-
-            this.engine.RunResult(result);
+            exec(sentence);
         }
 
         public ILogger Logger { get; set; }
 
         public ISpeechLogger SpeechLogger { get; set; }
 
-        internal void Precision(IList<Result.PrecisionResult.SentenceAction> sentenceActions, string speech)
+        internal void Precision(IList<SentenceAction> sentenceActions, string speech)
         {
             Contract.Requires(sentenceActions != null);
 
@@ -263,7 +261,7 @@ namespace Dommy.Business
 
             // Load all grammar.
             this.contextGrammar = new List<GrammarData>();
-            this.contextFunction = new Dictionary<string, Func<ISentence, IResult>>();
+            this.contextFunction = new Dictionary<string, Action<ISentence>>();
             foreach (var item in sentenceActions)
             {
                 var key = item.UniqueKey;
