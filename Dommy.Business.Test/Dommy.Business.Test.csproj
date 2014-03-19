@@ -88,6 +88,7 @@
     <Compile Include="Scenarios\WeatherScenarioDescriptionTest.cs" />
     <Compile Include="Services\ClientTest.cs" />
     <Compile Include="SpeechListenerTest.cs" />
+    <Compile Include="Speech\SpeechToTextConfigTest.cs" />
     <Compile Include="Tools\AsyncHelperTest.cs" />
     <Compile Include="Triggers\SpeechTriggerTest.cs" />
   </ItemGroup>
