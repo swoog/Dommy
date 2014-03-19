@@ -19,6 +19,11 @@ namespace Dommy.Business.Test.Scenarios
         {
             var kernel = this.CreateKernel();
 
+            kernel.Bind<IWebRequest>().ToConstant(new MockWebRequest(new Dictionary<string, string>
+            {
+                {"http://127.0.0.1/api/get?action=periph.caract&periph_id=&value=&api_user=user&api_secret=secret", "scenarios/HttpEedomusTemperature.txt"}
+            }));
+
             Scenario.InitKernel(kernel);
 
             kernel.Bind<EedomusHelper>().ToSelf()

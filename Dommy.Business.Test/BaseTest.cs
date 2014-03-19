@@ -32,7 +32,7 @@ namespace Dommy.Business.Test
 
         }
 
-        protected MoqMockingKernel CreateKernel()
+        protected virtual MoqMockingKernel CreateKernel()
         {
             var kernel = new MoqMockingKernel();
             kernel.Load("Dommy.*.dll");

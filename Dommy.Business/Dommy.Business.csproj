@@ -109,7 +109,7 @@
       <HintPath>..\packages\Ninject.Extensions.Conventions.3.0.0.11\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Factory">
-      <HintPath>..\packages\Ninject.Extensions.Factory.3.0.2-unstable-9020\lib\net45-full\Ninject.Extensions.Factory.dll</HintPath>
+      <HintPath>..\packages\Ninject.Extensions.Factory.3.0.1.0\lib\net45-full\Ninject.Extensions.Factory.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Logging">
       <HintPath>..\packages\Ninject.Extensions.Logging.3.0.1.0\lib\net40\Ninject.Extensions.Logging.dll</HintPath>
@@ -220,6 +220,7 @@
     <Compile Include="Tools\EedomusException.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
+    <Compile Include="Tools\IWebRequest.cs" />
     <Compile Include="Tools\WebAppender.cs" />
     <Compile Include="Triggers\IStartupTriggerSyntax.cs" />
     <Compile Include="Triggers\ITileTriggerSyntax.cs" />

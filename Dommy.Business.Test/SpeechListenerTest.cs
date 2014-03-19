@@ -11,6 +11,15 @@ namespace Dommy.Business.Test
     [TestClass]
     public class SpeechListenerTest : BaseTest
     {
+        protected override Ninject.MockingKernel.Moq.MoqMockingKernel CreateKernel()
+        {
+            var kernel = base.CreateKernel();
+            kernel.Bind<Engine>().ToSelf()
+                .WithConstructorArgument("name", "Dommy");
+
+            return kernel;
+        }
+
         [TestMethod]
         public void SpeechRecognizedTest()
         {
@@ -70,9 +79,6 @@ namespace Dommy.Business.Test
         public void CreateGrammarTest_WithPrefix()
         {
             var kernel = this.CreateKernel();
-
-            kernel.Bind<Engine>().ToSelf()
-                .WithConstructorArgument("name", "Dommy");
 
             kernel.Bind<SpeechListener>().ToSelf()
                 .WithConstructorArgument("confidence", 0.1);
