@@ -6,11 +6,14 @@
 namespace Dommy.Business.Result
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
     /// Say text for result.
     /// </summary>
+    [Obsolete]
+    [ExcludeFromCodeCoverage]
     public class SayResult : IResult
     {
         /// <summary>

@@ -8,10 +8,13 @@ namespace Dommy.Business.Result
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Result of action to call precision.
     /// </summary>
+    [Obsolete]
+    [ExcludeFromCodeCoverage]
     public class PrecisionResult : SayResult
     {
         /// <summary>

@@ -71,6 +71,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -79,11 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
+    <Compile Include="Configs\ConfiguratorTest.cs" />
     <Compile Include="FreeboxScenarioDescriptionTest.cs" />
     <Compile Include="PrivateAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MockWebRequest.cs" />
     <Compile Include="Scenarios\WeatherScenarioDescriptionTest.cs" />
+    <Compile Include="Services\ClientTest.cs" />
     <Compile Include="SpeechListenerTest.cs" />
     <Compile Include="Tools\AsyncHelperTest.cs" />
     <Compile Include="Triggers\SpeechTriggerTest.cs" />
