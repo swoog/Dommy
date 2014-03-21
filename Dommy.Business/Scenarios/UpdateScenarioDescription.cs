@@ -6,10 +6,10 @@
 
 namespace Dommy.Business.Scenarios
 {
-    using System;
-    using System.Deployment.Application;
+using System;
+using System.Deployment.Application;
     using System.Globalization;
-    using System.Windows.Forms;
+using System.Windows.Forms;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
 
@@ -74,12 +74,12 @@ namespace Dommy.Business.Scenarios
                             if (info.UpdateAvailable)
                             {
                                 var saySentences = new[]
-                                        {
-                                            "Mise à jour encours",
-                                            "Je me met à jour",
-                                            "Il y a une mise à jour",
-                                            "Je le fais",
-                                            "C'est encours",
+                    {
+                        "Mise à jour encours",
+                        "Je me met à jour",
+                        "Il y a une mise à jour",
+                        "Je le fais",
+                        "C'est encours",
                                         };
 
                                 this.speechLogger.Say(
@@ -87,10 +87,10 @@ namespace Dommy.Business.Scenarios
                                     StringHelper.Format(saySentences));
                                 ad.Update();
                                 var restartSaySentences = new[]
-                                {
-                                    "Je redémarre",
-                                    "A toute",
-                                    "Près dans quelques secondes",
+                    {
+                        "Je redémarre",
+                        "A toute",
+                        "Près dans quelques secondes",
                                 };
 
                                 this.speechLogger.Say(Actor.Dommy, StringHelper.Format(restartSaySentences));

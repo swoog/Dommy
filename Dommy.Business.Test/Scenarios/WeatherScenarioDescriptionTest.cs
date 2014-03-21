@@ -15,9 +15,14 @@ namespace Dommy.Business.Test.Scenarios
     public class WeatherScenarioDescriptionTest : BaseTest
     {
         [TestMethod]
-        public void CreateTest()
+        public void CreateAndRunTest()
         {
             var kernel = this.CreateKernel();
+
+            kernel.Bind<IWebRequest>().ToConstant(new MockWebRequest(new Dictionary<string, string>
+            {
+                {"http://127.0.0.1/api/get?action=periph.caract&periph_id=&value=&api_user=user&api_secret=secret", "scenarios/HttpEedomusTemperature.txt"}
+            }));
 
             Scenario.InitKernel(kernel);
 
@@ -28,7 +33,14 @@ namespace Dommy.Business.Test.Scenarios
 
             var s = kernel.Get<WeatherScenarioDescription>();
 
+            // Create Scenario
             s.Create();
+
+            // Get this scenario
+            var scenario = kernel.Get<IScenario>();
+
+            Assert.AreEqual("Météo", scenario.ScenarioName);
+            scenario.Run();
         }
     }
 }
