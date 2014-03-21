@@ -11,15 +11,16 @@ namespace Dommy.Business.Actions
     /// <summary>
     /// Scrapper syntax.
     /// </summary>
-    public interface IScrapActions
+    /// <typeparam name="T">Object data to map.</typeparam>
+    public interface IScrapActions<T>
     {
         /// <summary>
         /// Scrap a value.
         /// </summary>
         /// <param name="path">Path of the value.</param>
-        /// <param name="property">Property set.</param>
+        /// <param name="propertyName">Property set.</param>
         /// <returns>Scrap action.</returns>
-        IScrapActions Scrap(string path, string property);
+        IScrapActions<T> Scrap(string path, string propertyName);
 
         /// <summary>
         /// End of scrap.

@@ -6,8 +6,8 @@
 
 namespace Dommy.Business.Actions
 {
-    using Dommy.Business.Syntax;
     using System;
+    using Dommy.Business.Syntax;
 
     /// <summary>
     /// Eedomus syntax.
@@ -36,17 +36,17 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Call local API eedomus and make on/off (Light, ...).
         /// </summary>
-        /// <param name="id">Eedomus id element.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
         /// <param name="isOn">Light on or off.</param>
-        /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax EedomusOnOff(string id, bool isOn);
+        /// <returns>Scenario syntax.</returns>   
+        IScenarioSyntax EedomusOnOff(string eedomusId, bool isOn);
 
         /// <summary>
         /// Set value to local API eedomus.
         /// </summary>
-        /// <param name="id">Eedomus id element.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
         /// <param name="value">Value to set.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax EedomusValue(string id, double value);
+        IScenarioSyntax EedomusValue(string eedomusId, double value);
     }
 }

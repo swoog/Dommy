@@ -9,6 +9,6 @@ namespace Dommy.Business.Triggers
 {
     public interface ITrigger
     {
-        void Init(Engine engine, IScenario scenario);
+        void Init(Engine currentEngine, IScenario currentScenario);
     }
 }

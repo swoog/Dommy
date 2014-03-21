@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Tools
 {
-    public class WebAppender : AppenderSkeleton
+    public sealed class WebAppender : AppenderSkeleton, IDisposable
     {
         private static string uriAppender = "http://localhost:5557";
 
@@ -60,6 +60,23 @@ namespace Dommy.Business.Tools
                 if (init)
                 {
                     this.logger.Invoke("send", new MessageLogger { Level = loggingEvent.Level.ToString(), Message = loggingEvent.RenderedMessage });
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.connection != null)
+                {
+                    this.connection.Dispose();
                 }
             }
         }

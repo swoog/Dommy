@@ -13,19 +13,19 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Tools
 {
-    public class SamsungTVHelper : ITvHelper
+    public class SamsungTVHelper : ITVHelper
     {
         public class Config : IConfig
         {
-            public string MyIp { get; set; }
+            public string MyIP { get; set; }
             public string MyMac { get; set; }
-            public string TvIp { get; set; }
+            public string TvIP { get; set; }
             public void Create(Ninject.IKernel kernel)
             {
-                kernel.Bind<ITvHelper>().To<SamsungTVHelper>()
-                    .WithPropertyValue("MyIp", this.MyIp)
+                kernel.Bind<ITVHelper>().To<SamsungTVHelper>()
+                    .WithPropertyValue("MyIp", this.MyIP)
                     .WithPropertyValue("MyMac", this.MyMac)
-                    .WithPropertyValue("TvIp", this.TvIp)
+                    .WithPropertyValue("TvIp", this.TvIP)
                     ;
             }
         }
@@ -93,9 +93,9 @@ namespace Dommy.Business.Tools
         //KEY_PROGUP
         //KEY_PROG_UP
 
-        public string TvIp { get; set; }
+        public string TvIP { get; set; }
 
-        public string MyIp { get; set; }
+        public string MyIP { get; set; }
 
         public string MyMac { get; set; }
 
@@ -108,28 +108,28 @@ namespace Dommy.Business.Tools
 
         public void Canal(int canalNumber)
         {
-            for (int i = Convert.ToString(canalNumber).Length - 1; i >= 0; i--)
+            for (int i = Convert.ToString(canalNumber, CultureInfo.InvariantCulture).Length - 1; i >= 0; i--)
             {
                 int mask = (int)Math.Pow(10, i);
 
                 int val = canalNumber / mask;
 
-                Command(String.Format("KEY_{0}", val));
+                Command(String.Format(CultureInfo.InvariantCulture, "KEY_{0}", val));
 
                 canalNumber -= val * mask;
             }
         }
 
-        public void Command(TvCommand command)
+        public void Command(TVCommand tvCommand)
         {
-            Command(String.Format("KEY_{0}", command.ToString().ToUpper(CultureInfo.InvariantCulture)));
+            Command(String.Format(CultureInfo.InvariantCulture, "KEY_{0}", tvCommand.ToString().ToUpper(CultureInfo.InvariantCulture)));
         }
 
         private void Command(string key)
         {
             Contract.Requires(key != null);
 
-            this.logger.Info("TV {0}: {1}", this.TvIp, key);
+            this.logger.Info("TV {0}: {1}", this.TvIP, key);
 
             using (var ourMagicClient = new TcpClient())
             {
@@ -137,7 +137,7 @@ namespace Dommy.Business.Tools
                 try
                 {
                     //Connect to the server - change this IP address to match your server's IP!
-                    ourMagicClient.Connect(this.TvIp, 55000);
+                    ourMagicClient.Connect(this.TvIP, 55000);
                 }
                 catch (SocketException ex)
                 {
@@ -150,7 +150,7 @@ namespace Dommy.Business.Tools
                     throw;
                 }
 
-                var myip = this.MyIp;
+                var myip = this.MyIP;
                 var mymac = this.MyMac;
                 var remotename = "Dommy";
                 var appstring = "iphone..iapp.samsung";
@@ -240,8 +240,6 @@ namespace Dommy.Business.Tools
                 //echo $part3;
                 //echo "\n";   
                 //}
-
-                ourMagicClient.Close();
             }
 
             Thread.Sleep(TimeSpan.FromMilliseconds(500));
@@ -276,7 +274,7 @@ namespace Dommy.Business.Tools
             }
         }
 
-        private byte[] Combine(params byte[][] arrays)
+        private static byte[] Combine(params byte[][] arrays)
         {
             Contract.Requires(arrays != null);
 

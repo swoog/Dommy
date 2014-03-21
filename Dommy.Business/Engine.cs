@@ -9,9 +9,9 @@ namespace Dommy.Business
     using System;
     using System.Collections.Generic;
     using System.Deployment.Application;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.ServiceModel;
-    using Dommy.Business.Result;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Scripts;
     using Dommy.Business.Services;
@@ -19,7 +19,6 @@ namespace Dommy.Business
     using Dommy.Business.Tools;
     using Ninject;
     using Ninject.Extensions.Logging;
-    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Dommy engine.
@@ -55,6 +54,7 @@ namespace Dommy.Business
         /// <summary>
         /// Initializes a new instance of the <see cref="Engine"/> class.
         /// </summary>
+        /// <param name="name">Engine name.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
         /// <param name="speechLogger">Speech logger.</param>
@@ -171,29 +171,6 @@ namespace Dommy.Business
                         {
                             Version = ad.CurrentVersion.ToString()
                         }));
-            }
-        }
-
-        /// <summary>
-        /// Run result.
-        /// </summary>
-        /// <param name="result">Run an implementation of IResult.</param>
-        public void RunResult(IResult result)
-        {
-            // Execute information of action.
-            var precisionResult = result as PrecisionResult;
-            if (precisionResult != null)
-            {
-                this.Listener<SpeechListener>().Precision(precisionResult.SentenceActions, precisionResult.Speech);
-                return;
-            }
-
-            var sayResult = result as SayResult;
-            if (sayResult != null)
-            {
-                string speech = sayResult.Speech;
-                this.speechLogger.Say(Actor.Dommy, speech);
-                return;
             }
         }
 

@@ -1,15 +1,20 @@
-﻿using Dommy.Business.Actions;
-using Dommy.Business.Syntax;
-using Dommy.Business.Tools;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="TemperatureScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    using System;
+    using System.Globalization;
+    using Dommy.Business.Actions;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+
+    /// <summary>
+    /// Scenario description for say eedomus temperature.
+    /// </summary>
     public class TemperatureScenarioDescription : IScenarioDescription
     {
         /// <summary>
@@ -17,27 +22,32 @@ namespace Dommy.Business.Scenarios
         /// </summary>
         private EedomusHelper eedomusHelper;
 
-        private AsyncHelper wait;
-
-        public string EedomusTemperatureId { get; set; }
-
-        public EedomusApi Mode { get; set; }
-
-        public TemperatureScenarioDescription(AsyncHelper wait, EedomusHelper eedomusHelper)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemperatureScenarioDescription"/> class.
+        /// </summary>
+        /// <param name="eedomusHelper">Eedomus helper.</param>
+        public TemperatureScenarioDescription(EedomusHelper eedomusHelper)
         {
-            this.wait = wait;
             this.eedomusHelper = eedomusHelper;
             this.Mode = EedomusApi.Local;
         }
 
-        private class TemperatureSentence
-        {
-            public string Sentence { get; set; }
-        }
+        /// <summary>
+        /// Gets or sets eedomus id of the temperature probe.
+        /// </summary>
+        public string EedomusTemperatureId { get; set; }
 
+        /// <summary>
+        /// Gets or sets mode of eedomus.
+        /// </summary>
+        public EedomusApi Mode { get; set; }
+
+        /// <summary>
+        /// Create temperature scenario.
+        /// </summary>
         public void Create()
         {
-            var sentence = new TemperatureSentence() { Sentence = String.Empty };
+            var sentence = new TemperatureSentence() { Sentence = string.Empty };
 
             Scenario.Create("Temperature")
                 .SpeechTrigger(
@@ -47,15 +57,18 @@ namespace Dommy.Business.Scenarios
                     "la température interieur")
                     .Action(() =>
                     {
-                        var weather = DommyCache.Get("TemperatureAction", TimeSpan.FromMinutes(30), () =>
-                        {
-                            var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
-
-                            return new Weather
+                        var weather = DommyCache.Get(
+                            "TemperatureAction",
+                            TimeSpan.FromMinutes(30),
+                            () =>
                             {
-                                Temperature = Convert.ToDouble(temperature, CultureInfo.InvariantCulture.NumberFormat),
-                            };
-                        });
+                                var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
+
+                                return new Weather
+                                {
+                                    Temperature = Convert.ToDouble(temperature, CultureInfo.InvariantCulture.NumberFormat),
+                                };
+                            });
 
                         var temperatures = new[] 
                         { 
@@ -65,11 +78,21 @@ namespace Dommy.Business.Scenarios
 
                         sentence.Sentence = StringHelper.Format(temperatures, new { Temperature = (int)weather.Temperature });
 
-
                         return true;
                     })
                     .Say(sentence, "{Sentence}")
                     .Start();
+        }
+
+        /// <summary>
+        /// Temperature sentence class.
+        /// </summary>
+        private class TemperatureSentence
+        {
+            /// <summary>
+            /// Gets or sets sentence.
+            /// </summary>
+            public string Sentence { get; set; }
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Dommy.Business.Triggers
 
         private IScenario scenario;
 
-        public void Init(Engine engine, Scenarios.IScenario scenario)
+        public void Init(Engine currentEngine, Scenarios.IScenario currentScenario)
         {
-            this.scenario = scenario;
+            this.scenario = currentScenario;
             timer = new System.Threading.Timer(CallBack, null, TimeSpan.FromSeconds(0), this.Tick);
         }
 
@@ -37,16 +37,18 @@ namespace Dommy.Business.Triggers
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        public void Dispose(bool b)
+        private void Dispose(bool disposing)
         {
-            if (timer != null)
+            if (disposing)
             {
-                this.timer.Dispose();
+                if (timer != null)
+                {
+                    this.timer.Dispose();
+                }
             }
-
-            GC.SuppressFinalize(this);
         }
     }
 }

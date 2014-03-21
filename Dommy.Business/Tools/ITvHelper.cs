@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Tools
 {
-    public interface ITvHelper
+    public interface ITVHelper
     {
-        void Command(TvCommand command);
+        void Command(TVCommand tvCommand);
 
-        void Canal(int canal);
+        void Canal(int canalNumber);
     }
 }

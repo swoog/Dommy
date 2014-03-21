@@ -38,16 +38,18 @@ namespace Dommy.Business.Services
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
-        public void Dispose(bool b)
+        private void Dispose(bool disposing)
         {
-            if (host != null)
+            if (disposing)
             {
-                ((IDisposable)host).Dispose();
+                if (host != null)
+                {
+                    ((IDisposable)host).Dispose();
+                }
             }
-
-            GC.SuppressFinalize(this);
         }
     }
 }

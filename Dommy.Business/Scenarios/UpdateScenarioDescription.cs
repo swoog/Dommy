@@ -1,27 +1,40 @@
-﻿using Dommy.Business.Result;
-using Dommy.Business.Scenarios;
-using Dommy.Business.Syntax;
-using Dommy.Business.Triggers;
-using Dommy.Business.Tools;
-using System;
-using System.Collections.Generic;
-using System.Deployment.Application;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UpdateScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+using System;
+using System.Deployment.Application;
+    using System.Globalization;
+using System.Windows.Forms;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+
+    /// <summary>
+    /// Initialize scenario to automatic update dommy.
+    /// </summary>
     public class UpdateScenarioDescription : IScenarioDescription
     {
+        /// <summary>
+        /// Speech logger.
+        /// </summary>
         private ISpeechLogger speechLogger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateScenarioDescription"/> class.
+        /// </summary>
+        /// <param name="speechLogger">Speech logger.</param>
         public UpdateScenarioDescription(ISpeechLogger speechLogger)
         {
             this.speechLogger = speechLogger;
         }
 
+        /// <summary>
+        /// Create scenario.
+        /// </summary>
         public void Create()
         {
             Scenario.Create("Mise à jour")
@@ -41,11 +54,10 @@ namespace Dommy.Business.Scenarios
                             try
                             {
                                 info = ad.CheckForDetailedUpdate();
-
                             }
                             catch (DeploymentDownloadException ex)
                             {
-                                this.speechLogger.Say(Actor.Dommy, String.Format("La connection réseau n'est pas disponible. {0}", ex.Message));
+                                this.speechLogger.Say(Actor.Dommy, string.Format(CultureInfo.InvariantCulture, "La connection réseau n'est pas disponible. {0}", ex.Message));
                                 return false;
                             }
                             catch (InvalidDeploymentException)
@@ -61,21 +73,27 @@ namespace Dommy.Business.Scenarios
 
                             if (info.UpdateAvailable)
                             {
-                                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(new[]
+                                var saySentences = new[]
                     {
                         "Mise à jour encours",
                         "Je me met à jour",
                         "Il y a une mise à jour",
                         "Je le fais",
                         "C'est encours",
-                    }));
+                                        };
+
+                                this.speechLogger.Say(
+                                    Actor.Dommy, 
+                                    StringHelper.Format(saySentences));
                                 ad.Update();
-                                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(new[]
+                                var restartSaySentences = new[]
                     {
                         "Je redémarre",
                         "A toute",
                         "Près dans quelques secondes",
-                    }));
+                                };
+
+                                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(restartSaySentences));
                                 Application.Restart();
                                 Environment.Exit(0);
                                 this.speechLogger.Say(Actor.Dommy, "Redémarage non exécuté.");

@@ -1,22 +1,29 @@
-﻿using Dommy.Business.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UsbUirtScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Dommy.Business.Syntax;
+
+    /// <summary>
+    /// Describe scenario with USB-UIRT module.
+    /// </summary>
     public class UsbUirtScenarioDescription : IScenarioDescription
     {
-        class IrCode
-        {
-            public string Code { get; set; }
-        }
-
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
         public void Create()
         {
-            var irCode = new IrCode { Code = "" };
+            var infraRedCode = new IrCode { Code = string.Empty };
 
             Scenario.Create()
                 .SpeechTrigger("Lecture code")
@@ -27,15 +34,26 @@ namespace Dommy.Business.Scenarios
                     {
                         using (var l = new UsbUirt.Learner(driver))
                         {
-                            irCode.Code = l.Learn();
+                            infraRedCode.Code = l.Learn();
                         }
                     }
 
                     return true;
                 })
-                .Log("IrCode :{Code}", irCode)
+                .Log("IrCode :{Code}", infraRedCode)
                 .Say("Terminé")
                 .Start();
+        }
+
+        /// <summary>
+        /// Class used for get infrared code.
+        /// </summary>
+        private class IrCode
+        {
+            /// <summary>
+            /// Gets or sets infra red code.
+            /// </summary>
+            public string Code { get; set; }
         }
     }
 }

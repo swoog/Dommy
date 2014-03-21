@@ -15,6 +15,15 @@ namespace Dommy.Business.Test.Triggers
     [TestClass]
     public class SpeechTriggerTest : BaseTest
     {
+        protected override Ninject.MockingKernel.Moq.MoqMockingKernel CreateKernel()
+        {
+            var kernel = base.CreateKernel();
+            kernel.Bind<Engine>().ToSelf()
+                .WithConstructorArgument("name", "Dommy");
+
+            return kernel;
+        }
+
         [TestMethod]
         public void InitTest()
         {
@@ -22,7 +31,6 @@ namespace Dommy.Business.Test.Triggers
 
             kernel.Bind<IListener>().To<SpeechListener>()
                 .WithConstructorArgument("confidence", 0.1);
-            kernel.Bind<Engine>().ToSelf();
 
             var engine = kernel.Get<Engine>();
             var scenario = kernel.Get<IScenario>();

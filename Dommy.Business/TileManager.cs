@@ -29,7 +29,7 @@ namespace Dommy.Business
             scenarios.Add(tile.Id, scenario);
         }
 
-        public List<Tile> GetTiles()
+        public IList<Tile> GetTiles()
         {
             return tiles.Values.ToList();
         }

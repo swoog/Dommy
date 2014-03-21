@@ -34,11 +34,12 @@ namespace Dommy.Business.Tools
             }
         }
 
-        public EedomusHelper(string apiAddr, string apiUser, string apiSecret)
+        public EedomusHelper(string apiAddr, string apiUser, string apiSecret, IWebRequest requestWeb)
         {
             this.apiAddr = apiAddr;
             this.apiUser = apiUser;
             this.apiSecret = apiSecret;
+            this.requestWeb = requestWeb;
         }
 
         public enum EedoumusRequestType
@@ -54,6 +55,8 @@ namespace Dommy.Business.Tools
         private string apiUser;
         private string apiSecret;
 
+        private IWebRequest requestWeb;
+
         [Inject]
         public ILogger Logger { get; set; }
 
@@ -66,18 +69,12 @@ namespace Dommy.Business.Tools
 
             var url = getUrl(api, requestType, action, eedomusId, String.Format(CultureInfo.InvariantCulture, "value={0}", value));
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(new Uri(url));
-
-            var response = (HttpWebResponse)request.GetResponse();
-
-            if (response.StatusCode != HttpStatusCode.OK)
+            using (var responseStream = this.requestWeb.Create(new Uri(url)))
             {
-                throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus. Code {0}", response.StatusCode));
-            }
 
             var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
 
-            var jsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                var jsonString = new StreamReader(responseStream).ReadToEnd();
 
             jsonString = jsonString.Replace("é", "&#233;");
             jsonString = jsonString.Replace("è", "&#232;");
@@ -109,7 +106,7 @@ namespace Dommy.Business.Tools
             }
 
             this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
-
+            }
             return value;
         }
 

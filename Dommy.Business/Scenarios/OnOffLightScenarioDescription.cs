@@ -6,13 +6,17 @@
 
 namespace Dommy.Business.Scenarios
 {
-    using Dommy.Business.Syntax;
-    using Dommy.Business.Tools;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Drawing;
     using System.Linq;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
 
+    /// <summary>
+    /// Scenario description for switch on/off light.
+    /// </summary>
     public class OnOffLightScenarioDescription : IScenarioDescription
     {
         /// <summary>
@@ -34,45 +38,47 @@ namespace Dommy.Business.Scenarios
         };
 
         /// <summary>
-        /// Gets or sets Eedomus sensor id.
-        /// </summary>
-        public string EedomusId { get; set; }
-
-        /// <summary>
         /// Instance of Eedomus helper.
         /// </summary>
         private EedomusHelper eedomusHelper;
 
         /// <summary>
-        /// Gets or sets names of the room.
+        /// Initializes a new instance of the <see cref="OnOffLightScenarioDescription"/> class.
         /// </summary>
-        public RoomName[] RoomNames { get; set; }
-
+        /// <param name="eedomusHelper">Eedomus helper.</param>
         public OnOffLightScenarioDescription(EedomusHelper eedomusHelper)
         {
             this.eedomusHelper = eedomusHelper;
         }
 
-        private class OnOffResponse
-        {
-            public string Sentence { get; set; }
-        }
+        /// <summary>
+        /// Gets or sets Eedomus sensor id.
+        /// </summary>
+        public string EedomusId { get; set; }
 
+        /// <summary>
+        /// Gets or sets names of the room.
+        /// </summary>
+        public ICollection<RoomName> RoomNames { get; set; }
+
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
         public void Create()
         {
-            CreateOn();
-            CreateOff();
-            CreateTile();
+            this.CreateOn();
+            this.CreateOff();
+            this.CreateTile();
         }
 
         private void CreateTile()
         {
-            Contract.Requires(0 < this.RoomNames.Length);
+            Contract.Requires(0 < this.RoomNames.Count);
 
             Tile tile;
 
-            Scenario.Create(StringHelper.Format("Tile lumière {Name}", this.RoomNames[0]))
-                .TileTrigger(out tile, null, StringHelper.Format("Lumière {Name}", this.RoomNames[0]), TileColor.Victoria)
+            Scenario.Create(StringHelper.Format("Tile lumière {Name}", this.RoomNames.First()))
+                .TileTrigger(out tile, null, StringHelper.Format("Lumière {Name}", this.RoomNames.First()), TileColor.Victoria)
                 .Action(() =>
                 {
                     var actualState = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) != "Off";
@@ -87,7 +93,7 @@ namespace Dommy.Business.Scenarios
 
             tile.Setembedded("Dommy.Business.Scenarios.OnOffLightScenarioTile.cshtml");
 
-            Scenario.Create(StringHelper.Format("Tile lumière {Name} Notification", this.RoomNames[0]))
+            Scenario.Create(StringHelper.Format("Tile lumière {Name} Notification", this.RoomNames.First()))
                 .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
                 .Action(() =>
                 {
@@ -107,13 +113,13 @@ namespace Dommy.Business.Scenarios
 
         private void CreateOff()
         {
-            Contract.Requires(0 < this.RoomNames.Length);
+            Contract.Requires(0 < this.RoomNames.Count);
             var onOffResponse = new OnOffResponse();
             var sentences = (from s in new[] { "éteint la lumière {PrefixName}", "éteint {Name}" }
                              from r in this.RoomNames
                              select StringHelper.Format(s, r)).ToArray();
 
-            Scenario.Create(StringHelper.Format("Eteint {Name}", this.RoomNames[0]))
+            Scenario.Create(StringHelper.Format("Eteint {Name}", this.RoomNames.First()))
                 .SpeechTrigger(sentences)
                 .EedomusOnOff(this.EedomusId, false)
                 .Action(() =>
@@ -125,15 +131,18 @@ namespace Dommy.Business.Scenarios
                 .Start();
         }
 
+        /// <summary>
+        /// Create on scenario.
+        /// </summary>
         private void CreateOn()
         {
-            Contract.Requires(0 < this.RoomNames.Length);
+            Contract.Requires(0 < this.RoomNames.Count);
             var onOffResponse = new OnOffResponse();
             var sentences = (from s in new[] { "allume la lumière {PrefixName}", "allume {Name}" }
                              from r in this.RoomNames
                              select StringHelper.Format(s, r)).ToArray();
 
-            Scenario.Create(StringHelper.Format("Allume {Name}", this.RoomNames[0]))
+            Scenario.Create(StringHelper.Format("Allume {Name}", this.RoomNames.First()))
                 .SpeechTrigger(sentences)
                 .EedomusOnOff(this.EedomusId, true)
                 .Action(() =>
@@ -169,10 +178,21 @@ namespace Dommy.Business.Scenarios
             }
 
             Random r = new Random();
-            int roomNum = r.Next(this.RoomNames.Length);
-            var room = this.RoomNames[roomNum];
+            int roomNum = r.Next(this.RoomNames.Count);
+            var room = this.RoomNames.ElementAt(roomNum);
 
             return StringHelper.Format(this.speech, new { StatusFemale = statusFemale, StatusMale = statusMale, Name = room.Name, PrefixName = room.PrefixName, StatusNeutre = statusNeutre });
+        }
+
+        /// <summary>
+        /// On/off class response.
+        /// </summary>
+        private class OnOffResponse
+        {
+            /// <summary>
+            /// Gets or sets sentence.
+            /// </summary>
+            public string Sentence { get; set; }
         }
     }
 }
