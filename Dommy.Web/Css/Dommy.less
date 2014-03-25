@@ -189,6 +189,7 @@ h1 {
     }
 
     .tile {
+        transition:transform ease-out 0.5s;
         /*position: relative;*/
         padding: 0 @tileMarge @tileMarge 0;
         /*float: left;*/
@@ -223,7 +224,7 @@ h1 {
         }
 
         .tile.selected {
-            border: 1px solid black;
+            transform: scale(1.15) !important;
         }
 }
 
@@ -293,7 +294,6 @@ h1 {
         margin: @marginAnimation;
     }
 }
-
 @keyframes floatAnimation4 {
     0% {
         margin: @marginAnimation;
@@ -315,11 +315,10 @@ h1 {
     }
 }
 
-
 .grid.edit {
 
     .tile {
-        
+        transform: scale(0.95);
     }
 
         .tile.small {

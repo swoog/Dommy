@@ -31,34 +31,39 @@ $(document).ready(function () {
         .mousedown(function (e) {
             if (e.which === 3) {
                 $(".grid").addClass("edit");
-                $(this).addClass("selected");
+            } 
+
+            var editMode = $(".grid").hasClass("edit");
+
+            if (editMode) {
+                $(".tile").removeClass("selected");
                 $(".tile").each(function () {
-                    $(this).css(
-                        {
-                            animation: 'floatAnimation' + Math.floor(Math.random() * 5) + ' 10s',
-                            animationIterationCount: 'infinite'
-                        });
+                    if ($(this).css("animationIterationCount") != 'infinite') {
+                        $(this).css(
+                            {
+                                animation: 'floatAnimation' + (Math.floor(Math.random() * 4) + 1) + ' 10s',
+                                animationIterationCount: 'infinite'
+                            });
+                    }
                 });
+
+                $(this).addClass("selected")
+                    .css(
+                        {
+                            animationIterationCount: '1'
+                        });
                 return false;
             } else {
-                var editMode = $(".grid").hasClass("edit");
+                var url = $(this).find(".url").html();
 
-                if (editMode) {
-                    $(".tile").removeClass("selected");
-                    $(this).addClass("selected");
-                    return false;
+                if (url) {
+                    window.location = url;
                 } else {
-                    var url = $(this).find(".url").html();
-
-                    if (url) {
-                        window.location = url;
-                    } else {
-                        $.post("/home/tile/" + $(this).find(".id").html(), null, function (result) {
-                            if (result.redirectUrl != null) {
-                                window.location = result.redirectUrl;
-                            }
-                        });
-                    }
+                    $.post("/home/tile/" + $(this).find(".id").html(), null, function (result) {
+                        if (result.redirectUrl != null) {
+                            window.location = result.redirectUrl;
+                        }
+                    });
                 }
             }
         }).bind("contextmenu", function (e) {
@@ -67,7 +72,11 @@ $(document).ready(function () {
 
     $(document).mousedown(function (event) {
         $(".grid").removeClass("edit");
-        $(".grid .tile").removeClass("selected");
+        $(".grid .tile").removeClass("selected").css(
+                        {
+                            animation: '',
+                            animationIterationCount: '0'
+                        });
     })
 
     $('a[href^="#"]').click(function () {
