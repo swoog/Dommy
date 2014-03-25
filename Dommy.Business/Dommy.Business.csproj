@@ -239,6 +239,7 @@
     <Compile Include="Tools\EedomusException.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
+    <Compile Include="Tools\DommyWebRequest.cs" />
     <Compile Include="Tools\IWebRequest.cs" />
     <Compile Include="Tools\MessageLogger.cs" />
     <Compile Include="Tools\WebAppender.cs" />

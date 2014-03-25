@@ -15,6 +15,7 @@ using Dommy.Business.Tools;
 
 Scenario.Create()
 		.SpeechTrigger("redemarre")
+		.TileTrigger("PC", "Redémare Dommy", TileColor.Victoria)
 		.Say("Redémarage", "Je redémare", "a dans 2 secondes")
 		.Action(() =>
 		{
