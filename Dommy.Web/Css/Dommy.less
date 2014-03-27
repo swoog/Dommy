@@ -2,11 +2,11 @@
 
 // Tiles size
 @smallWidth: 70px;
-@mediumLineWidth: 150px;
+@largeLineWidth: 310px;
 @mediumWidth: 150px;
 @largeWidth: 310px;
 @smallHeight: 70px;
-@mediumLineHeight: 70px;
+@largeLineHeight: 150px;
 @mediumHeight: 150px;
 @largeHeight: 310px;
 
@@ -185,11 +185,12 @@ h1 {
 
     .gridSection {
         padding-bottom: 10px;
-        display:inline-grid;
+        display: inline-grid;
+        transition: width ease-out 0.2s, height ease-out 0.2s;
     }
 
     .tile {
-        transition:transform ease-out 0.5s;
+        transition: left ease-out 0.2s, top ease-out 0.2s, transform ease-out 0.5s;
         /*position: relative;*/
         padding: 0 @tileMarge @tileMarge 0;
         /*float: left;*/
@@ -201,145 +202,174 @@ h1 {
             left: 20px;
             bottom: 10px;
         }
-    }
 
-        .tile.small {
+        .small {
+            transition: height ease-out 0.2s, width ease-out 0.2s;
             width: @smallWidth;
             height: @smallHeight;
         }
 
-        .tile .medium {
+        .medium {
+            transition: height ease-out 0.2s, width ease-out 0.2s;
             width: @mediumWidth;
             height: @mediumHeight;
         }
 
-        .tile.mediumLine {
-            width: @mediumLineWidth;
-            height: @mediumLineHeight;
+        .largeLine {
+            transition: height ease-out 0.2s, width ease-out 0.2s;
+            width: @largeLineWidth;
+            height: @largeLineHeight;
         }
 
-        .tile.large {
+        .large {
+            transition: height ease-out 0.2s, width ease-out 0.2s;
             width: @largeWidth;
             height: @largeHeight;
         }
+    }
 
-        .tile.selected {
-            transform: scale(1.15) !important;
-        }
+    .tile.selected {
+        transform: scale(1.15) !important;
+    }
 }
 
-@marginAnimation : @editMarge/2 @tileMarge+@editMarge/2 @tileMarge+@editMarge/2 @editMarge/2;
-@marginAnimationCoin1 : 0 @tileMarge+@editMarge @tileMarge+@editMarge 0;
-@marginAnimationCoin2 : @editMarge @tileMarge+@editMarge @tileMarge 0;
-@marginAnimationCoin3 : @editMarge @tileMarge @tileMarge @editMarge;
-@marginAnimationCoin4 : 0 @tileMarge @tileMarge+@editMarge @editMarge;
+@marginAnimation: @editMarge/2 @tileMarge+@editMarge/2 @tileMarge+@editMarge/2 @editMarge/2;
+@marginAnimationCoin1: 0 @tileMarge+@editMarge @tileMarge+@editMarge 0;
+@marginAnimationCoin2: @editMarge @tileMarge+@editMarge @tileMarge 0;
+@marginAnimationCoin3: @editMarge @tileMarge @tileMarge @editMarge;
+@marginAnimationCoin4: 0 @tileMarge @tileMarge+@editMarge @editMarge;
 
 @keyframes floatAnimation1 {
     0% {
         margin: @marginAnimation;
     }
+
     20% {
         margin: @marginAnimationCoin1;
     }
+
     40% {
         margin: @marginAnimationCoin2;
     }
+
     60% {
         margin: @marginAnimationCoin3;
     }
+
     80% {
         margin: @marginAnimationCoin4;
     }
+
     100% {
         margin: @marginAnimation;
     }
 }
+
 @keyframes floatAnimation2 {
     0% {
         margin: @marginAnimation;
     }
+
     20% {
         margin: @marginAnimationCoin3;
     }
+
     40% {
         margin: @marginAnimation;
     }
+
     60% {
         margin: @marginAnimationCoin1;
     }
+
     80% {
         margin: @marginAnimationCoin4;
     }
+
     100% {
         margin: @marginAnimation;
     }
 }
+
 @keyframes floatAnimation3 {
     0% {
         margin: @marginAnimation;
     }
+
     20% {
         margin: @marginAnimationCoin3;
     }
+
     40% {
         margin: @marginAnimationCoin4;
     }
+
     60% {
         margin: @marginAnimation;
     }
+
     80% {
         margin: @marginAnimationCoin1;
     }
+
     100% {
         margin: @marginAnimation;
     }
 }
+
 @keyframes floatAnimation4 {
     0% {
         margin: @marginAnimation;
     }
+
     20% {
         margin: @marginAnimationCoin2;
     }
+
     40% {
         margin: @marginAnimationCoin4;
     }
+
     60% {
         margin: @marginAnimationCoin3;
     }
+
     80% {
         margin: @marginAnimationCoin1;
     }
+
     100% {
         margin: @marginAnimation;
     }
 }
 
 .grid.edit {
+    .flecheTile {
+        background-repeat: no-repeat;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
 
-    .tile {
-        transform: scale(0.95);
+        &.d {
+            background-image: url(/Images/FlecheD.png);
+        }
+
+        &.bd {
+            background-image: url(/Images/FlecheBD.png);
+        }
+
+        &.b {
+            background-image: url(/Images/FlecheB.png);
+        }
+
+        &.hg {
+            background-image: url(/Images/FlecheHG.png);
+        }
     }
 
-        .tile.small {
-            width: @smallWidth - @editMarge;
-            height: @smallHeight - @editMarge;
-        }
-
-        .tile.medium {
-            width: @mediumWidth - @editMarge;
-            height: @mediumHeight - @editMarge;
-        }
-
-        .tile.mediumLine {
-            width: @mediumLineWidth - @editMarge;
-            height: @mediumLineHeight - @editMarge;
-        }
-
-        .tile.large {
-            width: @largeWidth - @editMarge;
-            height: @largeHeight - @editMarge;
-        }
+    .tile {
+        transform: scale(0.80);
+    }
 }
 
 .borderColor {

@@ -1,37 +1,128 @@
 ﻿/// <reference path="Scripts/jquery-2.0.3.js" />
 
 $(document).ready(function () {
-    $(".gridSection").each(function () {
-        var maxWidth = $(this).width();
-        var x = 0;
-        var y = 0;
-        var maxHeight = 0;
-        $(this).css({ position: 'relative' })
-            .find(".tile").each(function () {
-                $(this).css({ position: 'absolute' });
+    var tileMarge = 10;
+    function getSize(element) {
+        if (element.find('.small').length != 0) {
+            return { type: 'small', width: 70, height: 70 };
+        }
 
-                if ((x + $(this).outerWidth()) > maxWidth) {
-                    x = 0;
-                    y += $(this).outerHeight();
-                }
+        if (element.find('.medium').length != 0) {
+            return { type: 'medium', width: 150, height: 150 };
+        }
 
-                $(this).css({ left: x, top: y });
+        if (element.find('.largeLine').length != 0) {
+            return { type: 'largeLine', width: 310, height: 150 };
+        }
 
-                x += $(this).outerWidth();
-                if (y + $(this).outerHeight() > maxHeight) {
-                    maxHeight = y + $(this).outerHeight();
-                }
-            });
+        if (element.find('.large').length != 0) {
+            return { type: 'large', width: 310, height: 310 };
+        }
+    }
 
-        $(this).outerHeight(maxHeight);
-        $(this).outerWidth(maxWidth);
+    function updatePosition(animate) {
+        if (animate == undefined) {
+            animate = false;
+        }
+
+        $(".gridSection").each(function () {
+            var maxWidth = $(this).width();
+            var x = tileMarge / 2;
+            var y = tileMarge / 2;
+            var maxHeight = 0;
+            $(this).css({ position: 'relative' })
+                .find(".tile").each(function () {
+                    var tileSize = getSize($(this));
+                    $(this).css({ position: 'absolute' });
+
+                    if ((x + tileSize.width) > maxWidth) {
+                        x = tileMarge / 2;
+                        y += tileSize.height;
+                    }
+
+                    $(this).css({ left: x, top: y });
+
+                    x += tileSize.width + tileMarge;
+                    if (y + tileSize.height > maxHeight) {
+                        maxHeight = y + tileSize.height + tileMarge;
+                    }
+                });
+
+            $(this).outerHeight(maxHeight);
+            $(this).outerWidth(maxWidth);
+        });
+    }
+
+    updatePosition();
+
+    $(".flecheTile").mousedown(function (e) {
+        var tiles = null;
+        tiles = $(".tile.selected .small");
+        if (tiles.length > 0) {
+            tiles.removeClass("small").addClass("medium");
+            positionFleche($(".tile.selected"));
+            updatePosition(true);
+            return false;
+        }
+
+        tiles = $(".tile.selected .medium");
+        if (tiles.length > 0) {
+            tiles.removeClass("medium").addClass("largeLine");
+            positionFleche($(".tile.selected"));
+            updatePosition(true);
+            return false;
+        }
+
+        tiles = $(".tile.selected .largeLine");
+        if (tiles.length > 0) {
+            tiles.removeClass("largeLine").addClass("large");
+            positionFleche($(".tile.selected"));
+            updatePosition(true);
+            return false;
+        }
+
+        tiles = $(".tile.selected .large");
+        if (tiles.length > 0) {
+            tiles.removeClass("large").addClass("small");
+            positionFleche($(".tile.selected"));
+            updatePosition(true);
+            return false;
+        }
     });
+
+
+    function positionFleche(tile) {
+        var size = getSize(tile);
+        var offset = tile.offset()
+        var left = offset.left + tile.outerWidth() - ($(".flecheTile").outerWidth() / 2);
+        var top = offset.top + tile.outerHeight() - ($(".flecheTile").outerHeight() / 2);
+
+        var classFleche = 'b';
+
+        if (size.type == 'small') {
+            classFleche = 'bd';
+        } else if (size.type == 'medium') {
+            classFleche = 'd';
+        } else if (size.type == 'largeline') {
+            classFleche = 'b';
+        } else if (size.type == 'large') {
+            classFleche = 'hg';
+        }
+
+        $(".flecheTile")
+            .removeClass('b')
+            .removeClass('bd')
+            .removeClass('d')
+            .removeClass('hg')
+            .css({ position: 'absolute', left: left, top: top })
+            .addClass(classFleche);
+    }
 
     $(".tile")
         .mousedown(function (e) {
             if (e.which === 3) {
                 $(".grid").addClass("edit");
-            } 
+            }
 
             var editMode = $(".grid").hasClass("edit");
 
@@ -39,11 +130,11 @@ $(document).ready(function () {
                 $(".tile").removeClass("selected");
                 $(".tile").each(function () {
                     if ($(this).css("animationIterationCount") != 'infinite') {
-                        $(this).css(
-                            {
-                                animation: 'floatAnimation' + (Math.floor(Math.random() * 4) + 1) + ' 10s',
-                                animationIterationCount: 'infinite'
-                            });
+                        //$(this).css(
+                        //    {
+                        //        animation: 'floatAnimation' + (Math.floor(Math.random() * 4) + 1) + ' 10s',
+                        //        animationIterationCount: 'infinite'
+                        //    });
                     }
                 });
 
@@ -52,6 +143,8 @@ $(document).ready(function () {
                         {
                             animationIterationCount: '1'
                         });
+
+                positionFleche($(this));
                 return false;
             } else {
                 var url = $(this).find(".url").html();
