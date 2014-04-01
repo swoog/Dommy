@@ -20,11 +20,7 @@ $(document).ready(function () {
         }
     }
 
-    function updatePosition(animate) {
-        if (animate == undefined) {
-            animate = false;
-        }
-
+    function updatePosition() {
         $(".gridSection").each(function () {
             var maxWidth = $(this).width();
             var x = tileMarge / 2;
@@ -61,7 +57,7 @@ $(document).ready(function () {
         if (tiles.length > 0) {
             tiles.removeClass("small").addClass("medium");
             positionFleche($(".tile.selected"));
-            updatePosition(true);
+            updatePosition();
             return false;
         }
 
@@ -69,7 +65,7 @@ $(document).ready(function () {
         if (tiles.length > 0) {
             tiles.removeClass("medium").addClass("largeLine");
             positionFleche($(".tile.selected"));
-            updatePosition(true);
+            updatePosition();
             return false;
         }
 
@@ -77,7 +73,7 @@ $(document).ready(function () {
         if (tiles.length > 0) {
             tiles.removeClass("largeLine").addClass("large");
             positionFleche($(".tile.selected"));
-            updatePosition(true);
+            updatePosition();
             return false;
         }
 
@@ -85,7 +81,7 @@ $(document).ready(function () {
         if (tiles.length > 0) {
             tiles.removeClass("large").addClass("small");
             positionFleche($(".tile.selected"));
-            updatePosition(true);
+            updatePosition();
             return false;
         }
     });
@@ -94,8 +90,8 @@ $(document).ready(function () {
     function positionFleche(tile) {
         var size = getSize(tile);
         var offset = tile.offset()
-        var left = offset.left + tile.outerWidth() - ($(".flecheTile").outerWidth() / 2);
-        var top = offset.top + tile.outerHeight() - ($(".flecheTile").outerHeight() / 2);
+        var left = offset.left + size.width - ($(".flecheTile").outerWidth() / 2);
+        var top = offset.top + size.height - ($(".flecheTile").outerHeight() / 2);
 
         var classFleche = 'b';
 
