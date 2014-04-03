@@ -60,12 +60,6 @@ namespace Dommy.Extensions.Kinect.Sdk2
                     if (!this.Sensor.IsOpen)
                     {
                         this.logger.Info("Sensor found");
-                        while (this.Sensor.Status == KinectStatus.Initializing)
-                        {
-                            this.logger.Info("Initializing...");
-                            Thread.Sleep(TimeSpan.FromSeconds(2));
-                        }
-
                         this.Sensor.Open();
 
                         this.logger.Info("Sensor initialized");
