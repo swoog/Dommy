@@ -185,6 +185,8 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Configs\IConfig.cs" />
+    <Compile Include="Configs\ISettings.cs" />
+    <Compile Include="Configs\Settings.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GrammarChoices.cs" />
     <Compile Include="GrammarData.cs" />
