@@ -16,7 +16,7 @@ namespace Dommy.Web.Controllers
         {
             using (var tileManager = Client<ISettings>.Create())
             {
-
+                var settings = tileManager.Channel.GetSettings();
             }
 
             return View();

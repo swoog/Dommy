@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Dommy.Business.Configs
 {
-    public interface ISettings
+    class SettingsInfo
     {
-        IList<SettingsInfo> GetSettings();
     }
 }
