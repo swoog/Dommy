@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Dommy.Business.Configs
 {
-    class SettingsInfo
+    public class SettingsInfo
     {
     }
 }

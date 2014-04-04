@@ -8,5 +8,9 @@ namespace Dommy.Business.Configs
 {
     public class Settings : ISettings
     {
+        public IList<SettingsInfo> GetSettings()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
