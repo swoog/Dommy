@@ -23,9 +23,9 @@ namespace Dommy.Business.Tools
             public void Create(Ninject.IKernel kernel)
             {
                 kernel.Bind<ITVHelper>().To<SamsungTVHelper>()
-                    .WithPropertyValue("MyIp", this.MyIP)
+                    .WithPropertyValue("MyIP", this.MyIP)
                     .WithPropertyValue("MyMac", this.MyMac)
-                    .WithPropertyValue("TvIp", this.TvIP)
+                    .WithPropertyValue("TvIP", this.TvIP)
                     ;
             }
         }
