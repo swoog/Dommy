@@ -81,7 +81,7 @@ namespace Dommy.Business.Scenarios
                 .TileTrigger(out tile, null, StringHelper.Format("Lumière {Name}", this.RoomNames.First()), TileColor.Victoria)
                 .Action(() =>
                 {
-                    var actualState = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) != "Off";
+                    var actualState = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) != "0";
 
                     this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId, "TOGGLE[0|100]");
 

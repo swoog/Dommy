@@ -129,6 +129,9 @@ namespace Dommy.Business.Tools
             [DataMember(Name = "last_value")]
             public string LastValue { get; set; }
 
+            [DataMember(Name = "last_value_text")]
+            public string LastValueText { get; set; }
+
             [DataMember(Name = "last_value_change")]
             public string LastValueChange { get; set; }
 
