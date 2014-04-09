@@ -212,11 +212,11 @@ namespace Dommy.Business.Configs
             string propertyName = string.Empty;
             while (reader.Read())
             {
-                if (reader.NodeType == XmlNodeType.Element && propertyName == null)
+                if (reader.NodeType == XmlNodeType.Element && string.IsNullOrEmpty(propertyName))
                 {
                     propertyName = reader.Name;
                 }
-                else if (reader.NodeType == XmlNodeType.Text && propertyName != null)
+                else if (reader.NodeType == XmlNodeType.Text && !string.IsNullOrEmpty(propertyName))
                 {
                     var property = config.GetType().GetProperty(propertyName);
                     object val = null;
@@ -236,7 +236,7 @@ namespace Dommy.Business.Configs
                 {
                     if (reader.Name == propertyName)
                     {
-                        propertyName = null;
+                        propertyName = string.Empty;
                     }
                     else if (reader.Name == configName)
                     {
