@@ -208,7 +208,7 @@
     <Compile Include="Services\IWebServerHost.cs" />
     <Compile Include="Speech\SpeechToTextConfig.cs" />
     <Compile Include="Syntax\IExtendSyntax.cs" />
-    <Compile Include="Syntax\IScenarioDescriptionConfig.cs" />
+    <Compile Include="Syntax\ScenarioDescriptionConfig.cs" />
     <Compile Include="Syntax\IScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerSyntax.cs" />

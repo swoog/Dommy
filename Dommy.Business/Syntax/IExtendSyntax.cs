@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UsbUirtScenarioDescription.cs" company="TrollCorp">
+// <copyright file="IExtendSyntax.cs" company="TrollCorp">
 //     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------

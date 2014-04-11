@@ -1,14 +1,19 @@
-﻿using Dommy.Business;
-using Dommy.Business.Actions;
-using Dommy.Business.Scenarios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IScenarioSyntax.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Syntax
 {
-    public interface IScenarioSyntax: IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
+    using System;
+    using Dommy.Business.Actions;
+    using Dommy.Business.Scenarios;
+
+    /// <summary>
+    /// Description of the scenario syntax.
+    /// </summary>
+    public interface IScenarioSyntax : IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
     {
         /// <summary>
         /// Generic lambda action.
@@ -17,10 +22,15 @@ namespace Dommy.Business.Syntax
         /// <returns>Scenario syntax.</returns>
         IScenarioSyntax Action(Func<bool> actionToPerform);
 
-        //IScenarioSyntax Action(Func<ScenarioContext, bool> action);
-
+        /// <summary>
+        /// Create the scenario.
+        /// </summary>
+        /// <returns>Instance of the scenario.</returns>
         IScenario ToScenario();
 
+        /// <summary>
+        /// Start a scenario.
+        /// </summary>
         void Start();
 
         /// <summary>
@@ -30,6 +40,13 @@ namespace Dommy.Business.Syntax
         /// <returns>Scenario syntax.</returns>
         IScenarioSyntax UsbUirt(string infraRedCode);
 
+        /// <summary>
+        /// Make a precision.
+        /// </summary>
+        /// <param name="sentences">Sentences of the precision.</param>
+        /// <param name="response">Response of the precision.</param>
+        /// <param name="scenario">Scenario to execute.</param>
+        /// <returns>Scenario syntax.</returns>
         IScenarioSyntax Precision(string[] sentences, string[] response, Func<string, IScenarioSyntax, IScenarioSyntax> scenario);
 
         /// <summary>
@@ -40,8 +57,18 @@ namespace Dommy.Business.Syntax
         /// <returns>Scenario syntax.</returns>
         IScenarioSyntax Command(string fileName, string parameters);
 
+        /// <summary>
+        /// Log message.
+        /// </summary>
+        /// <param name="format">Format of the message.</param>
+        /// <param name="data">Data of the message.</param>
+        /// <returns>Scenario syntax.</returns>
         IScenarioSyntax Log(string format, object data);
 
+        /// <summary>
+        /// Add child to this scenario.
+        /// </summary>
+        /// <param name="scenario">Child scenario.</param>
         void AddChild(IScenario scenario);
     }
 }
