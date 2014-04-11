@@ -107,7 +107,7 @@ namespace Dommy.Business.Tools
             }
             catch (UriFormatException ex)
             {
-                this.Logger.Error(url);
+                this.Logger.Error(ex, "Url error : {0}", url);
                 throw;
             }
 

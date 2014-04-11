@@ -1,6 +1,7 @@
 ﻿using Dommy.Business.Tools;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Dommy.Business.Test
 
             if (!this.dicoUriFiles.ContainsKey(key))
             {
-                throw new KeyNotFoundException(string.Format("Uri {0} not found for mocking.", key));
+                throw new KeyNotFoundException(string.Format(CultureInfo.InvariantCulture, "Uri {0} not found for mocking.", key));
             }
 
             return File.Open(this.dicoUriFiles[uri.AbsoluteUri], FileMode.Open);

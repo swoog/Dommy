@@ -1,53 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.ServiceModel.Description;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ServiceHost.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Services
 {
+    using System;
+    using System.ServiceModel;
+
+    /// <summary>
+    /// Create a WCF host for a service.
+    /// </summary>
+    /// <typeparam name="T">Type of the service.</typeparam>
     public sealed class ServiceHost<T> : IServiceHost, IDisposable
     {
+        /// <summary>
+        /// Instance of the service.
+        /// </summary>
         private T service;
 
+        /// <summary>
+        /// Instance of the service host.
+        /// </summary>
+        private ServiceHost host;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceHost{T}"/> class.
+        /// </summary>
+        /// <param name="service">Instance of the service.</param>
         public ServiceHost(T service)
         {
             this.service = service;
         }
 
-        private ServiceHost host;
-
+        /// <summary>
+        /// Open the service.
+        /// </summary>
         public void Open()
         {
-            host = new ServiceHost(service, new Uri[] { new Uri("net.pipe://localhost/dommy/" + typeof(T).Name) });
-            //host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
+            this.host = new ServiceHost(this.service, new Uri[] { new Uri("net.pipe://localhost/dommy/" + typeof(T).Name) });
 
-            host.AddServiceEndpoint(typeof(T).GetInterface("I" + typeof(T).Name), new NetNamedPipeBinding(), "");
-            //host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
+            //// host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
 
-            host.Open();
+            this.host.AddServiceEndpoint(typeof(T).GetInterface("I" + typeof(T).Name), new NetNamedPipeBinding(), string.Empty);
+
+            //// host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
+
+            this.host.Open();
         }
 
+        /// <summary>
+        /// Close the service.
+        /// </summary>
         public void Close()
         {
-            host.Close();
+            this.host.Close();
         }
 
+        /// <summary>
+        /// Dispose the service.
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Dispose the service.
+        /// </summary>
+        /// <param name="disposing">Indicate disposing managed object.</param>
         private void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (host != null)
+                if (this.host != null)
                 {
-                    ((IDisposable)host).Dispose();
+                    ((IDisposable)this.host).Dispose();
                 }
             }
         }

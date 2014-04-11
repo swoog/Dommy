@@ -186,7 +186,6 @@ namespace Dommy.Business.Actions
             var ss = Scenario.Create().NoTrigger();
             this.actions.Add(() =>
             {
-
                 this.Engine.Listener<SpeechListener>()
                     .Precision(
                     new List<SentenceAction>
