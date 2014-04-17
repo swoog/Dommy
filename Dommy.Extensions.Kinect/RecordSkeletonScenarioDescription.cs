@@ -72,7 +72,7 @@ namespace Dommy.Extensions.Kinect
             writer.Write("Skeleton : ");
             writer.Write(item.TrackingId);
 
-            foreach (IJointType joinType in item.GetJointTypes())
+            foreach (JointType joinType in item.GetJointTypes())
             {
                 writer.Write(" {0} :", joinType);
                 writer.Write(item[joinType]);

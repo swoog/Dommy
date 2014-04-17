@@ -27,7 +27,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         /// <summary>
         /// All scenarios subscribing to kinect skeleton listener.
         /// </summary>
-        private Dictionary<ISkeletonCheck, IScenario> scenarios;
+        private Dictionary<MovementChecker, IScenario> scenarios;
 
         /// <summary>
         /// Instance of the kinect sensor.
@@ -51,7 +51,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         public Kinect2SkeletonListener(Kinect2SensorSelector kinect, IList<ISkeletonListener> skeletonListeners)
         {
             this.kinect = kinect;
-            this.scenarios = new Dictionary<ISkeletonCheck, IScenario>();
+            this.scenarios = new Dictionary<MovementChecker, IScenario>();
             this.skeletonListeners = skeletonListeners;
         }
 
@@ -94,7 +94,9 @@ namespace Dommy.Extensions.Kinect.Sdk2
         /// <param name="scenario"></param>
         public void Subscribe(ISkeletonCheck skeletonCheck, Business.Scenarios.IScenario scenario)
         {
-            this.scenarios.Add(skeletonCheck, scenario);
+            var movementChecker = skeletonCheck.CreateChecker();
+
+            this.scenarios.Add(movementChecker, scenario);
         }
 
         /// <summary>

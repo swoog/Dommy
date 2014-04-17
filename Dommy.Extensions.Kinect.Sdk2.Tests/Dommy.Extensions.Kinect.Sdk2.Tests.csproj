@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Kinect, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v2.0-DevPreview1403\Assemblies\Microsoft.Kinect.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -50,8 +54,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BodySdk2Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect.Sdk2\Dommy.Extensions.Kinect.Sdk2.csproj">
+      <Project>{7aa2e2c7-1ab1-4c18-9835-279280869c3b}</Project>
+      <Name>Dommy.Extensions.Kinect.Sdk2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect\Dommy.Extensions.Kinect.csproj">
+      <Project>{FDCFB3E9-D345-480B-9D1E-7FC7179BC45F}</Project>
+      <Name>Dommy.Extensions.Kinect</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -25,12 +25,12 @@ namespace Dommy.Extensions.Kinect.Sdk2
             }
         }
 
-        public IList<IJointType> GetJointTypes()
+        public IList<JointType> GetJointTypes()
         {
             throw new NotImplementedException();
         }
 
-        public IJointType this[IJointType joint]
+        public Vector this[JointType joint]
         {
             get { throw new NotImplementedException(); }
         }

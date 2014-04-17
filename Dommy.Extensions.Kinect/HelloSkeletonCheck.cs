@@ -7,13 +7,11 @@ namespace Dommy.Extensions.Kinect
 {
     public class HelloSkeletonCheck : ISkeletonCheck
     {
-        public bool Check(ISkeleton skeleton)
+        public MovementChecker CreateChecker()
         {
-            //CheckSkeleton.Create()
-            //    .Move(RightHand, m=> m.ToRight(10)
-            //                            .ToLeft(10))
-
-            throw new NotImplementedException();
+            return new MovementChecker(JointType.RightHand, TimeSpan.FromSeconds(2))
+                .ToLeft(10)
+                .ToRight(10);
         }
     }
 }

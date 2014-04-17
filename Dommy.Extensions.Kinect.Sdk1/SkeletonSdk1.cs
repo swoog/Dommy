@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Kinect;
 
 namespace Dommy.Extensions.Kinect.Sdk1
 {
@@ -11,29 +12,40 @@ namespace Dommy.Extensions.Kinect.Sdk1
 
         public SkeletonSdk1(Microsoft.Kinect.Skeleton skeleton)
         {
-            // TODO: Complete member initialization
             this.skeleton = skeleton;
         }
         public string TrackingId
         {
             get
             {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
+                return string.Format("{0}", this.skeleton.TrackingId);
             }
         }
 
-        public IList<IJointType> GetJointTypes()
+        public IList<JointType> GetJointTypes()
         {
             throw new NotImplementedException();
         }
 
-        public IJointType this[IJointType joint]
+        public Vector this[JointType joint]
         {
-            get { throw new NotImplementedException(); }
+            get { return ToVector(this.skeleton.Joints[ToKinectJointType(joint)].Position); }
+        }
+
+        private Microsoft.Kinect.JointType ToKinectJointType(JointType joint)
+        {
+            switch (joint)
+            {
+                case JointType.RightHand:
+                    return Microsoft.Kinect.JointType.HandRight;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private Vector ToVector(SkeletonPoint position)
+        {
+            return new Vector(position.X, position.Y, position.Z);
         }
     }
 }

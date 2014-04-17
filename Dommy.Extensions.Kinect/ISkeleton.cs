@@ -9,8 +9,8 @@ namespace Dommy.Extensions.Kinect
     {
         string TrackingId { get; }
 
-        IList<IJointType> GetJointTypes();
+        IList<JointType> GetJointTypes();
 
-        IJointType this[IJointType joint] { get; }
+        Vector this[JointType joint] { get; }
     }
 }

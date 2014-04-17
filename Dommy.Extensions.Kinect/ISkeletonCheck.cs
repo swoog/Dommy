@@ -7,6 +7,6 @@ namespace Dommy.Extensions.Kinect
 {
     public interface ISkeletonCheck
     {
-        bool Check(ISkeleton skeleton);
+        MovementChecker CreateChecker();
     }
 }
