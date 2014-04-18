@@ -44,7 +44,7 @@ namespace Dommy.Extensions.Kinect.Tests
         [TestMethod]
         public void ToRightTest3()
         {
-            var checker = new MovementChecker(JointType.RightHand, TimeSpan.FromSeconds(1))
+            var checker = new MovementChecker(JointType.RightHand, TimeSpan.FromDays(1))
                 .ToRight(10);
 
             var result = checker.Check(new StubSkeleton().Set(JointType.RightHand, 0, 0, 0));
@@ -63,7 +63,7 @@ namespace Dommy.Extensions.Kinect.Tests
         [TestMethod]
         public void ToLeftTest()
         {
-            var checker = new MovementChecker(JointType.RightHand, TimeSpan.FromSeconds(1))
+            var checker = new MovementChecker(JointType.RightHand, TimeSpan.FromDays(1))
                 .ToLeft(10);
 
             var result = checker.Check(new StubSkeleton().Set(JointType.RightHand, 0, 0, 0));
@@ -98,7 +98,7 @@ namespace Dommy.Extensions.Kinect.Tests
         [TestMethod]
         public void ToRightLeftTest2()
         {
-            var checker = new MovementChecker(JointType.RightHand, TimeSpan.FromSeconds(1))
+            var checker = new MovementChecker(JointType.RightHand, TimeSpan.FromDays(1))
                 .ToLeft(10)
                 .ToRight(20);
 

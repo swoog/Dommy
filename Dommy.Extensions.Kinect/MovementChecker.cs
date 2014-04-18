@@ -9,7 +9,7 @@ namespace Dommy.Extensions.Kinect
 
         private int step = 0;
 
-        private List<Func<Vector, bool>> checkMovements = new List<Func<Vector, bool>>();
+        private List<Vector> checkMovements = new List<Vector>();
         private Vector actualPosition;
         private DateTime lastPosition = DateTime.MinValue;
         private TimeSpan timeToExecute;
@@ -20,21 +20,21 @@ namespace Dommy.Extensions.Kinect
             this.timeToExecute = time;
         }
 
-        public MovementChecker To(Func<Vector, bool> predicate)
+        public MovementChecker To(Vector vectore)
         {
             // Add function to the list.
-            this.checkMovements.Add(predicate);
+            this.checkMovements.Add(vectore);
             return this;
         }
 
-        public MovementChecker ToRight(int v)
+        public MovementChecker ToRight(int x)
         {
-            return this.To(m => m.X >= v);
+            return this.To(new Vector(x, 0, 0));
         }
 
-        public MovementChecker ToLeft(int v)
+        public MovementChecker ToLeft(int x)
         {
-            return this.To(m => -m.X >= v);
+            return this.To(new Vector(-x, 0, 0));
         }
 
         public bool Check(ISkeleton skeleton)
@@ -54,7 +54,7 @@ namespace Dommy.Extensions.Kinect
             // Create vector movement
             Vector movement = position - this.actualPosition;
 
-            if (this.checkMovements[this.step](movement))
+            if (Check(this.checkMovements[this.step], movement))
             {
                 this.step++;
                 // New position is the actual position + movement
@@ -64,6 +64,55 @@ namespace Dommy.Extensions.Kinect
             }
 
             return this.step >= this.checkMovements.Count;
+        }
+
+        private bool Check(Vector vector, Vector movement)
+        {
+            float? averageX = vector.X == 0 ? default(float?) : movement.X / vector.X;
+            float? averageY = vector.Y == 0 ? default(float?) : movement.Y / vector.Y;
+            float? averageZ = vector.Z == 0 ? default(float?) : movement.Z / vector.Z;
+
+            if (AvgEqual(averageX, averageY, averageZ))
+            {
+                if ((!averageX.HasValue || averageX >= 1)
+                    && (!averageY.HasValue || averageY >= 1)
+                    && (!averageZ.HasValue || averageZ >= 1))
+                {
+                    return true;
+                }
+                else if ((!averageX.HasValue || (averageX >= 0 && averageX < 1))
+                    && (!averageY.HasValue || (averageY >= 0 && averageY < 1))
+                    && (!averageZ.HasValue || (averageZ >= 0 && averageZ < 1)))
+                {
+                    return false;
+                }
+            }
+
+            this.step = 0;
+            // New position is the actual position + movement
+
+            this.actualPosition += movement;
+            this.lastPosition = DateTime.Now;
+
+            return false;
+        }
+
+        private bool AvgEqual(float? x, float? y, float? z)
+        {
+            if (x.HasValue && y.HasValue && (x > y + 0.20 || x < y - 0.20))
+            {
+                return false;
+            }
+            else if (x.HasValue && y.HasValue && (y > z + 0.20 || y < z - 0.20))
+            {
+                return false;
+            }
+            else if (x.HasValue && y.HasValue && (z > x + 0.20 || z < x - 0.20))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
