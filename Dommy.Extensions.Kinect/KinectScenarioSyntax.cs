@@ -24,7 +24,11 @@ namespace Dommy.Extensions.Kinect
         {
             var check = new T();
 
-            scenario.Trigger(new KinectSkeletonTrigger());
+            var kinect = new KinectSkeletonTrigger();
+
+            kinect.Checker = check;
+
+            scenario.Trigger(kinect);
 
             return scenario as ITriggerScenarioSyntax;
         }

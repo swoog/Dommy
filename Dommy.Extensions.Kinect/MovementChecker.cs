@@ -54,6 +54,8 @@ namespace Dommy.Extensions.Kinect
             // Create vector movement
             Vector movement = position - this.actualPosition;
 
+            System.Diagnostics.Debug.WriteLine("X:{0},Y:{0},Z:{0}", movement.X, movement.Y, movement.Z);
+
             if (Check(this.checkMovements[this.step], movement))
             {
                 this.step++;

@@ -6,6 +6,7 @@ using Dommy.Business.Services;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;
 using Dommy.Business.WebHost;
+using Dommy.Extensions.Kinect;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using System;
@@ -83,6 +84,11 @@ namespace Dommy.Console
 
             kernel.Bind<IActionLogger>().To<AgainScenarioDescription>().InSingletonScope();
             kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();
+
+            Scenario.Create("Kinect Test")
+                .KinectTrigger<HelloSkeletonCheck>()
+                .Say("Hello")
+                ;
 
             // TODO : Add scenario to restart freebox and router.
 
