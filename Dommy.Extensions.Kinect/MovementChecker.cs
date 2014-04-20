@@ -88,7 +88,15 @@ namespace Dommy.Extensions.Kinect
                 }
             }
 
-            this.step = 0;
+            if (this.step != 0 && Check(this.checkMovements[0], movement))
+            {
+                this.step = 1;
+            }
+            else
+            {
+                this.step = 0;
+            }
+
             // New position is the actual position + movement
 
             this.actualPosition += movement;
