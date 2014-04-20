@@ -85,6 +85,8 @@ namespace Dommy.Console
             kernel.Bind<IActionLogger>().To<AgainScenarioDescription>().InSingletonScope();
             kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();
 
+            kernel.Bind<IWebRequest>().To<DommyWebRequest>();
+
             Scenario.Create("Kinect Test")
                 .KinectTrigger<HelloSkeletonCheck>()
                 .Say("Hello")

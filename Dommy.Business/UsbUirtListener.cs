@@ -24,7 +24,7 @@ namespace Dommy.Business
         private Driver driver = null;
         private Receiver receiver = null;
 
-        public void Init(Engine engine)
+        public void Init(Engine currentEngine)
         {
         
         }
@@ -35,7 +35,7 @@ namespace Dommy.Business
             {
                 driver = new Driver();
                 receiver = new UsbUirt.Receiver(driver);
-                receiver.Received += t_Received;
+                receiver.Received += InfraRedReceived;
             }
             catch
             {
@@ -44,7 +44,7 @@ namespace Dommy.Business
             }
         }
 
-        public void t_Received(object sender, ReceivedEventArgs e)
+        public void InfraRedReceived(object sender, ReceivedEventArgs e)
         {
             this.logger.Debug("Received IrCode : {0}", e.IRCode);
 
@@ -67,22 +67,23 @@ namespace Dommy.Business
         public void Dispose()
         {
             this.Dispose(true);
-        }
-
-        public void Dispose(bool b)
-        {
-            if (this.receiver != null)
-            {
-                this.receiver.Dispose();
-            }
-
-            if (this.driver != null)
-            {
-                this.driver.Dispose();
-            }  
-            
             GC.SuppressFinalize(this);
         }
 
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.receiver != null)
+                {
+                    this.receiver.Dispose();
+                }
+
+                if (this.driver != null)
+                {
+                    this.driver.Dispose();
+                }
+            }
+        }
     }
 }

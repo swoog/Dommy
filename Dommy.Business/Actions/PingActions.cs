@@ -40,9 +40,9 @@ namespace Dommy.Business.Actions
         /// Implementation of ping conditional syntax.
         /// </summary>
         /// <param name="ip">IP to ping.</param>
-        /// <param name="b">Status excepted.</param>
+        /// <param name="expectedStatus">Status excepted.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax IfPing(string ip, bool b)
+        public IScenarioSyntax IfPing(string ip, bool expectedStatus)
         {
             this.scenario.Action(() =>
             {
@@ -54,7 +54,7 @@ namespace Dommy.Business.Actions
 
                     var value = ret.Status == IPStatus.Success;
 
-                    if (b)
+                    if (expectedStatus)
                     {
                         return value;
                     }

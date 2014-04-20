@@ -1,26 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Dommy.Business.Result;
-using Dommy.Business.Tools;
-using Dommy.Business.Scenarios;
-using Ninject;
-using Dommy.Business.Triggers;
-using Dommy.Business.Syntax;
-using Dommy.Business.Actions;
+//-----------------------------------------------------------------------
+// <copyright file="TimeScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    using System;
+    using System.Globalization;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+
+    /// <summary>
+    /// Time scenario description.
+    /// </summary>
     public class TimeScenarioDescription : IScenarioDescription
     {
-        private class TimeData
-        {
-            public string Hour { get; set; }
-
-            public string Minute { get; set; }
-        }
-
+        /// <summary>
+        /// Create time scenario.
+        /// </summary>
         public void Create()
         {
             var value = new TimeData();
@@ -56,20 +54,36 @@ namespace Dommy.Business.Scenarios
 
                     if (minute == 0)
                     {
-                        formatString = "";
+                        formatString = string.Empty;
                     }
                     else
                     {
                         formatString = StringHelper.Format(minuteStr);
                     }
 
-                    value.Hour = String.Format(hourStr, hour);
-                    value.Minute = String.Format(formatString, minute);
+                    value.Hour = string.Format(CultureInfo.InvariantCulture, hourStr, hour);
+                    value.Minute = string.Format(CultureInfo.InvariantCulture, formatString, minute);
 
                     return true;
                 })
                 .Say(value, "Il est {Hour} {Minute}.", "{Hour} {Minute}.")
                 .Start();
+        }
+
+        /// <summary>
+        /// Time data used for speech.
+        /// </summary>
+        private class TimeData
+        {
+            /// <summary>
+            /// Gets or sets the hour.
+            /// </summary>
+            public string Hour { get; set; }
+
+            /// <summary>
+            /// Gets or sets minutes.
+            /// </summary>
+            public string Minute { get; set; }
         }
     }
 }

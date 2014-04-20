@@ -14,9 +14,9 @@ namespace Dommy.Business.Triggers
 
         public object Data { get; set; }
 
-        public void Init(Engine engine, IScenario scenario)
+        public void Init(Engine currentEngine, IScenario currentScenario)
         {
-            engine.Listener<RestListener>().Subscribe(this.Url, this.Data, scenario);
+            currentEngine.Listener<RestListener>().Subscribe(this.Url, this.Data, currentScenario);
         }
     }
 }

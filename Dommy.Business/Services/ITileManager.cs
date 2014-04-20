@@ -11,6 +11,6 @@ namespace Dommy.Business.Services
     public interface ITileManager
     {
         [OperationContract]
-        List<Tile> GetTiles();
+        IList<Tile> GetTiles();
     }
 }

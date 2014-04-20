@@ -1,43 +1,61 @@
-using Dommy.Business.Actions;
-using Dommy.Business.Syntax;
-using Dommy.Business.Tools;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+//-----------------------------------------------------------------------
+// <copyright file="WeatherScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using Dommy.Business.Actions;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+
+    /// <summary>
+    /// Describe scenarios for speak the weather.
+    /// </summary>
     public class WeatherScenarioDescription : IScenarioDescription
     {
-        protected EedomusHelper eedomusHelper;
+        /// <summary>
+        /// Eedomus helper.
+        /// </summary>
+        private EedomusHelper eedomusHelper;
 
-        private AsyncHelper wait;
-
-        public string EedomusRainId { get; set; }
-
-        public string EedomusTemperatureId { get; set; }
-
-        public string EedomusWindId { get; set; }
-
-        public EedomusApi Mode { get; set; }
-
-        private string[] speech = new[]{
-            "{Condition}, Il fait {Degre} degré.",
-            "{Degre} degré, {Condition} !",
-        };
-
-        public WeatherScenarioDescription(AsyncHelper wait, EedomusHelper eedomusHelper)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeatherScenarioDescription"/> class.
+        /// </summary>
+        /// <param name="eedomusHelper">Eedomus helper.</param>
+        public WeatherScenarioDescription(EedomusHelper eedomusHelper)
         {
-            this.wait = wait;
             this.eedomusHelper = eedomusHelper;
             this.Mode = EedomusApi.Local;
         }
 
-        private class WeatherData
-        {
-            public string Sentence { get; set; }
-        }
+        /// <summary>
+        /// Gets or sets Eedomus rain API id.
+        /// </summary>
+        public string EedomusRainId { get; set; }
 
+        /// <summary>
+        /// Gets or sets Eedomus temperature API id.
+        /// </summary>
+        public string EedomusTemperatureId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Eedomus wind API id.
+        /// </summary>
+        public string EedomusWindId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Eedomus mode.
+        /// </summary>
+        public EedomusApi Mode { get; set; }
+
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
         public void Create()
         {
             var data = new WeatherData();
@@ -51,21 +69,24 @@ namespace Dommy.Business.Scenarios
                         "La météo")
                     .Action(() =>
                     {
-                        var weather = DommyCache.Get("WeatherAction", TimeSpan.FromHours(1), () =>
-                        {
-                            var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
-
-                            var rain = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusRainId);
-
-                            var wind = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusWindId);
-
-                            return new Weather
+                        var weather = DommyCache.Get(
+                            "WeatherAction",
+                            TimeSpan.FromHours(1),
+                            () =>
                             {
-                                Temperature = Convert.ToDouble(temperature, CultureInfo.InvariantCulture.NumberFormat),
-                                Rain = Convert.ToDouble(rain, CultureInfo.InvariantCulture.NumberFormat),
-                                Wind = Convert.ToDouble(wind, CultureInfo.InvariantCulture.NumberFormat),
-                            };
-                        });
+                                var temperature = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusTemperatureId);
+
+                                var rain = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusRainId);
+
+                                var wind = this.eedomusHelper.CallService(this.Mode, EedomusAction.PeriphCaract, this.EedomusWindId);
+
+                                return new Weather
+                                {
+                                    Temperature = Convert.ToDouble(temperature, CultureInfo.InvariantCulture.NumberFormat),
+                                    Rain = Convert.ToDouble(rain, CultureInfo.InvariantCulture.NumberFormat),
+                                    Wind = Convert.ToDouble(wind, CultureInfo.InvariantCulture.NumberFormat),
+                                };
+                            });
 
                         var responses = new List<string>();
 
@@ -142,6 +163,17 @@ namespace Dommy.Business.Scenarios
                     })
                     .Say(data, "{Sentence}")
                     .Start();
+        }
+
+        /// <summary>
+        /// Weather data class used to store the sentence to say.
+        /// </summary>
+        private class WeatherData
+        {
+            /// <summary>
+            /// Gets or sets sentence to say.
+            /// </summary>
+            public string Sentence { get; set; }
         }
     }
 }

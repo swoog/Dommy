@@ -47,13 +47,13 @@ namespace Dommy.Business
 
         public ILogger Logger { get; private set; }
 
-        public void Say(Actor actor, string text)
+        public void Say(Actor actor, string message)
         {
-            this.Logger.Info("{0} : {1}", actor, text);
+            this.Logger.Info("{0} : {1}", actor, message);
 
             if (actor == Actor.Dommy)
             {
-                Speak(text);
+                Speak(message);
             }
         }
 
@@ -66,13 +66,13 @@ namespace Dommy.Business
             }
         }
 
-        public void ErrorRecognition(Actor actor, string text)
+        public void ErrorRecognition(Actor actor, string errorMessage)
         {
-            this.Logger.Error("{0} : {1}", actor, text);
+            this.Logger.Error("{0} : {1}", actor, errorMessage);
 
             if (actor == Actor.Dommy)
             {
-                Speak(text);
+                Speak(errorMessage);
             }
         }
     }
