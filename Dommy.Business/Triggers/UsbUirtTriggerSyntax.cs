@@ -19,10 +19,10 @@ namespace Dommy.Business.Triggers
             this.scenario = scenario;
         }
 
-        public ITriggerScenarioSyntax UsbUirtTrigger(string irCode)
+        public ITriggerScenarioSyntax UsbUirtTrigger(string infraRedCode)
         {
             var t = this.kernel.Get<UsbUirtTrigger>();
-            t.Code = irCode;
+            t.Code = infraRedCode;
             return this.scenario.Trigger(t);
         }
     }

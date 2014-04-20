@@ -18,7 +18,7 @@ namespace Dommy.Business
             this.tiles.Add(tile);
         }
 
-        public List<Tile> GetTiles()
+        public IList<Tile> GetTiles()
         {
             return tiles;
         }

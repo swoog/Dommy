@@ -19,7 +19,7 @@ namespace Dommy.Business.Test.Tools
         {
             var speechLogger = new Moq.Mock<ISpeechLogger>();
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
-                .Throws(new Exception("Call to this method is deny"));
+                .Throws(new UnauthorizedAccessException("Call to this method is deny"));
 
             var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
 
@@ -30,7 +30,7 @@ namespace Dommy.Business.Test.Tools
         }
 
         [TestMethod]
-        public void WaitTest_LongRunTime()
+        public void WaitTestLongRunTime()
         {
             var speechLogger = new Moq.Mock<ISpeechLogger>();
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
@@ -47,7 +47,7 @@ namespace Dommy.Business.Test.Tools
         }
 
         [TestMethod]
-        public void WaitTest_LongRunTimeWithCallBeforeEnd()
+        public void WaitTestLongRunTimeWithCallBeforeEnd()
         {
             var called = false;
             var end = false;

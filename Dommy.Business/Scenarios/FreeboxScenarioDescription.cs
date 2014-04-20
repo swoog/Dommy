@@ -6,6 +6,8 @@
 
 namespace Dommy.Business.Scenarios
 {
+    using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Net;
     using System.Net.NetworkInformation;
@@ -14,7 +16,6 @@ namespace Dommy.Business.Scenarios
     using System.Text;
     using System.Threading;
     using Dommy.Business.Syntax;
-    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Freebox scenarios.
@@ -134,6 +135,11 @@ namespace Dommy.Business.Scenarios
             var responseCookie = r.GetResponse() as HttpWebResponse;
 
             var responseString = new StreamReader(responseCookie.GetResponseStream()).ReadToEnd();
+
+            if (string.IsNullOrEmpty(responseString))
+            {
+                throw new FormatException();
+            }
 
             string code = responseCookie.Cookies["FBXSID"].Value;
 

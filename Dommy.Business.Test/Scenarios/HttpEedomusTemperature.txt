@@ -1,0 +1,9 @@
+﻿{ 
+ "success": 1,
+ "body": 
+ { 
+  "name": "Température",
+  "last_value": "12",
+  "last_value_change": "2010-03-29 14:51:22"
+ }
+}

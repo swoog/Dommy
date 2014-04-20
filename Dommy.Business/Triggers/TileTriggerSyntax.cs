@@ -20,11 +20,11 @@ namespace Dommy.Business.Triggers
             this.scenario = scenario;
         }
 
-        public ITriggerScenarioSyntax TileTrigger(string title, Color backgroundColor)
+        public ITriggerScenarioSyntax TileTrigger(string title, Color backGround)
         {
             var t = this.kernel.Get<TileTrigger>();
             t.Title = title;
-            t.BackgroundColor = backgroundColor;
+            t.BackgroundColor = backGround;
             return this.scenario.Trigger(t);
         }
     }

@@ -14,8 +14,8 @@ namespace Dommy.Business
         /// <summary>
         /// Initialize listener with the dommy engine.
         /// </summary>
-        /// <param name="engine">Dommy engine.</param>
-        void Init(Engine engine);
+        /// <param name="currentEngine">Dommy engine.</param>
+        void Init(Engine currentEngine);
 
         /// <summary>
         /// Start the listener.

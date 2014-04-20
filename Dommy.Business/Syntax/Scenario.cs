@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Syntax
 {
-    public class Scenario
+    public static class Scenario
     {
         private static IKernel kernel;
 

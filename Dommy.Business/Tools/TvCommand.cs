@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dommy.Business.Tools
 {
-    public enum TvCommand
+    public enum TVCommand
     {
         PowerOff,
         VolUp,

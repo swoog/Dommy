@@ -6,6 +6,8 @@
 
 namespace Dommy.Business
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Information of a recognized sentence.
     /// </summary>
@@ -14,12 +16,12 @@ namespace Dommy.Business
         /// <summary>
         /// Gets words of the sentence.
         /// </summary>
-        string[] Words { get; }
+        ICollection<string> Words { get; }
 
         /// <summary>
         /// Gets confidence of each words.
         /// </summary>
-        float[] WordsConfidence { get; }
+        ICollection<float> WordsConfidence { get; }
 
         /// <summary>
         /// Gets recognized sentence.

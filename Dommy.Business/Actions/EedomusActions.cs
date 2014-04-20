@@ -6,10 +6,10 @@
 
 namespace Dommy.Business.Actions
 {
+    using System.Globalization;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
     using Ninject.Extensions.Logging;
-    using System.Globalization;
 
     /// <summary>
     /// Eedomus syntax.
@@ -73,14 +73,14 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Call local API eedomus and make on/off (Light, ...).
         /// </summary>
-        /// <param name="id">Eedomus id element.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
         /// <param name="isOn">Light on or off.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax EedomusOnOff(string id, bool isOn)
+        public IScenarioSyntax EedomusOnOff(string eedomusId, bool isOn)
         {
             return this.scenario.Action(() =>
             {
-                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, id, isOn ? "100" : "0");
+                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, eedomusId, isOn ? "100" : "0");
                 return true;
             });
         }
@@ -88,14 +88,14 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Set value to local API eedomus.
         /// </summary>
-        /// <param name="id">Eedomus id element.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
         /// <param name="value">Value to set.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax EedomusValue(string id, double value)
+        public IScenarioSyntax EedomusValue(string eedomusId, double value)
         {
             return this.scenario.Action(() =>
             {
-                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, id, string.Format(CultureInfo.InvariantCulture, "{0}", value));
+                this.eedomusHelper.CallService(EedomusApi.Local, EedomusAction.PeriphValue, eedomusId, string.Format(CultureInfo.InvariantCulture, "{0}", value));
                 return true;
             });
         }

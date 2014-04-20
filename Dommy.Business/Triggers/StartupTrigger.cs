@@ -8,9 +8,9 @@ namespace Dommy.Business.Triggers
 {
     public class StartupTrigger : ITrigger
     {
-        public void Init(Engine engine, Scenarios.IScenario scenario)
+        public void Init(Engine currentEngine, Scenarios.IScenario currentScenario)
         {
-            scenario.Run();
+            currentScenario.Run();
         }
     }
 }

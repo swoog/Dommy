@@ -12,33 +12,33 @@ namespace Dommy.Business.Actions
     /// <summary>
     /// TV syntax.
     /// </summary>
-    public interface ITvActions : IExtendSyntax
+    public interface ITVActions : IExtendSyntax
     {
         /// <summary>
         /// Execute command on TV.
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax TvCommand(TvCommand command);
+        IScenarioSyntax TVCommand(TVCommand command);
 
         /// <summary>
         /// Change canal on TV.
         /// </summary>
         /// <param name="canal">Canal to change.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax TvCanal(int canal);
+        IScenarioSyntax TVCanal(int canal);
 
         /// <summary>
         /// Change sound on TV.
         /// </summary>
         /// <param name="quantity">Quantity to change volume.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax TvSound(int quantity);
+        IScenarioSyntax TVSound(int quantity);
 
         /// <summary>
         /// Mute on TV.
         /// </summary>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax TvMute();
+        IScenarioSyntax TVMute();
     }
 }
