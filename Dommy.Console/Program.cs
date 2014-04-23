@@ -90,6 +90,7 @@ namespace Dommy.Console
             Scenario.Create("Kinect Test")
                 .KinectTrigger<HelloSkeletonCheck>()
                 .Say("Hello")
+                .Start()
                 ;
 
             // TODO : Add scenario to restart freebox and router.

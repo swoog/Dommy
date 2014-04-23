@@ -44,7 +44,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         {
             get
             {
-                return this.Sensor != null && this.Sensor.IsAvailable;
+                return this.Sensor != null;
             }
         }
 

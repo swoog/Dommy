@@ -51,10 +51,11 @@ namespace Dommy.Extensions.Kinect
                 return false;
             }
 
+            System.Diagnostics.Debug.WriteLine("X:{0}, Y:{1},Z:{2}", (int)position.X, (int)position.Y, (int)position.Z);
+
             // Create vector movement
             Vector movement = position - this.actualPosition;
 
-            System.Diagnostics.Debug.WriteLine("X:{0},Y:{0},Z:{0}", movement.X, movement.Y, movement.Z);
 
             if (Check(this.checkMovements[this.step], movement))
             {
@@ -65,7 +66,14 @@ namespace Dommy.Extensions.Kinect
                 this.lastPosition = DateTime.Now;
             }
 
-            return this.step >= this.checkMovements.Count;
+            if( this.step >= this.checkMovements.Count)
+            {
+                this.step = 0;
+                return true;
+            }else
+            {
+                return false;
+            }
         }
 
         private bool Check(Vector vector, Vector movement)

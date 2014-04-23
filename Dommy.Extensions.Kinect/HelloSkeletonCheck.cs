@@ -9,9 +9,9 @@ namespace Dommy.Extensions.Kinect
     {
         public MovementChecker CreateChecker()
         {
-            return new MovementChecker(JointType.RightHand, TimeSpan.FromSeconds(2))
-                .ToLeft(10)
-                .ToRight(10);
+            return new MovementChecker(JointType.RightHand, TimeSpan.FromSeconds(4))
+                .ToLeft(200)
+                .ToRight(200);
         }
     }
 }

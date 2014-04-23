@@ -29,10 +29,25 @@ namespace Dommy.Extensions.Kinect.Sdk2
         {
             throw new NotImplementedException();
         }
-
         public Vector this[JointType joint]
         {
-            get { throw new NotImplementedException(); }
+            get { return ToVector(this.skeleton.Joints[ToKinectJointType(joint)].Position); }
+        }
+
+        private Microsoft.Kinect.JointType ToKinectJointType(JointType joint)
+        {
+            switch (joint)
+            {
+                case JointType.RightHand:
+                    return Microsoft.Kinect.JointType.HandRight;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        private Vector ToVector(CameraSpacePoint position)
+        {
+            return new Vector(position.X * 1000, position.Y * 1000, position.Z * 1000);
         }
     }
 }
