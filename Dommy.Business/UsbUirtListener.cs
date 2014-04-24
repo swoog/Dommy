@@ -37,10 +37,11 @@ namespace Dommy.Business
                 receiver = new UsbUirt.Receiver(driver);
                 receiver.Received += InfraRedReceived;
             }
-            catch
+            catch(Exception ex)
             {
                 this.logger.Warn("USB-UIRT Not found.");
                 this.logger.Warn("USB-UIRT Listener is off.");
+                this.logger.Error(ex, "USB-UIRT error");
             }
         }
 
