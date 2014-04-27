@@ -159,6 +159,7 @@
     <Compile Include="Actions\SynologyDownloadActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="Configs\Configurator.cs" />
     <Compile Include="Configs\Configure.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
