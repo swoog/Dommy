@@ -66,8 +66,6 @@ namespace Dommy.Console
             Configure.LoadConfig(Path.Combine(directory, "config.xml"));
 
             Configure.Build();
-
-            kernel.Bind<IListener>().To<UsbUirtListener>();
             
             var web = kernel.Get<WebServerHost>();
             web.Start();

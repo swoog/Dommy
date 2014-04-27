@@ -17,8 +17,6 @@ namespace Dommy.Business.Actions
     using Ninject;
     using Ninject.Extensions.Logging;
     using Ninject.Parameters;
-    using UsbUirt;
-    using UsbUirt.Enums;
 
     /// <summary>
     /// Class of a scenario object.
@@ -137,29 +135,6 @@ namespace Dommy.Business.Actions
         public IScenarioSyntax EedomusOnOff(string eedomusId, bool isOn)
         {
             return this.Extend<IEedomusActions>().EedomusOnOff(eedomusId, isOn);
-        }
-
-        /// <summary>
-        /// Send infra red code on USB-UIRT device.
-        /// </summary>
-        /// <param name="infraRedCode">infra red ode to send.</param>
-        /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax UsbUirt(string infraRedCode)
-        {
-            this.actions.Add(() =>
-            {
-                using (var driver = new Driver())
-                {
-                    using (var transmitter = new Transmitter(driver))
-                    {
-                        transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
-                    }
-
-                    return true;
-                }
-            });
-
-            return this;
         }
 
         /// <summary>
@@ -387,16 +362,6 @@ namespace Dommy.Business.Actions
         public void Start()
         {
             this.Kernel.Bind<IScenario>().ToMethod(c => this);
-        }
-
-        /// <summary>
-        /// Create scenario based on infra red code returned by USB-UIRT module.
-        /// </summary>
-        /// <param name="infraRedCode">Infra red code.</param>
-        /// <returns>Trigger scenario syntax.</returns>
-        public ITriggerScenarioSyntax UsbUirtTrigger(string infraRedCode)
-        {
-            return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(infraRedCode);
         }
 
         /// <summary>

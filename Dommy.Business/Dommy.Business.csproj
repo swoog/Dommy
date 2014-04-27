@@ -141,9 +141,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UsbUirtManagedWrapper">
-      <HintPath>..\UsbUirtManagedWrapper.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\EedomusActions.cs" />
@@ -179,7 +176,6 @@
     <Compile Include="Scenarios\OpenCloseScenarioDescription.cs" />
     <Compile Include="Scenarios\OnOffLightScenarioDescription.cs" />
     <Compile Include="Scenarios\TemperatureScenarioDescription.cs" />
-    <Compile Include="Scenarios\UsbUirtScenarioDescription.cs" />
     <Compile Include="Scenarios\WhatScenarioDescription.cs" />
     <Compile Include="Scenarios\FreeboxScenarioDescription.cs" />
     <Compile Include="Scenarios\InternetScenarioDescription.cs" />
@@ -235,9 +231,6 @@
     <Compile Include="Triggers\TileTriggerSyntax.cs" />
     <Compile Include="Triggers\TimeTrigger.cs" />
     <Compile Include="Triggers\TimeTriggerSyntax.cs" />
-    <Compile Include="Triggers\UsbUirtTriggerSyntax.cs" />
-    <Compile Include="Triggers\UsbUirtTrigger.cs" />
-    <Compile Include="Triggers\IUsbUirtTriggerSyntax.cs" />
     <Compile Include="Triggers\IRestTriggerSyntax.cs" />
     <Compile Include="Triggers\ISpeechTriggerSyntax.cs" />
     <Compile Include="Triggers\RestTrigger.cs" />
@@ -260,7 +253,6 @@
     <Compile Include="Triggers\SpeechTrigger.cs" />
     <Compile Include="Triggers\SpeechTriggerSyntax.cs" />
     <Compile Include="Tools\TvCommand.cs" />
-    <Compile Include="UsbUirtListener.cs" />
     <Compile Include="WebHost\WebServerHost.cs" />
   </ItemGroup>
   <ItemGroup>

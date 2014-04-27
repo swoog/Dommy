@@ -23,13 +23,6 @@ namespace Dommy.Business.Syntax
 
         void Start();
 
-        /// <summary>
-        /// Send infra red code on USB-UIRT device.
-        /// </summary>
-        /// <param name="infraRedCode">infra red ode to send.</param>
-        /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax UsbUirt(string infraRedCode);
-
         IScenarioSyntax Precision(string[] sentences, string[] response, Func<string, IScenarioSyntax, IScenarioSyntax> scenario);
 
         /// <summary>

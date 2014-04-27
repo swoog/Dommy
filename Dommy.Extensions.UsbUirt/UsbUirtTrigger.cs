@@ -1,4 +1,5 @@
-﻿using Dommy.Business.Scenarios;
+﻿using Dommy.Business;
+using Dommy.Business.Scenarios;
 using Dommy.Business.Triggers;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Dommy.Business.Triggers
+namespace Dommy.Extensions.UsbUirt
 {
     public class UsbUirtTrigger : ITrigger
     {

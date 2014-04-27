@@ -1,14 +1,16 @@
-﻿using Dommy.Business.Scenarios;
+﻿using Dommy.Business;
+using Dommy.Business.Scenarios;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UsbUirt;
-using UsbUirt.EventArgs;
+using global::UsbUirt;
+using global::UsbUirt.EventArgs;
+using Dommy.Business.Configs;
 
-namespace Dommy.Business
+namespace Dommy.Extensions.UsbUirt
 {
     public sealed class UsbUirtListener : IListener, IDisposable
     {
@@ -34,7 +36,7 @@ namespace Dommy.Business
             try
             {
                 driver = new Driver();
-                receiver = new UsbUirt.Receiver(driver);
+                receiver = new Receiver(driver);
                 receiver.Received += InfraRedReceived;
             }
             catch(Exception ex)
@@ -84,6 +86,21 @@ namespace Dommy.Business
                 {
                     this.driver.Dispose();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Configuration of USB-UIRT.
+        /// </summary>
+        public class Config : IConfig
+        {
+            /// <summary>
+            /// Create USB-UIRT Ninject configuration.
+            /// </summary>
+            /// <param name="kernel">Ninject kernel.</param>
+            public void Create(Ninject.IKernel kernel)
+            {
+                kernel.Bind<IListener>().To<UsbUirtListener>().InSingletonScope();
             }
         }
     }
