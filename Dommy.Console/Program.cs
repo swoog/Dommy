@@ -10,6 +10,7 @@ using Dommy.Extensions.Kinect;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime;
@@ -18,9 +19,19 @@ namespace Dommy.Console
 {
     class Program
     {
+#if DEBUG
+        public const string ProcessX86 = @"..\..\..\Dommy.Console.x86\bin\Debug\Dommy.Console.x86.exe";
+#else
+        public const string ProcessX86 = "Dommy.Console.x86.exe";
+#endif
+
         static void Main(string[] args)
         {
-            Bootstrap.Run();
+            using (var p = Process.Start(ProcessX86))
+            {
+                Bootstrap.Run();
+                p.Kill();
+            }
         }
     }
 }

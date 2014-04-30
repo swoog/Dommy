@@ -205,6 +205,10 @@
       <Project>{fdcfb3e9-d345-480b-9d1e-7fc7179bc45f}</Project>
       <Name>Dommy.Extensions.Kinect</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.UsbUirt\Dommy.Extensions.UsbUirt.csproj">
+      <Project>{368543d5-9317-469c-9405-bb1f58baf7f6}</Project>
+      <Name>Dommy.Extensions.UsbUirt</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

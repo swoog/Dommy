@@ -13,13 +13,14 @@ namespace Dommy.Extensions.UsbUirt
     using System.Threading.Tasks;
     using Dommy.Business.Syntax;
     using Dommy.Business.Scenarios;
-    using global::UsbUirt;
 
     /// <summary>
     /// Describe scenario with USB-UIRT module.
     /// </summary>
     public class UsbUirtScenarioDescription : IScenarioDescription
     {
+        private ILearner learner;
+
         /// <summary>
         /// Create scenarios.
         /// </summary>
@@ -32,14 +33,7 @@ namespace Dommy.Extensions.UsbUirt
                 .Say("Lecture")
                 .Action(() =>
                 {
-                    using (var driver = new Driver())
-                    {
-                        using (var l = new Learner(driver))
-                        {
-                            infraRedCode.Code = l.Learn();
-                        }
-                    }
-
+                    infraRedCode.Code = this.learner.Learn();
                     return true;
                 })
                 .Log("IrCode :{Code}", infraRedCode)

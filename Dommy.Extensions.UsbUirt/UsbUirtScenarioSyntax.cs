@@ -8,9 +8,6 @@ namespace Dommy.Extensions.UsbUirt
 {
     using Dommy.Business.Syntax;
     using Ninject;
-    using global::UsbUirt;
-    using global::UsbUirt.Enums;
-
 
     /// <summary>
     /// USB-UIRT scenario syntax.
@@ -25,17 +22,11 @@ namespace Dommy.Extensions.UsbUirt
         /// <returns>Scenario syntax.</returns>
         public static IScenarioSyntax UsbUirt(this IScenarioSyntax scenario, string infraRedCode)
         {
+            var transmitter = scenario.Kernel.Get<ITransmitter>();
             return scenario.Action(() =>
             {
-                using (var driver = new Driver())
-                {
-                    using (var transmitter = new Transmitter(driver))
-                    {
-                        transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
-                    }
-
-                    return true;
-                }
+                transmitter.Transmit(infraRedCode);
+                return true;
             });
         }
 

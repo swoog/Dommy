@@ -11,7 +11,7 @@ namespace Dommy.Console.x86
     {
         static void Main(string[] args)
         {
-            Bootstrap.Run();
+            Bootstrap.RunX86();
         }
     }
 }

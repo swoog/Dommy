@@ -21,7 +21,7 @@
         public static void Run()
         {
             ProfileOptimization.SetProfileRoot(@".\");
-            ProfileOptimization.StartProfile("DommyProfile");
+            ProfileOptimization.StartProfile(String.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
 
             log4net.Config.XmlConfigurator.Configure();
 
@@ -85,12 +85,7 @@
 
             kernel.Bind<IWebRequest>().To<DommyWebRequest>();
 
-            var services = kernel.GetAll<IServiceHost>().ToList();
-
-            foreach (var item in services)
-            {
-                item.Open();
-            }
+            List<IServiceHost> services = OpenServices(kernel);
 
             var engine = kernel.Get<Engine>();
 
@@ -99,12 +94,46 @@
             System.Console.ReadLine();
             engine.Stop();
 
+            CloseServices(services);
+
+            web.Stop();
+        }
+
+        private static void CloseServices(List<IServiceHost> services)
+        {
             foreach (var item in services)
             {
                 item.Close();
             }
+        }
 
-            web.Stop();
+        private static List<IServiceHost> OpenServices(StandardKernel kernel)
+        {
+            var services = kernel.GetAll<IServiceHost>().ToList();
+
+            foreach (var item in services)
+            {
+                item.Open();
+            }
+
+            return services;
+        }
+
+        public static void RunX86()
+        {
+            ProfileOptimization.SetProfileRoot(@".\");
+            ProfileOptimization.StartProfile(String.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
+
+            log4net.Config.XmlConfigurator.Configure();
+
+            var kernel = new StandardKernel();
+            kernel.Load("Dommy.*.x86.dll");
+
+            List<IServiceHost> services = OpenServices(kernel);
+
+            Console.ReadLine();
+
+            CloseServices(services);
         }
     }
 }

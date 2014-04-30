@@ -183,6 +183,7 @@
     <Compile Include="SentenceAction.cs" />
     <Compile Include="Syntax\Gender.cs" />
     <Compile Include="Syntax\ElementName.cs" />
+    <Compile Include="Syntax\IKernelInfo.cs" />
     <Compile Include="Syntax\RoomName.cs" />
     <Compile Include="Scenarios\TimeScenarioDescription.cs" />
     <Compile Include="Scenarios\TvScenarioDescription.cs" />

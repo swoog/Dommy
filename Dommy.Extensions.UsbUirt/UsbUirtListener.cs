@@ -1,59 +1,47 @@
 ﻿using Dommy.Business;
 using Dommy.Business.Scenarios;
+using Ninject;
 using Ninject.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using global::UsbUirt;
-using global::UsbUirt.EventArgs;
 using Dommy.Business.Configs;
+using Dommy.Business.Services;
+using System.ServiceModel;
 
 namespace Dommy.Extensions.UsbUirt
 {
-    public sealed class UsbUirtListener : IListener, IDisposable
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    public sealed class UsbUirtListener : IListener, IReceiverCallback
     {
         private ILogger logger;
+        private Dictionary<string, IScenario> scenarios = new Dictionary<string, IScenario>();
+        private IReceiver receiver;
 
-        public UsbUirtListener(ILogger logger)
+        public UsbUirtListener(ILogger logger, IReceiver receiver)
         {
             this.logger = logger;
+            this.receiver = receiver;
         }
-
-        private Dictionary<string, IScenario> scenarios = new Dictionary<string, IScenario>();
-
-        private Driver driver = null;
-        private Receiver receiver = null;
 
         public void Init(Engine currentEngine)
         {
-        
+
         }
 
         public void Start()
         {
             try
             {
-                driver = new Driver();
-                receiver = new Receiver(driver);
-                receiver.Received += InfraRedReceived;
+                this.receiver.Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.logger.Warn("USB-UIRT Not found.");
                 this.logger.Warn("USB-UIRT Listener is off.");
                 this.logger.Error(ex, "USB-UIRT error");
-            }
-        }
-
-        public void InfraRedReceived(object sender, ReceivedEventArgs e)
-        {
-            this.logger.Debug("Received IrCode : {0}", e.IRCode);
-
-            if (scenarios.ContainsKey(e.IRCode))
-            {
-                scenarios[e.IRCode].RunAsync();
             }
         }
 
@@ -64,43 +52,16 @@ namespace Dommy.Extensions.UsbUirt
 
         public void Stop()
         {
-            this.Dispose();
+            this.receiver.Stop();
         }
 
-        public void Dispose()
+        public void Receive(string infraredCode)
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+            this.logger.Debug("Received IrCode : {0}", infraredCode);
 
-        public void Dispose(bool disposing)
-        {
-            if (disposing)
+            if (scenarios.ContainsKey(infraredCode))
             {
-                if (this.receiver != null)
-                {
-                    this.receiver.Dispose();
-                }
-
-                if (this.driver != null)
-                {
-                    this.driver.Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Configuration of USB-UIRT.
-        /// </summary>
-        public class Config : IConfig
-        {
-            /// <summary>
-            /// Create USB-UIRT Ninject configuration.
-            /// </summary>
-            /// <param name="kernel">Ninject kernel.</param>
-            public void Create(Ninject.IKernel kernel)
-            {
-                kernel.Bind<IListener>().To<UsbUirtListener>().InSingletonScope();
+                scenarios[infraredCode].RunAsync();
             }
         }
     }

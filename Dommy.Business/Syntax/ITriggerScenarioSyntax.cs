@@ -5,6 +5,5 @@ namespace Dommy.Business.Syntax
 
     public interface ITriggerScenarioSyntax : ITriggerSyntax, IScenarioSyntax
     {
-        IKernel Kernel { get; }
     }
 }

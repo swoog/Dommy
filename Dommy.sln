@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.UsbUirt", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Console.x86", "Dommy.Console.x86\Dommy.Console.x86.csproj", "{C5DCFE2D-CF76-4616-BD55-4B65230D7354}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.UsbUirt.x86", "Dommy.Extensions.UsbUirt.x86\Dommy.Extensions.UsbUirt.x86.csproj", "{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -240,6 +242,20 @@ Global
 		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|x64.ActiveCfg = Release|Any CPU
 		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|x86.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -252,6 +268,10 @@ Global
 		{B5D5034A-7760-4DB0-B4E2-5F636A33D6BC} = {FA1E6964-4F4D-4BA8-9936-625664319F03}
 		{5572C1C6-B9D2-497F-A840-FC0A5E3FE593} = {FA1E6964-4F4D-4BA8-9936-625664319F03}
 		{368543D5-9317-469C-9405-BB1F58BAF7F6} = {5A74CDCA-8F1B-42DC-9051-0C255578B273}
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F} = {5A74CDCA-8F1B-42DC-9051-0C255578B273}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dommy.vsmdi

@@ -36,9 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+      <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -71,6 +71,10 @@
     <ProjectReference Include="..\Dommy.Business\Dommy.Business.csproj">
       <Project>{0d4c5af6-942d-49e2-8034-a2b87d159ce8}</Project>
       <Name>Dommy.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.UsbUirt.x86\Dommy.Extensions.UsbUirt.x86.csproj">
+      <Project>{c120bd29-d7e1-49a7-aa9c-3835e3a69e2f}</Project>
+      <Name>Dommy.Extensions.UsbUirt.x86</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dommy.Extensions.UsbUirt\Dommy.Extensions.UsbUirt.csproj">
       <Project>{368543d5-9317-469c-9405-bb1f58baf7f6}</Project>
