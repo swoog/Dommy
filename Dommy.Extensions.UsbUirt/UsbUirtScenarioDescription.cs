@@ -21,6 +21,11 @@ namespace Dommy.Extensions.UsbUirt
     {
         private ILearner learner;
 
+        public UsbUirtScenarioDescription(ILearner learner)
+        {
+            this.learner = learner;
+        }
+
         /// <summary>
         /// Create scenarios.
         /// </summary>

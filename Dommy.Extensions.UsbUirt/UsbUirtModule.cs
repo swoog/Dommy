@@ -18,7 +18,8 @@ namespace Dommy.Extensions.UsbUirt
             this.Kernel.Bind<ITransmitter>().ToMethod(c => Client<ITransmitter>.Create().Channel);
             this.Kernel.Bind<IReceiver>().ToMethod(c => Client<IReceiver>.Create().Channel);
 
-            this.Kernel.Bind<IListener>().To<UsbUirtListener>().InSingletonScope();
+            this.Kernel.Bind<UsbUirtListener>().ToSelf().InSingletonScope();
+            this.Kernel.Bind<IListener>().ToMethod(c=>c.Kernel.Get<UsbUirtListener>()).InSingletonScope();
             this.Kernel.Bind<IServiceHost>().ToMethod(c => new ServiceHost<UsbUirtListener>(c.Kernel.Get<UsbUirtListener>()));
         }
     }
