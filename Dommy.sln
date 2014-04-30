@@ -8,7 +8,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Business.Test", "Domm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Console", "Dommy.Console\Dommy.Console.csproj", "{27E56EE9-6AC8-4C96-A86D-E043AEA612A7}"
 	ProjectSection(ProjectDependencies) = postProject
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354} = {C5DCFE2D-CF76-4616-BD55-4B65230D7354}
 		{5B49682E-0768-4BC6-B0B0-A541F7A781AF} = {5B49682E-0768-4BC6-B0B0-A541F7A781AF}
+		{368543D5-9317-469C-9405-BB1F58BAF7F6} = {368543D5-9317-469C-9405-BB1F58BAF7F6}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Web", "Dommy.Web\Dommy.Web.csproj", "{5B49682E-0768-4BC6-B0B0-A541F7A781AF}"
@@ -39,6 +41,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UsbUirt", "UsbUirt", "{5A74CDCA-8F1B-42DC-9051-0C255578B273}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.UsbUirt", "Dommy.Extensions.UsbUirt\Dommy.Extensions.UsbUirt.csproj", "{368543D5-9317-469C-9405-BB1F58BAF7F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Console.x86", "Dommy.Console.x86\Dommy.Console.x86.csproj", "{C5DCFE2D-CF76-4616-BD55-4B65230D7354}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -222,6 +226,20 @@ Global
 		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|x64.ActiveCfg = Release|Any CPU
 		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
