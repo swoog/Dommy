@@ -38,7 +38,7 @@
             }
 
             var kernel = new StandardKernel();
-            kernel.Load("Dommy.*.dll");
+            kernel.Load(Directory.GetFiles(directory, "Dommy.*.dll").Where(f => !f.EndsWith(".x86.dll")));
 
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
