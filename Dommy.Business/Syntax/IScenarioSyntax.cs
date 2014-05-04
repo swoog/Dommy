@@ -10,18 +10,12 @@ namespace Dommy.Business.Syntax
     using Dommy.Business.Actions;
     using Dommy.Business.Scenarios;
     using Ninject;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Description of the scenario syntax.
     /// </summary>
-    public interface IScenarioSyntax : IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
+    public interface IScenarioSyntax : IKernelInfo, IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
     {
-        IKernel Kernel { get; }
-
         /// <summary>
         /// Generic lambda action.
         /// </summary>

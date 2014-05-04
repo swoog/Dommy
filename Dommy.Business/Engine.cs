@@ -76,20 +76,6 @@ namespace Dommy.Business
             this.listeners = listeners.OrderBy(this.OrderListener).ToArray();
         }
 
-        private int OrderListener(IListener arg)
-        {
-            var att = arg.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
-
-            if (att.Length != 0)
-            {
-                return ((OrderAttribute)att[0]).Order;
-            }
-            else
-            {
-                return 100;
-            }
-        }
-
         /// <summary>
         /// Gets name of engine.
         /// </summary>
@@ -276,6 +262,25 @@ namespace Dommy.Business
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             this.SayError(e.ExceptionObject as Exception);
+        }
+
+        /// <summary>
+        /// Order start of listener with the <see cref="OrderAttribute"/>.
+        /// </summary>
+        /// <param name="listener">Listener to order.</param>
+        /// <returns>Value used to order.</returns>
+        private int OrderListener(IListener listener)
+        {
+            var att = listener.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
+
+            if (att.Length != 0)
+            {
+                return ((OrderAttribute)att[0]).Order;
+            }
+            else
+            {
+                return 100;
+            }
         }
     }
 }

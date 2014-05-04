@@ -46,13 +46,11 @@ namespace Dommy.Business.Services
                              .Cast<ServiceContractAttribute>()
                              .Any()).FirstOrDefault();
 
-            host = new ServiceHost(service, new Uri[] { new Uri("net.pipe://localhost/dommy/" + contract.Name) });
-            //host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
+            this.host = new ServiceHost(this.service, new Uri[] { new Uri("net.pipe://localhost/dommy/" + contract.Name) });
+            ////host.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
 
-
-
-            host.AddServiceEndpoint(contract, new NetNamedPipeBinding(), "");
-            //host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
+            this.host.AddServiceEndpoint(contract, new NetNamedPipeBinding(), string.Empty);
+            ////host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexHttpBinding(), "mex");
 
             this.host.Open();
         }

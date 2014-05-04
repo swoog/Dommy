@@ -6,12 +6,12 @@
 
 namespace Dommy.Business
 {
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Tools;
     using Ninject.Extensions.Logging;
@@ -54,7 +54,7 @@ using System.Linq;
         /// <summary>
         /// Speech to text to use for speech listener.
         /// </summary>
-         private IList<ISpeechToText> speechToText;
+        private IList<ISpeechToText> speechToText;
 
         /// <summary>
         /// Attached engine.
@@ -127,13 +127,16 @@ using System.Linq;
             {
                 if (item.IsActive)
                 {
-                    item.Start(SpeechRecognized);
+                    item.Start(this.SpeechRecognized);
                 }
             }
 
             this.Logger.Info("Wait for audio stream.");
         }
 
+        /// <summary>
+        /// Create grammar data from actions and sentences.
+        /// </summary>
         /// <param name="action">Action to execute.</param>
         /// <param name="sentences">Sentences triggers.</param>
         /// <param name="prefixName">Add prefix.</param>
@@ -201,6 +204,17 @@ using System.Linq;
         }
 
         /// <summary>
+        /// Stop listener.
+        /// </summary>
+        public void Stop()
+        {
+            foreach (var item in this.speechToText)
+            {
+                item.Stop();
+            }
+        }
+
+        /// <summary>
         /// Call a precision.
         /// </summary>
         /// <param name="sentenceActions">Sentences and actions to execute.</param>
@@ -255,6 +269,7 @@ using System.Linq;
             // Say
             this.SpeechLogger.Say(Actor.Dommy, speech);
         }
+
         /// <summary>
         /// Subscribe a trigger scenario to this speech listener.
         /// </summary>
@@ -450,17 +465,6 @@ using System.Linq;
         }
 
         /// <summary>
-        /// Stop listener.
-        /// </summary>
-        public void Stop()
-        {
-            foreach (var item in this.speechToText)
-            {
-                item.Stop();
-            }
-        }
-
-        /// <summary>
         /// Speech scenario to execute.
         /// </summary>
         private class SpeechInfo
@@ -469,7 +473,7 @@ using System.Linq;
             /// Gets or sets scenario.
             /// </summary>
             public IScenario Scenario { get; set; }
-    
+
             /// <summary>
             /// Gets or sets confidence.
             /// </summary>

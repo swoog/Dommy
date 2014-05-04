@@ -1,5 +1,16 @@
-﻿namespace Dommy.Business
+﻿//-----------------------------------------------------------------------
+// <copyright file="Bootstrap.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace Dommy.Business
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime;
     using Dommy.Business.Configs;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Scripts;
@@ -8,20 +19,19 @@
     using Dommy.Business.Tools;
     using Dommy.Business.WebHost;
     using Ninject;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Bootstrap code for the process.
+    /// </summary>
     public static class Bootstrap
     {
+        /// <summary>
+        /// Bootstrap for default process.
+        /// </summary>
         public static void Run()
         {
             ProfileOptimization.SetProfileRoot(@".\");
-            ProfileOptimization.StartProfile(String.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
+            ProfileOptimization.StartProfile(string.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
 
             log4net.Config.XmlConfigurator.Configure();
 
@@ -51,8 +61,7 @@
 
             Configure.SpeechToText()
                 .With(c => c.Culture, "fr-FR")
-                .With(c => c.Confidence, 0.6)
-                ;
+                .With(c => c.Confidence, 0.6);
 
             Configure.Config<RestListener.Config>()
                 .With(c => c.Port, 5555);
@@ -99,30 +108,13 @@
             web.Stop();
         }
 
-        private static void CloseServices(List<IServiceHost> services)
-        {
-            foreach (var item in services)
-            {
-                item.Close();
-            }
-        }
-
-        private static List<IServiceHost> OpenServices(StandardKernel kernel)
-        {
-            var services = kernel.GetAll<IServiceHost>().ToList();
-
-            foreach (var item in services)
-            {
-                item.Open();
-            }
-
-            return services;
-        }
-
+        /// <summary>
+        /// Bootstrap for x86 process.
+        /// </summary>
         public static void RunX86()
         {
             ProfileOptimization.SetProfileRoot(@".\");
-            ProfileOptimization.StartProfile(String.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
+            ProfileOptimization.StartProfile(string.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
 
             log4net.Config.XmlConfigurator.Configure();
 
@@ -134,6 +126,35 @@
             Console.ReadLine();
 
             CloseServices(services);
+        }
+
+        /// <summary>
+        /// Close all service host.
+        /// </summary>
+        /// <param name="services">All service host</param>
+        private static void CloseServices(List<IServiceHost> services)
+        {
+            foreach (var item in services)
+            {
+                item.Close();
+            }
+        }
+
+        /// <summary>
+        /// Open all service host.
+        /// </summary>
+        /// <param name="kernel">Ninject kernel.</param>
+        /// <returns>All open service host.</returns>
+        private static List<IServiceHost> OpenServices(StandardKernel kernel)
+        {
+            var services = kernel.GetAll<IServiceHost>().ToList();
+
+            foreach (var item in services)
+            {
+                item.Open();
+            }
+
+            return services;
         }
     }
 }
