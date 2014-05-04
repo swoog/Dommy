@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Dommy.Extensions.Kinect
 {
@@ -46,16 +47,14 @@ namespace Dommy.Extensions.Kinect
 
             if (this.actualPosition == null || DateTime.Now.Subtract(this.lastPosition) > this.timeToExecute)
             {
+                Debug.WriteLine("position({0}) : timeToExecute", position);
                 this.actualPosition = position;
                 this.lastPosition = DateTime.Now;
                 return false;
             }
 
-            System.Diagnostics.Debug.WriteLine("X:{0}, Y:{1},Z:{2}", (int)position.X, (int)position.Y, (int)position.Z);
-
             // Create vector movement
             Vector movement = position - this.actualPosition;
-
 
             if (Check(this.checkMovements[this.step], movement))
             {
@@ -88,15 +87,19 @@ namespace Dommy.Extensions.Kinect
                     && (!averageY.HasValue || averageY >= 1)
                     && (!averageZ.HasValue || averageZ >= 1))
                 {
+                    Debug.WriteLine("actual({0}), movement({1}) : Check Step {2}", this.actualPosition, movement, this.step);
                     return true;
                 }
                 else if ((!averageX.HasValue || (averageX >= 0 && averageX < 1))
                     && (!averageY.HasValue || (averageY >= 0 && averageY < 1))
                     && (!averageZ.HasValue || (averageZ >= 0 && averageZ < 1)))
                 {
+                    Debug.WriteLine("actual({0}), movement({1}) : progresse Step {2}", this.actualPosition, movement, this.step);
                     return false;
                 }
             }
+
+            Debug.WriteLine("actual({0}), movement({1}) : not equal to Step {2}", this.actualPosition, movement, this.step);
 
             if (this.step != 0 && Check(this.checkMovements[0], movement))
             {
