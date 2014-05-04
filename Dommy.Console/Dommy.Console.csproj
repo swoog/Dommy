@@ -38,7 +38,7 @@
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -84,7 +84,7 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -118,8 +118,9 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CassiniDev4-lib">
-      <HintPath>..\packages\CassiniDev.5.0.2-bleeding-17\lib\net40\debug\CassiniDev4-lib.dll</HintPath>
+    <Reference Include="CassiniDev4-lib, Version=4.0.1.6, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libraries\CassiniDev4-lib.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
@@ -192,9 +193,21 @@
       <Project>{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}</Project>
       <Name>Dommy.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect.Sdk1\Dommy.Extensions.Kinect.Sdk1.csproj">
+      <Project>{b5d5034a-7760-4db0-b4e2-5f636a33d6bc}</Project>
+      <Name>Dommy.Extensions.Kinect.Sdk1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.Kinect.Sdk2\Dommy.Extensions.Kinect.Sdk2.csproj">
+      <Project>{7aa2e2c7-1ab1-4c18-9835-279280869c3b}</Project>
+      <Name>Dommy.Extensions.Kinect.Sdk2</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dommy.Extensions.Kinect\Dommy.Extensions.Kinect.csproj">
       <Project>{fdcfb3e9-d345-480b-9d1e-7fc7179bc45f}</Project>
       <Name>Dommy.Extensions.Kinect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dommy.Extensions.UsbUirt\Dommy.Extensions.UsbUirt.csproj">
+      <Project>{368543d5-9317-469c-9405-bb1f58baf7f6}</Project>
+      <Name>Dommy.Extensions.UsbUirt</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

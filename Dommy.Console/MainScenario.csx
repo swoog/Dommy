@@ -1,4 +1,5 @@
 ﻿#r "Dommy.Business.dll"
+#r "Dommy.Extensions.Kinect.dll"
 #r "System.Windows.Forms"
 #r "System.Drawing"
 
@@ -9,6 +10,7 @@ using Dommy.Business.Syntax;
 using Dommy.Business.Scenarios;
 using Dommy.Business.Syntax;
 using Dommy.Business.Tools;
+using Dommy.Extensions.Kinect;
 
 //Scenario.CreateFrom<UpdateScenarioDescription>();
 
@@ -29,6 +31,12 @@ Scenario.Create()
 		.Command("ShutDown", "/t 0 /r")
 		.Start();
 
+Scenario.CreateFrom<RecodSkeletonScenarioDescription>();
+
+Scenario.Create("Kinect Test")
+		.KinectTrigger<HelloSkeletonCheck>()
+		.Say("Hello")
+		.Start();
 
 Scenario.Create()
 		.TileTrigger("A live", Color.FromName("Blue"))

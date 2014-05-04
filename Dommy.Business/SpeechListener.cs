@@ -6,12 +6,12 @@
 
 namespace Dommy.Business
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Globalization;
+using System.IO;
+using System.Linq;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Tools;
     using Ninject.Extensions.Logging;
@@ -54,7 +54,7 @@ namespace Dommy.Business
         /// <summary>
         /// Speech to text to use for speech listener.
         /// </summary>
-        private ISpeechToText speechToText;
+         private IList<ISpeechToText> speechToText;
 
         /// <summary>
         /// Attached engine.
@@ -72,7 +72,7 @@ namespace Dommy.Business
         public SpeechListener(
                         ISpeechLogger speechLogger,
                         ILogger logger,
-                        ISpeechToText speechToText,
+                        IList<ISpeechToText> speechToText,
                         IList<IActionLogger> actionLoggers,
                         double confidence)
         {
@@ -110,7 +110,11 @@ namespace Dommy.Business
         public void Init(Engine currentEngine)
         {
             this.engine = currentEngine;
-            this.speechToText.Init();
+            foreach (var item in this.speechToText)
+            {
+                item.Init();
+            }
+
             this.Logger.Info("Speech recognition intialized.");
         }
 
@@ -119,13 +123,17 @@ namespace Dommy.Business
         /// </summary>
         public void Start()
         {
-            this.speechToText.Start(this.SpeechRecognized);
+            foreach (var item in this.speechToText)
+            {
+                if (item.IsActive)
+                {
+                    item.Start(SpeechRecognized);
+                }
+            }
+
             this.Logger.Info("Wait for audio stream.");
         }
 
-        /// <summary>
-        /// Create a grammar data.
-        /// </summary>
         /// <param name="action">Action to execute.</param>
         /// <param name="sentences">Sentences triggers.</param>
         /// <param name="prefixName">Add prefix.</param>
@@ -164,14 +172,6 @@ namespace Dommy.Business
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Stop listener.
-        /// </summary>
-        public void Stop()
-        {
-            this.speechToText.Stop();
         }
 
         /// <summary>
@@ -237,7 +237,10 @@ namespace Dommy.Business
                 if (grammarInfo != null)
                 {
                     this.contextGrammar.Add(grammarInfo);
-                    this.speechToText.LoadGrammar(grammarInfo);
+                    foreach (var speechToText in this.speechToText)
+                    {
+                        speechToText.LoadGrammar(grammarInfo);
+                    }
 
                     foreach (var s in item.Sentences)
                     {
@@ -252,7 +255,6 @@ namespace Dommy.Business
             // Say
             this.SpeechLogger.Say(Actor.Dommy, speech);
         }
-
         /// <summary>
         /// Subscribe a trigger scenario to this speech listener.
         /// </summary>
@@ -281,7 +283,10 @@ namespace Dommy.Business
             }
 
             var g = this.CreateGrammar(s => { }, sentences.ToArray());
-            this.speechToText.LoadGrammar(g);
+            foreach (var item in this.speechToText)
+            {
+                item.LoadGrammar(g);
+            }
         }
 
         /// <summary>
@@ -295,7 +300,10 @@ namespace Dommy.Business
                 foreach (var grammar in this.contextGrammar)
                 {
                     this.Logger.Debug("Unload context grammar {0}", grammar.ToString());
-                    this.speechToText.UnloadGrammar(grammar);
+                    foreach (var item in this.speechToText)
+                    {
+                        item.UnloadGrammar(grammar);
+                    }
                 }
 
                 this.contextGrammar = null;
@@ -442,6 +450,17 @@ namespace Dommy.Business
         }
 
         /// <summary>
+        /// Stop listener.
+        /// </summary>
+        public void Stop()
+        {
+            foreach (var item in this.speechToText)
+            {
+                item.Stop();
+            }
+        }
+
+        /// <summary>
         /// Speech scenario to execute.
         /// </summary>
         private class SpeechInfo
@@ -450,7 +469,7 @@ namespace Dommy.Business
             /// Gets or sets scenario.
             /// </summary>
             public IScenario Scenario { get; set; }
-
+    
             /// <summary>
             /// Gets or sets confidence.
             /// </summary>

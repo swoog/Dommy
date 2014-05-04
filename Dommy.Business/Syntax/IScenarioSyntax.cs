@@ -9,12 +9,19 @@ namespace Dommy.Business.Syntax
     using System;
     using Dommy.Business.Actions;
     using Dommy.Business.Scenarios;
+    using Ninject;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Description of the scenario syntax.
     /// </summary>
     public interface IScenarioSyntax : IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
     {
+        IKernel Kernel { get; }
+
         /// <summary>
         /// Generic lambda action.
         /// </summary>
@@ -32,13 +39,6 @@ namespace Dommy.Business.Syntax
         /// Start a scenario.
         /// </summary>
         void Start();
-
-        /// <summary>
-        /// Send infra red code on USB-UIRT device.
-        /// </summary>
-        /// <param name="infraRedCode">infra red ode to send.</param>
-        /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax UsbUirt(string infraRedCode);
 
         /// <summary>
         /// Make a precision.

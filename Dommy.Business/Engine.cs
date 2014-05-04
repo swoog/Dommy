@@ -73,7 +73,21 @@ namespace Dommy.Business
             this.logger = logger;
             this.speechLogger = speechLogger;
             this.scriptEngine = scriptEngine;
-            this.listeners = listeners;
+            this.listeners = listeners.OrderBy(this.OrderListener).ToArray();
+        }
+
+        private int OrderListener(IListener arg)
+        {
+            var att = arg.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
+
+            if (att.Length != 0)
+            {
+                return ((OrderAttribute)att[0]).Order;
+            }
+            else
+            {
+                return 100;
+            }
         }
 
         /// <summary>
@@ -237,10 +251,21 @@ namespace Dommy.Business
         /// </summary>
         /// <typeparam name="T">Listener Type.</typeparam>
         /// <returns>Listener instance.</returns>
-        internal T Listener<T>()
+        public T Listener<T>()
             where T : IListener
         {
             return this.listeners.OfType<T>().FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Find instances of the listener.
+        /// </summary>
+        /// <typeparam name="T">Listener Type.</typeparam>
+        /// <returns>Listener instance.</returns>
+        public IList<T> GetListeners<T>()
+            where T : IListener
+        {
+            return this.listeners.OfType<T>().ToList();
         }
 
         /// <summary>

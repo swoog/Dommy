@@ -50,7 +50,7 @@ namespace Dommy.Business.Services
             {
                 var contract = ContractDescription.GetContract(typeof(T));
 
-                var endPoint = new EndpointAddress("net.pipe://localhost/dommy/" + typeof(T).Name.Substring(1));
+                var endPoint = new EndpointAddress("net.pipe://localhost/dommy/" + typeof(T).Name);
 
                 channelFactory = new ChannelFactory<T>(new ServiceEndpoint(contract, new NetNamedPipeBinding(), endPoint));
             }
