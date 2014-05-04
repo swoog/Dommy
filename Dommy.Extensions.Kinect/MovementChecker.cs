@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Dommy.Extensions.Kinect
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
     public class MovementChecker
     {
-        private JointType jointType;
+        private BodyJointType jointType;
 
         private int step = 0;
 
@@ -15,7 +16,7 @@ namespace Dommy.Extensions.Kinect
         private DateTime lastPosition = DateTime.MinValue;
         private TimeSpan timeToExecute;
 
-        public MovementChecker(JointType jointType, TimeSpan time)
+        public MovementChecker(BodyJointType jointType, TimeSpan time)
         {
             this.jointType = jointType;
             this.timeToExecute = time;
@@ -65,11 +66,12 @@ namespace Dommy.Extensions.Kinect
                 this.lastPosition = DateTime.Now;
             }
 
-            if( this.step >= this.checkMovements.Count)
+            if (this.step >= this.checkMovements.Count)
             {
                 this.step = 0;
                 return true;
-            }else
+            }
+            else
             {
                 return false;
             }

@@ -1,14 +1,10 @@
-﻿using log4net.Appender;
-using Microsoft.AspNet.SignalR.Client;
-using Microsoft.AspNet.SignalR.Client.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Tools
 {
+    using System;
+    using log4net.Appender;
+    using Microsoft.AspNet.SignalR.Client;
+
     public sealed class WebAppender : AppenderSkeleton, IDisposable
     {
         private HubConnection connection;

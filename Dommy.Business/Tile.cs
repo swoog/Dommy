@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Dommy.Business
 {
+    using System.Globalization;
+
     public class Tile
     {
         public string Title { get; set; }

@@ -1,12 +1,9 @@
-﻿using Dommy.Business.Scenarios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Triggers
 {
+    using System;
+    using Dommy.Business.Scenarios;
+
     public sealed class TimeTrigger : ITrigger, IDisposable
     {
         public DateTime StartDate { get; set; }

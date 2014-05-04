@@ -64,7 +64,7 @@
     <Compile Include="IKinectSkeletonListener.cs" />
     <Compile Include="ISkeleton.cs" />
     <Compile Include="ISkeletonListener.cs" />
-    <Compile Include="JointType.cs" />
+    <Compile Include="BodyJointType.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="MovementChecker.cs" />
     <Compile Include="RecordSkeletonScenarioDescription.cs" />

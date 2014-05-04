@@ -1,12 +1,10 @@
-﻿using Dommy.Extensions.Kinect;
-using Microsoft.Kinect;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Dommy.Extensions.Kinect.Sdk2
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Kinect;
+
     public class BodySdk2 : ISkeleton
     {
         private Body skeleton;
@@ -25,20 +23,20 @@ namespace Dommy.Extensions.Kinect.Sdk2
             }
         }
 
-        public IList<JointType> GetJointTypes()
+        public IList<BodyJointType> GetJointTypes()
         {
             throw new NotImplementedException();
         }
-        public Vector this[JointType joint]
+        public Vector this[BodyJointType joint]
         {
             get { return ToVector(this.skeleton.Joints[ToKinectJointType(joint)].Position); }
         }
 
-        private Microsoft.Kinect.JointType ToKinectJointType(JointType joint)
+        private JointType ToKinectJointType(BodyJointType joint)
         {
             switch (joint)
             {
-                case JointType.RightHand:
+                case BodyJointType.RightHand:
                     return Microsoft.Kinect.JointType.HandRight;
                 default:
                     throw new NotImplementedException();

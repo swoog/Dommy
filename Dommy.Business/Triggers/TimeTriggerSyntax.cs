@@ -1,13 +1,10 @@
-﻿using Dommy.Business.Syntax;
-using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Triggers
 {
+    using System;
+    using Dommy.Business.Syntax;
+    using Ninject;
+
     public class TimeTriggerSyntax : ITimeTriggerSyntax
     {
         private IKernel kernel;

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-
+﻿
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [Serializable]
     public class EedomusException : Exception
     {

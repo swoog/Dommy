@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Dommy.Extensions.Kinect
 {
+    using System.Collections.Generic;
+
     public interface ISkeleton
     {
         string TrackingId { get; }
 
-        IList<JointType> GetJointTypes();
+        IList<BodyJointType> GetJointTypes();
 
-        Vector this[JointType joint] { get; }
+        Vector this[BodyJointType joint] { get; }
     }
 }

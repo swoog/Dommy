@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
 
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Runtime.Caching;
+
     public static class DommyCache
     {
         private static MemoryCache cache = new MemoryCache("DommyCache");

@@ -1,18 +1,16 @@
-﻿using Dommy.Business.Configs;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
+    using System.Linq;
+    using System.Net.Sockets;
+    using System.Threading;
+    using Dommy.Business.Configs;
+    using Ninject.Extensions.Logging;
+
     public class SamsungTVHelper : ITVHelper
     {
         public class Config : IConfig

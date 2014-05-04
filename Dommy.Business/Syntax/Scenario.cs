@@ -1,16 +1,12 @@
-﻿using Dommy.Business.Actions;
-using Dommy.Business.Scenarios;
-using Dommy.Business.Triggers;
-using Ninject;
-using Ninject.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Syntax
 {
+    using System;
+    using Dommy.Business.Actions;
+    using Dommy.Business.Scenarios;
+    using Ninject;
+    using Ninject.Parameters;
+
     public static class Scenario
     {
         private static IKernel kernel;

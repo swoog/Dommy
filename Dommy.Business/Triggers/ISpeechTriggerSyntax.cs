@@ -1,8 +1,9 @@
-﻿using Dommy.Business.Syntax;
-using System;
-
+﻿
 namespace Dommy.Business.Triggers
 {
+    using System;
+    using Dommy.Business.Syntax;
+
     public interface ISpeechTriggerSyntax : IExtendSyntax
     {
         ITriggerScenarioSyntax NoPrefixSpeechTrigger(params string[] sentences);

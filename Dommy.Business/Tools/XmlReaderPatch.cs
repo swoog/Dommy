@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
+
 
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
+    using System.IO;
+    using System.Net;
+    using System.Text.RegularExpressions;
+    using System.Xml;
+
     public class XmlReaderPatch : XmlTextReader
     {
         public static XmlTextReader GetPatchStream(string url)

@@ -1,14 +1,11 @@
-﻿using Dommy.Business.Scripts;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ninject;
-
+﻿
 namespace Dommy.Business.Test.Scripts
 {
+    using System.Linq;
+    using Dommy.Business.Scripts;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Ninject;
+
     [TestClass]
     public class ScriptEngineConfigTest
         : BaseTest

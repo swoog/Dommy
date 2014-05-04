@@ -1,11 +1,8 @@
-﻿using Dommy.Business.Triggers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Dommy.Extensions.Kinect
 {
+    using Dommy.Business.Triggers;
+
     public class KinectSkeletonTrigger : ITrigger
     {
         public ISkeletonCheck Checker { get; set; }

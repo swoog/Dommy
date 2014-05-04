@@ -1,14 +1,12 @@
-﻿using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Ninject.Extensions.Logging;
+
     public class AsyncHelper
     {
         private ILogger logger;

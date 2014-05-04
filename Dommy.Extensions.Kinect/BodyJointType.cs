@@ -1,6 +1,6 @@
 namespace Dommy.Extensions.Kinect
 {
-    public enum JointType
+    public enum BodyJointType
     {
         RightHand
     }

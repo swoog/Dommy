@@ -1,11 +1,9 @@
-﻿using Dommy.Business;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
+﻿
 namespace Dommy.Web.Models
 {
+    using System.Collections.Generic;
+    using Dommy.Business;
+
     public class HomeIndexModel
     {
         public string Name { get; set; }

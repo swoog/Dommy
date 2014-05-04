@@ -1,21 +1,18 @@
-﻿using Dommy.Business.Actions;
-using Dommy.Business.Configs;
-using Ninject;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿
 
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Runtime.Serialization;
+    using System.Runtime.Serialization.Json;
+    using System.Text.RegularExpressions;
+    using Dommy.Business.Actions;
+    using Dommy.Business.Configs;
+    using Ninject;
+    using Ninject.Extensions.Logging;
+
     public class EedomusHelper
     {
         public class Config : IConfig
