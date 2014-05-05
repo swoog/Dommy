@@ -1,4 +1,9 @@
-﻿namespace Dommy.Business.Tools
+﻿//-----------------------------------------------------------------------
+// <copyright file="ITvHelper.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Dommy.Business.Tools
 {
     public interface ITVHelper
     {
