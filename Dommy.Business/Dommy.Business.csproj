@@ -288,7 +288,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scenarios\OnOffLightScenarioTile.cshtml" />
+    <Content Include="Scenarios\OnOffLightScenarioTile.html" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scenarios\Light-Off.png" />

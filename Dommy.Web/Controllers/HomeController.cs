@@ -13,8 +13,15 @@ namespace Dommy.Web.Controllers
     {
         public ActionResult Index()
         {
-            using (var tileManager = Client<ITileManager>.Create())
             using (var engine = Client<IEngine>.Create())
+            {
+                return View(new HomeIndexModel { Name = engine.Channel.GetEngineName() });
+            }
+        }
+
+        public ActionResult Tiles()
+        {
+            using (var tileManager = Client<ITileManager>.Create())
             {
                 var tiles = tileManager.Channel.GetTiles();
 
@@ -34,7 +41,7 @@ namespace Dommy.Web.Controllers
                     sections[i].Color = enums[i % enums.Length];
                 }
 
-                return View(new HomeIndexModel { Name = engine.Channel.GetEngineName(), Sections = sections });
+                return this.Json(sections);
             }
         }
 

@@ -203,21 +203,4 @@ $(document).ready(function () {
             v += h;
         });
     });
-
-
-    // Proxy created on the fly
-    var tile = $.connection.tile;
-
-    // Declare a function on the chat hub so the server can invoke it
-    tile.client.UpdateTile = function (t) {
-        var name = "UpdateTile" + t.Id;
-
-        var f = window[name];
-
-        if (f) {
-            f(t);
-        }
-    };
-
-    $.connection.hub.start();
 });
