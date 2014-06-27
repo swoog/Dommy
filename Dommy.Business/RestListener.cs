@@ -68,7 +68,7 @@ namespace Dommy.Business
             {
                 while (true)
                 {
-                    var context = this.listener.GetContext();
+                        var context = this.listener.GetContext();
 
                     StartRequest(context);
                 }

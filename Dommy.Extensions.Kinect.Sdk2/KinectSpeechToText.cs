@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Extensions.Kinect
+namespace Dommy.Extensions.Kinect.Sdk2
 {
     using System;
     using System.Collections.Generic;
@@ -27,9 +27,9 @@ namespace Dommy.Extensions.Kinect
         private SpeechRecognitionEngine speechRecognizer;
 
         /// <summary>
-        /// Instance of the kinect sensor.
+        /// Instance of the kinect sensor selector.
         /// </summary>
-        private KinectSensor kinect = null;
+        private Kinect2SensorSelector kinect = null;
 
         /// <summary>
         /// Instance of a logger.
@@ -44,13 +44,15 @@ namespace Dommy.Extensions.Kinect
         /// <summary>
         /// Initializes a new instance of the <see cref="KinectSpeechToText"/> class.
         /// </summary>
-        /// <param name="culture">Culture to recognize</param>
+        /// <param name="culture">Culture to recognize.</param>
+        /// <param name="kinect">Kinect sensor selector.</param>
         /// <param name="logger">Instance of a logger.</param>
-        public KinectSpeechToText(string culture, ILogger logger)
+        public KinectSpeechToText(string culture, Kinect2SensorSelector kinect, ILogger logger)
         {
             this.logger = logger;
             this.Culture = culture;
             this.grammars = new Dictionary<GrammarData, Grammar>();
+            this.kinect = kinect;
         }
 
         /// <summary>
@@ -63,27 +65,16 @@ namespace Dommy.Extensions.Kinect
         /// </summary>
         public void Init()
         {
-            this.kinect = KinectSensor.KinectSensors.FirstOrDefault();
-            if (this.kinect == null)
+            if (!this.kinect.IsKinectFound)
             {
                 this.logger.Error("Kinect sensor not found.");
                 this.logger.Info("Used mic input.");
+                this.IsActive = false;
             }
             else
             {
-                if (!this.kinect.IsRunning)
-                {
-                    this.logger.Info("Sensor found");
-                    while (this.kinect.Status == KinectStatus.Initializing)
-                    {
-                        this.logger.Info("Initializing...");
-                        Thread.Sleep(TimeSpan.FromSeconds(2));
-                    }
-
-                    this.kinect.Start();
-                }
-
-                this.logger.Info("Sensor initialized");
+                this.kinect.Start();
+                this.IsActive = true;
             }
 
             RecognizerInfo ri = this.GetKinectRecognizer();
@@ -131,20 +122,21 @@ namespace Dommy.Extensions.Kinect
                 this.speechRecognizer.SpeechRecognitionRejected += this.SpeechRecognizer_SpeechRecognitionRejected;
                 this.logger.Info("Subscribe to recognized event");
 
-                if (this.kinect != null)
-                {
-                    var audioSource = this.kinect.AudioSource;
+                // TODO : When it's done implement this.
+                //if (this.kinect.IsKinectFound)
+                //{
+                //    var audioSource = this.kinect.Sensor.AudioSource;
 
-                    // audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
-                    var audioStream = audioSource.Start();
-                    this.speechRecognizer.MaxAlternates = 2;
-                    this.speechRecognizer.UpdateRecognizerSetting("AdaptationOn", 0);
-                    this.speechRecognizer.SetInputToAudioStream(audioStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
-                }
-                else
-                {
+                //    // audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
+                //    var audioStream = audioSource.Start();
+                //    this.speechRecognizer.MaxAlternates = 2;
+                //    this.speechRecognizer.UpdateRecognizerSetting("AdaptationOn", 0);
+                //    this.speechRecognizer.SetInputToAudioStream(audioStream, new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                //}
+                //else
+                //{
                     this.speechRecognizer.SetInputToDefaultAudioDevice();
-                }
+                //}
 
                 this.speechRecognizer.RecognizeAsync(RecognizeMode.Multiple);
             }
@@ -201,12 +193,7 @@ namespace Dommy.Extensions.Kinect
         /// </summary>
         public void Stop()
         {
-            if (this.kinect != null && this.kinect.IsRunning)
-            {
-                this.logger.Info("Sensor stoping...");
-                this.kinect.Stop();
-                this.logger.Info("Sensor stoped");
-            }
+            this.kinect.Stop();
         }
 
         /// <summary>
@@ -293,5 +280,7 @@ namespace Dommy.Extensions.Kinect
 
             return new Grammar(gb);
         }
+
+        public bool IsActive { get; private set; }
     }
 }

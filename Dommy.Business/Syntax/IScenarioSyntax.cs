@@ -1,6 +1,7 @@
 ﻿using Dommy.Business;
 using Dommy.Business.Actions;
 using Dommy.Business.Scenarios;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Dommy.Business.Syntax
 {
-    public interface IScenarioSyntax : IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions, ITileActions
+    public interface IScenarioSyntax : IKernelInfo, IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions, ITileActions
     {
         /// <summary>
         /// Generic lambda action.
@@ -22,13 +23,6 @@ namespace Dommy.Business.Syntax
         IScenario ToScenario();
 
         void Start();
-
-        /// <summary>
-        /// Send infra red code on USB-UIRT device.
-        /// </summary>
-        /// <param name="infraRedCode">infra red ode to send.</param>
-        /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax UsbUirt(string infraRedCode);
 
         IScenarioSyntax Precision(string[] sentences, string[] response, Func<string, IScenarioSyntax, IScenarioSyntax> scenario);
 

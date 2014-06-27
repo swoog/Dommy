@@ -69,44 +69,54 @@ namespace Dommy.Business.Tools
 
             var url = getUrl(api, requestType, action, eedomusId, String.Format(CultureInfo.InvariantCulture, "value={0}", value));
 
+            try
+            {
+
             using (var responseStream = this.requestWeb.Create(new Uri(url)))
             {
 
-            var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
+                var serializer = new DataContractJsonSerializer(typeof(EedomusResult));
 
                 var jsonString = new StreamReader(responseStream).ReadToEnd();
 
-            jsonString = jsonString.Replace("é", "&#233;");
-            jsonString = jsonString.Replace("è", "&#232;");
-            jsonString = jsonString.Replace("à", "&#224;");
+                jsonString = jsonString.Replace("é", "&#233;");
+                jsonString = jsonString.Replace("è", "&#232;");
+                jsonString = jsonString.Replace("à", "&#224;");
 
-            jsonString = Regex.Replace(jsonString, @"^[^\{]+", String.Empty);
+                jsonString = Regex.Replace(jsonString, @"^[^\{]+", String.Empty);
 
-            EedomusResult result = null;
-            using (var memoryStream = new MemoryStream())
-            {
-                var writer = new StreamWriter(memoryStream);
-                writer.Write(jsonString);
-                writer.Flush();
-                memoryStream.Position = 0;
+                EedomusResult result = null;
+                using (var memoryStream = new MemoryStream())
+                {
+                    var writer = new StreamWriter(memoryStream);
+                    writer.Write(jsonString);
+                    writer.Flush();
+                    memoryStream.Position = 0;
 
-                result = (EedomusResult)serializer.ReadObject(memoryStream);
-            }
+                    result = (EedomusResult)serializer.ReadObject(memoryStream);
+                }
 
-            if (!result.Success)
-            {
-                throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus : {0}", result.Body.ErrorMsg));
-            }
+                if (!result.Success)
+                {
+                    throw new EedomusException(String.Format(CultureInfo.InvariantCulture, "Erreur eedomus : {0}", result.Body.ErrorMsg));
+                }
 
-            value = result.Body.LastValue;
+                value = result.Body.LastValue;
 
             if (string.IsNullOrEmpty(value) && result.Body.History != null)
             {
                 value = result.Body.History.OrderByDescending(k => k.Value).First().Key;
             }
 
-            this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
+                this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
             }
+            }
+            catch (UriFormatException ex)
+            {
+                this.Logger.Error(url);
+                throw;
+            }
+
             return value;
         }
 

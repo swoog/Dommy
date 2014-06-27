@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Extensions.Kinect
+namespace Dommy.Extensions.Kinect.Sdk1
 {
     using Dommy.Business;
     using Dommy.Business.Syntax;

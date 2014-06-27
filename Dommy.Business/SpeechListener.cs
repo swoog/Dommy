@@ -36,14 +36,14 @@ namespace Dommy.Business
         private double confidence;
 
         private Dictionary<string, SpeechInfo> dicoScenario = new Dictionary<string, SpeechInfo>();
-        private ISpeechToText speechToText;
+        private IList<ISpeechToText> speechToText;
 
         private Engine engine;
 
         public SpeechListener(
                         ISpeechLogger speechLogger,
                         ILogger logger,
-                        ISpeechToText speechToText,
+                        IList<ISpeechToText> speechToText,
                         IList<IActionLogger> actionLoggers,
                         double confidence)
         {
@@ -58,13 +58,24 @@ namespace Dommy.Business
         public void Init(Engine currentEngine)
         {
             this.engine = currentEngine;
-            this.speechToText.Init();
+            foreach (var item in this.speechToText)
+            {
+                item.Init();
+            }
+
             this.Logger.Info("Speech recognition intialized.");
         }
 
         public void Start()
         {
-            this.speechToText.Start(SpeechRecognized);
+            foreach (var item in this.speechToText)
+            {
+                if (item.IsActive)
+                {
+                    item.Start(SpeechRecognized);
+                }
+            }
+
             this.Logger.Info("Wait for audio stream.");
         }
 
@@ -78,7 +89,10 @@ namespace Dommy.Business
                 foreach (var grammar in this.contextGrammar)
                 {
                     this.Logger.Debug("Unload context grammar {0}", grammar.ToString());
-                    this.speechToText.UnloadGrammar(grammar);
+                    foreach (var item in this.speechToText)
+                    {
+                        item.UnloadGrammar(grammar);
+                    }
                 }
 
                 this.contextGrammar = null;
@@ -282,7 +296,10 @@ namespace Dommy.Business
                 if (grammarInfo != null)
                 {
                     this.contextGrammar.Add(grammarInfo);
-                    this.speechToText.LoadGrammar(grammarInfo);
+                    foreach (var speechToText in this.speechToText)
+                    {
+                        speechToText.LoadGrammar(grammarInfo);
+                    }
 
                     foreach (var s in item.Sentences)
                     {
@@ -300,7 +317,10 @@ namespace Dommy.Business
 
         public void Stop()
         {
-            this.speechToText.Stop();
+            foreach (var item in this.speechToText)
+            {
+                item.Stop();
+            }
         }
 
         internal void Subscribe(Triggers.SpeechTrigger speechTrigger, IScenario scenario)
@@ -326,7 +346,10 @@ namespace Dommy.Business
             }
 
             var g = this.CreateGrammar(s => { }, sentences.ToArray());
-            this.speechToText.LoadGrammar(g);
+            foreach (var item in this.speechToText)
+            {
+                item.LoadGrammar(g);
+            }
         }
 
         public void Logs()

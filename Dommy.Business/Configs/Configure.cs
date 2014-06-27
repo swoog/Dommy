@@ -236,7 +236,7 @@ namespace Dommy.Business.Configs
                 {
                     if (reader.Name == propertyName)
                     {
-                        propertyName = null;
+                        propertyName = string.Empty;
                     }
                     else if (reader.Name == configName)
                     {
