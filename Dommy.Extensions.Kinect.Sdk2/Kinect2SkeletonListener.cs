@@ -115,10 +115,11 @@ namespace Dommy.Extensions.Kinect.Sdk2
                 }
 
                 // Reallocate if necessary
-                if (null == this.skeletonData || this.skeletonData.Length != skeletonFrame.BodyFrameSource.BodyCount)
-                {
-                    this.skeletonData = new Body[skeletonFrame.BodyFrameSource.BodyCount];
-                }
+                // TODO : AG : Add BodyCount
+                //if (null == this.skeletonData || this.skeletonData.Length != skeletonFrame.BodyFrameSource.BodyCount)
+                //{
+                //    this.skeletonData = new Body[skeletonFrame.BodyFrameSource.BodyCount];
+                //}
 
                 skeletonFrame.GetAndRefreshBodyData(this.skeletonData);
             }

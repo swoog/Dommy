@@ -29,7 +29,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         public Kinect2SensorSelector(ILogger logger)
         {
             this.logger = logger;
-            this.Sensor = KinectSensor.KinectSensors.FirstOrDefault();
+            this.Sensor = KinectSensor.GetDefault();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Dommy.Extensions.Kinect.Sdk2
         {
             if (this.IsKinectFound)
             {
-                this.Sensor.Dispose();
+                this.Sensor.Close();
             }
 
             GC.SuppressFinalize(this);
