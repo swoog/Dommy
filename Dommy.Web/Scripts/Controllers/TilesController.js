@@ -3,9 +3,38 @@
 
     var TilesController = function ($scope, $http) {
 
+        var tileMarge = 10;
+
+
         $http.get("/home/tiles")
-            .then(function (response) {
-                $scope.sections = response.data;
+            .success(function (response) {
+                $scope.sections = response;
+
+                angular.forEach(response, function (value, key) {
+                    var maxWidth = 1024; // TODO : Dynamic
+                    var x = tileMarge / 2;
+                    var y = tileMarge / 2;
+                    var maxHeight = 0;
+
+                    angular.forEach(value.Tiles, function (value, key) {
+
+                        if ((x + value.Width) > maxWidth) {
+                            x = tileMarge / 2;
+                            y += value.Height;
+                        }
+
+                        value.Left = x;
+                        value.Top = y;
+
+                        x += value.Width + tileMarge;
+                        if (y + value.Height > maxHeight) {
+                            maxHeight = y + value.Height + tileMarge;
+                        }
+                    });
+
+                    value.Height = maxHeight;
+                    value.Width = maxWidth;
+                });
             });
 
         // Proxy created on the fly
@@ -28,5 +57,12 @@
         $.connection.hub.start();
     }
 
+    var ColorCss = function () {
+        return function (input) {
+            return input.charAt(0).toLowerCase() + input.substring(1);
+        };
+    }
+
     app.controller("TilesController", TilesController);
-})
+    app.filter("ColorCss", ColorCss);
+}())

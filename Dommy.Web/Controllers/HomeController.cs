@@ -1,5 +1,6 @@
 ﻿using Dommy.Business;
 using Dommy.Business.Services;
+using Dommy.Web.ActionResults;
 using Dommy.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace Dommy.Web.Controllers
                     sections[i].Color = enums[i % enums.Length];
                 }
 
-                return this.Json(sections);
+                return new JsonNetResult() { Data = sections };
             }
         }
 
