@@ -5,7 +5,7 @@
 
 <h1>Dommy</h1>
 
-@*<script src="Scripts/Tile.js" type="text/javascript"></script>*@
+<script src="Scripts/Tile.js" type="text/javascript"></script>
 <script src="Scripts/Controllers/TilesController.js" type="text/javascript"></script>
 <div ng-controller="TilesController">
     <div class="gridMenu">
@@ -31,7 +31,7 @@
                         <span class="id" style="visibility:collapse">{{tile.Id}}</span>
                         <span class="url" style="visibility:collapse">{{tile.Url}}</span>
                         <div class="title">{{tile.Title}}</div>
-                        <div class="content" ng-include="'/home/tilerender/'tile.Id">
+                        <div class="content" ng-include="'/home/tilerender/'{tile.Id}">
 
                         </div>
                     </div>

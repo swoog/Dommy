@@ -2,54 +2,54 @@
 
 $(document).ready(function () {
     var tileMarge = 10;
-    function getSize(element) {
-        if (element.find('.small').length != 0) {
-            return { type: 'small', width: 70, height: 70 };
-        }
+    //function getSize(element) {
+    //    if (element.find('.small').length != 0) {
+    //        return { type: 'small', width: 70, height: 70 };
+    //    }
 
-        if (element.find('.medium').length != 0) {
-            return { type: 'medium', width: 150, height: 150 };
-        }
+    //    if (element.find('.medium').length != 0) {
+    //        return { type: 'medium', width: 150, height: 150 };
+    //    }
 
-        if (element.find('.largeLine').length != 0) {
-            return { type: 'largeLine', width: 310, height: 150 };
-        }
+    //    if (element.find('.largeLine').length != 0) {
+    //        return { type: 'largeLine', width: 310, height: 150 };
+    //    }
 
-        if (element.find('.large').length != 0) {
-            return { type: 'large', width: 310, height: 310 };
-        }
-    }
+    //    if (element.find('.large').length != 0) {
+    //        return { type: 'large', width: 310, height: 310 };
+    //    }
+    //}
 
-    function updatePosition() {
-        $(".gridSection").each(function () {
-            var maxWidth = $(this).width();
-            var x = tileMarge / 2;
-            var y = tileMarge / 2;
-            var maxHeight = 0;
-            $(this).css({ position: 'relative' })
-                .find(".tile").each(function () {
-                    var tileSize = getSize($(this));
-                    $(this).css({ position: 'absolute' });
+    //function updatePosition() {
+    //    $(".gridSection").each(function () {
+    //        var maxWidth = $(this).width();
+    //        var x = tileMarge / 2;
+    //        var y = tileMarge / 2;
+    //        var maxHeight = 0;
+    //        $(this).css({ position: 'relative' })
+    //            .find(".tile").each(function () {
+    //                var tileSize = getSize($(this));
+    //                $(this).css({ position: 'absolute' });
 
-                    if ((x + tileSize.width) > maxWidth) {
-                        x = tileMarge / 2;
-                        y += tileSize.height;
-                    }
+    //                if ((x + tileSize.width) > maxWidth) {
+    //                    x = tileMarge / 2;
+    //                    y += tileSize.height;
+    //                }
 
-                    $(this).css({ left: x, top: y });
+    //                $(this).css({ left: x, top: y });
 
-                    x += tileSize.width + tileMarge;
-                    if (y + tileSize.height > maxHeight) {
-                        maxHeight = y + tileSize.height + tileMarge;
-                    }
-                });
+    //                x += tileSize.width + tileMarge;
+    //                if (y + tileSize.height > maxHeight) {
+    //                    maxHeight = y + tileSize.height + tileMarge;
+    //                }
+    //            });
 
-            $(this).outerHeight(maxHeight);
-            $(this).outerWidth(maxWidth);
-        });
-    }
+    //        $(this).outerHeight(maxHeight);
+    //        $(this).outerWidth(maxWidth);
+    //    });
+    //}
 
-    updatePosition();
+    //updatePosition();
 
     $(".flecheTile").mousedown(function (e) {
         var tiles = null;

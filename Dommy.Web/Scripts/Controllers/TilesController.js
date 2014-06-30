@@ -20,7 +20,7 @@
 
                         if ((x + value.Width) > maxWidth) {
                             x = tileMarge / 2;
-                            y += value.Height;
+                            y += value.Height + tileMarge;
                         }
 
                         value.Left = x;
