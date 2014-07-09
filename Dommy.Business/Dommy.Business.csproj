@@ -212,7 +212,6 @@
     <Compile Include="Syntax\IScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerSyntax.cs" />
-    <Compile Include="Syntax\ScenarioContext.cs" />
     <Compile Include="Syntax\SyntaxModule.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileManager.cs" />

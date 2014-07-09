@@ -3,18 +3,34 @@
 //     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace Dommy.Business
 {
     using System.Globalization;
 
+    /// <summary>
+    /// Data about a tile.
+    /// </summary>
     public class Tile
     {
+        /// <summary>
+        /// Gets or sets title.
+        /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Gets or sets background color.
+        /// </summary>
         public System.Drawing.Color BackGroundColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets size.
+        /// </summary>
         public TileSize Size { get; set; }
 
+        /// <summary>
+        /// Gets color code.
+        /// </summary>
         public string ColorCode
         {
             get
@@ -23,6 +39,9 @@ namespace Dommy.Business
             }
         }
 
+        /// <summary>
+        /// Gets width size.
+        /// </summary>
         public int Width
         {
             get
@@ -38,6 +57,9 @@ namespace Dommy.Business
             }
         }
 
+        /// <summary>
+        /// Gets height size.
+        /// </summary>
         public int Height
         {
             get
