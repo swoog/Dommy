@@ -36,6 +36,7 @@ namespace Dommy.Console
         {
             var startInfo = new ProcessStartInfo(ProcessX86);
             startInfo.CreateNoWindow = true;
+            startInfo.ErrorDialog = false;
 
             x86Process = Process.Start(startInfo);
             if (x86Process != null)

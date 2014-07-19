@@ -1,5 +1,18 @@
-﻿namespace Dommy.Business
+﻿//-----------------------------------------------------------------------
+// <copyright file="Bootstrap.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace Dommy.Business
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime;
+    using System.Text;
+    using System.Threading.Tasks;
     using Dommy.Business.Configs;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Scripts;
@@ -8,16 +21,29 @@
     using Dommy.Business.Tools;
     using Dommy.Business.WebHost;
     using Ninject;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public static class Bootstrap
     {
+
+        private static void CloseServices(List<IServiceHost> services)
+        {
+            foreach (var item in services)
+            {
+                item.Close();
+            }
+        }
+
+        private static List<IServiceHost> OpenServices(StandardKernel kernel)
+        {
+            var services = kernel.GetAll<IServiceHost>().ToList();
+
+            foreach (var item in services)
+            {
+                item.Open();
+            }
+
+            return services;
+        }
         public static void Run()
         {
             ProfileOptimization.SetProfileRoot(@".\");
@@ -97,26 +123,6 @@
             CloseServices(services);
 
             web.Stop();
-        }
-
-        private static void CloseServices(List<IServiceHost> services)
-        {
-            foreach (var item in services)
-            {
-                item.Close();
-            }
-        }
-
-        private static List<IServiceHost> OpenServices(StandardKernel kernel)
-        {
-            var services = kernel.GetAll<IServiceHost>().ToList();
-
-            foreach (var item in services)
-            {
-                item.Open();
-            }
-
-            return services;
         }
 
         public static void RunX86()
