@@ -56,6 +56,64 @@ namespace Dommy.Extensions.Kinect.Sdk1
         }
 
         /// <summary>
+        /// Search for the kinect recognizer.
+        /// </summary>
+        /// <returns>Return recognizer info.</returns>
+        private RecognizerInfo GetKinectRecognizer()
+        {
+            Func<RecognizerInfo, bool> matchingFunc = r =>
+            {
+                string value;
+                r.AdditionalInfo.TryGetValue("Kinect", out value);
+                return "True".Equals(value, StringComparison.OrdinalIgnoreCase)
+                    && this.Culture.Equals(r.Culture.Name, StringComparison.OrdinalIgnoreCase);
+            };
+            return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Rejected recognition.
+        /// </summary>
+        /// <param name="sender">Sender of the recognition.</param>
+        /// <param name="e">Recognition information.</param>
+        private void SpeechRecognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            this.logger.Debug("Reject : {0}", e.Result.Text);
+        }
+
+        /// <summary>
+        /// Recognition hypothesized.
+        /// </summary>
+        /// <param name="sender">Sender of the recognition.</param>
+        /// <param name="e">Recognition information.</param>
+        private void SpeechRecognizer_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
+        {
+            this.logger.Debug("Hypothesized : {0} {1:0.##}", e.Result.Text, e.Result.Confidence);
+        }
+
+        /// <summary>
+        /// Create a Microsoft grammar object from grammar data.
+        /// </summary>
+        /// <param name="data">Grammar data.</param>
+        /// <returns>Return a Microsoft grammar object.</returns>
+        private Grammar CreateGrammar(GrammarData data)
+        {
+            GrammarBuilder gb = new GrammarBuilder();
+            foreach (var choice in data.Choices)
+            {
+                var c = new Choices();
+                foreach (var element in choice.Elements)
+                {
+                    c.Add(element);
+                }
+
+                gb.Append(c);
+            }
+
+            return new Grammar(gb);
+        }
+
+        /// <summary>
         /// Gets culture to recognize.
         /// </summary>
         public string Culture { get; private set; }
@@ -128,7 +186,8 @@ namespace Dommy.Extensions.Kinect.Sdk1
                 {
                     var audioSource = this.kinect.Sensor.AudioSource;
 
-                    // audioSource.BeamAngleMode = BeamAngleMode.Adaptive;
+                    audioSource.BeamAngleMode = BeamAngleMode.Manual;
+                    audioSource.ManualBeamAngle = 0;
                     var audioStream = audioSource.Start();
                     this.speechRecognizer.MaxAlternates = 2;
                     this.speechRecognizer.UpdateRecognizerSetting("AdaptationOn", 0);
@@ -222,64 +281,6 @@ namespace Dommy.Extensions.Kinect.Sdk1
             }
 
             GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Search for the kinect recognizer.
-        /// </summary>
-        /// <returns>Return recognizer info.</returns>
-        private RecognizerInfo GetKinectRecognizer()
-        {
-            Func<RecognizerInfo, bool> matchingFunc = r =>
-            {
-                string value;
-                r.AdditionalInfo.TryGetValue("Kinect", out value);
-                return "True".Equals(value, StringComparison.OrdinalIgnoreCase)
-                    && this.Culture.Equals(r.Culture.Name, StringComparison.OrdinalIgnoreCase);
-            };
-            return SpeechRecognitionEngine.InstalledRecognizers().Where(matchingFunc).FirstOrDefault();
-        }
-
-        /// <summary>
-        /// Rejected recognition.
-        /// </summary>
-        /// <param name="sender">Sender of the recognition.</param>
-        /// <param name="e">Recognition information.</param>
-        private void SpeechRecognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
-        {
-            this.logger.Debug("Reject : {0}", e.Result.Text);
-        }
-
-        /// <summary>
-        /// Recognition hypothesized.
-        /// </summary>
-        /// <param name="sender">Sender of the recognition.</param>
-        /// <param name="e">Recognition information.</param>
-        private void SpeechRecognizer_SpeechHypothesized(object sender, SpeechHypothesizedEventArgs e)
-        {
-            this.logger.Debug("Hypothesized : {0} {1:0.##}", e.Result.Text, e.Result.Confidence);
-        }
-
-        /// <summary>
-        /// Create a Microsoft grammar object from grammar data.
-        /// </summary>
-        /// <param name="data">Grammar data.</param>
-        /// <returns>Return a Microsoft grammar object.</returns>
-        private Grammar CreateGrammar(GrammarData data)
-        {
-            GrammarBuilder gb = new GrammarBuilder();
-            foreach (var choice in data.Choices)
-            {
-                var c = new Choices();
-                foreach (var element in choice.Elements)
-                {
-                    c.Add(element);
-                }
-
-                gb.Append(c);
-            }
-
-            return new Grammar(gb);
         }
     }
 }

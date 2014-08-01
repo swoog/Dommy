@@ -12,8 +12,13 @@ namespace Dommy.Business
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Dommy.Business.Scenarios;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Tools;
+    using Dommy.Business.Tools;
+    using Ninject.Extensions.Logging;
     using Ninject.Extensions.Logging;
 
     /// <summary>
@@ -21,6 +26,13 @@ namespace Dommy.Business
     /// </summary>
     public class SpeechListener : IListener
     {
+        private class SpeechInfo
+        {
+            public IScenario Scenario { get; set; }
+
+            public double? Confidence { get; set; }
+        }
+
         /// <summary>
         /// Context grammar.
         /// </summary>
@@ -84,133 +96,23 @@ namespace Dommy.Business
         }
 
         /// <summary>
-        /// Gets or sets sentence log file.
-        /// </summary>
-        public string SentenceLogFile { get; set; }
-
-        /// <summary>
-        /// Gets actions logger.
-        /// </summary>
-        public IList<IActionLogger> ActionLoggers { get; private set; }
-
-        /// <summary>
-        /// Gets logger error.
-        /// </summary>
-        public ILogger Logger { get; private set; }
-
-        /// <summary>
-        /// Gets speech logger.
-        /// </summary>
-        public ISpeechLogger SpeechLogger { get; private set; }
-
-        /// <summary>
-        /// Initialize the listener.
-        /// </summary>
-        /// <param name="currentEngine">Current engine.</param>
-        public void Init(Engine currentEngine)
-        {
-            this.engine = currentEngine;
-            foreach (var item in this.speechToText)
-            {
-                item.Init();
-            }
-
-            this.Logger.Info("Speech recognition intialized.");
-        }
-
-        /// <summary>
-        /// Start listener.
-        /// </summary>
-        public void Start()
-        {
-            foreach (var item in this.speechToText)
-            {
-                if (item.IsActive)
-                {
-                    item.Start(this.SpeechRecognized);
-                }
-            }
-
-            this.Logger.Info("Wait for audio stream.");
-        }
-
-        /// <summary>
         /// Create grammar data from actions and sentences.
         /// </summary>
-        /// <param name="action">Action to execute.</param>
-        /// <param name="sentences">Sentences triggers.</param>
-        /// <param name="prefixName">Add prefix.</param>
-        /// <returns>Grammar data.</returns>
-        public GrammarData CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
+        private void UnloadContextGrammar()
         {
-            Contract.Requires(sentences != null);
-
-            if (sentences.Count > 0)
+            if (this.contextGrammar != null)
             {
-                var data = new GrammarData();
-
-                if (prefixName)
+                foreach (var grammar in this.contextGrammar)
                 {
-                    var dommy = new GrammarChoices();
-                    dommy.Add(this.engine.Name);
-                    data.Append(dommy);
-                }
-
-                var c = new GrammarChoices();
-                foreach (var sentence in sentences)
-                {
-                    var text = sentence.Trim();
-
-                    c.Add(text);
-
-                    if (action != null)
+                    this.Logger.Debug("Unload context grammar {0}", grammar.ToString());
+                    foreach (var item in this.speechToText)
                     {
-                        action(text);
+                        item.UnloadGrammar(grammar);
                     }
                 }
 
-                data.Append(c);
-
-                return data;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Logs all the sentences authorized to recognized.
-        /// </summary>
-        public void Logs()
-        {
-            if (!string.IsNullOrEmpty(this.SentenceLogFile))
-            {
-                var sentences = this.dicoScenario.Keys.OrderBy(s => s);
-
-                if (File.Exists(this.SentenceLogFile))
-                {
-                    File.Delete(this.SentenceLogFile);
-                }
-
-                using (var file = File.OpenWrite(this.SentenceLogFile))
-                {
-                    var writer = new StreamWriter(file);
-
-                    foreach (var s in sentences)
-                    {
-                        writer.WriteLine(s);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Stop listener.
-        /// </summary>
-        public void Stop()
-        {
-            foreach (var item in this.speechToText)
-            {
-                item.Stop();
+                this.contextGrammar = null;
+                this.contextFunction = null;
             }
         }
 
@@ -305,28 +207,6 @@ namespace Dommy.Business
         }
 
         /// <summary>
-        /// Unload context grammar.
-        /// TODO : Timer unload 
-        /// </summary>
-        private void UnloadContextGrammar()
-        {
-            if (this.contextGrammar != null)
-            {
-                foreach (var grammar in this.contextGrammar)
-                {
-                    this.Logger.Debug("Unload context grammar {0}", grammar.ToString());
-                    foreach (var item in this.speechToText)
-                    {
-                        item.UnloadGrammar(grammar);
-                    }
-                }
-
-                this.contextGrammar = null;
-                this.contextFunction = null;
-            }
-        }
-
-        /// <summary>
         /// Speech recognized.
         /// </summary>
         /// <param name="sentence">Sentence recognized.</param>
@@ -393,7 +273,7 @@ namespace Dommy.Business
                     else
                     {
                         this.Logger.Info("Sentence ignored : {0}", sentence.Text);
-                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, currentConfidence);
+                        this.Logger.Debug("First word confidence {0}, Confidence {1}, Cible {2}", sentence.WordsConfidence.First(), sentence.Confidence, currentConfidence);
                     }
 
                     return;
@@ -465,19 +345,130 @@ namespace Dommy.Business
         }
 
         /// <summary>
-        /// Speech scenario to execute.
+        /// Gets or sets sentence log file.
         /// </summary>
-        private class SpeechInfo
-        {
-            /// <summary>
-            /// Gets or sets scenario.
-            /// </summary>
-            public IScenario Scenario { get; set; }
+        public string SentenceLogFile { get; set; }
 
-            /// <summary>
-            /// Gets or sets confidence.
-            /// </summary>
-            public double? Confidence { get; set; }
+        /// <summary>
+        /// Gets actions logger.
+        /// </summary>
+        public IList<IActionLogger> ActionLoggers { get; private set; }
+
+        /// <summary>
+        /// Gets logger error.
+        /// </summary>
+        public ILogger Logger { get; private set; }
+
+        /// <summary>
+        /// Gets speech logger.
+        /// </summary>
+        public ISpeechLogger SpeechLogger { get; private set; }
+
+        /// <summary>
+        /// Initialize the listener.
+        /// </summary>
+        /// <param name="currentEngine">Current engine.</param>
+        public void Init(Engine currentEngine)
+        {
+            this.engine = currentEngine;
+            foreach (var item in this.speechToText)
+            {
+                item.Init();
+            }
+
+            this.Logger.Info("Speech recognition intialized.");
+        }
+
+        /// <summary>
+        /// Start listener.
+        /// </summary>
+        public void Start()
+        {
+            foreach (var item in this.speechToText)
+            {
+                if (item.IsActive)
+                {
+                    item.Start(this.SpeechRecognized);
+                }
+            }
+
+            this.Logger.Info("Wait for audio stream.");
+        }
+        /// <param name="action">Action to execute.</param>
+        /// <param name="sentences">Sentences triggers.</param>
+        /// <param name="prefixName">Add prefix.</param>
+        /// <returns>Grammar data.</returns>
+        public GrammarData CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
+        {
+            Contract.Requires(sentences != null);
+
+            if (sentences.Count > 0)
+            {
+                var data = new GrammarData();
+
+                if (prefixName)
+                {
+                    var dommy = new GrammarChoices();
+                    dommy.Add(this.engine.Name);
+                    data.Append(dommy);
+                }
+
+                var c = new GrammarChoices();
+                foreach (var sentence in sentences)
+                {
+                    var text = sentence.Trim();
+
+                    c.Add(text);
+
+                    if (action != null)
+                    {
+                        action(text);
+                    }
+                }
+
+                data.Append(c);
+
+                return data;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Logs all the sentences authorized to recognized.
+        /// </summary>
+        public void Logs()
+        {
+            if (!string.IsNullOrEmpty(this.SentenceLogFile))
+            {
+                var sentences = this.dicoScenario.Keys.OrderBy(s => s);
+
+                if (File.Exists(this.SentenceLogFile))
+                {
+                    File.Delete(this.SentenceLogFile);
+                }
+
+                using (var file = File.OpenWrite(this.SentenceLogFile))
+                {
+                    var writer = new StreamWriter(file);
+
+                    foreach (var s in sentences)
+                    {
+                        writer.WriteLine(s);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stop listener.
+        /// </summary>
+        public void Stop()
+        {
+            foreach (var item in this.speechToText)
+            {
+                item.Stop();
+            }
         }
     }
 }

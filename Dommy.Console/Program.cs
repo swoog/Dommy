@@ -1,6 +1,12 @@
+//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Console
 {
+    using System;
     using System.Diagnostics;
     using Dommy.Business;
 
@@ -14,11 +20,29 @@ namespace Dommy.Console
 
         static void Main(string[] args)
         {
-            using (var p = Process.Start(ProcessX86))
+            var startInfo = new ProcessStartInfo(ProcessX86);
+            startInfo.CreateNoWindow = true;
+
+            using (var p = Process.Start(startInfo))
             {
+                p.Exited += x86Exited;
                 Bootstrap.Run();
-                p.Kill();
+                try
+                {
+                    p.Exited -= x86Exited;
+                    p.Kill();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
+        }
+
+        private static void x86Exited(object sender, EventArgs e)
+        {
+            // TODO : Log error
+            // TODO : Restart
         }
     }
 }
