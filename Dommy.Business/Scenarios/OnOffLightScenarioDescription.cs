@@ -51,26 +51,6 @@ namespace Dommy.Business.Scenarios
             this.eedomusHelper = eedomusHelper;
         }
 
-        /// <summary>
-        /// Gets or sets Eedomus sensor id.
-        /// </summary>
-        public string EedomusId { get; set; }
-
-        /// <summary>
-        /// Gets or sets names of the room.
-        /// </summary>
-        public ICollection<RoomName> RoomNames { get; set; }
-
-        /// <summary>
-        /// Create scenarios.
-        /// </summary>
-        public void Create()
-        {
-            this.CreateOn();
-            this.CreateOff();
-            this.CreateTile();
-        }
-
         private void CreateTile()
         {
             Contract.Requires(0 < this.RoomNames.Count);
@@ -97,7 +77,7 @@ namespace Dommy.Business.Scenarios
                 .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
                 .Action(() =>
                 {
-                    var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphHistory, this.EedomusId) == "100";
+                    var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) == "100";
 
                     if (tile.Data == null || newEtat != (bool)tile.Data)
                     {
@@ -193,6 +173,26 @@ namespace Dommy.Business.Scenarios
             /// Gets or sets sentence.
             /// </summary>
             public string Sentence { get; set; }
+        }
+
+        /// <summary>
+        /// Gets or sets Eedomus sensor id.
+        /// </summary>
+        public string EedomusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets names of the room.
+        /// </summary>
+        public ICollection<RoomName> RoomNames { get; set; }
+
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
+        public void Create()
+        {
+            this.CreateOn();
+            this.CreateOff();
+            this.CreateTile();
         }
     }
 }
