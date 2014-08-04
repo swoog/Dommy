@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="KinectSensorSelector.cs" company="TrollCorp">
+// <copyright file="Kinect2SensorSelector.cs" company="TrollCorp">
 //     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------

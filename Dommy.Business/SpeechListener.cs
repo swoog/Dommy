@@ -1,17 +1,22 @@
-﻿using Dommy.Business.Scenarios;
-using Dommy.Business.Tools;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="SpeechListener.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Tools;
+    using Ninject.Extensions.Logging;
     public class SpeechListener : IListener
     {
         private class SpeechInfo
@@ -21,12 +26,8 @@ namespace Dommy.Business
             public double? Confidence { get; set; }
         }
 
-        public string SentenceLogFile { get; set; }
-
         private List<GrammarData> contextGrammar = null;
         private Dictionary<string, Action<ISentence>> contextFunction = null;
-
-        public IList<IActionLogger> ActionLoggers { get; private set; }
 
         private bool actionInProgress = false;
 
@@ -55,30 +56,6 @@ namespace Dommy.Business
             this.confidence = this.confidenceCible;
         }
 
-        public void Init(Engine currentEngine)
-        {
-            this.engine = currentEngine;
-            foreach (var item in this.speechToText)
-            {
-                item.Init();
-            }
-
-            this.Logger.Info("Speech recognition intialized.");
-        }
-
-        public void Start()
-        {
-            foreach (var item in this.speechToText)
-            {
-                if (item.IsActive)
-                {
-                    item.Start(SpeechRecognized);
-                }
-            }
-
-            this.Logger.Info("Wait for audio stream.");
-        }
-
         /// <summary>
         /// TODO : Timer unload 
         /// </summary>
@@ -98,42 +75,6 @@ namespace Dommy.Business
                 this.contextGrammar = null;
                 this.contextFunction = null;
             }
-        }
-
-        public GrammarData CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
-        {
-            Contract.Requires(sentences != null);
-
-            if (sentences.Count > 0)
-            {
-                var data = new GrammarData();
-
-                if (prefixName)
-                {
-                    var dommy = new GrammarChoices();
-                    dommy.Add(this.engine.Name);
-                    data.Append(dommy);
-                }
-
-                var c = new GrammarChoices();
-                foreach (var sentence in sentences)
-                {
-                    var text = sentence.Trim();
-
-                    c.Add(text);
-
-                    if (action != null)
-                    {
-                        action(text);
-                    }
-                }
-
-                data.Append(c);
-
-                return data;
-            }
-
-            return null;
         }
 
         private void SpeechRecognized(ISentence sentence)
@@ -197,7 +138,7 @@ namespace Dommy.Business
                     else
                     {
                         this.Logger.Info("Sentence ignored : {0}", sentence.Text);
-                        this.Logger.Debug("Confidence {0}, Cible {1}", sentence.Confidence, currentConfidence);
+                        this.Logger.Debug("First word confidence {0}, Confidence {1}, Cible {2}", sentence.WordsConfidence.First(), sentence.Confidence, currentConfidence);
                     }
 
                     return;
@@ -263,10 +204,6 @@ namespace Dommy.Business
             exec(sentence);
         }
 
-        public ILogger Logger { get; set; }
-
-        public ISpeechLogger SpeechLogger { get; set; }
-
         internal void Precision(IList<SentenceAction> sentenceActions, string speech)
         {
             Contract.Requires(sentenceActions != null);
@@ -315,14 +252,6 @@ namespace Dommy.Business
             this.SpeechLogger.Say(Actor.Dommy, speech);
         }
 
-        public void Stop()
-        {
-            foreach (var item in this.speechToText)
-            {
-                item.Stop();
-            }
-        }
-
         internal void Subscribe(Triggers.SpeechTrigger speechTrigger, IScenario scenario)
         {
             Contract.Requires(speechTrigger != null);
@@ -349,6 +278,82 @@ namespace Dommy.Business
             foreach (var item in this.speechToText)
             {
                 item.LoadGrammar(g);
+            }
+        }
+
+        public string SentenceLogFile { get; set; }
+
+        public IList<IActionLogger> ActionLoggers { get; private set; }
+
+        public ILogger Logger { get; set; }
+
+        public ISpeechLogger SpeechLogger { get; set; }
+
+        public void Init(Engine currentEngine)
+        {
+            this.engine = currentEngine;
+            foreach (var item in this.speechToText)
+            {
+                item.Init();
+            }
+
+            this.Logger.Info("Speech recognition intialized.");
+        }
+
+        public void Start()
+        {
+            foreach (var item in this.speechToText)
+            {
+                if (item.IsActive)
+                {
+                    item.Start(SpeechRecognized);
+                }
+            }
+
+            this.Logger.Info("Wait for audio stream.");
+        }
+
+        public GrammarData CreateGrammar(Action<string> action, IList<string> sentences, bool prefixName = false)
+        {
+            Contract.Requires(sentences != null);
+
+            if (sentences.Count > 0)
+            {
+                var data = new GrammarData();
+
+                if (prefixName)
+                {
+                    var dommy = new GrammarChoices();
+                    dommy.Add(this.engine.Name);
+                    data.Append(dommy);
+                }
+
+                var c = new GrammarChoices();
+                foreach (var sentence in sentences)
+                {
+                    var text = sentence.Trim();
+
+                    c.Add(text);
+
+                    if (action != null)
+                    {
+                        action(text);
+                    }
+                }
+
+                data.Append(c);
+
+                return data;
+            }
+
+            return null;
+        }
+
+        public void Stop()
+        {
+            foreach (var item in this.speechToText)
+            {
+                item.Stop();
             }
         }
 
