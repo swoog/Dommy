@@ -270,6 +270,9 @@ Global
 		{368543D5-9317-469C-9405-BB1F58BAF7F6} = {5A74CDCA-8F1B-42DC-9051-0C255578B273}
 		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F} = {5A74CDCA-8F1B-42DC-9051-0C255578B273}
 	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dommy.vsmdi
 	EndGlobalSection
