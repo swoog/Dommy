@@ -34,5 +34,11 @@ namespace Dommy.Extensions.Kinect
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return string.Format("X:{0}, Y: {1},Z: {2}", (int)this.X, (int)this.Y, (int)this.Z);
+;
+        }
     }
 }
