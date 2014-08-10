@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -15,8 +17,10 @@ namespace Dommy.Business
 
         public string Title { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public TileColor Color { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public TileSize Size { get; set; }
 
         public object Data { get; set; }

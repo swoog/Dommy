@@ -9,7 +9,5 @@ namespace Dommy.Web.Models
     public class HomeIndexModel
     {
         public string Name { get; set; }
-
-        public List<SectionModel> Sections { get; set; }
     }
 }
