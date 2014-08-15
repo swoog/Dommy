@@ -1,20 +1,34 @@
-﻿using Dommy.Business;
-using Dommy.Business.Services;
-using Dommy.Web.ActionResults;
-using Dommy.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿//-----------------------------------------------------------------------
+// <copyright file="HomeController.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using Dommy.Business;
+    using Dommy.Business.Services;
+    using Dommy.Web.ActionResults;
+    using Dommy.Web.Models;
     public class HomeController : Controller
     {
+        private IClientFactory<IEngine> clientEngine;
+        private IClientFactory<ITileManager> clientTileManager;
+
+        public HomeController(IClientFactory<IEngine> clientEngine, IClientFactory<ITileManager> clientTileManager)
+        {
+            this.clientEngine = clientEngine;
+            this.clientTileManager = clientTileManager;
+        }
+
         public ActionResult Index()
         {
-            using (var engine = Client<IEngine>.Create())
+            using (var engine = clientEngine.Create())
             {
                 return View(new HomeIndexModel { Name = engine.Channel.GetEngineName() });
             }
@@ -22,7 +36,7 @@ namespace Dommy.Web.Controllers
 
         public ActionResult Tiles()
         {
-            using (var tileManager = Client<ITileManager>.Create())
+            using (var tileManager = clientTileManager.Create())
             {
                 var tiles = tileManager.Channel.GetTiles();
 
@@ -48,7 +62,7 @@ namespace Dommy.Web.Controllers
 
         public ActionResult TileRender(int tileId)
         {
-            using (var tileManager = Client<ITileManager>.Create())
+            using (var tileManager = clientTileManager.Create())
             {
                 var tile = tileManager.Channel.GetTile(tileId);
 
@@ -66,7 +80,7 @@ namespace Dommy.Web.Controllers
         [HttpPost]
         public ActionResult Tile(int id)
         {
-            using (var tileManager = Client<ITileManager>.Create())
+            using (var tileManager = clientTileManager.Create())
             {
                 tileManager.Channel.Start(id);
             }

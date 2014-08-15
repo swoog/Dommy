@@ -6,6 +6,7 @@
 
 namespace Dommy.Extensions.UsbUirt
 {
+    using Dommy.Business.Services;
     using Dommy.Business.Syntax;
     using Ninject;
 
@@ -22,10 +23,13 @@ namespace Dommy.Extensions.UsbUirt
         /// <returns>Scenario syntax.</returns>
         public static IScenarioSyntax UsbUirt(this IScenarioSyntax scenario, string infraRedCode)
         {
-            var transmitter = scenario.Kernel.Get<ITransmitter>();
             return scenario.Action(() =>
             {
-                transmitter.Transmit(infraRedCode);
+                using (var transmitter = scenario.Kernel.Get<IClientFactory<ITransmitter>>().Create())
+                {
+                    transmitter.Channel.Transmit(infraRedCode);
+                }
+
                 return true;
             });
         }

@@ -202,6 +202,8 @@
     <Compile Include="Scenarios\FreeboxScenarioDescription.cs" />
     <Compile Include="Scenarios\InternetScenarioDescription.cs" />
     <Compile Include="SentenceAction.cs" />
+    <Compile Include="Services\IClientFactory.cs" />
+    <Compile Include="Services\ClientFactory.cs" />
     <Compile Include="Syntax\Gender.cs" />
     <Compile Include="Syntax\ElementName.cs" />
     <Compile Include="Syntax\IKernelInfo.cs" />

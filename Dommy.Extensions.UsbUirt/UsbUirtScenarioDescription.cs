@@ -11,19 +11,32 @@ namespace Dommy.Extensions.UsbUirt
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Dommy.Business.Syntax;
     using Dommy.Business.Scenarios;
+    using Dommy.Business.Services;
+    using Dommy.Business.Syntax;
+
 
     /// <summary>
     /// Describe scenario with USB-UIRT module.
     /// </summary>
     public class UsbUirtScenarioDescription : IScenarioDescription
     {
-        private ILearner learner;
+        private IClientFactory<ILearner> learner;
 
-        public UsbUirtScenarioDescription(ILearner learner)
+        public UsbUirtScenarioDescription(IClientFactory<ILearner> learner)
         {
             this.learner = learner;
+        }
+
+        /// <summary>
+        /// Class used for get infrared code.
+        /// </summary>
+        private class IrCode
+        {
+            /// <summary>
+            /// Gets or sets infra red code.
+            /// </summary>
+            public string Code { get; set; }
         }
 
         /// <summary>
@@ -38,23 +51,16 @@ namespace Dommy.Extensions.UsbUirt
                 .Say("Lecture")
                 .Action(() =>
                 {
-                    infraRedCode.Code = this.learner.Learn();
+                    using(var learner = this.learner.Create())
+                    {
+                        infraRedCode.Code = learner.Channel.Learn();
+                    }
+
                     return true;
                 })
                 .Log("IrCode :{Code}", infraRedCode)
                 .Say("Terminé")
                 .Start();
-        }
-
-        /// <summary>
-        /// Class used for get infrared code.
-        /// </summary>
-        private class IrCode
-        {
-            /// <summary>
-            /// Gets or sets infra red code.
-            /// </summary>
-            public string Code { get; set; }
         }
     }
 }
