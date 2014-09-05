@@ -220,7 +220,6 @@
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
     <Compile Include="Actions\EedomusAction.cs" />
-    <Compile Include="Tools\Annotations\UsedImplicitlyAttribute.cs" />
     <Compile Include="Tools\DommyWebRequest.cs" />
     <Compile Include="Tools\EedomusException.cs" />
     <Compile Include="Tools\ITvHelper.cs" />

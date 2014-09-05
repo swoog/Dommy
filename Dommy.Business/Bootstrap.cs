@@ -8,6 +8,7 @@ namespace Dommy.Business
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Runtime;
@@ -134,6 +135,8 @@ namespace Dommy.Business
         /// <param name="services">All service host</param>
         private static void CloseServices(IEnumerable<IServiceHost> services)
         {
+            Contract.Requires(services != null);
+
             foreach (var item in services)
             {
                 item.Close();

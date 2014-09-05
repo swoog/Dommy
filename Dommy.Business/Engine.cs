@@ -271,6 +271,8 @@ namespace Dommy.Business
         /// <returns>Value used to order.</returns>
         private int OrderListener(IListener listener)
         {
+            Contract.Requires(listener != null);
+
             var att = listener.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
 
             if (att.Length != 0)
