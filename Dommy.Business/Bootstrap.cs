@@ -39,7 +39,7 @@ namespace Dommy.Business
 
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
-                directory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "Dommy");
+                directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Dommy");
 
                 if (!Directory.Exists(directory))
                 {
@@ -53,7 +53,7 @@ namespace Dommy.Business
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
 
-            Configure.Engine("Dommy");
+            Configure.Engine();
 
             Configure.TextToSpeech()
                 .With(c => c.Gender, Gender.Female)
@@ -94,13 +94,13 @@ namespace Dommy.Business
 
             kernel.Bind<IWebRequest>().To<DommyWebRequest>();
 
-            List<IServiceHost> services = OpenServices(kernel);
+            IEnumerable<IServiceHost> services = OpenServices(kernel);
 
             var engine = kernel.Get<Engine>();
 
             engine.Init();
 
-            System.Console.ReadLine();
+            Console.ReadLine();
             engine.Stop();
 
             CloseServices(services);
@@ -121,7 +121,7 @@ namespace Dommy.Business
             var kernel = new StandardKernel();
             kernel.Load("Dommy.*.x86.dll");
 
-            List<IServiceHost> services = OpenServices(kernel);
+            IEnumerable<IServiceHost> services = OpenServices(kernel);
 
             Console.ReadLine();
 
@@ -132,7 +132,7 @@ namespace Dommy.Business
         /// Close all service host.
         /// </summary>
         /// <param name="services">All service host</param>
-        private static void CloseServices(List<IServiceHost> services)
+        private static void CloseServices(IEnumerable<IServiceHost> services)
         {
             foreach (var item in services)
             {
@@ -145,7 +145,7 @@ namespace Dommy.Business
         /// </summary>
         /// <param name="kernel">Ninject kernel.</param>
         /// <returns>All open service host.</returns>
-        private static List<IServiceHost> OpenServices(StandardKernel kernel)
+        private static IEnumerable<IServiceHost> OpenServices(StandardKernel kernel)
         {
             var services = kernel.GetAll<IServiceHost>().ToList();
 

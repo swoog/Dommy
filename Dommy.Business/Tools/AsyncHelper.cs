@@ -3,6 +3,7 @@
 //     Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+
 namespace Dommy.Business.Tools
 {
     using System;
@@ -13,9 +14,9 @@ namespace Dommy.Business.Tools
 
     public class AsyncHelper
     {
-        private ILogger logger;
+        private readonly ILogger logger;
 
-        private ISpeechLogger speechLogger;
+        private readonly ISpeechLogger speechLogger;
 
         public AsyncHelper(ISpeechLogger speechLogger, ILogger logger)
         {
@@ -23,7 +24,33 @@ namespace Dommy.Business.Tools
             this.logger = logger;
         }
 
-        public void Wait(System.Action action)
+        private void SayWait()
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+
+            if (!Task.Factory.CancellationToken.IsCancellationRequested &&
+                !this.speechLogger.IgnoreRecognition)
+            {
+
+                this.logger.Debug("Say");
+                var rechercheSentence = new string[]{
+                        "Je recherche...",
+                        "Je cherche...",
+                        "Attend...",
+                        "2 secondes...",
+                        "3 secondes...",
+                        "Recherche...",
+                        "Patientez...",
+                        "Encours...",
+                        "Oui je recherche...",
+                        "Je vais te dire cela dans quelques secondes.",
+                    };
+
+                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(rechercheSentence));
+            }
+        }
+
+        public void Wait(Action action)
         {
             Wait(() =>
             {
@@ -78,32 +105,6 @@ namespace Dommy.Business.Tools
             } while (count >= 0);
 
             throw error;
-        }
-
-        private void SayWait()
-        {
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-
-            if (!Task.Factory.CancellationToken.IsCancellationRequested &&
-                !this.speechLogger.IgnoreRecognition)
-            {
-
-                this.logger.Debug("Say");
-                var rechercheSentence = new string[]{
-                        "Je recherche...",
-                        "Je cherche...",
-                        "Attend...",
-                        "2 secondes...",
-                        "3 secondes...",
-                        "Recherche...",
-                        "Patientez...",
-                        "Encours...",
-                        "Oui je recherche...",
-                        "Je vais te dire cela dans quelques secondes.",
-                    };
-
-                this.speechLogger.Say(Actor.Dommy, StringHelper.Format(rechercheSentence));
-            }
         }
     }
 }
