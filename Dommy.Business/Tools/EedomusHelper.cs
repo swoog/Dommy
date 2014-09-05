@@ -1,8 +1,9 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="EedomysHelper.cs" company="TrollCorp">
-//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EedomusHelper.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
-//-----------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Dommy.Business.Tools
 {
     using System;
@@ -21,7 +22,9 @@ namespace Dommy.Business.Tools
         public class Config : IConfig
         {
             public string IP { get; set; }
+
             public string User { get; set; }
+
             public string Secret { get; set; }
 
             public void Create(IKernel kernel)

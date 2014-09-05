@@ -68,6 +68,8 @@ namespace Dommy.Business.Tools
         /// <returns>Return string.</returns>
         private static string Format(string input, Dictionary<string, string> data)
         {
+            Contract.Requires(input != null);
+
             var reg = new Regex(@"\{([^\}]+)\}");
 
             return reg.Replace(

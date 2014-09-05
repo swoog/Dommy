@@ -5,14 +5,19 @@
 //-----------------------------------------------------------------------
 namespace Dommy.Business.Tools
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-    using System.Linq;
 
+    /// <summary>
+    /// TV channel name and value.
+    /// </summary>
     public class Channel
     {
-        private static string[] numbers = new[]{
+        /// <summary>
+        /// Text numbers.
+        /// </summary>
+        private static readonly string[] Numbers =
+        {
             "une",
             "deux",
             "trois",
@@ -42,10 +47,14 @@ namespace Dommy.Business.Tools
             "vingt-sept",
             "vingt-huit",
             "vingt-neuf",
-            "trente",
+            "trente"
         };
 
-        private static string[] names = new[]{
+        /// <summary>
+        /// Name of each channel.
+        /// </summary>
+        private static readonly string[] Names =
+        {
             "tf1",
             "france2",
             "france3",
@@ -75,11 +84,18 @@ namespace Dommy.Business.Tools
             "vingt-sept",
             "vingt-huit",
             "vingt-neuf",
-            "trente",
+            "trente"
         };
 
+        /// <summary>
+        /// List of channels data.
+        /// </summary>
         private static Channel[] channels;
 
+        /// <summary>
+        /// Gets the number of channel.
+        /// </summary>
+        /// <returns>Number of channel.</returns>
         public static int ChannelsCount
         {
             get
@@ -90,24 +106,23 @@ namespace Dommy.Business.Tools
             }
         }
 
-        private static void InitChannels()
-        {
-            if (channels == null)
-            {
-                channels = new Channel[names.Length];
+        /// <summary>
+        /// Gets the text of a number.
+        /// </summary>
+        /// <returns></returns>
+        public string NumberToString { get; private set; }
 
-                for (int i = 0; i < names.Length; i++)
-                {
-                    channels[i] = new Channel()
-                    {
-                        NumberToString = numbers[i],
-                        Number = i + 1,
-                        Name = names[i],
-                    };
-                }
-            }
-        }
+        /// <summary>
+        /// Gets the number of the channel.
+        /// </summary>
+        /// <returns></returns>
+        public int Number { get; private set; }
 
+        /// <summary>
+        /// Get channel from a number.
+        /// </summary>
+        /// <param name="number">Number of the channel.</param>
+        /// <returns>Channel instance class.</returns>
         public static Channel GetChannel(int number)
         {
             Contract.Requires(0 <= number);
@@ -117,18 +132,10 @@ namespace Dommy.Business.Tools
             return channels[number];
         }
 
-        public static IEnumerable<Channel> FindChannel(string text)
-        {
-            InitChannels();
-
-            var q = from c in channels
-                    where c.Name.Equals(text.Replace(" ", ""), StringComparison.OrdinalIgnoreCase)
-                    || c.NumberToString.Equals(text.Replace(" ", ""), StringComparison.OrdinalIgnoreCase)
-                    select c;
-
-            return q;
-        }
-
+        /// <summary>
+        /// Get all channels.
+        /// </summary>
+        /// <returns>All channels</returns>
         public static IEnumerable<Channel> All()
         {
             InitChannels();
@@ -136,10 +143,24 @@ namespace Dommy.Business.Tools
             return channels;
         }
 
-        public string Name { get; private set; }
+        /// <summary>
+        /// Initialize channels.
+        /// </summary>
+        private static void InitChannels()
+        {
+            if (channels == null)
+            {
+                channels = new Channel[Names.Length];
 
-        public string NumberToString { get; set; }
-
-        public int Number { get; set; }
+                for (var i = 0; i < Names.Length; i++)
+                {
+                    channels[i] = new Channel
+                    {
+                        NumberToString = Numbers[i],
+                        Number = i + 1,
+                    };
+                }
+            }
+        }
     }
 }
