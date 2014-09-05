@@ -68,6 +68,8 @@ namespace Dommy.Business
             ScriptEngine scriptEngine,
             IList<IListener> listeners)
         {
+            Contract.Requires(listeners != null);
+
             this.Name = name;
             this.kernel = kernel;
             this.logger = logger;
