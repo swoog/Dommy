@@ -24,13 +24,13 @@ namespace Dommy.Business.Scenarios
         /// <summary>
         /// TV helper used for scenarios.
         /// </summary>
-        private ITVHelper tvHelper;
+        private ITvHelper tvHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TVScenarioDescription"/> class.
         /// </summary>
         /// <param name="tvHelper">TV helper used for scenario.</param>
-        public TVScenarioDescription(ITVHelper tvHelper)
+        public TVScenarioDescription(ITvHelper tvHelper)
         {
             this.tvHelper = tvHelper;
         }

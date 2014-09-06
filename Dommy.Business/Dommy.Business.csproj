@@ -251,7 +251,6 @@
     <Compile Include="Tools\SamsungTVHelper.cs" />
     <Compile Include="Tools\StringHelper.cs" />
     <Compile Include="Tools\AsyncHelper.cs" />
-    <Compile Include="Tools\XmlReaderPatch.cs" />
     <Compile Include="Triggers\ITrigger.cs" />
     <Compile Include="Triggers\RestTriggerSyntax.cs" />
     <Compile Include="Triggers\SpeechTrigger.cs" />
