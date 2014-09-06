@@ -19,7 +19,6 @@ namespace Dommy.Business.Triggers
         public ITriggerScenarioSyntax TimeTrigger(DateTime startDate, TimeSpan tick)
         {
             var t = this.kernel.Get<TimeTrigger>();
-            t.StartDate = startDate;
             t.Tick = tick;
             return this.scenario.Trigger(t);
 
