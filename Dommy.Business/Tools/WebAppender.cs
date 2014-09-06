@@ -6,44 +6,54 @@
 namespace Dommy.Business.Tools
 {
     using System;
+
+    using JetBrains.Annotations;
+
     using log4net.Appender;
     using Microsoft.AspNet.SignalR.Client;
 
+    /// <summary>
+    /// Logger for display log on web interface.
+    /// </summary>
+    [UsedImplicitly]
     public sealed class WebAppender : AppenderSkeleton, IDisposable
     {
+        /// <summary>
+        /// Indicate that the web logger is started.
+        /// </summary>
+        private static bool isStarted;
+
+        /// <summary>
+        /// The connection.
+        /// </summary>
         private HubConnection connection;
+
+        /// <summary>
+        /// Errors logger.
+        /// </summary>
         private IHubProxy logger;
 
-        private static bool isStarted = false;
-
-        public override void ActivateOptions()
-        {
-            base.ActivateOptions();
-        }
-
+        /// <summary>
+        /// Indicate that the web server is started.
+        /// </summary>
         public static void WebStarted()
         {
             isStarted = true;
         }
 
-        private bool InitConnection()
+        /// <summary>
+        /// Dispose object.
+        /// </summary>
+        public void Dispose()
         {
-            try
-            {
-                this.connection = new HubConnection("http://localhost:5000");
-                this.logger = connection.CreateHubProxy("logger");
-                this.connection.Start().Wait();
-                return true;
-            }
-            catch
-            {
-                this.connection = null;
-                this.logger = null;
-            }
-
-            return false;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Append a new message.
+        /// </summary>
+        /// <param name="loggingEvent">Logging message.</param>
         protected override void Append(log4net.Core.LoggingEvent loggingEvent)
         {
             if (isStarted)
@@ -61,12 +71,32 @@ namespace Dommy.Business.Tools
             }
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Initialize connection.
+        /// </summary>
+        /// <returns>Indicate that the connection is open.</returns>
+        private bool InitConnection()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
+            try
+            {
+                this.connection = new HubConnection("http://localhost:5000");
+                this.logger = this.connection.CreateHubProxy("logger");
+                this.connection.Start().Wait();
+                return true;
+            }
+            catch
+            {
+                this.connection = null;
+                this.logger = null;
+            }
+
+            return false;
         }
 
+        /// <summary>
+        /// Dispose the logger.
+        /// </summary>
+        /// <param name="disposing">Indicate if dispose .Net object.</param>
         private void Dispose(bool disposing)
         {
             if (disposing)

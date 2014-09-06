@@ -144,7 +144,7 @@ namespace Dommy.Business.Tools
         /// Execute a TV command.
         /// </summary>
         /// <param name="tvCommand">TV command.</param>
-        public void Command(TVCommand tvCommand)
+        public void Command(TvCommand tvCommand)
         {
             this.Command(string.Format(CultureInfo.InvariantCulture, "KEY_{0}", tvCommand.ToString().ToUpper(CultureInfo.InvariantCulture)));
         }

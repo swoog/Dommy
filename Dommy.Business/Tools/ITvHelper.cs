@@ -14,7 +14,7 @@ namespace Dommy.Business.Tools
         /// Execute a command to TV.
         /// </summary>
         /// <param name="tvCommand">Command to execute.</param>
-        void Command(TVCommand tvCommand);
+        void Command(TvCommand tvCommand);
 
         /// <summary>
         /// Change canal.

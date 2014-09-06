@@ -66,22 +66,22 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create("TV Pause")
                 .SpeechTrigger("Met pause", "pause")
-                .TVCommand(TVCommand.Pause)
+                .TVCommand(TvCommand.Pause)
                 .Start();
 
             Scenario.Create("TV Stop")
                 .SpeechTrigger("Met stop", "stop")
-                .TVCommand(TVCommand.Stop)
+                .TVCommand(TvCommand.Stop)
                 .Start();
 
             Scenario.Create("TV Play")
                 .SpeechTrigger("play", "Met play", "lecture", "Met la lecture")
-                .TVCommand(TVCommand.Play)
+                .TVCommand(TvCommand.Play)
                 .Start();
 
             Scenario.Create("TV éteint")
                 .SpeechTrigger("éteint la télé")
-                .TVCommand(TVCommand.PowerOff)
+                .TVCommand(TvCommand.PowerOff)
                 .Start();
 
             Scenario.Create("TV Augment volume")
