@@ -8,13 +8,14 @@ namespace Dommy.Business.Tools
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
 
     /// <summary>
     /// Format string with multiple format and random.
     /// </summary>
-    public class StringHelper
+    public static class StringHelper
     {
         /// <summary>
         /// Initialize a random generator.
@@ -25,10 +26,10 @@ namespace Dommy.Business.Tools
         /// Format string with data of properties.
         /// Example : "Hello {FirstName}" will be convert to by "Hello YourName" if the data contains a property FirstName.
         /// </summary>
-        /// <param name="format">String format.</param>
+        /// <param name="input">String format.</param>
         /// <param name="data">Object with properties used in the format.</param>
         /// <returns>Return string.</returns>
-        public static string Format(string format, object data = null)
+        public static string Format(string input, object data = null)
         {
             Dictionary<string, string> dico = new Dictionary<string, string>();
 
@@ -36,25 +37,25 @@ namespace Dommy.Business.Tools
             {
                 foreach (var p in data.GetType().GetProperties())
                 {
-                    dico.Add(p.Name, Convert.ToString(p.GetValue(data, new object[0])));
+                    dico.Add(p.Name, Convert.ToString(p.GetValue(data, new object[0]), CultureInfo.InvariantCulture));
                 }
             }
 
-            return Format(format, dico);
+            return Format(input, dico);
         }
 
         /// <summary>
         /// Format string with data of dictionary.
         /// Example : "Hello {FirstName}" will be convert to by "Hello YourName" if the data contains a key FirstName.
         /// </summary>
-        /// <param name="format">String format.</param>
+        /// <param name="input">String format.</param>
         /// <param name="data">Object with properties used in the format.</param>
         /// <returns>Return string.</returns>
-        public static string Format(string format, Dictionary<string, string> data)
+        public static string Format(string input, Dictionary<string, string> data)
         {
             Regex reg = new Regex(@"\{([^\}]+)\}");
 
-            return reg.Replace(format, new MatchEvaluator(
+            return reg.Replace(input, new MatchEvaluator(
                 m =>
                 {
                     if (data.ContainsKey(m.Groups[1].Value))
@@ -72,16 +73,16 @@ namespace Dommy.Business.Tools
         /// Format string with data of properties.
         /// Example : "Hello {FirstName}" will be convert to by "Hello YourName" if the data contains a property FirstName.
         /// </summary>
-        /// <param name="formats">String format. Used randomly a format.</param>
+        /// <param name="inputs">String format. Use a format randomly.</param>
         /// <param name="data">Object with properties used in the format.</param>
         /// <returns>Return string.</returns>
-        public static string Format(IList<string> formats, object data = null)
+        public static string Format(IList<string> inputs, object data = null)
         {
-            Contract.Requires(formats != null);
+            Contract.Requires(inputs != null);
 
-            int num = r.Next(formats.Count);
+            int num = r.Next(inputs.Count);
 
-            return StringHelper.Format(formats[num], data);
+            return StringHelper.Format(inputs[num], data);
         }
     }
 }

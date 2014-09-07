@@ -9,6 +9,7 @@ namespace Dommy.Business
     using System;
     using System.Collections.Generic;
     using System.Deployment.Application;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.ServiceModel;
     using Dommy.Business.Scenarios;
@@ -18,7 +19,6 @@ namespace Dommy.Business
     using Dommy.Business.Tools;
     using Ninject;
     using Ninject.Extensions.Logging;
-    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Dommy engine.
@@ -54,6 +54,7 @@ namespace Dommy.Business
         /// <summary>
         /// Initializes a new instance of the <see cref="Engine"/> class.
         /// </summary>
+        /// <param name="name">Engine name.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
         /// <param name="speechLogger">Speech logger.</param>
@@ -72,7 +73,21 @@ namespace Dommy.Business
             this.logger = logger;
             this.speechLogger = speechLogger;
             this.scriptEngine = scriptEngine;
-            this.listeners = listeners;
+            this.listeners = listeners.OrderBy(this.OrderListener).ToArray();
+        }
+
+        private int OrderListener(IListener arg)
+        {
+            var att = arg.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
+
+            if (att.Length != 0)
+            {
+                return ((OrderAttribute)att[0]).Order;
+            }
+            else
+            {
+                return 100;
+            }
         }
 
         /// <summary>
@@ -236,10 +251,21 @@ namespace Dommy.Business
         /// </summary>
         /// <typeparam name="T">Listener Type.</typeparam>
         /// <returns>Listener instance.</returns>
-        internal T Listener<T>()
+        public T Listener<T>()
             where T : IListener
         {
             return this.listeners.OfType<T>().FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Find instances of the listener.
+        /// </summary>
+        /// <typeparam name="T">Listener Type.</typeparam>
+        /// <returns>Listener instance.</returns>
+        public IList<T> GetListeners<T>()
+            where T : IListener
+        {
+            return this.listeners.OfType<T>().ToList();
         }
 
         /// <summary>

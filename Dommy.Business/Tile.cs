@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -18,7 +19,7 @@ namespace Dommy.Business
         {
             get
             {
-                return "#" + this.BackGroundColor.R.ToString("X2") + this.BackGroundColor.G.ToString("X2") + this.BackGroundColor.B.ToString("X2");
+                return "#" + this.BackGroundColor.R.ToString("X2", CultureInfo.InvariantCulture) + this.BackGroundColor.G.ToString("X2", CultureInfo.InvariantCulture) + this.BackGroundColor.B.ToString("X2", CultureInfo.InvariantCulture);
             }
         }
 

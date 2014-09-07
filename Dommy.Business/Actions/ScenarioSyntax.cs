@@ -17,8 +17,6 @@ namespace Dommy.Business.Actions
     using Ninject;
     using Ninject.Extensions.Logging;
     using Ninject.Parameters;
-    using UsbUirt;
-    using UsbUirt.Enums;
 
     /// <summary>
     /// Class of a scenario object.
@@ -29,11 +27,6 @@ namespace Dommy.Business.Actions
         /// Instance of AsyncHelper.
         /// </summary>
         private AsyncHelper asyncHelper;
-
-        /// <summary>
-        /// Instance of Eedomus helper.
-        /// </summary>
-        private EedomusHelper eedomusHelper;
 
         /// <summary>
         /// Information logger.
@@ -56,21 +49,19 @@ namespace Dommy.Business.Actions
         /// <param name="name">Name of scenario.</param>
         /// <param name="kernel">Ninject kernel.</param>
         /// <param name="logger">Information logger.</param>
-        /// <param name="eedomusHelper">Eedomus helper.</param>
         /// <param name="asyncHelper">Asynchronous helper.</param>
-        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, EedomusHelper eedomusHelper, AsyncHelper asyncHelper)
+        public ScenarioSyntax(string name, IKernel kernel, ILogger logger, AsyncHelper asyncHelper)
         {
             this.ScenarioName = name;
             this.Kernel = kernel;
             this.logger = logger;
-            this.eedomusHelper = eedomusHelper;
             this.asyncHelper = asyncHelper;
         }
 
         /// <summary>
-        /// Gets or sets trigger of this scenario.
+        /// Gets triggers of this scenario.
         /// </summary>
-        public IList<ITrigger> Triggers { get; set; }
+        public IList<ITrigger> Triggers { get; private set; }
 
         /// <summary>
         /// Gets core engine.
@@ -147,36 +138,13 @@ namespace Dommy.Business.Actions
         }
 
         /// <summary>
-        /// Send infra red code on USB-UIRT device.
-        /// </summary>
-        /// <param name="infraRedCode">infra red ode to send.</param>
-        /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax UsbUirt(string infraRedCode)
-        {
-            this.actions.Add(() =>
-            {
-                using (var driver = new Driver())
-                {
-                    using (var transmitter = new Transmitter(driver))
-                    {
-                        transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
-                    }
-
-                    return true;
-                }
-            });
-
-            return this;
-        }
-
-        /// <summary>
         /// Generic lambda action.
         /// </summary>
-        /// <param name="action">Action to execute.</param>
+        /// <param name="actionToPerform">Action to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax Action(Func<bool> action)
+        public IScenarioSyntax Action(Func<bool> actionToPerform)
         {
-            this.actions.Add(action);
+            this.actions.Add(actionToPerform);
 
             return this;
         }
@@ -216,14 +184,14 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Execute an external process.
         /// </summary>
-        /// <param name="command">Command name.</param>
+        /// <param name="fileName">File name.</param>
         /// <param name="parameters">Parameters of command.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax Command(string command, string parameters)
+        public IScenarioSyntax Command(string fileName, string parameters)
         {
             this.actions.Add(() =>
             {
-                Process.Start(command, parameters);
+                Process.Start(fileName, parameters);
                 return true;
             });
 
@@ -233,16 +201,16 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Create scenario syntax with trigger.
         /// </summary>
-        /// <param name="trigger">Trigger to add.</param>
+        /// <param name="instanceTrigger">Trigger to add.</param>
         /// <returns>Scenario syntax.</returns>
-        public ITriggerScenarioSyntax Trigger(ITrigger trigger)
+        public ITriggerScenarioSyntax Trigger(ITrigger instanceTrigger)
         {
             if (this.Triggers == null)
             {
                 this.Triggers = new List<ITrigger>();
             }
 
-            this.Triggers.Add(trigger);
+            this.Triggers.Add(instanceTrigger);
             return this;
         }
 
@@ -301,11 +269,11 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Create scenario with REST trigger.
         /// </summary>
-        /// <param name="p">Relative uri trigger.</param>
+        /// <param name="url">Relative uri trigger.</param>
         /// <returns>Scenario trigger syntax.</returns>
-        public ITriggerScenarioSyntax RestTrigger(string p)
+        public ITriggerScenarioSyntax RestTrigger(string url)
         {
-            return this.Extend<IRestTriggerSyntax>().RestTrigger(p);
+            return this.Extend<IRestTriggerSyntax>().RestTrigger(url);
         }
 
         /// <summary>
@@ -321,11 +289,11 @@ namespace Dommy.Business.Actions
         /// Ping conditional syntax.
         /// </summary>
         /// <param name="ip">IP to ping.</param>
-        /// <param name="b">Status excepted.</param>
+        /// <param name="expectedStatus">Status excepted.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax IfPing(string ip, bool b)
+        public IScenarioSyntax IfPing(string ip, bool expectedStatus)
         {
-            return this.Extend<IPingActions>().IfPing(ip, b);
+            return this.Extend<IPingActions>().IfPing(ip, expectedStatus);
         }
 
         /// <summary>
@@ -333,9 +301,9 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvCommand(TvCommand command)
+        public IScenarioSyntax TVCommand(TVCommand command)
         {
-            return this.Extend<ITvActions>().TvCommand(command);
+            return this.Extend<ITVActions>().TVCommand(command);
         }
 
         /// <summary>
@@ -343,18 +311,18 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="quantity">Quantity to change volume.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvSound(int quantity)
+        public IScenarioSyntax TVSound(int quantity)
         {
-            return this.Extend<ITvActions>().TvSound(quantity);
+            return this.Extend<ITVActions>().TVSound(quantity);
         }
 
         /// <summary>
         /// Mute on TV.
         /// </summary>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvMute()
+        public IScenarioSyntax TVMute()
         {
-            return this.Extend<ITvActions>().TvMute();
+            return this.Extend<ITVActions>().TVMute();
         }
 
         /// <summary>
@@ -362,9 +330,9 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="canal">Canal to change.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TvCanal(int canal)
+        public IScenarioSyntax TVCanal(int canal)
         {
-            return this.Extend<ITvActions>().TvCanal(canal);
+            return this.Extend<ITVActions>().TVCanal(canal);
         }
 
         /// <summary>
@@ -397,26 +365,16 @@ namespace Dommy.Business.Actions
         }
 
         /// <summary>
-        /// Create scenario based on infra red code returned by USB-UIRT module.
-        /// </summary>
-        /// <param name="infraRedCode">Infra red code.</param>
-        /// <returns>Trigger scenario syntax.</returns>
-        public ITriggerScenarioSyntax UsbUirtTrigger(string infraRedCode)
-        {
-            return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(infraRedCode);
-        }
-
-        /// <summary>
         /// Log to the application log file.
         /// </summary>
         /// <param name="format">Format of the log.</param>
-        /// <param name="obj">Object used to get property format.</param>
+        /// <param name="data">Object used to get property format.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax Log(string format, object obj)
+        public IScenarioSyntax Log(string format, object data)
         {
             this.Action(() =>
             {
-                this.logger.Info(StringHelper.Format(format, obj));
+                this.logger.Info(StringHelper.Format(format, data));
                 return true;
             });
 
@@ -429,7 +387,7 @@ namespace Dommy.Business.Actions
         /// <typeparam name="T">Type of object to create when scrap.</typeparam>
         /// <param name="url">Url to scrap.</param>
         /// <returns>Scrapper action.</returns>
-        public IScrapActions GetUrl<T>(string url)
+        public IScrapActions<T> GetUrl<T>(string url)
         {
             return this.Extend<IUrlActions>().GetUrl<T>(url);
         }
@@ -526,39 +484,39 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Set value to local API eedomus.
         /// </summary>
-        /// <param name="id">Eedomus id element.</param>
+        /// <param name="eedomusId">Eedomus id element.</param>
         /// <param name="value">Value to set.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax EedomusValue(string id, double value)
+        public IScenarioSyntax EedomusValue(string eedomusId, double value)
         {
-            return this.Extend<IEedomusActions>().EedomusValue(id, value);
+            return this.Extend<IEedomusActions>().EedomusValue(eedomusId, value);
         }
 
         /// <summary>
         /// Add file to synology download manager.
         /// </summary>
         /// <param name="server">Server name with port.</param>
-        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="userName">Username used for connect to synology.</param>
         /// <param name="password">Password used for connect to synology.</param>
         /// <param name="file">Url file to download (EDK2, HTTP, ...)</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, string file)
+        public IScenarioSyntax SynologyDownloadCreate(string server, string userName, string password, string file)
         {
-            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, file);
+            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, userName, password, file);
         }
 
         /// <summary>
         /// Add file to synology download manager.
         /// </summary>
         /// <param name="server">Server name with port.</param>
-        /// <param name="username">Username used for connect to synology.</param>
+        /// <param name="userName">Username used for connect to synology.</param>
         /// <param name="password">Password used for connect to synology.</param>
         /// <param name="data">Data used to create file url.</param>
         /// <param name="file">Format url file to download (EDK2, HTTP, ...)</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax SynologyDownloadCreate(string server, string username, string password, object data, string file)
+        public IScenarioSyntax SynologyDownloadCreate(string server, string userName, string password, object data, string file)
         {
-            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, username, password, data, file);
+            return this.Extend<ISynologyDownloadActions>().SynologyDownloadCreate(server, userName, password, data, file);
         }
 
         /// <summary>

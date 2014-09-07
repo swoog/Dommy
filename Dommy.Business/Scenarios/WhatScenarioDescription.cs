@@ -27,8 +27,7 @@ namespace Dommy.Business.Scenarios
         /// <summary>
         /// Method to log executed actions.
         /// </summary>
-        /// <param name="sentence">Sentence match.</param>
-        /// <param name="action">Executed action.</param>
+        /// <param name="scenario">Scenario executed.</param>
         public void ExecutionOf(IScenario scenario)
         {
             // If this not Again action.
@@ -38,14 +37,12 @@ namespace Dommy.Business.Scenarios
             }
         }
 
-        private class WhatName
-        {
-            public string Name { get; set; }
-        }
-
+        /// <summary>
+        /// Create scenario.
+        /// </summary>
         public void Create()
         {
-            var name = new WhatName { Name = String.Empty };
+            var name = new WhatName { Name = string.Empty };
 
             Scenario.Create("What")
                         .SpeechTrigger("dernierre action", "qu'a tu fais")
@@ -63,6 +60,17 @@ namespace Dommy.Business.Scenarios
                         })
                         .Say(name, "J'ai exécuté {Name}")
                         .Start();
+        }
+
+        /// <summary>
+        /// Class used for store name of the action.
+        /// </summary>
+        private class WhatName
+        {
+            /// <summary>
+            /// Gets or sets name.
+            /// </summary>
+            public string Name { get; set; }
         }
     }
 }

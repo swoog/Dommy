@@ -41,9 +41,9 @@ namespace Dommy.Business.Actions
         /// <typeparam name="T">Type of object to create when scrap.</typeparam>
         /// <param name="url">Url to scrap.</param>
         /// <returns>Scrapper action.</returns>
-        public IScrapActions GetUrl<T>(string url)
+        public IScrapActions<T> GetUrl<T>(string url)
         {
-            var scrapper = new ScrapActions();
+            var scrapper = new ScrapActions<T>();
 
             // return this.scenario.Action(() =>
             // {

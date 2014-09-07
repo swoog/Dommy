@@ -10,7 +10,8 @@ namespace Dommy.Business.Actions
     /// <summary>
     /// Scrapper syntax.
     /// </summary>
-    public class ScrapActions : IScrapActions
+    /// <typeparam name="T">Object data to map.</typeparam>
+    public class ScrapActions<T> : IScrapActions<T>
     {
         /// <summary>
         /// End of scrap.
@@ -25,9 +26,9 @@ namespace Dommy.Business.Actions
         /// Scrap a value.
         /// </summary>
         /// <param name="path">Path of the value.</param>
-        /// <param name="property">Property set.</param>
+        /// <param name="propertyName">Property set.</param>
         /// <returns>Scrap action.</returns>
-        public IScrapActions Scrap(string path, string property)
+        public IScrapActions<T> Scrap(string path, string propertyName)
         {
             throw new NotImplementedException();
         }

@@ -1,38 +1,44 @@
-﻿using Dommy.Business.Configs;
-using Ninject;
-using Ninject.Extensions.Conventions;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="ScriptEngine.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scripts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using Dommy.Business.Configs;
+    using Ninject.Extensions.Conventions;
+    using Ninject.Extensions.Logging;
+
+    /// <summary>
+    /// Execute all scenarios scripts.
+    /// </summary>
     public class ScriptEngine
     {
-        public class Config : IConfig
-        {
-            public string ScriptDirectory { get; set; }
-
-            public void Create(Ninject.IKernel kernel)
-            {
-                kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IScriptEngine>().BindSingleInterface());
-
-                kernel.Bind<ScriptEngine>().ToSelf()
-                    .WithPropertyValue("ScriptDirectory", this.ScriptDirectory)
-                    ;
-            }
-        }
-
-        public string ScriptDirectory { get; set; }
-
+        /// <summary>
+        /// All scripts engines.
+        /// </summary>
         private IList<IScriptEngine> scriptEngines;
+
+        /// <summary>
+        /// Speech logger.
+        /// </summary>
         private ISpeechLogger speechLogger;
+
+        /// <summary>
+        /// Errors logger.
+        /// </summary>
         private ILogger logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScriptEngine"/> class.
+        /// </summary>
+        /// <param name="scriptEngines">All script engine.</param>
+        /// <param name="speechLogger">Speech logger.</param>
+        /// <param name="logger">Errors logger.</param>
         public ScriptEngine(IList<IScriptEngine> scriptEngines, ISpeechLogger speechLogger, ILogger logger)
         {
             this.scriptEngines = scriptEngines;
@@ -40,12 +46,24 @@ namespace Dommy.Business.Scripts
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Gets or sets scripts directory.
+        /// </summary>
+        public string ScriptDirectory { get; set; }
+
+        /// <summary>
+        /// Execute all found scripts.
+        /// </summary>
         public void Execute()
         {
-            ExecuteDirectory(".");
-            ExecuteDirectory(this.ScriptDirectory);
+            this.ExecuteDirectory(".");
+            this.ExecuteDirectory(this.ScriptDirectory);
         }
 
+        /// <summary>
+        /// Execute all found scripts in directory.
+        /// </summary>
+        /// <param name="directory">Directory to search.</param>
         private void ExecuteDirectory(string directory)
         {
             if (!Directory.Exists(directory))
@@ -58,6 +76,7 @@ namespace Dommy.Business.Scripts
                 {
                     this.logger.Error(ex, "Can't create directory {0}", directory);
                 }
+
                 return;
             }
 
@@ -79,6 +98,29 @@ namespace Dommy.Business.Scripts
                         this.logger.Error(ex, "Erreur dans le script", scriptName);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Configuration of script engine.
+        /// </summary>
+        public class Config : IConfig
+        {
+            /// <summary>
+            /// Gets or sets the scripts directory.
+            /// </summary>
+            public string ScriptDirectory { get; set; }
+
+            /// <summary>
+            /// Create script engine Ninject configuration.
+            /// </summary>
+            /// <param name="kernel">Ninject kernel.</param>
+            public void Create(Ninject.IKernel kernel)
+            {
+                kernel.Bind(a => a.FromAssembliesMatching("*.dll").SelectAllClasses().InheritedFrom<IScriptEngine>().BindSingleInterface());
+
+                kernel.Bind<ScriptEngine>().ToSelf()
+                    .WithPropertyValue("ScriptDirectory", this.ScriptDirectory);
             }
         }
     }

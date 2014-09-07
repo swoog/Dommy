@@ -13,18 +13,23 @@ namespace Dommy.Business
     /// </summary>
     public class GrammarData
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GrammarData"/> class.
+        /// </summary>
         public GrammarData()
         {
             this.Choices = new List<GrammarChoices>();
         }
 
-        ///// <summary>
-        ///// Gets or sets sentences.
-        ///// </summary>
-        //public IList<string> Sentences { get; set; }
-
+        /// <summary>
+        /// Gets grammar choices.
+        /// </summary>
         public IList<GrammarChoices> Choices { get; private set; }
 
+        /// <summary>
+        /// Add new grammar choice.
+        /// </summary>
+        /// <param name="choice">Grammar choice.</param>
         internal void Append(GrammarChoices choice)
         {
             this.Choices.Add(choice);

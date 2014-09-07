@@ -1,116 +1,76 @@
-using Dommy.Business;
-using Dommy.Business.Configs;
-using Dommy.Business.Scenarios;
-using Dommy.Business.Scripts;
-using Dommy.Business.Services;
-using Dommy.Business.Syntax;
-using Dommy.Business.Tools;
-using Dommy.Business.WebHost;
-using Ninject;
-using Ninject.Extensions.Conventions;
-using System;
-using System.IO;
-using System.Linq;
-using System.Runtime;
+//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Console
 {
-    class Program
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime;
+    using Dommy.Business;
+    using Dommy.Business.Configs;
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Scripts;
+    using Dommy.Business.Services;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+    using Dommy.Business.WebHost;
+    using Dommy.Extensions.Kinect;
+    using Ninject;
+    using Ninject.Extensions.Conventions;
+    public class Program
     {
+#if DEBUG
+        public const string ProcessX86 = @"..\..\..\Dommy.Console.x86\bin\Debug\Dommy.Console.x86.exe";
+#else
+        public const string ProcessX86 = "Dommy.Console.x86.exe";
+#endif
+
+        private static Process x86Process;
+
         static void Main(string[] args)
         {
-            ProfileOptimization.SetProfileRoot(@".\");
-            ProfileOptimization.StartProfile("DommyProfile");
+            var startInfo = new ProcessStartInfo(ProcessX86);
+            startInfo.CreateNoWindow = true;
+            startInfo.ErrorDialog = false;
 
-            log4net.Config.XmlConfigurator.Configure();
-
-            var directory = Environment.CurrentDirectory;
-
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+            x86Process = Process.Start(startInfo);
+            if (x86Process != null)
             {
-                directory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "Dommy");
-
-                if (!Directory.Exists(directory))
+                x86Process.EnableRaisingEvents = true;
+                x86Process.Exited += X86Exited;
+                Bootstrap.Run();
+                try
                 {
-                    Directory.CreateDirectory(directory);
+                    x86Process.Exited -= X86Exited;
+                    x86Process.Kill();
                 }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                x86Process.Dispose();
             }
+        }
 
-            var kernel = new StandardKernel();
-            kernel.Load("Dommy.*.dll");
+        private static void X86Exited(object sender, EventArgs e)
+        {
+            x86Process.Exited -= X86Exited;
+            // Restart
+            var startInfo = new ProcessStartInfo(ProcessX86);
+            startInfo.CreateNoWindow = true;
+            x86Process = Process.Start(startInfo);
 
-            Configure.InitKernel(kernel);
-            Scenario.InitKernel(kernel);
-
-            Configure.Engine("Dommy");
-
-            Configure.TextToSpeech()
-                .With(c => c.Gender, Gender.Female)
-                .With(c => c.Culture, "fr-FR");
-
-            Configure.SpeechToText()
-                .With(c => c.Culture, "fr-FR")
-                .With(c => c.Confidence, 0.6)
-                ;
-
-            Configure.Config<RestListener.Config>()
-                .With(c => c.Port, 5555);
-
-            Configure.Config<ScriptEngine.Config>()
-                .With(c => c.ScriptDirectory, Path.Combine(directory, @"scenarios"));
-
-            Configure.Config<WebServerHost.Config>()
-                .With(c => c.Port, 5556);
-
-            Configure.LoadConfig(Path.Combine(directory, "config.xml"));
-
-            Configure.Build();
-
-            kernel.Bind<IListener>().To<UsbUirtListener>();
-            
-            var web = kernel.Get<WebServerHost>();
-            web.Start();
-            
-            // Scripting configuration
-            kernel.Bind<TileManager>().ToSelf().InSingletonScope();
-
-            kernel.Bind<IServiceHost>().To<ServiceHost<Engine>>();
-            kernel.Bind<IServiceHost>().To<ServiceHost<TileManager>>();
-            kernel.Bind<IServiceHost>().To<ServiceHost<WebServerHost>>();
-
-            kernel.Bind<AsyncHelper>().ToSelf();
-            kernel.Bind<ISpeechLogger>().To<SpeechLogger>().InSingletonScope();
-
-            kernel.Bind<IActionLogger>().To<AgainScenarioDescription>().InSingletonScope();
-            kernel.Bind<IActionLogger>().To<WhatScenarioDescription>().InSingletonScope();
-
-            // TODO : Add scenario to restart freebox and router.
-
-            //kernel.Bind<ActionService>().ToSelf();
-
-            //kernel.Bind<ServiceHost<ActionService>>().ToSelf();
-            //var actionService = kernel.Get<ServiceHost<ActionService>>();
-            //actionService.Open();
-            var services = kernel.GetAll<IServiceHost>().ToList();
-
-            foreach (var item in services)
+            if (x86Process != null)
             {
-                item.Open();
+                x86Process.EnableRaisingEvents = true;
+                x86Process.Exited += X86Exited;
             }
-
-            var engine = kernel.Get<Engine>();
-
-            engine.Init();
-
-            System.Console.ReadLine();
-            engine.Stop();
-
-            foreach (var item in services)
-            {
-                item.Close();
-            }
-
-            web.Stop();
         }
     }
 }

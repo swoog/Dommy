@@ -1,29 +1,49 @@
-﻿using Dommy.Business.Scenarios;
-using Dommy.Business.Syntax;
-using Dommy.Business.Triggers;
-using Dommy.Business.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="TVScenarioDescription.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Scenarios
 {
-    public class TvScenarioDescription : IScenarioDescription
-    {
-        private ITvHelper tvHelper;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+    using Dommy.Business.Triggers;
 
-        public TvScenarioDescription(ITvHelper tvHelper)
+    /// <summary>
+    /// Description for TV scenarios.
+    /// </summary>
+    public class TVScenarioDescription : IScenarioDescription
+    {
+        /// <summary>
+        /// TV helper used for scenarios.
+        /// </summary>
+        private ITVHelper tvHelper;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TVScenarioDescription"/> class.
+        /// </summary>
+        /// <param name="tvHelper">TV helper used for scenario.</param>
+        public TVScenarioDescription(ITVHelper tvHelper)
         {
             this.tvHelper = tvHelper;
         }
 
+        /// <summary>
+        /// Create TV scenarios.
+        /// </summary>
         public void Create()
         {
             for (int i = 0; i < Channel.ChannelsCount; i++)
             {
-                var sentence = new[]{
+                var sentence = new[]
+                {
                     "Met la {Chaine}",
                     "Met la chaine {Chaine}",
                     "La {Chaine}",
@@ -46,47 +66,47 @@ namespace Dommy.Business.Scenarios
 
             Scenario.Create("TV Pause")
                 .SpeechTrigger("Met pause", "pause")
-                .TvCommand(TvCommand.Pause)
+                .TVCommand(TVCommand.Pause)
                 .Start();
 
             Scenario.Create("TV Stop")
                 .SpeechTrigger("Met stop", "stop")
-                .TvCommand(TvCommand.Stop)
+                .TVCommand(TVCommand.Stop)
                 .Start();
 
             Scenario.Create("TV Play")
                 .SpeechTrigger("play", "Met play", "lecture", "Met la lecture")
-                .TvCommand(TvCommand.Play)
+                .TVCommand(TVCommand.Play)
                 .Start();
 
             Scenario.Create("TV éteint")
                 .SpeechTrigger("éteint la télé")
-                .TvCommand(TvCommand.PowerOff)
+                .TVCommand(TVCommand.PowerOff)
                 .Start();
 
             Scenario.Create("TV Augment volume")
                 .SpeechTrigger("Monte le son", "Augmente le volume")
-                .TvSound(5)
+                .TVSound(5)
                 .Start();
 
             Scenario.Create("TV Augment volume un peux")
                 .SpeechTrigger("Monte un peux le son", "Met le son", "Remet le son", "Augmente un peux le volume", "Remet le volume")
-                .TvSound(1)
+                .TVSound(1)
                 .Start();
 
             Scenario.Create("TV Baisse volume")
                 .SpeechTrigger("Baisse le son", "Descent le son")
-                .TvSound(-5)
+                .TVSound(-5)
                 .Start();
 
             Scenario.Create("TV Baisse volume un peux")
                 .SpeechTrigger("Baisse un peux le son", "Descent un peux le son")
-                .TvSound(-1)
+                .TVSound(-1)
                 .Start();
 
             Scenario.Create("TV Mute")
                 .SpeechTrigger("Coupe le son", "Coupe le volume")
-                .TvMute()
+                .TVMute()
                 .Start();
         }
     }

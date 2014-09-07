@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>..\Dommy.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
@@ -51,7 +51,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -62,7 +62,7 @@
     <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -75,8 +75,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CassiniDev4-lib">
-      <HintPath>..\packages\CassiniDev.5.0.2-bleeding-17\lib\net40\debug\CassiniDev4-lib.dll</HintPath>
+    <Reference Include="CassiniDev4-lib, Version=4.0.1.6, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libraries\CassiniDev4-lib.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
@@ -140,9 +141,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UsbUirtManagedWrapper">
-      <HintPath>..\UsbUirtManagedWrapper.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\EedomusActions.cs" />
@@ -161,6 +159,7 @@
     <Compile Include="Actions\SynologyDownloadActions.cs" />
     <Compile Include="Actions\TvActions.cs" />
     <Compile Include="Actions\UrlActions.cs" />
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="Configs\Configurator.cs" />
     <Compile Include="Configs\Configure.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
@@ -171,17 +170,20 @@
     <Compile Include="GrammarData.cs" />
     <Compile Include="IListener.cs" />
     <Compile Include="ISpeechLogger.cs" />
+    <Compile Include="OrderAttribute.cs" />
     <Compile Include="Scenarios\AboutScenarioDescription.cs" />
     <Compile Include="Scenarios\AgainScenarioDescription.cs" />
     <Compile Include="Scenarios\DommyScenarioDescription.cs" />
+    <Compile Include="Scenarios\OpenCloseScenarioDescription.cs" />
     <Compile Include="Scenarios\OnOffLightScenarioDescription.cs" />
     <Compile Include="Scenarios\TemperatureScenarioDescription.cs" />
-    <Compile Include="Scenarios\UsbUirtScenarioDescription.cs" />
     <Compile Include="Scenarios\WhatScenarioDescription.cs" />
     <Compile Include="Scenarios\FreeboxScenarioDescription.cs" />
     <Compile Include="Scenarios\InternetScenarioDescription.cs" />
     <Compile Include="SentenceAction.cs" />
     <Compile Include="Syntax\Gender.cs" />
+    <Compile Include="Syntax\ElementName.cs" />
+    <Compile Include="Syntax\IKernelInfo.cs" />
     <Compile Include="Syntax\RoomName.cs" />
     <Compile Include="Scenarios\TimeScenarioDescription.cs" />
     <Compile Include="Scenarios\TvScenarioDescription.cs" />
@@ -216,6 +218,7 @@
     <Compile Include="TileManager.cs" />
     <Compile Include="TileSize.cs" />
     <Compile Include="Actions\EedomusAction.cs" />
+    <Compile Include="Tools\DommyWebRequest.cs" />
     <Compile Include="Tools\EedomusException.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
@@ -230,9 +233,6 @@
     <Compile Include="Triggers\TileTriggerSyntax.cs" />
     <Compile Include="Triggers\TimeTrigger.cs" />
     <Compile Include="Triggers\TimeTriggerSyntax.cs" />
-    <Compile Include="Triggers\UsbUirtTriggerSyntax.cs" />
-    <Compile Include="Triggers\UsbUirtTrigger.cs" />
-    <Compile Include="Triggers\IUsbUirtTriggerSyntax.cs" />
     <Compile Include="Triggers\IRestTriggerSyntax.cs" />
     <Compile Include="Triggers\ISpeechTriggerSyntax.cs" />
     <Compile Include="Triggers\RestTrigger.cs" />
@@ -255,7 +255,6 @@
     <Compile Include="Triggers\SpeechTrigger.cs" />
     <Compile Include="Triggers\SpeechTriggerSyntax.cs" />
     <Compile Include="Tools\TvCommand.cs" />
-    <Compile Include="UsbUirtListener.cs" />
     <Compile Include="WebHost\WebServerHost.cs" />
   </ItemGroup>
   <ItemGroup>
