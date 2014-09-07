@@ -1,26 +1,35 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="RecodSkeletonScenarioDescription.cs" company="TrollCorp">
-//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="RecordSkeletonScenarioDescription.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
-//-----------------------------------------------------------------------
+// <summary>
+//   
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Dommy.Extensions.Kinect
 {
-    using Dommy.Business.Scenarios;
-    using Dommy.Business.Syntax;
-    using System;
     using System.Collections.Generic;
     using System.IO;
 
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Syntax;
+
+    using JetBrains.Annotations;
+
     /// <summary>
-    /// Describe the scenario to recorde kinect sceleton recorder.
+    /// Describe the scenario to record kinect skeleton recorder.
     /// </summary>
-    public class RecodSkeletonScenarioDescription : IScenarioDescription, ISkeletonListener
+    [UsedImplicitly]
+    public class RecordSkeletonScenarioDescription : IScenarioDescription, ISkeletonListener
     {
-        private static List<ISkeleton> skeletons = null;
+        /// <summary>
+        /// List of skeletons.
+        /// </summary>
+        private static List<ISkeleton> skeletons;
 
         /// <summary>
-        /// Create the scenario to recorde kinect sceleton recorder.
+        /// Create the scenario to record kinect skeleton recorder.
         /// </summary>
         public void Create()
         {
@@ -37,6 +46,22 @@ namespace Dommy.Extensions.Kinect
                 .Start();
         }
 
+        /// <summary>
+        /// Intercept a new skeleton detection.
+        /// </summary>
+        /// <param name="skeleton">Skeleton detected.</param>
+        public void NewSkeleton(ISkeleton skeleton)
+        {
+            if (skeletons != null)
+            {
+                skeletons.Add(skeleton);
+            }
+        }
+
+        /// <summary>
+        /// Begin a skeleton recording.
+        /// </summary>
+        /// <returns>Indicate that the skeleton recording started.</returns>
         private bool Begin()
         {
             if (skeletons == null)
@@ -47,6 +72,11 @@ namespace Dommy.Extensions.Kinect
 
             return false;
         }
+
+        /// <summary>
+        /// End a skeleton recording.
+        /// </summary>
+        /// <returns>Indicate that the skeleton recording ending.</returns>
         private bool End()
         {
             if (skeletons != null)
@@ -67,6 +97,11 @@ namespace Dommy.Extensions.Kinect
             return false;
         }
 
+        /// <summary>
+        /// Write skeleton to a file.
+        /// </summary>
+        /// <param name="item">Skeleton item to write.</param>
+        /// <param name="writer">Stream writer of the file.</param>
         private void WriteSkeletonToFile(ISkeleton item, StreamWriter writer)
         {
             writer.Write("Skeleton : ");
@@ -76,15 +111,6 @@ namespace Dommy.Extensions.Kinect
             {
                 writer.Write(" {0} :", joinType);
                 writer.Write(item[joinType]);
-            }
-
-        }
-
-        public void NewSkeleton(ISkeleton skeleton)
-        {
-            if (skeletons != null)
-            {
-                skeletons.Add(skeleton);
             }
         }
     }

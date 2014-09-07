@@ -1,4 +1,12 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BaseTest.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the BaseTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Dommy.Business.Test
 {
     using System;

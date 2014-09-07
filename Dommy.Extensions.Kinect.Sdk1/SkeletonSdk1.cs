@@ -21,7 +21,7 @@ namespace Dommy.Extensions.Kinect.Sdk1
             }
         }
 
-        public IList<BodyJointType> GetJointTypes()
+        public IEnumerable<BodyJointType> GetJointTypes()
         {
             throw new NotImplementedException();
         }
