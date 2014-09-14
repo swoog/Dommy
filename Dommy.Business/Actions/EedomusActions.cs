@@ -9,7 +9,6 @@ namespace Dommy.Business.Actions
     using System.Globalization;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
-    using Ninject.Extensions.Logging;
 
     /// <summary>
     /// Eedomus syntax.
@@ -19,12 +18,12 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// Scenario syntax to use.
         /// </summary>
-        private IScenarioSyntax scenario;
+        private readonly IScenarioSyntax scenario;
 
         /// <summary>
         /// Eedomus helper.
         /// </summary>
-        private EedomusHelper eedomusHelper;
+        private readonly EedomusHelper eedomusHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EedomusActions" /> class.

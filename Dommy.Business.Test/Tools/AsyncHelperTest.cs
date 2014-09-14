@@ -1,16 +1,13 @@
-﻿using Dommy.Business.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.Test.Tools
 {
+    using System;
+    using System.Threading;
+    using Dommy.Business.Tools;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+    using Ninject.Extensions.Logging;
+
     [TestClass]
     public class AsyncHelperTest
     {

@@ -88,6 +88,9 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.Redist.7.1\lib\net40\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
@@ -208,11 +211,10 @@
     <Compile Include="Services\IWebServerHost.cs" />
     <Compile Include="Speech\SpeechToTextConfig.cs" />
     <Compile Include="Syntax\IExtendSyntax.cs" />
-    <Compile Include="Syntax\IScenarioDescriptionConfig.cs" />
+    <Compile Include="Syntax\ScenarioDescriptionConfig.cs" />
     <Compile Include="Syntax\IScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerSyntax.cs" />
-    <Compile Include="Syntax\ScenarioContext.cs" />
     <Compile Include="Syntax\SyntaxModule.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileManager.cs" />
@@ -249,7 +251,6 @@
     <Compile Include="Tools\SamsungTVHelper.cs" />
     <Compile Include="Tools\StringHelper.cs" />
     <Compile Include="Tools\AsyncHelper.cs" />
-    <Compile Include="Tools\XmlReaderPatch.cs" />
     <Compile Include="Triggers\ITrigger.cs" />
     <Compile Include="Triggers\RestTriggerSyntax.cs" />
     <Compile Include="Triggers\SpeechTrigger.cs" />

@@ -1,43 +1,101 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MovementChecker.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the MovementChecker type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Dommy.Extensions.Kinect
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    /// <summary>
+    /// The movement checker.
+    /// </summary>
     public class MovementChecker
     {
-        private JointType jointType;
+        /// <summary>
+        /// All vectors of the movement.
+        /// </summary>
+        private readonly List<Vector> checkMovements = new List<Vector>();
 
-        private int step = 0;
+        /// <summary>
+        /// The joint type to check.
+        /// </summary>
+        private readonly BodyJointType jointType;
 
-        private List<Vector> checkMovements = new List<Vector>();
+        /// <summary>
+        /// Time to execute the movement.
+        /// </summary>
+        private readonly TimeSpan timeToExecute;
+
+        /// <summary>
+        /// The step number of the checker.
+        /// </summary>
+        private int step;
+
+        /// <summary>
+        /// Actual position.
+        /// </summary>
         private Vector actualPosition;
-        private DateTime lastPosition = DateTime.MinValue;
-        private TimeSpan timeToExecute;
 
-        public MovementChecker(JointType jointType, TimeSpan time)
+        /// <summary>
+        /// Last position.
+        /// </summary>
+        private DateTime lastPosition = DateTime.MinValue;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MovementChecker"/> class.
+        /// </summary>
+        /// <param name="jointType">Joint type to check.</param>
+        /// <param name="time">Time to check the movement.</param>
+        public MovementChecker(BodyJointType jointType, TimeSpan time)
         {
             this.jointType = jointType;
             this.timeToExecute = time;
         }
 
-        public MovementChecker To(Vector vectore)
+        /// <summary>
+        /// Describe a vector movement.
+        /// </summary>
+        /// <param name="vector">Vector of the movement.</param>
+        /// <returns>Movement checker.</returns>
+        public MovementChecker To(Vector vector)
         {
             // Add function to the list.
-            this.checkMovements.Add(vectore);
+            this.checkMovements.Add(vector);
             return this;
         }
 
+        /// <summary>
+        /// Describe a vector movement.
+        /// </summary>
+        /// <param name="x">Right movement.</param>
+        /// <returns>Movement checker.</returns>
         public MovementChecker ToRight(int x)
         {
             return this.To(new Vector(x, 0, 0));
         }
 
+        /// <summary>
+        /// Describe a vector movement.
+        /// </summary>
+        /// <param name="x">Left movement.</param>
+        /// <returns>Movement checker.</returns>
         public MovementChecker ToLeft(int x)
         {
             return this.To(new Vector(-x, 0, 0));
         }
 
+        /// <summary>
+        /// Increment the skeleton movement.
+        /// </summary>
+        /// <param name="skeleton">Skeleton to check.</param>
+        /// <returns>Indicate if the check is good.</returns>
         public bool Check(ISkeleton skeleton)
         {
             // Update workflow movement
@@ -54,34 +112,39 @@ namespace Dommy.Extensions.Kinect
             }
 
             // Create vector movement
-            Vector movement = position - this.actualPosition;
+            var movement = position - this.actualPosition;
 
-            if (Check(this.checkMovements[this.step], movement))
+            if (this.Check(this.checkMovements[this.step], movement))
             {
                 this.step++;
-                // New position is the actual position + movement
 
+                // New position is the actual position + movement
                 this.actualPosition += movement;
                 this.lastPosition = DateTime.Now;
             }
 
-            if( this.step >= this.checkMovements.Count)
+            if (this.step >= this.checkMovements.Count)
             {
                 this.step = 0;
                 return true;
-            }else
-            {
-                return false;
             }
+
+            return false;
         }
 
+        /// <summary>
+        /// Check movement for a vector.
+        /// </summary>
+        /// <param name="vector">Vector to check.</param>
+        /// <param name="movement">Movement checked.</param>
+        /// <returns>Indicate that the movement is good.</returns>
         private bool Check(Vector vector, Vector movement)
         {
             float? averageX = vector.X == 0 ? default(float?) : movement.X / vector.X;
             float? averageY = vector.Y == 0 ? default(float?) : movement.Y / vector.Y;
             float? averageZ = vector.Z == 0 ? default(float?) : movement.Z / vector.Z;
 
-            if (AvgEqual(averageX, averageY, averageZ))
+            if (this.AvgEqual(averageX, averageY, averageZ))
             {
                 if ((!averageX.HasValue || averageX >= 1)
                     && (!averageY.HasValue || averageY >= 1)
@@ -90,7 +153,8 @@ namespace Dommy.Extensions.Kinect
                     Debug.WriteLine("actual({0}), movement({1}) : Check Step {2}", this.actualPosition, movement, this.step);
                     return true;
                 }
-                else if ((!averageX.HasValue || (averageX >= 0 && averageX < 1))
+
+                if ((!averageX.HasValue || (averageX >= 0 && averageX < 1))
                     && (!averageY.HasValue || (averageY >= 0 && averageY < 1))
                     && (!averageZ.HasValue || (averageZ >= 0 && averageZ < 1)))
                 {
@@ -101,7 +165,7 @@ namespace Dommy.Extensions.Kinect
 
             Debug.WriteLine("actual({0}), movement({1}) : not equal to Step {2}", this.actualPosition, movement, this.step);
 
-            if (this.step != 0 && Check(this.checkMovements[0], movement))
+            if (this.step != 0 && this.Check(this.checkMovements[0], movement))
             {
                 this.step = 1;
             }
@@ -111,24 +175,32 @@ namespace Dommy.Extensions.Kinect
             }
 
             // New position is the actual position + movement
-
             this.actualPosition += movement;
             this.lastPosition = DateTime.Now;
 
             return false;
         }
 
+        /// <summary>
+        /// Average equal. Used to verify if the vector is similar.
+        /// </summary>
+        /// <param name="x">X movement to test.</param>
+        /// <param name="y">Y movement to test.</param>
+        /// <param name="z">Z movement to test.</param>
+        /// <returns>Indicate if the movement is similar.</returns>
         private bool AvgEqual(float? x, float? y, float? z)
         {
             if (x.HasValue && y.HasValue && (x > y + 0.20 || x < y - 0.20))
             {
                 return false;
             }
-            else if (x.HasValue && y.HasValue && (y > z + 0.20 || y < z - 0.20))
+
+            if (x.HasValue && y.HasValue && (y > z + 0.20 || y < z - 0.20))
             {
                 return false;
             }
-            else if (x.HasValue && y.HasValue && (z > x + 0.20 || z < x - 0.20))
+
+            if (x.HasValue && y.HasValue && (z > x + 0.20 || z < x - 0.20))
             {
                 return false;
             }

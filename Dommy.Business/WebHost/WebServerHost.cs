@@ -1,18 +1,14 @@
-﻿using CassiniDev;
-using Dommy.Business.Configs;
-using Dommy.Business.Services;
-using Dommy.Business.Tools;
-using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Dommy.Business.WebHost
 {
+    using System.IO;
+    using System.ServiceModel;
+    using CassiniDev;
+    using Dommy.Business.Configs;
+    using Dommy.Business.Services;
+    using Dommy.Business.Tools;
+    using Ninject.Extensions.Logging;
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WebServerHost : IWebServerHost
     {
