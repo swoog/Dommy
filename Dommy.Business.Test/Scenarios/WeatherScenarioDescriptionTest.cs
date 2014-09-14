@@ -1,20 +1,19 @@
 ﻿using Dommy.Business.Scenarios;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Ninject;
-using System.Threading.Tasks;
+
 using Dommy.Business.Tools;
 using Dommy.Business.Syntax;
 
 namespace Dommy.Business.Test.Scenarios
 {
-    [TestClass]
+    using Xunit;
+
     public class WeatherScenarioDescriptionTest : BaseTest
     {
-        [TestMethod]
+        [Fact]
         public void CreateAndRunTest()
         {
             var kernel = this.CreateKernel();
@@ -39,7 +38,7 @@ namespace Dommy.Business.Test.Scenarios
             // Get this scenario
             var scenario = kernel.Get<IScenario>();
 
-            Assert.AreEqual("Météo", scenario.ScenarioName);
+            Assert.Equal("Météo", scenario.ScenarioName);
             scenario.Run();
         }
     }

@@ -105,7 +105,7 @@ namespace Dommy.Business.Tools
                     this.Logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
                 }
             }
-            catch (UriFormatException ex)
+            catch (UriFormatException)
             {
                 this.Logger.Error(url);
                 throw;

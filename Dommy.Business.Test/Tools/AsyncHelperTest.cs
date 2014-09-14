@@ -1,20 +1,17 @@
 ﻿using Dommy.Business.Tools;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Moq;
 using Ninject.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Dommy.Business.Test.Tools
 {
-    [TestClass]
+    using Xunit;
+
     public class AsyncHelperTest
     {
-        [TestMethod]
+        [Fact]
         public void WaitTest()
         {
             var speechLogger = new Moq.Mock<ISpeechLogger>();
@@ -29,7 +26,7 @@ namespace Dommy.Business.Test.Tools
             });
         }
 
-        [TestMethod]
+        [Fact]
         public void WaitTestLongRunTime()
         {
             var speechLogger = new Moq.Mock<ISpeechLogger>();
@@ -46,7 +43,7 @@ namespace Dommy.Business.Test.Tools
             speechLogger.Verify();
         }
 
-        [TestMethod]
+        [Fact]
         public void WaitTestLongRunTimeWithCallBeforeEnd()
         {
             var called = false;
@@ -55,7 +52,7 @@ namespace Dommy.Business.Test.Tools
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
                 .Callback(() =>
                 {
-                    Assert.IsFalse(end);
+                    Assert.False(end);
                     called = true;
                 });
 
@@ -68,7 +65,7 @@ namespace Dommy.Business.Test.Tools
 
             end = true;
 
-            Assert.IsFalse(called);
+            Assert.False(called);
         }
     }
 }
