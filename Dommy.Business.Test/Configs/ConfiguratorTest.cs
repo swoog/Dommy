@@ -41,12 +41,11 @@ namespace Dommy.Business.Test.Configs
 
             public void Create(Ninject.IKernel kernel)
             {
-                throw new NotImplementedException();
             }
 
             public string FakeMethod()
             {
-                throw new NotImplementedException();
+                return this.MyProperty;
             }
         }
     }

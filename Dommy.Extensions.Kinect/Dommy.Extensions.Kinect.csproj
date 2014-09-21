@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=7.1.0.0, Culture=neutral, PublicKeyToken=db26512813023263, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\JetBrains.Annotations.Redist.7.1\lib\net40\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -64,7 +68,7 @@
     <Compile Include="IKinectSkeletonListener.cs" />
     <Compile Include="ISkeleton.cs" />
     <Compile Include="ISkeletonListener.cs" />
-    <Compile Include="JointType.cs" />
+    <Compile Include="BodyJointType.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="MovementChecker.cs" />
     <Compile Include="RecordSkeletonScenarioDescription.cs" />

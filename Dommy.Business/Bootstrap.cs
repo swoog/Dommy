@@ -1,5 +1,17 @@
-﻿namespace Dommy.Business
+﻿//-----------------------------------------------------------------------
+// <copyright file="Bootstrap.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+
+namespace Dommy.Business
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime;
     using Dommy.Business.Configs;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Scripts;
@@ -8,20 +20,19 @@
     using Dommy.Business.Tools;
     using Dommy.Business.WebHost;
     using Ninject;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Runtime;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Bootstrap code for the process.
+    /// </summary>
     public static class Bootstrap
     {
+        /// <summary>
+        /// Bootstrap for default process.
+        /// </summary>
         public static void Run()
         {
             ProfileOptimization.SetProfileRoot(@".\");
-            ProfileOptimization.StartProfile(String.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
+            ProfileOptimization.StartProfile(string.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
 
             log4net.Config.XmlConfigurator.Configure();
 
@@ -29,7 +40,7 @@
 
             if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
             {
-                directory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "Dommy");
+                directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Dommy");
 
                 if (!Directory.Exists(directory))
                 {
@@ -43,7 +54,7 @@
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
 
-            Configure.Engine("Dommy");
+            Configure.Engine();
 
             Configure.TextToSpeech()
                 .With(c => c.Gender, Gender.Female)
@@ -51,8 +62,7 @@
 
             Configure.SpeechToText()
                 .With(c => c.Culture, "fr-FR")
-                .With(c => c.Confidence, 0.6)
-                ;
+                .With(c => c.Confidence, 0.6);
 
             Configure.Config<RestListener.Config>()
                 .With(c => c.Port, 5555);
@@ -85,13 +95,13 @@
 
             kernel.Bind<IWebRequest>().To<DommyWebRequest>();
 
-            List<IServiceHost> services = OpenServices(kernel);
+            IEnumerable<IServiceHost> services = OpenServices(kernel);
 
             var engine = kernel.Get<Engine>();
 
             engine.Init();
 
-            System.Console.ReadLine();
+            Console.ReadLine();
             engine.Stop();
 
             CloseServices(services);
@@ -99,15 +109,46 @@
             web.Stop();
         }
 
-        private static void CloseServices(List<IServiceHost> services)
+        /// <summary>
+        /// Bootstrap for x86 process.
+        /// </summary>
+        public static void RunX86()
         {
+            ProfileOptimization.SetProfileRoot(@".\");
+            ProfileOptimization.StartProfile(string.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
+
+            log4net.Config.XmlConfigurator.Configure();
+
+            var kernel = new StandardKernel();
+            kernel.Load("Dommy.*.x86.dll");
+
+            IEnumerable<IServiceHost> services = OpenServices(kernel);
+
+            Console.ReadLine();
+
+            CloseServices(services);
+        }
+
+        /// <summary>
+        /// Close all service host.
+        /// </summary>
+        /// <param name="services">All service host</param>
+        private static void CloseServices(IEnumerable<IServiceHost> services)
+        {
+            Contract.Requires(services != null);
+
             foreach (var item in services)
             {
                 item.Close();
             }
         }
 
-        private static List<IServiceHost> OpenServices(StandardKernel kernel)
+        /// <summary>
+        /// Open all service host.
+        /// </summary>
+        /// <param name="kernel">Ninject kernel.</param>
+        /// <returns>All open service host.</returns>
+        private static IEnumerable<IServiceHost> OpenServices(StandardKernel kernel)
         {
             var services = kernel.GetAll<IServiceHost>().ToList();
 
@@ -117,23 +158,6 @@
             }
 
             return services;
-        }
-
-        public static void RunX86()
-        {
-            ProfileOptimization.SetProfileRoot(@".\");
-            ProfileOptimization.StartProfile(String.Format("{0}.profile", AppDomain.CurrentDomain.FriendlyName));
-
-            log4net.Config.XmlConfigurator.Configure();
-
-            var kernel = new StandardKernel();
-            kernel.Load("Dommy.*.x86.dll");
-
-            List<IServiceHost> services = OpenServices(kernel);
-
-            Console.ReadLine();
-
-            CloseServices(services);
         }
     }
 }

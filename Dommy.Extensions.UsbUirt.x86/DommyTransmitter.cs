@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
-using UsbUirt;
-using UsbUirt.Enums;
-
+﻿
 namespace Dommy.Extensions.UsbUirt.x86
 {
+    using System.ServiceModel;
+    using global::UsbUirt;
+    using global::UsbUirt.Enums;
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class DommyTransmitter : ITransmitter
     {

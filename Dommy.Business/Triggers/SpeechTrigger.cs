@@ -1,11 +1,13 @@
-﻿using Dommy.Business.Scenarios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SpeechTrigger.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Dommy.Business.Triggers
 {
+    using System.Collections.Generic;
+    using Dommy.Business.Scenarios;
+
     public class SpeechTrigger : ITrigger
     {
         public void Init(Business.Engine currentEngine, IScenario currentScenario)

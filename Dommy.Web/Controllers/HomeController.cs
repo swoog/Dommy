@@ -61,13 +61,13 @@ namespace Dommy.Web.Controllers
         }
 
         public ActionResult TileRender(int tileId)
-        {
+    {
             using (var tileManager = clientTileManager.Create())
-            {
+        {
                 var tile = tileManager.Channel.GetTile(tileId);
 
                 if (string.IsNullOrEmpty(tile.View))
-                {
+            {
                     return View(new HomeTileRenderModel { Render = string.Empty });
                 }
 
@@ -75,7 +75,7 @@ namespace Dommy.Web.Controllers
 
                 return View(new HomeTileRenderModel { Render = html });
             }
-        }
+            }
 
         [HttpPost]
         public ActionResult Tile(int id)
@@ -83,7 +83,7 @@ namespace Dommy.Web.Controllers
             using (var tileManager = clientTileManager.Create())
             {
                 tileManager.Channel.Start(id);
-            }
+        }
 
             return null;
         }

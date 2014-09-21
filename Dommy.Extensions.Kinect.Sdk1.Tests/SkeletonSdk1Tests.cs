@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿
 namespace Dommy.Extensions.Kinect.Sdk1.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class SkeletonSdk1Tests
     {
@@ -34,7 +34,7 @@ namespace Dommy.Extensions.Kinect.Sdk1.Tests
 
             var skeleton = new SkeletonSdk1(kinectSkeleton);
 
-            Assert.AreEqual(new Vector(1, 2, 3), skeleton[JointType.RightHand]);
+            Assert.AreEqual(new Vector(1, 2, 3), skeleton[BodyJointType.RightHand]);
         }
     }
 }

@@ -93,8 +93,10 @@
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.0.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.Redist.7.1\lib\net40\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -231,11 +233,10 @@
     <Compile Include="Services\IWebServerHost.cs" />
     <Compile Include="Speech\SpeechToTextConfig.cs" />
     <Compile Include="Syntax\IExtendSyntax.cs" />
-    <Compile Include="Syntax\IScenarioDescriptionConfig.cs" />
+    <Compile Include="Syntax\ScenarioDescriptionConfig.cs" />
     <Compile Include="Syntax\IScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerScenarioSyntax.cs" />
     <Compile Include="Syntax\ITriggerSyntax.cs" />
-    <Compile Include="Syntax\ScenarioContext.cs" />
     <Compile Include="Syntax\SyntaxModule.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileColor.cs" />
@@ -274,7 +275,6 @@
     <Compile Include="Tools\SamsungTVHelper.cs" />
     <Compile Include="Tools\StringHelper.cs" />
     <Compile Include="Tools\AsyncHelper.cs" />
-    <Compile Include="Tools\XmlReaderPatch.cs" />
     <Compile Include="Triggers\ITrigger.cs" />
     <Compile Include="Triggers\RestTriggerSyntax.cs" />
     <Compile Include="Triggers\SpeechTrigger.cs" />

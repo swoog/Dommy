@@ -1,16 +1,13 @@
-﻿using Dommy.Business.Scenarios;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ninject;
-using System.Threading.Tasks;
-using Dommy.Business.Tools;
-using Dommy.Business.Syntax;
-
+﻿
 namespace Dommy.Business.Test.Scenarios
 {
+    using System.Collections.Generic;
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Syntax;
+    using Dommy.Business.Tools;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Ninject;
+
     [TestClass]
     public class WeatherScenarioDescriptionTest : BaseTest
     {

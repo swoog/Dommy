@@ -1,11 +1,25 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Vector.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+// <summary>
+//   Vector class.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Dommy.Extensions.Kinect
 {
+    /// <summary>
+    /// Vector class.
+    /// </summary>
     public class Vector
     {
-        public float X { get; private set; }
-        public float Y { get; private set; }
-        public float Z { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Vector"/> class.
+        /// </summary>
+        /// <param name="x">X position.</param>
+        /// <param name="y">Y position.</param>
+        /// <param name="z">Z position.</param>
         public Vector(float x, float y, float z)
         {
             this.X = x;
@@ -13,32 +27,100 @@ namespace Dommy.Extensions.Kinect
             this.Z = z;
         }
 
-        public static Vector operator +(Vector m1, Vector m2)
+        /// <summary>
+        /// Gets the X position of vector.
+        /// </summary>
+        public float X { get; private set; }
+
+        /// <summary>
+        /// Gets the Y position of vector.
+        /// </summary>
+        public float Y { get; private set; }
+
+        /// <summary>
+        /// Gets the Z position of vector.
+        /// </summary>
+        public float Z { get; private set; }
+
+        /// <summary>
+        /// Add two vector.
+        /// </summary>
+        /// <param name="vector1">Vector 1</param>
+        /// <param name="vector2">Vector 2</param>
+        /// <returns>Added vector.</returns>
+        public static Vector operator +(Vector vector1, Vector vector2)
         {
-            return new Vector(m1.X + m2.X, m1.Y + m2.Y, m1.Z + m2.Z);
+            return new Vector(vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z);
         }
 
-        public static Vector operator -(Vector m1, Vector m2)
+        /// <summary>
+        /// Subtract two vector.
+        /// </summary>
+        /// <param name="vector1">Vector 1</param>
+        /// <param name="vector2">Vector 2</param>
+        /// <returns>Subtracted vector.</returns>
+        public static Vector operator -(Vector vector1, Vector vector2)
         {
-            return new Vector(m1.X - m2.X, m1.Y - m2.Y, m1.Z - m2.Z);
+            return new Vector(vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z);
         }
 
+        /// <summary>
+        /// Verify equality between two vectors.
+        /// </summary>
+        /// <param name="obj">Vector to compare.</param>
+        /// <returns>Indicate if vectors are equals.</returns>
         public override bool Equals(object obj)
         {
-            var v2 = (Vector)obj;
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
 
-            return this.X == v2.X && this.Y == v2.Y && this.Z == v2.Z;
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return this.Equals((Vector)obj);
         }
 
+        /// <summary>
+        /// Get hash code for vector.
+        /// </summary>
+        /// <returns>Hash code</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                int hashCode = this.X.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Z.GetHashCode();
+                return hashCode;
+            }
         }
 
+        /// <summary>
+        /// Convert vector to string.
+        /// </summary>
+        /// <returns>Display string of vector.</returns>
         public override string ToString()
         {
             return string.Format("X:{0}, Y: {1},Z: {2}", (int)this.X, (int)this.Y, (int)this.Z);
-;
+        }
+
+        /// <summary>
+        /// Equality of to vector.
+        /// </summary>
+        /// <param name="vector">Vector to compare.</param>
+        /// <returns>Indicate if two vector is equals.</returns>
+        private bool Equals(Vector vector)
+        {
+            return this.X.Equals(vector.X) && this.Y.Equals(vector.Y) && this.Z.Equals(vector.Z);
         }
     }
 }

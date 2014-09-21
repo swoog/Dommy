@@ -1,14 +1,14 @@
-﻿using Dommy.Business.Syntax;
-using Ninject;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="TileTriggerSyntax.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Dommy.Business.Triggers
 {
+    using System.Drawing;
+    using Dommy.Business.Syntax;
+    using Ninject;
+
     public class TileTriggerSyntax : ITileTriggerSyntax
     {
         private IKernel kernel;

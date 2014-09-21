@@ -10,6 +10,7 @@ namespace Dommy.Business.Configs
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Xml;
     using Dommy.Business.Speech;
     using Dommy.Business.Syntax;
@@ -218,7 +219,7 @@ namespace Dommy.Business.Configs
                 }
                 else if (reader.NodeType == XmlNodeType.Text && !string.IsNullOrEmpty(propertyName))
                 {
-                    var property = config.GetType().GetProperty(propertyName);
+                    var property = config.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
                     object val = null;
 
                     if (property.PropertyType.IsEnum)

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using global::UsbUirt;
-using System.ServiceModel;
-
+﻿
 namespace Dommy.Extensions.UsbUirt.x86
 {
+    using global::UsbUirt;
+    using System.ServiceModel;
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class DommyLearner : ILearner
     {

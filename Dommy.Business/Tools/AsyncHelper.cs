@@ -1,49 +1,75 @@
-﻿using Ninject.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="AsyncHelper.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Business.Tools
 {
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Ninject.Extensions.Logging;
+
+    /// <summary>
+    /// Asynchronous helper.
+    /// </summary>
     public class AsyncHelper
     {
-        private ILogger logger;
+        /// <summary>
+        /// Errors logger.
+        /// </summary>
+        private readonly ILogger logger;
 
-        private ISpeechLogger speechLogger;
+        /// <summary>
+        /// Speech logger.
+        /// </summary>
+        private readonly ISpeechLogger speechLogger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AsyncHelper"/> class.
+        /// </summary>
+        /// <param name="speechLogger">Speech logger.</param>
+        /// <param name="logger">Errors logger.</param>
         public AsyncHelper(ISpeechLogger speechLogger, ILogger logger)
         {
             this.speechLogger = speechLogger;
             this.logger = logger;
         }
 
-        public void Wait(System.Action action)
+        /// <summary>
+        /// Decorate the code with the wait pattern.
+        /// </summary>
+        /// <param name="action">Code to wait.</param>
+        public void Wait(Action action)
         {
-            Wait(() =>
-            {
-                action();
-                return 0;
-            });
+            this.Wait(() =>
+                {
+                    action();
+                    return 0;
+                });
         }
 
-        public T Wait<T>(Func<T> action)
+        /// <summary>
+        /// Decorate the code with the wait pattern.
+        /// </summary>
+        /// <typeparam name="T">Return type.</typeparam>
+        /// <param name="action">Code to wait.</param>
+        private void Wait<T>(Func<T> action)
         {
             Contract.Requires(action != null);
             using (var cancelationToken = new CancellationTokenSource())
             {
                 var ct = cancelationToken.Token;
-                Task.Run(((Action)this.SayWait), ct);
+                Task.Run((Action)this.SayWait, ct);
 
                 try
                 {
                     this.logger.Debug("Begin action");
-                    var result = action();
+                    action();
                     this.logger.Debug("End action");
-                    return result;
+                    return;
                 }
                 finally
                 {
@@ -52,53 +78,30 @@ namespace Dommy.Business.Tools
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-        public T Retry<T>(int count, Func<T> action)
-        {
-            Contract.Requires(action != null);
-            Contract.Requires(count >= 1);
-
-            Exception error;
-            do
-            {
-                try
-                {
-                    return action();
-                }
-                catch (Exception ex)
-                {
-                    this.logger.Error(ex, "Error retry ({0})", count);
-                    error = ex;
-                }
-
-                Thread.Sleep(TimeSpan.FromSeconds(1));
-                count--;
-            } while (count >= 0);
-
-            throw error;
-        }
-
+        /// <summary>
+        /// Method used to say wait sentence after 1 second.
+        /// </summary>
         private void SayWait()
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
 
-            if (!Task.Factory.CancellationToken.IsCancellationRequested &&
-                !this.speechLogger.IgnoreRecognition)
+            if (!Task.Factory.CancellationToken.IsCancellationRequested 
+                && !this.speechLogger.IgnoreRecognition)
             {
-
                 this.logger.Debug("Say");
-                var rechercheSentence = new string[]{
-                        "Je recherche...",
-                        "Je cherche...",
-                        "Attend...",
-                        "2 secondes...",
-                        "3 secondes...",
-                        "Recherche...",
-                        "Patientez...",
-                        "Encours...",
-                        "Oui je recherche...",
-                        "Je vais te dire cela dans quelques secondes.",
-                    };
+                var rechercheSentence = new[]
+                {
+                    "Je recherche...",
+                    "Je cherche...",
+                    "Attend...",
+                    "2 secondes...",
+                    "3 secondes...",
+                    "Recherche...",
+                    "Patientez...",
+                    "Encours...",
+                    "Oui je recherche...",
+                    "Je vais te dire cela dans quelques secondes."
+                };
 
                 this.speechLogger.Say(Actor.Dommy, StringHelper.Format(rechercheSentence));
             }

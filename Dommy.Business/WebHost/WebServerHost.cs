@@ -1,28 +1,21 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="WebServerHost.cs" company="TrollCorp">
-//     Copyright (c) agaltier, TrollCorp. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
+﻿
 namespace Dommy.Business.WebHost
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using System.ServiceModel;
-    using System.Text;
-    using System.Threading.Tasks;
     using CassiniDev;
     using Dommy.Business.Configs;
     using Dommy.Business.Services;
     using Dommy.Business.Tools;
+
     using Microsoft.AspNet.SignalR.Client;
     using Microsoft.Owin.Hosting.Services;
     using Microsoft.Owin.Hosting.Starter;
+
     using Ninject.Extensions.Logging;
-    using Owin;
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class WebServerHost : IWebServerHost
     {
@@ -96,8 +89,8 @@ namespace Dommy.Business.WebHost
                     if (File.Exists(file))
                     {
                         return Assembly.LoadFile(file);
-                    }
                 }
+            }
 
                 return null;
             };

@@ -11,8 +11,16 @@ using System.Text;
 
 namespace Dommy.Business
 {
+    using System.Globalization;
+
+    /// <summary>
+    /// Data about a tile.
+    /// </summary>
     public class Tile
     {
+        /// <summary>
+        /// Gets or sets title.
+        /// </summary>
         public string SectionName { get; set; }
 
         public string Title { get; set; }
@@ -25,6 +33,9 @@ namespace Dommy.Business
 
         public object Data { get; set; }
 
+        /// <summary>
+        /// Gets width size.
+        /// </summary>
         public int Width
         {
             get
@@ -40,6 +51,9 @@ namespace Dommy.Business
             }
         }
 
+        /// <summary>
+        /// Gets height size.
+        /// </summary>
         public int Height
         {
             get

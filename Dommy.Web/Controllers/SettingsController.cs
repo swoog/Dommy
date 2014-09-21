@@ -13,6 +13,7 @@ namespace Dommy.Web.Controllers
     using System.Web.Mvc;
     using Dommy.Business.Configs;
     using Dommy.Business.Services;
+
     public class SettingsController : Controller
     {
         private IClientFactory<ISettings> clientSettings;
@@ -31,7 +32,7 @@ namespace Dommy.Web.Controllers
                 var settings = tileManager.Channel.GetSettings();
             }
 
-            return View();
+            return this.View();
         }
-	}
+    }
 }
