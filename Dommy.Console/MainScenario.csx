@@ -34,7 +34,7 @@ Scenario.Create()
 		.Command("ShutDown", "/t 0 /r")
 		.Start();
 
-Scenario.CreateFrom<RecodSkeletonScenarioDescription>();
+Scenario.CreateFrom<RecordSkeletonScenarioDescription>();
 
 Scenario.Create("Kinect Test")
 		.KinectTrigger<HelloSkeletonCheck>()

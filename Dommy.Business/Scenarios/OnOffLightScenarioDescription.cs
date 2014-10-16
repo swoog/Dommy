@@ -71,7 +71,7 @@ namespace Dommy.Business.Scenarios
                 .TileUpdate(tile)
                 .Start();
 
-            tile.Setembedded("Dommy.Business.Scenarios.OnOffLightScenarioTile.cshtml");
+            tile.Setembedded("Dommy.Business.Scenarios.OnOffLightScenarioTile.html");
 
             Scenario.Create(StringHelper.Format("Tile lumière {Name} Notification", this.RoomNames.First()))
                 .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
