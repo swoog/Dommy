@@ -133,6 +133,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -148,8 +149,10 @@
   <ItemGroup>
     <Compile Include="Actions\EedomusActions.cs" />
     <Compile Include="Actions\EedomusApi.cs" />
+    <Compile Include="Actions\HyperionActions.cs" />
     <Compile Include="Actions\IEedomusActions.cs" />
     <Compile Include="Actions\IfActions.cs" />
+    <Compile Include="Actions\IHyperionActions.cs" />
     <Compile Include="Actions\IIfActions.cs" />
     <Compile Include="Actions\IPingActions.cs" />
     <Compile Include="Actions\ISayActions.cs" />
@@ -222,6 +225,7 @@
     <Compile Include="Actions\EedomusAction.cs" />
     <Compile Include="Tools\DommyWebRequest.cs" />
     <Compile Include="Tools\EedomusException.cs" />
+    <Compile Include="Tools\HyperionHelper.cs" />
     <Compile Include="Tools\ITvHelper.cs" />
     <Compile Include="Actions\IUrlActions.cs" />
     <Compile Include="Tools\IWebRequest.cs" />

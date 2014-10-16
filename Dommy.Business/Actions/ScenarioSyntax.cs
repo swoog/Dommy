@@ -527,5 +527,10 @@ namespace Dommy.Business.Actions
         {
             return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
         }
+
+        public IScenarioSyntax HyperionEffect(string effectName, int duration = -1)
+        {
+            return this.Extend<IHyperionActions>().HyperionEffect(effectName, duration);
+        }
     }
 }

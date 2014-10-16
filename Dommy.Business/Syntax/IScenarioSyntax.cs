@@ -14,7 +14,15 @@ namespace Dommy.Business.Syntax
     /// <summary>
     /// Description of the scenario syntax.
     /// </summary>
-    public interface IScenarioSyntax : IKernelInfo, IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions
+    public interface IScenarioSyntax : IKernelInfo,
+        IIfActions, 
+        IPingActions, 
+        ITVActions, 
+        ISayActions, 
+        IUrlActions, 
+        IEedomusActions, 
+        ISynologyDownloadActions, 
+        IHyperionActions
     {
         /// <summary>
         /// Generic lambda action.

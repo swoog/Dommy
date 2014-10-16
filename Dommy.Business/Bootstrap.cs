@@ -97,6 +97,12 @@ namespace Dommy.Business
 
             IEnumerable<IServiceHost> services = OpenServices(kernel);
 
+            Scenario.Create("Hyperion Test")
+                .StartupTrigger()
+                .RestTrigger("/hyperion")
+                .HyperionEffect("Knight rider", 5000)
+                .Start();
+
             var engine = kernel.Get<Engine>();
 
             engine.Init();
