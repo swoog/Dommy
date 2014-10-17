@@ -9,6 +9,7 @@ namespace Dommy.Business.Actions
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Threading.Tasks;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
@@ -168,8 +169,8 @@ namespace Dommy.Business.Actions
                         new SentenceAction()
                         {
                             Sentences = response, Action = s => 
-                {
-                    scenario(s.Text, ss).ToScenario().Run();
+                            {
+                                scenario(s.Text, ss).ToScenario().Run();
                             }
                         }
                     }, 
@@ -546,6 +547,21 @@ namespace Dommy.Business.Actions
         public IScenarioSyntax TileUpdate(Tile tile)
         {
             return this.Extend<ITileActions>().TileUpdate(tile);
+        }
+
+        public IScenarioSyntax HyperionEffect(string effectName, int? duration = null)
+        {
+            return this.Extend<IHyperionActions>().HyperionEffect(effectName, duration: duration);
+        }
+
+        public IScenarioSyntax HyperionColor(Color color, int? duration = null)
+        {
+            return this.Extend<IHyperionActions>().HyperionColor(color, duration: duration);
+        }
+
+        public IScenarioSyntax HyperionClear()
+        {
+            return this.Extend<IHyperionActions>().HyperionClear();
         }
     }
 }

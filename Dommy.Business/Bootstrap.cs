@@ -9,6 +9,7 @@ namespace Dommy.Business
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Runtime;

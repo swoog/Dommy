@@ -7,14 +7,23 @@
 namespace Dommy.Business.Syntax
 {
     using System;
-using Dommy.Business.Actions;
-using Dommy.Business.Scenarios;
-using Ninject;
+    using Dommy.Business.Actions;
+    using Dommy.Business.Scenarios;
+    using Ninject;
 
     /// <summary>
     /// Description of the scenario syntax.
     /// </summary>
-    public interface IScenarioSyntax : IKernelInfo, IIfActions, IPingActions, ITVActions, ISayActions, IUrlActions, IEedomusActions, ISynologyDownloadActions, ITileActions
+    public interface IScenarioSyntax : IKernelInfo,
+        IIfActions, 
+        IPingActions, 
+        ITVActions, 
+        ISayActions, 
+        IUrlActions, 
+        IEedomusActions, 
+        ISynologyDownloadActions, 
+        IHyperionActions,
+        ITileActions
     {
         /// <summary>
         /// Generic lambda action.
