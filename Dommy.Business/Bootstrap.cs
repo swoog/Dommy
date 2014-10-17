@@ -9,6 +9,7 @@ namespace Dommy.Business
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Runtime;
@@ -96,12 +97,6 @@ namespace Dommy.Business
             kernel.Bind<IWebRequest>().To<DommyWebRequest>();
 
             IEnumerable<IServiceHost> services = OpenServices(kernel);
-
-            Scenario.Create("Hyperion Test")
-                .StartupTrigger()
-                .RestTrigger("/hyperion")
-                .HyperionEffect("Knight rider", 5000)
-                .Start();
 
             var engine = kernel.Get<Engine>();
 

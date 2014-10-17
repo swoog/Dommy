@@ -2,8 +2,10 @@ namespace Dommy.Business.Tools
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.IO;
     using System.Net.Http;
+    using System.Threading.Tasks;
 
     using Dommy.Business.Configs;
 
@@ -20,29 +22,62 @@ namespace Dommy.Business.Tools
             this.uri = uri;
         }
 
-        public async void Effect(string effectName, int duration)
+        public async void Effect(string effectName, int? duration)
         {
-            var client = new HttpClient();
-
-            var c = JsonConvert.SerializeObject(
-                new HyperionCommand()
+            var hyperionCommand = new HyperionCommand()
             {
                 Command = "effect",
                 Effect = new HyperionEffect() { Name = effectName },
                 Duration = duration,
                 Priority = 100,
-            },
-                Formatting.None);
+            };
+
+            this.SendToHyperion(hyperionCommand);
+        }
+
+        public void Color(Color color, int? duration)
+        {
+            var hyperionCommand = new HyperionCommand()
+            {
+                Command = "color",
+                Color = new int[] { color.R, color.G, color.B },
+                Duration = duration,
+                Priority = 100,
+            };
+
+            this.SendToHyperion(hyperionCommand);
+        }
+
+        public void Clear()
+        {
+            var hyperionCommand = new HyperionCommand()
+                                      {
+                                          Command = "clear",
+                                          Priority = 100,
+                                      };
+
+            this.SendToHyperion(hyperionCommand);
+        }
+
+        private async void SendToHyperion(HyperionCommand hyperionCommand)
+        {
+            var c = JsonConvert.SerializeObject(
+                hyperionCommand,
+                Formatting.None,
+                new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
 
             var content = new StringContent(string.Format("{0}\n", c));
 
             try
             {
+                var client = new HttpClient();
                 await client.PostAsync(this.uri, content);
             }
             catch (Exception)
             {
-                
             }
         }
 
@@ -72,9 +107,12 @@ namespace Dommy.Business.Tools
         public HyperionEffect Effect { get; set; }
 
         [JsonProperty("duration")]
-        public int Duration { get; set; }
+        public int? Duration { get; set; }
 
         [JsonProperty("priority")]
         public int Priority { get; set; }
+
+        [JsonProperty("color")]
+        public int[] Color { get; set; }
     }
 }

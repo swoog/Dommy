@@ -9,6 +9,7 @@ namespace Dommy.Business.Actions
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Threading.Tasks;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Syntax;
@@ -528,9 +529,19 @@ namespace Dommy.Business.Actions
             return this.Kernel.Get<T>(new ConstructorArgument("scenario", this));
         }
 
-        public IScenarioSyntax HyperionEffect(string effectName, int duration = -1)
+        public IScenarioSyntax HyperionEffect(string effectName, int? duration = null)
         {
-            return this.Extend<IHyperionActions>().HyperionEffect(effectName, duration);
+            return this.Extend<IHyperionActions>().HyperionEffect(effectName, duration: duration);
+        }
+
+        public IScenarioSyntax HyperionColor(Color color, int? duration = null)
+        {
+            return this.Extend<IHyperionActions>().HyperionColor(color, duration: duration);
+        }
+
+        public IScenarioSyntax HyperionClear()
+        {
+            return this.Extend<IHyperionActions>().HyperionClear();
         }
     }
 }

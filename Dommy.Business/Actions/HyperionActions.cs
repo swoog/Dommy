@@ -1,5 +1,6 @@
 ﻿namespace Dommy.Business.Actions
 {
+    using System.Drawing;
     using System.Net.Http;
 
     using Dommy.Business.Scenarios;
@@ -18,7 +19,7 @@
             this.hyperionHelper = hyperionHelper;
         }
 
-        public IScenarioSyntax HyperionEffect(string effectName, int duration = -1)
+        public IScenarioSyntax HyperionEffect(string effectName, int? duration = null)
         {
             return this.scenario.Action(() =>
                 {
@@ -26,6 +27,26 @@
 
                 return true;
             });
+        }
+
+        public IScenarioSyntax HyperionColor(Color color, int? duration = null)
+        {
+            return this.scenario.Action(() =>
+                {
+                    this.hyperionHelper.Color(color, duration);
+
+                    return true;
+                });
+        }
+
+        public IScenarioSyntax HyperionClear()
+        {
+            return this.scenario.Action(() =>
+                {
+                    this.hyperionHelper.Clear();
+
+                    return true;
+                });
         }
     }
 }
