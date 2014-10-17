@@ -32,6 +32,7 @@ namespace Dommy.Business.Scripts
             engine.AddReference("System.Core");
             engine.AddReference("System.ServiceModel");
             engine.AddReference("System.Xml");
+            engine.AddReference("System.Drawing");
 
             var session = engine.CreateSession(this);
             session.SetReferenceSearchPaths(Environment.CurrentDirectory);
