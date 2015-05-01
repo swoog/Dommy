@@ -1,14 +1,20 @@
-﻿using Ninject;
-using Ninject.MockingKernel.Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="BaseTest.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+// <summary>
+//   Defines the BaseTest type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Dommy.Business.Test
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Ninject;
+    using Ninject.MockingKernel.Moq;
+
     public class BaseTest
     {
         static BaseTest()

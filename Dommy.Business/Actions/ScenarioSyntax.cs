@@ -161,7 +161,6 @@ namespace Dommy.Business.Actions
             var ss = Scenario.Create().NoTrigger();
             this.actions.Add(() =>
             {
-
                 this.Engine.Listener<SpeechListener>()
                     .Precision(
                     new List<SentenceAction>
@@ -301,7 +300,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TVCommand(TVCommand command)
+        public IScenarioSyntax TVCommand(TvCommand command)
         {
             return this.Extend<ITVActions>().TVCommand(command);
         }

@@ -1,8 +1,8 @@
-﻿using Dommy.Business.Scenarios;
-
+﻿
 namespace Dommy.Business.Test
 {
     using Xunit;
+    using Dommy.Business.Scenarios;
 
     public class FreeboxScenarioDescriptionTest
     {

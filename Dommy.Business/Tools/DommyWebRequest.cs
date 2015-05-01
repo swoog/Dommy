@@ -1,8 +1,8 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="IWebRequest.cs" company="TrollCorp">
-//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="DommyWebRequest.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
-//-----------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Dommy.Business.Tools
 {
@@ -14,9 +14,14 @@ namespace Dommy.Business.Tools
     /// </summary>
     public class DommyWebRequest : IWebRequest
     {
+        /// <summary>
+        /// Create stream from uri.
+        /// </summary>
+        /// <param name="uri">Uri of the stream.</param>
+        /// <returns>An opened stream.</returns>
         public Stream Create(System.Uri uri)
         {
-            var request = HttpWebRequest.Create(uri);
+            var request = WebRequest.Create(uri);
 
             var response = request.GetResponse();
 

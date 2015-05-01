@@ -8,8 +8,12 @@ namespace Dommy.Business.Scripts
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using Dommy.Business.Configs;
+
+    using JetBrains.Annotations;
+
     using Ninject.Extensions.Conventions;
     using Ninject.Extensions.Logging;
 
@@ -21,17 +25,17 @@ namespace Dommy.Business.Scripts
         /// <summary>
         /// All scripts engines.
         /// </summary>
-        private IList<IScriptEngine> scriptEngines;
+        private readonly IList<IScriptEngine> scriptEngines;
 
         /// <summary>
         /// Speech logger.
         /// </summary>
-        private ISpeechLogger speechLogger;
+        private readonly ISpeechLogger speechLogger;
 
         /// <summary>
         /// Errors logger.
         /// </summary>
-        private ILogger logger;
+        private readonly ILogger logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScriptEngine"/> class.
@@ -49,6 +53,7 @@ namespace Dommy.Business.Scripts
         /// <summary>
         /// Gets or sets scripts directory.
         /// </summary>
+        [UsedImplicitly]
         public string ScriptDirectory { get; set; }
 
         /// <summary>
@@ -66,6 +71,8 @@ namespace Dommy.Business.Scripts
         /// <param name="directory">Directory to search.</param>
         private void ExecuteDirectory(string directory)
         {
+            Contract.Requires(!string.IsNullOrEmpty(directory));
+
             if (!Directory.Exists(directory))
             {
                 try
@@ -109,6 +116,7 @@ namespace Dommy.Business.Scripts
             /// <summary>
             /// Gets or sets the scripts directory.
             /// </summary>
+            [UsedImplicitly]
             public string ScriptDirectory { get; set; }
 
             /// <summary>

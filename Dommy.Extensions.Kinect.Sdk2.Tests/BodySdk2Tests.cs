@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+namespace Dommy.Extensions.Kinect.Sdk2.Tests
+{
+using System;
 
 namespace Dommy.Extensions.Kinect.Sdk2.Tests
 {

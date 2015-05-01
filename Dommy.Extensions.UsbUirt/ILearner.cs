@@ -1,7 +1,9 @@
-using System.ServiceModel;
+
 
 namespace Dommy.Extensions.UsbUirt
 {
+    using System.ServiceModel;
+
     [ServiceContract]
     public interface ILearner
     {

@@ -1,8 +1,11 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="RecodSkeletonScenarioDescription.cs" company="TrollCorp">
-//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ISkeletonListener.cs" company="TrollCorp">
+//   Copyright (c) agaltier, TrollCorp. All rights reserved.
 // </copyright>
-//-----------------------------------------------------------------------
+// <summary>
+//   
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Dommy.Extensions.Kinect
 {

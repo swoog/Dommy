@@ -68,26 +68,14 @@ namespace Dommy.Business
             ScriptEngine scriptEngine,
             IList<IListener> listeners)
         {
+            Contract.Requires(listeners != null);
+
             this.Name = name;
             this.kernel = kernel;
             this.logger = logger;
             this.speechLogger = speechLogger;
             this.scriptEngine = scriptEngine;
             this.listeners = listeners.OrderBy(this.OrderListener).ToArray();
-        }
-
-        private int OrderListener(IListener arg)
-        {
-            var att = arg.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
-
-            if (att.Length != 0)
-            {
-                return ((OrderAttribute)att[0]).Order;
-            }
-            else
-            {
-                return 100;
-            }
         }
 
         /// <summary>
@@ -276,6 +264,27 @@ namespace Dommy.Business
         private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             this.SayError(e.ExceptionObject as Exception);
+        }
+
+        /// <summary>
+        /// Order start of listener with the <see cref="OrderAttribute"/>.
+        /// </summary>
+        /// <param name="listener">Listener to order.</param>
+        /// <returns>Value used to order.</returns>
+        private int OrderListener(IListener listener)
+        {
+            Contract.Requires(listener != null);
+
+            var att = listener.GetType().GetCustomAttributes(typeof(OrderAttribute), true);
+
+            if (att.Length != 0)
+            {
+                return ((OrderAttribute)att[0]).Order;
+            }
+            else
+            {
+                return 100;
+            }
         }
     }
 }

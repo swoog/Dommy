@@ -1,10 +1,10 @@
-﻿using Dommy.Business.Scenarios;
-using Dommy.Business.Triggers;
-
-using Ninject;
-
-namespace Dommy.Business.Test.Triggers
+﻿namespace Dommy.Business.Test.Triggers
 {
+    using Dommy.Business.Scenarios;
+    using Dommy.Business.Triggers;
+
+    using Ninject;
+
     using Xunit;
 
     public class SpeechTriggerTest : BaseTest

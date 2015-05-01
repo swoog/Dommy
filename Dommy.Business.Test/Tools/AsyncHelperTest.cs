@@ -1,12 +1,14 @@
-﻿using Dommy.Business.Tools;
-
-using Moq;
-using Ninject.Extensions.Logging;
-using System;
-using System.Threading;
-
-namespace Dommy.Business.Test.Tools
+﻿namespace Dommy.Business.Test.Tools
 {
+    using System;
+    using System.Threading;
+
+    using global::Dommy.Business.Tools;
+
+    using Moq;
+
+    using Ninject.Extensions.Logging;
+
     using Xunit;
 
     public class AsyncHelperTest
@@ -14,11 +16,11 @@ namespace Dommy.Business.Test.Tools
         [Fact]
         public void WaitTest()
         {
-            var speechLogger = new Moq.Mock<ISpeechLogger>();
+            var speechLogger = new Mock<ISpeechLogger>();
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
                 .Throws(new UnauthorizedAccessException("Call to this method is deny"));
 
-            var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
+            var helper = new AsyncHelper(speechLogger.Object, new Mock<ILogger>().Object);
 
             helper.Wait(() =>
             {
@@ -29,11 +31,11 @@ namespace Dommy.Business.Test.Tools
         [Fact]
         public void WaitTestLongRunTime()
         {
-            var speechLogger = new Moq.Mock<ISpeechLogger>();
+            var speechLogger = new Mock<ISpeechLogger>();
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
                 .Verifiable();
 
-            var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
+            var helper = new AsyncHelper(speechLogger.Object, new Mock<ILogger>().Object);
 
             helper.Wait(() =>
             {
@@ -48,7 +50,7 @@ namespace Dommy.Business.Test.Tools
         {
             var called = false;
             var end = false;
-            var speechLogger = new Moq.Mock<ISpeechLogger>();
+            var speechLogger = new Mock<ISpeechLogger>();
             speechLogger.Setup(s => s.Say(It.IsAny<Actor>(), It.IsAny<string>()))
                 .Callback(() =>
                 {
@@ -56,7 +58,7 @@ namespace Dommy.Business.Test.Tools
                     called = true;
                 });
 
-            var helper = new AsyncHelper(speechLogger.Object, new Moq.Mock<ILogger>().Object);
+            var helper = new AsyncHelper(speechLogger.Object, new Mock<ILogger>().Object);
 
             helper.Wait(() =>
             {

@@ -83,7 +83,7 @@ namespace Dommy.Business.Scenarios
         {
             Contract.Requires(0 < this.ElementNames.Count);
             var openCloseResponse = new OpenCloseResponse();
-            var sentences = (from s in new[] { "ferme {Name}"}
+            var sentences = (from s in new[] { "ferme {Name}" }
                              from r in this.ElementNames
                              select StringHelper.Format(s, r)).ToArray();
 
@@ -106,7 +106,7 @@ namespace Dommy.Business.Scenarios
         {
             Contract.Requires(0 < this.ElementNames.Count);
             var openCloseResponse = new OpenCloseResponse();
-            var sentences = (from s in new[] { "ouvre {Name}"}
+            var sentences = (from s in new[] { "ouvre {Name}" }
                              from r in this.ElementNames
                              select StringHelper.Format(s, r)).ToArray();
 
