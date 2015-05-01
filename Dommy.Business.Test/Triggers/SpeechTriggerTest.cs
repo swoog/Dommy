@@ -1,12 +1,12 @@
-﻿
-namespace Dommy.Business.Test.Triggers
+﻿namespace Dommy.Business.Test.Triggers
 {
     using Dommy.Business.Scenarios;
     using Dommy.Business.Triggers;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Ninject;
 
-    [TestClass]
+    using Xunit;
+
     public class SpeechTriggerTest : BaseTest
     {
         protected override Ninject.MockingKernel.Moq.MoqMockingKernel CreateKernel()
@@ -18,7 +18,7 @@ namespace Dommy.Business.Test.Triggers
             return kernel;
         }
 
-        [TestMethod]
+        [Fact]
         public void InitTest()
         {
             var kernel = this.CreateKernel();

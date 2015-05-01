@@ -17,12 +17,9 @@ namespace Dommy.Business.Test.Services
     using System.Threading.Tasks;
     using Dommy.Business.Services;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    /// <summary>
-    /// Test client WCF proxy.
-    /// </summary>
-    [TestClass]
+    using Xunit;
+
     public class ClientTest
     {
         [ServiceContract]
@@ -30,6 +27,18 @@ namespace Dommy.Business.Test.Services
         {
             [OperationContract]
             void FakeService();
+        }
+
+        /// <summary>
+        /// Create test.
+        /// </summary>
+        [Fact]
+        public void CreateTest()
+        {
+            using (var c = Client<IStubService>.Create())
+            {
+                Assert.NotNull(c.Channel);
+            }
         }
     }
 }

@@ -6,16 +6,12 @@
 
 namespace Dommy.Business.Test.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.ServiceModel;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Dommy.Business.Services;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
+    using Dommy.Business.Services;
+
+    using Xunit;
+
     public class ClientFactoryTest
     {
 
@@ -26,12 +22,12 @@ namespace Dommy.Business.Test.Services
             void FakeService();
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateTest()
         {
             using (var c = new ClientFactory<IStubService>().Create())
             {
-                Assert.IsNotNull(c.Channel);
+                Assert.NotNull(c.Channel);
             }
         }
     }

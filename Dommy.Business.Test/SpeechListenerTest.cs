@@ -1,10 +1,9 @@
-﻿
+﻿using Ninject;
+
 namespace Dommy.Business.Test
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Ninject;
+    using Xunit;
 
-    [TestClass]
     public class SpeechListenerTest : BaseTest
     {
         protected override Ninject.MockingKernel.Moq.MoqMockingKernel CreateKernel()
@@ -16,7 +15,7 @@ namespace Dommy.Business.Test
             return kernel;
         }
 
-        [TestMethod]
+        [Fact]
         public void SpeechRecognizedTest()
         {
             var kernel = this.CreateKernel();
@@ -34,7 +33,7 @@ namespace Dommy.Business.Test
             listenerPrivate.SpeechRecognized(sentence);
         }
 
-        [TestMethod]
+        [Fact]
         public void StartTest()
         {
             var kernel = this.CreateKernel();
@@ -49,7 +48,7 @@ namespace Dommy.Business.Test
             listener.Start();
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateGrammarTest()
         {
             var kernel = this.CreateKernel();
@@ -63,15 +62,15 @@ namespace Dommy.Business.Test
 
             var gram = listener.CreateGrammar(s => { }, new[] { "Test" });
 
-            Assert.IsNotNull(gram);
-            Assert.IsNotNull(gram.Choices);
-            Assert.AreEqual(1, gram.Choices.Count);
-            Assert.IsNotNull(gram.Choices[0].Elements);
-            Assert.AreEqual(1, gram.Choices[0].Elements.Count);
-            Assert.AreEqual("Test", gram.Choices[0].Elements[0]);
+            Assert.NotNull(gram);
+            Assert.NotNull(gram.Choices);
+            Assert.Equal(1, gram.Choices.Count);
+            Assert.NotNull(gram.Choices[0].Elements);
+            Assert.Equal(1, gram.Choices[0].Elements.Count);
+            Assert.Equal("Test", gram.Choices[0].Elements[0]);
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateGrammarTestWithPrefix()
         {
             var kernel = this.CreateKernel();
@@ -85,15 +84,15 @@ namespace Dommy.Business.Test
 
             var gram = listener.CreateGrammar(s => { }, new[] { "Test" }, true);
 
-            Assert.IsNotNull(gram);
-            Assert.IsNotNull(gram.Choices);
-            Assert.AreEqual(2, gram.Choices.Count);
-            Assert.IsNotNull(gram.Choices[0].Elements);
-            Assert.AreEqual(1, gram.Choices[0].Elements.Count);
-            Assert.AreEqual("Dommy", gram.Choices[0].Elements[0]);
-            Assert.IsNotNull(gram.Choices[1].Elements);
-            Assert.AreEqual(1, gram.Choices[1].Elements.Count);
-            Assert.AreEqual("Test", gram.Choices[1].Elements[0]);
+            Assert.NotNull(gram);
+            Assert.NotNull(gram.Choices);
+            Assert.Equal(2, gram.Choices.Count);
+            Assert.NotNull(gram.Choices[0].Elements);
+            Assert.Equal(1, gram.Choices[0].Elements.Count);
+            Assert.Equal("Dommy", gram.Choices[0].Elements[0]);
+            Assert.NotNull(gram.Choices[1].Elements);
+            Assert.Equal(1, gram.Choices[1].Elements.Count);
+            Assert.Equal("Test", gram.Choices[1].Elements[0]);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿namespace Dommy.Business.Test
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class BootstrapTests
     {
-        [TestMethod]
+        [Fact]
         public void Should_load_configuration_when_run()
         {
             Bootstrap.Run();
