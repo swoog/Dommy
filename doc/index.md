@@ -2,8 +2,7 @@ Get started
 -----------
 
 - [Compilation source code](compilation.md)
-- [Setup package]
-- [First scenario]
+- [First scenario](first.md)
 
 Syntax scenarios
 ----------------
