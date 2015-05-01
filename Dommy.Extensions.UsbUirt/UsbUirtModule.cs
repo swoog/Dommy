@@ -10,9 +10,10 @@ namespace Dommy.Extensions.UsbUirt
     {
         public override void Load()
         {
-            this.Kernel.Bind<ILearner>().ToMethod(c => Client<ILearner>.Create().Channel);
-            this.Kernel.Bind<ITransmitter>().ToMethod(c => Client<ITransmitter>.Create().Channel);
-            this.Kernel.Bind<IReceiver>().ToMethod(c => Client<IReceiver>.Create().Channel);
+            this.Kernel.Bind<IClientFactory<ILearner>>().To<ClientFactory<ILearner>>();
+            this.Kernel.Bind<IClientFactory<ITransmitter>>().To<ClientFactory<ITransmitter>>();
+            this.Kernel.Bind<IClientFactory<IReceiver>>().To<ClientFactory<IReceiver>>();
+
 
             this.Kernel.Bind<UsbUirtListener>().ToSelf().InSingletonScope();
             this.Kernel.Bind<IListener>().ToMethod(c => c.Kernel.Get<UsbUirtListener>()).InSingletonScope();

@@ -22,6 +22,18 @@ namespace Dommy.Business.Scenarios
         public void Create()
         {
             var value = new TimeData();
+            Tile tile;
+
+            Scenario.Create(StringHelper.Format("Tile Time"))
+                .TileTrigger(out tile, null, "Time", TileColor.EasternBlue)
+                .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(10))
+                .Action(() =>
+                {
+                    tile.Data = DateTime.Now;
+                    return true;
+                })
+                .TileUpdate(tile)
+                .Start();
 
             Scenario.Create("Heure")
                 .SpeechTrigger("Quel heure est-il", "Donne moi l'heure", "L'heure s'il te plait")

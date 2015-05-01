@@ -6,13 +6,13 @@
 
 namespace Dommy.Business.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.ServiceModel;
-    using System.ServiceModel.Description;
-    using System.Text;
-    using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Description;
+using System.Text;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Create client channel for the WCF contract.
@@ -29,7 +29,7 @@ namespace Dommy.Business.Services
         /// Initializes a new instance of the <see cref="Client{T}"/> class.
         /// </summary>
         /// <param name="channel">WCF channel.</param>
-        private Client(T channel)
+        public Client(T channel)
         {
             this.Channel = channel;
         }

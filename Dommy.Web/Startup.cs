@@ -7,7 +7,8 @@ namespace Dommy.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            // app.MapHubs();
+            //app.UseCors()
+            app.MapSignalR();
         }
     }
 }

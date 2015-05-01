@@ -9,8 +9,12 @@
 
 namespace Dommy.Business.Test.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.ServiceModel;
-
+    using System.Text;
+    using System.Threading.Tasks;
     using Dommy.Business.Services;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,29 +25,11 @@ namespace Dommy.Business.Test.Services
     [TestClass]
     public class ClientTest
     {
-        /// <summary>
-        /// Stub service interface.
-        /// </summary>
         [ServiceContract]
         private interface IStubService
         {
-            /// <summary>
-            /// Fake operation contract.
-            /// </summary>
             [OperationContract]
             void FakeService();
-        }
-
-        /// <summary>
-        /// Create test.
-        /// </summary>
-        [TestMethod]
-        public void CreateTest()
-        {
-            using (var c = Client<IStubService>.Create())
-            {
-                Assert.IsNotNull(c.Channel);
-            }
         }
     }
 }

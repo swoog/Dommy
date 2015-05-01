@@ -84,5 +84,19 @@ namespace Dommy.Business.Tools
                         return "{" + m.Groups[1].Value + "}";
                     });
         }
+
+        public static string LowerFirstChar(this string text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+            else if (text.Length == 1)
+            {
+                return text.ToLower();
+            }
+
+            return string.Format("{0}{1}", text.Substring(0, 1).ToLower(), text.Substring(1));
+        }
     }
 }

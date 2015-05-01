@@ -12,6 +12,8 @@ namespace Dommy.Business.Triggers
 
     using JetBrains.Annotations;
 
+    using Ninject.Extensions.Logging;
+
     /// <summary>
     /// Timer trigger.
     /// </summary>
@@ -27,13 +29,11 @@ namespace Dommy.Business.Triggers
         /// Scenario to callback.
         /// </summary>
         private IScenario scenario;
+        private ILogger logger;
 
-        /// <summary>
-        /// Finalizes an instance of the <see cref="TimeTrigger"/> class. 
-        /// </summary>
-        ~TimeTrigger()
+        public TimeTrigger(ILogger logger)
         {
-            this.Dispose(true);
+            this.logger = logger;
         }
 
         /// <summary>
@@ -52,14 +52,6 @@ namespace Dommy.Business.Triggers
             this.timer = new Timer(this.CallBack, null, TimeSpan.FromSeconds(0), this.Tick);
         }
 
-        /// <summary>
-        /// Dispose timer trigger.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
         /// <summary>
         /// Run scenario at callback timer.
@@ -67,7 +59,14 @@ namespace Dommy.Business.Triggers
         /// <param name="state">State of the timer.</param>
         private void CallBack(object state)
         {
-            this.scenario.Run();
+            try
+            {
+                this.scenario.Run();
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex, "Error in timer");
+            }
         }
 
         /// <summary>
@@ -83,6 +82,12 @@ namespace Dommy.Business.Triggers
                     this.timer.Dispose();
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

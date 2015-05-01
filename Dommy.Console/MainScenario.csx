@@ -6,6 +6,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Dommy.Business;
 using Dommy.Business.Syntax;
 using Dommy.Business.Scenarios;
 using Dommy.Business.Syntax;
@@ -16,6 +17,7 @@ using Dommy.Extensions.Kinect;
 
 Scenario.Create()
 		.SpeechTrigger("redemarre")
+		.TileTrigger("PC", "Redémare Dommy", TileColor.Victoria)
 		.Say("Redémarage", "Je redémare", "a dans 2 secondes")
 		.Action(() =>
 		{
@@ -26,12 +28,13 @@ Scenario.Create()
 		.Start();
 
 Scenario.Create()
+		.TileTrigger("PC", "Redémarre le PC", TileColor.Victoria)
 		.SpeechTrigger("redemarre le pc")
 		.Say("Redémarage du PC", "Je redémare le PC")
 		.Command("ShutDown", "/t 0 /r")
 		.Start();
 
-Scenario.CreateFrom<RecodSkeletonScenarioDescription>();
+Scenario.CreateFrom<RecordSkeletonScenarioDescription>();
 
 Scenario.Create("Kinect Test")
 		.KinectTrigger<HelloSkeletonCheck>()
@@ -39,14 +42,16 @@ Scenario.Create("Kinect Test")
 		.Start();
 
 Scenario.Create()
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
-		.TileTrigger("A live", Color.FromName("Blue"))
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
+		.TileTrigger("A live", "Autre", TileColor.Victoria)
 		.Say("A live")
 		.Start();

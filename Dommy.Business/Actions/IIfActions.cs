@@ -6,8 +6,8 @@
 
 namespace Dommy.Business.Actions
 {
-    using System;
     using Dommy.Business.Syntax;
+    using System;
 
     /// <summary>
     /// Conditional scenario syntax.

@@ -8,9 +8,13 @@ namespace Dommy.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            //routes.MapHubs();
-
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "Resource",
+                url: "resource/{resourceName}",
+                defaults: new { controller = "Resource", action = "Index"}
+            );
 
             routes.MapRoute(
                 name: "Default",

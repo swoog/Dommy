@@ -6,7 +6,10 @@
 namespace Dommy.Business
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.ServiceModel;
+
+    using Dommy.Business.Scenarios;
     using Dommy.Business.Services;
 
     /// <summary>
@@ -15,10 +18,10 @@ namespace Dommy.Business
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class TileManager : ITileManager
     {
-        /// <summary>
-        /// List of all tiles.
-        /// </summary>
-        private readonly List<Tile> tiles = new List<Tile>();
+        private int nextId = 1;
+
+        private Dictionary<int, Tile> tiles = new Dictionary<int, Tile>();
+        private Dictionary<int, IScenario> scenarios = new Dictionary<int, IScenario>();
 
         /// <summary>
         /// Add a tile to the manager.
@@ -26,7 +29,14 @@ namespace Dommy.Business
         /// <param name="tile">Tile data.</param>
         public void AddTile(Tile tile)
         {
-            this.tiles.Add(tile);
+            tile.Id = nextId++;
+            this.tiles.Add(tile.Id, tile);
+        }
+
+        public void AddTile(Tile tile, Scenarios.IScenario scenario)
+        {
+            this.AddTile(tile);
+            scenarios.Add(tile.Id, scenario);
         }
 
         /// <summary>
@@ -35,7 +45,20 @@ namespace Dommy.Business
         /// <returns>List of tiles.</returns>
         public IList<Tile> GetTiles()
         {
-            return this.tiles;
+            return tiles.Values.ToList();
+        }
+
+        public Tile GetTile(int id)
+        {
+            return tiles[id];
+        }
+
+        public void Start(int id)
+        {
+            if (scenarios.ContainsKey(id))
+            {
+                scenarios[id].RunAsync();
+            }
         }
     }
 }

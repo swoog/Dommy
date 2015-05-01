@@ -9,8 +9,8 @@ namespace Dommy.Business.Tools
 
     using JetBrains.Annotations;
 
-    using log4net.Appender;
-    using Microsoft.AspNet.SignalR.Client;
+using log4net.Appender;
+using Microsoft.AspNet.SignalR.Client;
 
     /// <summary>
     /// Logger for display log on web interface.
@@ -18,6 +18,8 @@ namespace Dommy.Business.Tools
     [UsedImplicitly]
     public sealed class WebAppender : AppenderSkeleton, IDisposable
     {
+        private static string uriAppender = "http://localhost:5557";
+
         /// <summary>
         /// Indicate that the web logger is started.
         /// </summary>
@@ -42,15 +44,6 @@ namespace Dommy.Business.Tools
         }
 
         /// <summary>
-        /// Dispose object.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
         /// Append a new message.
         /// </summary>
         /// <param name="loggingEvent">Logging message.</param>
@@ -66,7 +59,7 @@ namespace Dommy.Business.Tools
 
                 if (init)
                 {
-                    this.logger.Invoke("send", loggingEvent.RenderedMessage);
+                    this.logger.Invoke("send", new MessageLogger { Level = loggingEvent.Level.ToString(), Message = loggingEvent.RenderedMessage });
                 }
             }
         }
@@ -85,7 +78,7 @@ namespace Dommy.Business.Tools
                 return true;
             }
             catch
-            {
+        {
                 this.connection = null;
                 this.logger = null;
             }
@@ -106,6 +99,12 @@ namespace Dommy.Business.Tools
                     this.connection.Dispose();
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

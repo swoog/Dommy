@@ -319,9 +319,9 @@ namespace Dommy.Business.Tools
             public void Create(IKernel kernel)
             {
                 kernel.Bind<ITvHelper>().To<SamsungTvHelper>()
-                    .WithPropertyValue("MyIP", this.MyIp)
+                    .WithPropertyValue("MyIp", this.MyIp)
                     .WithPropertyValue("MyMac", this.MyMac)
-                    .WithPropertyValue("TvIP", this.TvIp);
+                    .WithPropertyValue("TvIp", this.TvIp);
             }
         }
 

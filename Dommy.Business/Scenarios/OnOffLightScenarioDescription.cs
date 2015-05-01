@@ -9,6 +9,7 @@ namespace Dommy.Business.Scenarios
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Drawing;
     using System.Linq;
     using Dommy.Business.Syntax;
     using Dommy.Business.Tools;
@@ -37,34 +38,59 @@ namespace Dommy.Business.Scenarios
         };
 
         /// <summary>
+        /// Instance of Eedomus helper.
+        /// </summary>
+        private EedomusHelper eedomusHelper;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="OnOffLightScenarioDescription"/> class.
         /// </summary>
-        public OnOffLightScenarioDescription()
+        /// <param name="eedomusHelper">Eedomus helper.</param>
+        public OnOffLightScenarioDescription(EedomusHelper eedomusHelper)
         {
+            this.eedomusHelper = eedomusHelper;
         }
 
-        /// <summary>
-        /// Gets or sets Eedomus sensor id.
-        /// </summary>
-        public string EedomusId { get; set; }
-
-        /// <summary>
-        /// Gets or sets names of the room.
-        /// </summary>
-        public ICollection<RoomName> RoomNames { get; set; }
-
-        /// <summary>
-        /// Create scenarios.
-        /// </summary>
-        public void Create()
+        private void CreateTile()
         {
-            this.CreateOn();
-            this.CreateOff();
+            Contract.Requires(0 < this.RoomNames.Count);
+
+            Tile tile;
+
+            Scenario.Create(StringHelper.Format("Tile lumière {Name}", this.RoomNames.First()))
+                .TileTrigger(out tile, null, StringHelper.Format("Lumière {Name}", this.RoomNames.First()), TileColor.Victoria)
+                .Action(() =>
+                {
+                    var actualState = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) != "0";
+
+                    this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphValue, this.EedomusId, "TOGGLE[0|100]");
+
+                    tile.Data = !actualState;
+                    return true;
+                })
+                .TileUpdate(tile)
+                .Start();
+
+            tile.Setembedded("Dommy.Business.Scenarios.OnOffLightScenarioTile.html");
+
+            Scenario.Create(StringHelper.Format("Tile lumière {Name} Notification", this.RoomNames.First()))
+                .TimeTrigger(DateTime.Now, TimeSpan.FromSeconds(30))
+                .Action(() =>
+                {
+                    var newEtat = this.eedomusHelper.CallService(Actions.EedomusApi.Local, Actions.EedomusAction.PeriphCaract, this.EedomusId) == "100";
+
+                    if (tile.Data == null || newEtat != (bool)tile.Data)
+                    {
+                        tile.Data = newEtat;
+                        return true;
+                    }
+
+                    return false;
+                })
+                .TileUpdate(tile)
+                .Start();
         }
 
-        /// <summary>
-        /// Create off scenario.
-        /// </summary>
         private void CreateOff()
         {
             Contract.Requires(0 < this.RoomNames.Count);
@@ -147,6 +173,26 @@ namespace Dommy.Business.Scenarios
             /// Gets or sets sentence.
             /// </summary>
             public string Sentence { get; set; }
+        }
+
+        /// <summary>
+        /// Gets or sets Eedomus sensor id.
+        /// </summary>
+        public string EedomusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets names of the room.
+        /// </summary>
+        public ICollection<RoomName> RoomNames { get; set; }
+
+        /// <summary>
+        /// Create scenarios.
+        /// </summary>
+        public void Create()
+        {
+            this.CreateOn();
+            this.CreateOff();
+            this.CreateTile();
         }
     }
 }

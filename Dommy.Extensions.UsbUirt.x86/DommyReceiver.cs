@@ -1,22 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using global::UsbUirt;
-using UsbUirt.EventArgs;
-using System.ServiceModel;
+﻿//-----------------------------------------------------------------------
+// <copyright file="DommyReceiver.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace Dommy.Extensions.UsbUirt.x86
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.ServiceModel;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Dommy.Business.Services;
+    using global::UsbUirt;
+    using global::UsbUirt.EventArgs;
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class DommyReceiver : IReceiver, IDisposable
     {
         private Driver driver = null;
         private Receiver receiver = null;
-        private IReceiverCallback receiverCallback;
+        private IClientFactory<IReceiverCallback> receiverCallback;
 
-        public DommyReceiver(IReceiverCallback receiverCallback)
+        public DommyReceiver(IClientFactory<IReceiverCallback> receiverCallback)
         {
             this.receiverCallback = receiverCallback;
         }
@@ -30,7 +37,10 @@ namespace Dommy.Extensions.UsbUirt.x86
 
         public void InfraRedReceived(object sender, ReceivedEventArgs e)
         {
-            this.receiverCallback.Receive(e.IRCode);
+            using(var receiverCallback = this.receiverCallback.Create())
+            {
+                receiverCallback.Channel.Receive(e.IRCode);
+            }
         }
 
         public void Dispose(bool disposing)

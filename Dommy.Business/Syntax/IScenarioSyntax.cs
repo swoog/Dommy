@@ -22,7 +22,8 @@ namespace Dommy.Business.Syntax
         IUrlActions, 
         IEedomusActions, 
         ISynologyDownloadActions, 
-        IHyperionActions
+        IHyperionActions,
+        ITileActions
     {
         /// <summary>
         /// Generic lambda action.

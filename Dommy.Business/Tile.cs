@@ -1,8 +1,13 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="Tile.cs" company="TrollCorp">
-//     Copyright (c) agaltier, TrollCorp. All rights reserved.
-// </copyright>
-//-----------------------------------------------------------------------
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace Dommy.Business
 {
@@ -16,28 +21,17 @@ namespace Dommy.Business
         /// <summary>
         /// Gets or sets title.
         /// </summary>
+        public string SectionName { get; set; }
+
         public string Title { get; set; }
 
-        /// <summary>
-        /// Gets or sets background color.
-        /// </summary>
-        public System.Drawing.Color BackGroundColor { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TileColor Color { get; set; }
 
-        /// <summary>
-        /// Gets or sets size.
-        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public TileSize Size { get; set; }
 
-        /// <summary>
-        /// Gets color code.
-        /// </summary>
-        public string ColorCode
-        {
-            get
-            {
-                return "#" + this.BackGroundColor.R.ToString("X2", CultureInfo.InvariantCulture) + this.BackGroundColor.G.ToString("X2", CultureInfo.InvariantCulture) + this.BackGroundColor.B.ToString("X2", CultureInfo.InvariantCulture);
-            }
-        }
+        public object Data { get; set; }
 
         /// <summary>
         /// Gets width size.
@@ -72,6 +66,23 @@ namespace Dommy.Business
                     case TileSize.Large: return 310;
                     default: return 70;
                 }
+            }
+        }
+
+        public int Id { get; set; }
+
+        public string Url { get; set; }
+
+        public string View { get; set; }
+
+        public void Setembedded(string resourceName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                this.View = reader.ReadToEnd();
             }
         }
     }

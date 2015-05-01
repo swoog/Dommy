@@ -8,7 +8,7 @@ namespace Dommy.Extensions.UsbUirt.x86
     {
         public override void Load()
         {
-            this.Kernel.Bind<IReceiverCallback>().ToMethod(c => Client<IReceiverCallback>.Create().Channel);
+            this.Kernel.Bind<IClientFactory<IReceiverCallback>>().To<ClientFactory<IReceiverCallback>>();
 
             this.Kernel.Bind<IServiceHost>().To<ServiceHost<DommyLearner>>();
             this.Kernel.Bind<IServiceHost>().To<ServiceHost<DommyReceiver>>();

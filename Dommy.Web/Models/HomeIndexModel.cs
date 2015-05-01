@@ -7,7 +7,5 @@ namespace Dommy.Web.Models
     public class HomeIndexModel
     {
         public string Name { get; set; }
-
-        public IList<Tile> Tiles { get; set; }
     }
 }

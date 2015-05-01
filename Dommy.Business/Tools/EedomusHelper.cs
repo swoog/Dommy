@@ -7,8 +7,10 @@
 namespace Dommy.Business.Tools
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Json;
     using System.Text.RegularExpressions;
@@ -140,6 +142,11 @@ namespace Dommy.Business.Tools
                     }
 
                     value = result.Body.LastValue;
+
+                    if (string.IsNullOrEmpty(value) && result.Body.History != null)
+                    {
+                        value = result.Body.History.OrderByDescending(k => k.Value).First().Key;
+                    }
 
                     this.logger.Info("Eedomus indicate : {0} ({1})", result.Body.LastValue, result.Body.LastValueChange);
                 }
@@ -292,6 +299,9 @@ namespace Dommy.Business.Tools
             [DataMember(Name = "last_value")]
             public string LastValue { get; set; }
 
+            [DataMember(Name = "last_value_text")]
+            public string LastValueText { get; set; }
+
             /// <summary>
             /// Gets or sets the last value change.
             /// </summary>
@@ -309,6 +319,9 @@ namespace Dommy.Business.Tools
             /// </summary>
             [DataMember(Name = "error_msg")]
             public string ErrorMsg { get; set; }
+
+            [DataMember(Name = "history")]
+            public Dictionary<string, DateTime> History { get; set; }
         }
     }
 }

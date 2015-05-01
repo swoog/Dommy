@@ -21,5 +21,11 @@ namespace Dommy.Business.Services
         /// <returns>List of tiles.</returns>
         [OperationContract]
         IList<Tile> GetTiles();
+
+        [OperationContract]
+        Tile GetTile(int id);
+
+        [OperationContract]
+        void Start(int id);
     }
 }
