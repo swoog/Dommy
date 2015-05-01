@@ -1,13 +1,15 @@
 ﻿
 namespace Dommy.Extensions.Kinect.Sdk2.Tests
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-    [TestClass]
+namespace Dommy.Extensions.Kinect.Sdk2.Tests
+{
+    using Xunit;
+
     public class BodySdk2Tests
     {
-        [TestMethod]
+        [Fact]
         public void TrackingIdTest()
         {
             var kinectSkeleton = Activator.CreateInstance(Type.GetType("Microsoft.Kinect.Body, Microsoft.Kinect")) as Microsoft.Kinect.Body;
@@ -15,10 +17,10 @@ namespace Dommy.Extensions.Kinect.Sdk2.Tests
 
             var skeleton = new BodySdk2(kinectSkeleton);
 
-            Assert.AreEqual("1", skeleton.TrackingId);
+            Assert.Equal("1", skeleton.TrackingId);
         }
 
-        [TestMethod]
+        [Fact]
         public void ThisTest()
         {
             var kinectSkeleton = Activator.CreateInstance(Type.GetType("Microsoft.Kinect.Body, Microsoft.Kinect")) as Microsoft.Kinect.Body;
@@ -35,7 +37,7 @@ namespace Dommy.Extensions.Kinect.Sdk2.Tests
 
             var skeleton = new BodySdk2(kinectSkeleton);
 
-            Assert.AreEqual(new Vector(1, 2, 3), skeleton[BodyJointType.RightHand]);
+            Assert.Equal(new Vector(1, 2, 3), skeleton[JointType.RightHand]);
         }
     }
 }

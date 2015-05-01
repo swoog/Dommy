@@ -119,7 +119,7 @@ namespace Dommy.Business.Scenarios
             Contract.Requires(!string.IsNullOrEmpty(req));
             
             var c = "login=freebox&passwd=pendore2010";
-            var r = System.Net.HttpWebRequest.CreateHttp("http://mafreebox.fr/login.php");
+            var r = WebRequest.CreateHttp("http://mafreebox.fr/login.php");
             r.Method = "POST";
             UTF8Encoding encoding = new UTF8Encoding();
             r.ContentType = "application/x-www-form-urlencoded";

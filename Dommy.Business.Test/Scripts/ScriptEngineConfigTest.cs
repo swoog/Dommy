@@ -1,16 +1,17 @@
-﻿
+﻿using Dommy.Business.Scripts;
+
+using System.Linq;
+
+using Ninject;
+
 namespace Dommy.Business.Test.Scripts
 {
-    using System.Linq;
-    using Dommy.Business.Scripts;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Ninject;
+    using Xunit;
 
-    [TestClass]
     public class ScriptEngineConfigTest
         : BaseTest
     {
-        [TestMethod]
+        [Fact]
         public void CreateTest()
         {
             var kernel = this.CreateKernel();
@@ -19,7 +20,7 @@ namespace Dommy.Business.Test.Scripts
 
             config.Create(kernel);
 
-            Assert.AreNotEqual(0, kernel.GetAll<IScriptEngine>().Count());
+            Assert.NotEqual(0, kernel.GetAll<IScriptEngine>().Count());
         }
     }
 }

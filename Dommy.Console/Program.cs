@@ -18,31 +18,47 @@ namespace Dommy.Console
         public const string ProcessX86 = "Dommy.Console.x86.exe";
 #endif
 
+        private static Process x86Process;
+
         static void Main(string[] args)
         {
             var startInfo = new ProcessStartInfo(ProcessX86);
             startInfo.CreateNoWindow = true;
+            startInfo.ErrorDialog = false;
 
-            using (var p = Process.Start(startInfo))
+            x86Process = Process.Start(startInfo);
+            if (x86Process != null)
             {
-                p.Exited += x86Exited;
+                x86Process.EnableRaisingEvents = true;
+                x86Process.Exited += X86Exited;
                 Bootstrap.Run();
                 try
                 {
-                    p.Exited -= x86Exited;
-                    p.Kill();
+                    x86Process.Exited -= X86Exited;
+                    x86Process.Kill();
                 }
                 catch (Exception)
                 {
                     throw;
                 }
+
+                x86Process.Dispose();
             }
         }
 
-        private static void x86Exited(object sender, EventArgs e)
+        private static void X86Exited(object sender, EventArgs e)
         {
-            // TODO : Log error
-            // TODO : Restart
+            x86Process.Exited -= X86Exited;
+            // Restart
+            var startInfo = new ProcessStartInfo(ProcessX86);
+            startInfo.CreateNoWindow = true;
+            x86Process = Process.Start(startInfo);
+
+            if (x86Process != null)
+        {
+                x86Process.EnableRaisingEvents = true;
+                x86Process.Exited += X86Exited;
+            }
         }
     }
 }
