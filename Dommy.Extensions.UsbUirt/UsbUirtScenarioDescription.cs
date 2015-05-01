@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace Dommy.Business.Scenarios
+namespace Dommy.Extensions.UsbUirt
 {
     using System;
     using System.Collections.Generic;
@@ -12,12 +12,20 @@ namespace Dommy.Business.Scenarios
     using System.Text;
     using System.Threading.Tasks;
     using Dommy.Business.Syntax;
+    using Dommy.Business.Scenarios;
 
     /// <summary>
     /// Describe scenario with USB-UIRT module.
     /// </summary>
     public class UsbUirtScenarioDescription : IScenarioDescription
     {
+        private ILearner learner;
+
+        public UsbUirtScenarioDescription(ILearner learner)
+        {
+            this.learner = learner;
+        }
+
         /// <summary>
         /// Create scenarios.
         /// </summary>
@@ -30,14 +38,7 @@ namespace Dommy.Business.Scenarios
                 .Say("Lecture")
                 .Action(() =>
                 {
-                    using (var driver = new UsbUirt.Driver())
-                    {
-                        using (var l = new UsbUirt.Learner(driver))
-                        {
-                            infraRedCode.Code = l.Learn();
-                        }
-                    }
-
+                    infraRedCode.Code = this.learner.Learn();
                     return true;
                 })
                 .Log("IrCode :{Code}", infraRedCode)

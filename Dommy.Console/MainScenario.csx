@@ -33,6 +33,11 @@ Scenario.Create()
 
 Scenario.CreateFrom<RecodSkeletonScenarioDescription>();
 
+Scenario.Create("Kinect Test")
+		.KinectTrigger<HelloSkeletonCheck>()
+		.Say("Hello")
+		.Start();
+
 Scenario.Create()
 		.TileTrigger("A live", Color.FromName("Blue"))
 		.TileTrigger("A live", Color.FromName("Blue"))

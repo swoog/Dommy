@@ -1,17 +1,18 @@
-using System;
-using System.Collections.Generic;
 
 namespace Dommy.Extensions.Kinect.Tests
 {
+    using System;
+    using System.Collections.Generic;
+
     public class StubSkeleton : ISkeleton
     {
         public StubSkeleton()
         {
         }
 
-        private Dictionary<JointType, Vector> dico = new Dictionary<JointType, Vector>();
+        private Dictionary<BodyJointType, Vector> dico = new Dictionary<BodyJointType, Vector>();
 
-        public Vector this[JointType joint]
+        public Vector this[BodyJointType joint]
         {
             get
             {
@@ -27,20 +28,21 @@ namespace Dommy.Extensions.Kinect.Tests
             }
         }
 
-        public StubSkeleton Set(JointType rightHand, int x, int y, int z)
+        public StubSkeleton Set(BodyJointType rightHand, int x, int y, int z)
         {
-            if (dico.ContainsKey(JointType.RightHand))
+            if (dico.ContainsKey(BodyJointType.RightHand))
             {
-                dico[JointType.RightHand] = new Vector(x, y, z);
-            }else
+                dico[BodyJointType.RightHand] = new Vector(x, y, z);
+            }
+            else
             {
-                dico.Add(JointType.RightHand, new Vector(x, y, z));
+                dico.Add(BodyJointType.RightHand, new Vector(x, y, z));
             }
 
             return this;
         }
 
-        public IList<JointType> GetJointTypes()
+        public IEnumerable<BodyJointType> GetJointTypes()
         {
             throw new NotImplementedException();
         }

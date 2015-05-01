@@ -17,8 +17,6 @@ namespace Dommy.Business.Actions
     using Ninject;
     using Ninject.Extensions.Logging;
     using Ninject.Parameters;
-    using UsbUirt;
-    using UsbUirt.Enums;
 
     /// <summary>
     /// Class of a scenario object.
@@ -140,29 +138,6 @@ namespace Dommy.Business.Actions
         }
 
         /// <summary>
-        /// Send infra red code on USB-UIRT device.
-        /// </summary>
-        /// <param name="infraRedCode">infra red ode to send.</param>
-        /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax UsbUirt(string infraRedCode)
-        {
-            this.actions.Add(() =>
-            {
-                using (var driver = new Driver())
-                {
-                    using (var transmitter = new Transmitter(driver))
-                    {
-                        transmitter.Transmit(infraRedCode, emitter: Emitter.Internal);
-                    }
-
-                    return true;
-                }
-            });
-
-            return this;
-        }
-
-        /// <summary>
         /// Generic lambda action.
         /// </summary>
         /// <param name="actionToPerform">Action to execute.</param>
@@ -186,7 +161,6 @@ namespace Dommy.Business.Actions
             var ss = Scenario.Create().NoTrigger();
             this.actions.Add(() =>
             {
-
                 this.Engine.Listener<SpeechListener>()
                     .Precision(
                     new List<SentenceAction>
@@ -326,7 +300,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TVCommand(TVCommand command)
+        public IScenarioSyntax TVCommand(TvCommand command)
         {
             return this.Extend<ITVActions>().TVCommand(command);
         }
@@ -387,16 +361,6 @@ namespace Dommy.Business.Actions
         public void Start()
         {
             this.Kernel.Bind<IScenario>().ToMethod(c => this);
-        }
-
-        /// <summary>
-        /// Create scenario based on infra red code returned by USB-UIRT module.
-        /// </summary>
-        /// <param name="infraRedCode">Infra red code.</param>
-        /// <returns>Trigger scenario syntax.</returns>
-        public ITriggerScenarioSyntax UsbUirtTrigger(string infraRedCode)
-        {
-            return this.Extend<IUsbUirtTriggerSyntax>().UsbUirtTrigger(infraRedCode);
         }
 
         /// <summary>

@@ -1,16 +1,12 @@
-﻿using Dommy.Business.Scenarios;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Dommy.Business.Test
 {
-    [TestClass]
+    using Xunit;
+    using Dommy.Business.Scenarios;
+
     public class FreeboxScenarioDescriptionTest
     {
-        [TestMethod]
+        [Fact]
         public void FreeboxVersion()
         {
             var f = new FreeboxScenarioDescription(null);

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Business", "Dommy.Business\Dommy.Business.csproj", "{0D4C5AF6-942D-49E2-8034-A2B87D159CE8}"
 EndProject
@@ -8,7 +8,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Business.Test", "Domm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Console", "Dommy.Console\Dommy.Console.csproj", "{27E56EE9-6AC8-4C96-A86D-E043AEA612A7}"
 	ProjectSection(ProjectDependencies) = postProject
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354} = {C5DCFE2D-CF76-4616-BD55-4B65230D7354}
 		{5B49682E-0768-4BC6-B0B0-A541F7A781AF} = {5B49682E-0768-4BC6-B0B0-A541F7A781AF}
+		{368543D5-9317-469C-9405-BB1F58BAF7F6} = {368543D5-9317-469C-9405-BB1F58BAF7F6}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Web", "Dommy.Web\Dommy.Web.csproj", "{5B49682E-0768-4BC6-B0B0-A541F7A781AF}"
@@ -36,7 +38,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.Kinect.Sdk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.Kinect.Sdk1.Tests", "Dommy.Extensions.Kinect.Sdk1.Tests\Dommy.Extensions.Kinect.Sdk1.Tests.csproj", "{5572C1C6-B9D2-497F-A840-FC0A5E3FE593}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UsbUirt", "UsbUirt", "{5A74CDCA-8F1B-42DC-9051-0C255578B273}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.UsbUirt", "Dommy.Extensions.UsbUirt\Dommy.Extensions.UsbUirt.csproj", "{368543D5-9317-469C-9405-BB1F58BAF7F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Console.x86", "Dommy.Console.x86\Dommy.Console.x86.csproj", "{C5DCFE2D-CF76-4616-BD55-4B65230D7354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dommy.Extensions.UsbUirt.x86", "Dommy.Extensions.UsbUirt.x86\Dommy.Extensions.UsbUirt.x86.csproj", "{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}"
+EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -204,6 +217,48 @@ Global
 		{5572C1C6-B9D2-497F-A840-FC0A5E3FE593}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5572C1C6-B9D2-497F-A840-FC0A5E3FE593}.Release|x64.ActiveCfg = Release|Any CPU
 		{5572C1C6-B9D2-497F-A840-FC0A5E3FE593}.Release|x86.ActiveCfg = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|x64.ActiveCfg = Release|Any CPU
+		{368543D5-9317-469C-9405-BB1F58BAF7F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5DCFE2D-CF76-4616-BD55-4B65230D7354}.Release|x86.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -215,6 +270,8 @@ Global
 		{DF9B5390-7B7E-45FF-9925-51B7A9693903} = {FA1E6964-4F4D-4BA8-9936-625664319F03}
 		{B5D5034A-7760-4DB0-B4E2-5F636A33D6BC} = {FA1E6964-4F4D-4BA8-9936-625664319F03}
 		{5572C1C6-B9D2-497F-A840-FC0A5E3FE593} = {FA1E6964-4F4D-4BA8-9936-625664319F03}
+		{368543D5-9317-469C-9405-BB1F58BAF7F6} = {5A74CDCA-8F1B-42DC-9051-0C255578B273}
+		{C120BD29-D7E1-49A7-AA9C-3835E3A69E2F} = {5A74CDCA-8F1B-42DC-9051-0C255578B273}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Dommy.vsmdi

@@ -13,6 +13,11 @@ namespace Dommy.Business.Tools
     /// </summary>
     public interface IWebRequest
     {
+        /// <summary>
+        /// Create stream from uri.
+        /// </summary>
+        /// <param name="uri">Uri of the stream.</param>
+        /// <returns>An opened stream.</returns>
         Stream Create(System.Uri uri);
     }
 }

@@ -7,13 +7,15 @@
 namespace Dommy.Business.Test.Configs
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using Dommy.Business.Configs;
 
-    [TestClass]
+    using Xunit;
+
+
     public class ConfiguratorTest
     {
-        [TestMethod]
+        [Fact]
         public void WithTest()
         {
             var configInstance = new ConfigTest();
@@ -21,17 +23,20 @@ namespace Dommy.Business.Test.Configs
             new Configurator<ConfigTest>(configInstance)
                 .With(c => c.MyProperty, "MyValue");
 
-            Assert.AreEqual(configInstance.MyProperty, "MyValue");
+            Assert.Equal(configInstance.MyProperty, "MyValue");
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void WithTest_ArgumentException()
         {
             var configInstance = new ConfigTest();
 
-            new Configurator<ConfigTest>(configInstance)
-                .With(c => c.FakeMethod(), "MyValue");
+            Assert.Throws<ArgumentException>(
+                () =>
+                    {
+                        new Configurator<ConfigTest>(configInstance)
+                        .With(c => c.FakeMethod(), "MyValue");
+                    });
         }
 
 
@@ -41,12 +46,11 @@ namespace Dommy.Business.Test.Configs
 
             public void Create(Ninject.IKernel kernel)
             {
-                throw new NotImplementedException();
             }
 
             public string FakeMethod()
             {
-                throw new NotImplementedException();
+                return this.MyProperty;
             }
         }
     }

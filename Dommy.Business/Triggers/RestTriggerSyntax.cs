@@ -1,13 +1,13 @@
-﻿using Ninject;
-using Dommy.Business.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="RestTriggerSyntax.cs" company="TrollCorp">
+//     Copyright (c) agaltier, TrollCorp. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Dommy.Business.Triggers
 {
+    using Dommy.Business.Syntax;
+    using Ninject;
+
     public class RestTriggerSyntax : Dommy.Business.Triggers.IRestTriggerSyntax
     {
         private IKernel kernel;

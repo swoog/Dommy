@@ -1,18 +1,13 @@
 ﻿
 namespace Dommy.Business.Test.Speech
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Dommy.Business.Speech;
 
-    [TestClass]
+    using Xunit;
+
     public class SpeechToTextConfigTest : BaseTest
     {
-        [TestMethod]
+        [Fact]
         public void CreateTest()
         {
             var kernel = this.CreateKernel();

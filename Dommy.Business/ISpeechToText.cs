@@ -17,6 +17,11 @@ namespace Dommy.Business
     public interface ISpeechToText
     {
         /// <summary>
+        /// Gets a value indicating whether the speech to text is active.
+        /// </summary>
+        bool IsActive { get; }
+
+        /// <summary>
         /// Initialize speech to text.
         /// </summary>
         void Init();
@@ -43,10 +48,5 @@ namespace Dommy.Business
         /// </summary>
         /// <param name="grammar">Grammar to unload.</param>
         void UnloadGrammar(GrammarData grammar);
-
-        /// <summary>
-        /// Gets a value indicating that the speech to text is active.
-        /// </summary>
-        bool IsActive { get; }
     }
 }

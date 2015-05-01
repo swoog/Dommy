@@ -17,7 +17,7 @@ namespace Dommy.Business.Actions
         /// <summary>
         /// TV helper used to send commands.
         /// </summary>
-        private ITVHelper teleHelper;
+        private ITvHelper teleHelper;
 
         /// <summary>
         /// Scenario syntax to use.
@@ -29,7 +29,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="scenario">Scenario syntax to use.</param>
         /// <param name="teleHelper">TV helper used to send commands.</param>
-        public TVActions(IScenarioSyntax scenario, ITVHelper teleHelper)
+        public TVActions(IScenarioSyntax scenario, ITvHelper teleHelper)
         {
             this.scenario = scenario;
             this.teleHelper = teleHelper;
@@ -40,7 +40,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        public IScenarioSyntax TVCommand(TVCommand command)
+        public IScenarioSyntax TVCommand(TvCommand command)
         {
             this.scenario.Action(() =>
             {
@@ -82,14 +82,14 @@ namespace Dommy.Business.Actions
                 {
                     for (int i = 0; i < quantity; i++)
                     {
-                        this.teleHelper.Command(Tools.TVCommand.VolUp);
+                        this.teleHelper.Command(Tools.TvCommand.VolUp);
                     }
                 }
                 else
                 {
                     for (int i = 0; i < -quantity; i++)
                     {
-                        this.teleHelper.Command(Tools.TVCommand.VolDown);
+                        this.teleHelper.Command(Tools.TvCommand.VolDown);
                     }
                 }
 
@@ -107,7 +107,7 @@ namespace Dommy.Business.Actions
         {
             this.scenario.Action(() =>
             {
-                this.teleHelper.Command(Tools.TVCommand.Mute);
+                this.teleHelper.Command(Tools.TvCommand.Mute);
 
                 return true;
             });

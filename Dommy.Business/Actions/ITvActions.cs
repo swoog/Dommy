@@ -19,7 +19,7 @@ namespace Dommy.Business.Actions
         /// </summary>
         /// <param name="command">Command to execute.</param>
         /// <returns>Scenario syntax.</returns>
-        IScenarioSyntax TVCommand(TVCommand command);
+        IScenarioSyntax TVCommand(TvCommand command);
 
         /// <summary>
         /// Change canal on TV.
