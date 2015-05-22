@@ -87,14 +87,6 @@
       <Project>{0d4c5af6-942d-49e2-8034-a2b87d159ce8}</Project>
       <Name>Dommy.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dommy.Extensions.UsbUirt.x86\Dommy.Extensions.UsbUirt.x86.csproj">
-      <Project>{c120bd29-d7e1-49a7-aa9c-3835e3a69e2f}</Project>
-      <Name>Dommy.Extensions.UsbUirt.x86</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dommy.Extensions.UsbUirt\Dommy.Extensions.UsbUirt.csproj">
-      <Project>{368543d5-9317-469c-9405-bb1f58baf7f6}</Project>
-      <Name>Dommy.Extensions.UsbUirt</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
