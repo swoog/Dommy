@@ -1,5 +1,7 @@
 ﻿namespace Dommy.Extensions.Kinect.Sdk1.Tests
 {
+    using Microsoft.Kinect;
+
     using Xunit;
 
     public class SkeletonSdk1Tests
@@ -32,7 +34,7 @@
 
             var skeleton = new SkeletonSdk1(kinectSkeleton);
 
-            Assert.Equal(new Vector(1, 2, 3), skeleton[JointType.RightHand]);
+            Assert.Equal(new Vector(1, 2, 3), skeleton[BodyJointType.RightHand]);
         }
     }
 }

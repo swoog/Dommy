@@ -1,10 +1,9 @@
-﻿
-namespace Dommy.Extensions.Kinect.Sdk2.Tests
+﻿namespace Dommy.Extensions.Kinect.Sdk2.Tests
 {
-using System;
+    using System;
 
-namespace Dommy.Extensions.Kinect.Sdk2.Tests
-{
+    using Microsoft.Kinect;
+
     using Xunit;
 
     public class BodySdk2Tests
@@ -37,7 +36,7 @@ namespace Dommy.Extensions.Kinect.Sdk2.Tests
 
             var skeleton = new BodySdk2(kinectSkeleton);
 
-            Assert.Equal(new Vector(1, 2, 3), skeleton[JointType.RightHand]);
+            Assert.Equal(new Vector(1, 2, 3), skeleton[BodyJointType.RightHand]);
         }
     }
 }
