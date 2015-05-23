@@ -12,7 +12,10 @@ namespace Dommy.Business
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Runtime;
+    using System.Web.UI.WebControls;
+
     using Dommy.Business.Configs;
     using Dommy.Business.Scenarios;
     using Dommy.Business.Scripts;
@@ -37,20 +40,26 @@ namespace Dommy.Business
 
             log4net.Config.XmlConfigurator.Configure();
 
-            var directory = Environment.CurrentDirectory;
-
-            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-            {
-                directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Dommy");
-
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-            }
-
             var kernel = new StandardKernel();
-            kernel.Load(Directory.GetFiles(directory, "Dommy.*.dll").Where(f => !f.EndsWith(".x86.dll")));
+            var modules = GetModules();
+
+            var directoriesModule = modules.Select(m => Path.GetDirectoryName(m)).ToList();
+
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, e) =>
+                {
+                    foreach (var module in directoriesModule)
+                    {
+                        var file = Path.Combine(module, e.Name);
+                        if (File.Exists(file))
+                        {
+                            return Assembly.LoadFile(file);
+                        }
+                    }
+
+                    return null;
+                };
+
+            kernel.Load(modules);
 
             Configure.InitKernel(kernel);
             Scenario.InitKernel(kernel);
@@ -69,12 +78,12 @@ namespace Dommy.Business
                 .With(c => c.Port, 5555);
 
             Configure.Config<ScriptEngine.Config>()
-                .With(c => c.ScriptDirectory, Path.Combine(directory, @"scenarios"));
+                .With(c => c.ScriptDirectory, Path.Combine(Environment.CurrentDirectory, @"scenarios"));
 
             Configure.Config<WebServerHost.Config>()
                 .With(c => c.Port, 5556);
 
-            Configure.LoadConfig(Path.Combine(directory, "config.xml"));
+            Configure.LoadConfig(Path.Combine(Environment.CurrentDirectory, "config.xml"));
 
             Configure.Build();
 
@@ -108,6 +117,23 @@ namespace Dommy.Business
             CloseServices(services);
 
             web.Stop();
+        }
+
+        private static IEnumerable<string> GetModules()
+        {
+            var modulesDirectory = Path.Combine(Environment.CurrentDirectory, "modules");
+
+#if DEBUG
+            modulesDirectory = Path.Combine(Environment.CurrentDirectory, @"..\..\..\");
+#endif
+
+            if (!Directory.Exists(modulesDirectory))
+            {
+                Directory.CreateDirectory(modulesDirectory);
+            }
+
+            return Directory.GetFiles(modulesDirectory, "Dommy.Extensions.*.dll", SearchOption.AllDirectories)
+                .Where(f => !f.EndsWith(".x86.dll"));
         }
 
         /// <summary>
