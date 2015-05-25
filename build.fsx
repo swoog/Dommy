@@ -4,14 +4,20 @@ open Fake
 
 // Properties
 let buildDir = "./build/"
+let appX86 = "Dommy.Console.x86"
+let appX64 = "Dommy.Console"
 let apps =
-     ["Dommy.Console"
-      "Dommy.Console.x86"]
-let packages = 
+     [appX86
+      appX64]
+let packagesX64 =
      ["Dommy.Extensions.Kinect.Sdk1" 
       "Dommy.Extensions.Kinect.Sdk2"
-      "Dommy.Extensions.UsbUirt"
-      "Dommy.Extensions.UsbUirt.x86"]
+      "Dommy.Extensions.UsbUirt"]
+
+let packagesX86 =
+     ["Dommy.Extensions.UsbUirt.X86"]
+
+let packages = Seq.concat [packagesX64; packagesX86]
 
 // Clean target
 Target "Clean" (fun _ ->
@@ -47,6 +53,23 @@ Target "Package" (fun _ ->
         |> Copy (buildDir + package) 
 )
 
+Target "AppX86" (fun _ ->
+    for package in packagesX86 do
+        !! (buildDir + package + "/*.*")
+        |> Copy (buildDir + "/apps/" + appX86 + "/packages/" + package) 
+)
+
+Target "AppX64" (fun _ ->
+    for package in packagesX64 do
+        !! (buildDir + package + "/*.*")
+        |> Copy (buildDir + "/apps/" + appX64 + "/packages/" + package) 
+)
+
+Target "CleanPackages" (fun _ ->
+    for package in packages do
+        DeleteDir (buildDir + package)
+)
+
 // Default target
 Target "Default" (fun _ ->
     trace "Build is done"
@@ -56,6 +79,9 @@ Target "Default" (fun _ ->
 ==> "BuildApp"
 ==> "Apps"
 ==> "Package"
+==> "AppX86"
+==> "AppX64"
+==> "CleanPackages"
 ==> "Default"
 
 // start build
