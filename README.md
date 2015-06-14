@@ -19,3 +19,7 @@ I use :
 - Eedomus API for home automation.
 - Samsung TV API
 - UsbUIRT controller for make infra red command.
+
+Documentation
+-------------
+You can find documentation to the link [Documentation](doc/index.md)
